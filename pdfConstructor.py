@@ -9,7 +9,6 @@ import argparse
 
 # Import local files
 import analyticsWizard as aw
-import pdfWizard as pw
 
 # Constants
 FILENAME = "" # UPDATE
