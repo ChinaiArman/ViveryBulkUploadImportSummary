@@ -3,4 +3,4 @@ from fpdf import FPDF
 import os
 
 # Import local files
-import df_analyzer as dfa
+import dfAnalyticsHelper as dfa
