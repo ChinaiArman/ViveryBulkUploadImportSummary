@@ -33,5 +33,5 @@ if __name__ == "__main__":
     output = [visualization(df) for visualization in valid_visualizations]
 
     # Create output
-    if len(set(output)) != 1:
+    if len(set(output)) > 1:
         print(output)
