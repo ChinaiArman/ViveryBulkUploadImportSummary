@@ -1,2 +1,5 @@
 # Data Folders
 data*
+
+# pycache
+__pycache__
