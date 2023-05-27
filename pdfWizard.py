@@ -6,25 +6,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 import argparse
+import shutil
 
 # Import local files
 import analyticsWizard as aw
 
 # Constants
-FILENAME = "" # UPDATE
 
 
 class pdfConstructor:
     def __init__(self, 
                  new_df: pd.DataFrame(), 
-                 new_root: str
+                 new_directory: str,
+                 new_filepath: str,
+                 new_filename: str
                 ):
         self.df = new_df
-        self.root = new_root
-        self.path = new_root + FILENAME # UPDATE
-        
-    def print(self):
-        print(self.df)
+        self.directory = new_directory
+        self.filepath = new_filepath
+        self.filename = new_filename
 
 
 if __name__ == "__main__":
@@ -35,10 +35,24 @@ if __name__ == "__main__":
     # Console arguments
     args = parser.parse_args()
     
-    # Create dataframe
-    df = pd.read_csv(args.file, encoding='unicode_escape')
-    
+    # Create filename
+    filename = args.file.split("\\")[-1]
+    # Create directory name
+    directory = "data_" + filename.replace(".csv", "")
+    # Create path to file
+    path = directory + "\\" + filename
+
+    # Create directory within project folder
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+    # Move file to directory
+    if args.file.split("\\")[0] != directory:
+        shutil.move(args.file, directory)
+
+    # Create DataFrame
+    df = pd.read_csv(path)
+
     # Create pdfConstructor instance
-    constructor = pdfConstructor(df, args.file)
+    constructor = pdfConstructor(df, directory, path, filename)
 
     # Create PDF
