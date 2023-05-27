@@ -41,6 +41,8 @@ if __name__ == "__main__":
     directory = "data_" + filename.replace(".csv", "")
     # Create path to file
     path = directory + "\\" + filename
+    # Create DataFrame
+    df = pd.read_csv(path)
 
     # Create directory within project folder
     if not os.path.isdir(directory):
@@ -48,9 +50,6 @@ if __name__ == "__main__":
     # Move file to directory
     if args.file.split("\\")[0] != directory:
         shutil.move(args.file, directory)
-
-    # Create DataFrame
-    df = pd.read_csv(path)
 
     # Create pdfConstructor instance
     constructor = pdfConstructor(df, directory, path, filename)
