@@ -3,4 +3,4 @@ from fpdf import FPDF
 import os
 
 # Import local files
-import dfAnalyticsHelper as dfa
+import analyticsWizard as aw

@@ -13,9 +13,9 @@ if __name__ == "__main__":
     parser.add_argument("file", action="store", help="The file to validate.")
     # Add silent argument
     parser.add_argument('--silent', action='store', nargs='+', help='Name of visualizations to not generate')
-
     # Console arguments
     args = parser.parse_args()
+    
     # Create dataframe
     df = pd.read_csv(args.file, encoding='unicode_escape')
     # Create a list of visualization functions
