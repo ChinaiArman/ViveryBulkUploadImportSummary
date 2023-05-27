@@ -3,4 +3,4 @@ from fpdf import FPDF
 import os
 
 # Import local files
-import data_visualizer as dv
+import dataframe_analyzer as dfa
