@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 import argparse
+import os
+import shutil
 
 
 if __name__ == "__main__":
@@ -16,8 +18,10 @@ if __name__ == "__main__":
     # Console arguments
     args = parser.parse_args()
     
-    # Create dataframe
-    df = pd.read_csv(args.file, encoding='unicode_escape')
+    # Create directory name
+    directory = "data_" + args.file.split("\\")[-1].replace(".csv", "")
+    # Create DataFrame
+    df = pd.read_csv(args.file)
     # Create a list of visualization functions
     graphing_functions = [
 
@@ -26,6 +30,14 @@ if __name__ == "__main__":
     calculating_functions = [
 
     ]
+
+    # Create directory within project folder
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+    # Move file to directory
+    if args.file.split("\\")[0] != directory:
+        shutil.move(args.file, directory)
+
     # Create list of silenced functions
     silenced_functions = args.silent if args.silent else []
 
@@ -35,5 +47,5 @@ if __name__ == "__main__":
     valid_calculation_functions = [calculation for calculation in calculating_functions if calculation.__name__ not in silenced_functions]
     
     # Execute functions
-    [graph(df) for graph in valid_graphing_functions]
+    [graph(df, directory) for graph in valid_graphing_functions]
     [print(calculation(df)) for calculation in valid_calculation_functions]
