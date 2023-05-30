@@ -22,11 +22,12 @@ def count_number_of_orgs(df: pd.DataFrame) -> int:
 def count_number_of_orgs_approved(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations that are both active and approved.
-    Active and Approved organizations are determined by the 'Organization Active Status' and 'Organization Approved Status' columns.
-    Unique organizations are determined by the 'Organization External ID' column.
 
     :param df: A Pandas DataFrame
     :return: The number of unique organizations that are both approved and active, represented as an integer. 
+
+    :note: Active and Approved organizations are determined by the 'Organization Active Status' and 'Organization Approved Status' columns.
+    :note: Unique organizations are determined by the 'Organization External ID' column.
     """
     df = df[(df['Organization Active Status'] == True) & (df['Organization Approval Status'] == True)]
     return df['Organization External ID'].nunique()
@@ -45,11 +46,12 @@ def count_number_of_locs(df: pd.DataFrame) -> int:
 def count_number_of_locs_approved(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations that are both active and approved.
-    Active and Approved locations are determined by the 'Location Active Status' and 'Location Approved Status' columns.
-    Unique locations are determined by the 'Location External ID' column.
 
     :param df: A Pandas DataFrame
     :return: The number of unique locations that are both approved and active, represented as an integer. 
+    
+    :note: Active and Approved locations are determined by the 'Location Active Status' and 'Location Approved Status' columns.
+    :note: Unique locations are determined by the 'Location External ID' column.
     """
     df = df[(df['Location Active Status'] == True) & (df['Location Approval Status'] == True)]
     return df['Location External ID'].nunique()
@@ -68,11 +70,12 @@ def count_number_of_progs(df: pd.DataFrame) -> int:
 def count_number_of_progs_approved(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs that are both active and approved.
-    Active and Approved programs are determined by the 'Program Active Status' and 'Program Approved Status' columns.
-    Unique programs are determined by the 'Program External ID' column.
 
     :param df: A Pandas DataFrame
     :return: The number of unique programs that are both approved and active, represented as an integer. 
+
+    :note: Active and Approved programs are determined by the 'Program Active Status' and 'Program Approved Status' columns.
+    :note: Unique programs are determined by the 'Program External ID' column.
     """
     df = df[(df['Program Active Status'] == True) & (df['Program Approval Status'] == True)]
     return df['Program External ID'].nunique()
