@@ -8,7 +8,82 @@ import os
 import shutil
 
 
-def count_number_of_orgs(df: pd.DataFrame) -> int:
+def orgs_contact_completeness(df, directory):
+    """
+    """
+    # Collect data
+    nan_count = df[['Organization External ID', 'Organization Contact Phone', 'Organization Contact Email', 'Organization Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count - 3) * -33
+
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 0, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]))
+    plt.title("Percentage of Organization Contact Information Shared")
+    plt.xlabel("Percentage")
+    plt.ylabel("Number of Organizations")
+
+    # Save graph
+    plt.savefig("percent_orgs_contact_info.png", dpi=300)
+    try:
+        shutil.move("percent_orgs_contact_info.png", directory)
+    except:
+        os.remove(directory + '\\' + "percent_orgs_contact_info.png")
+        shutil.move("percent_orgs_contact_info.png", directory)
+    plt.close()
+    return
+
+
+def locs_contact_completeness(df, directory):
+    """
+    """
+    # Collect data
+    nan_count = df[['Location External ID', 'Location Contact Phone', 'Location Contact Email', 'Location Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count - 3) * -33
+
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 0, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]))
+    plt.title("Percentage of Location Contact Information Shared")
+    plt.xlabel("Percentage")
+    plt.ylabel("Number of Locations")
+
+    # Save graph
+    plt.savefig("percent_locs_contact_info.png", dpi=300)
+    try:
+        shutil.move("percent_locs_contact_info.png", directory)
+    except:
+        os.remove(directory + '\\' + "percent_locs_contact_info.png")
+        shutil.move("percent_locs_contact_info.png", directory)
+    plt.close()
+    return
+
+
+def progs_contact_completeness(df, directory):
+    """
+    """
+    # Collect data
+    nan_count = df[['Program External ID', 'Program Contact Phone', 'Program Contact Email', 'Program Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count - 3) * -33
+
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 0, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]))
+    plt.title("Percentage of Program Contact Information Shared")
+    plt.xlabel("Percentage")
+    plt.ylabel("Number of Programs")
+
+    # Save graph
+    plt.savefig("percent_progs_contact_info.png", dpi=300)
+    try:
+        shutil.move("percent_progs_contact_info.png", directory)
+    except:
+        os.remove(directory + '\\' + "percent_progs_contact_info.png")
+        shutil.move("percent_progs_contact_info.png", directory)
+    plt.close()
+    return
+
+
+def count_orgs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations in a DataFrame.
     Unique organizations are determined by the 'Organization External ID' column.
@@ -19,7 +94,7 @@ def count_number_of_orgs(df: pd.DataFrame) -> int:
     return df['Organization External ID'].nunique()
 
 
-def count_number_of_orgs_approved(df: pd.DataFrame) -> int:
+def count_valid_orgs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations that are both active and approved.
 
@@ -33,7 +108,7 @@ def count_number_of_orgs_approved(df: pd.DataFrame) -> int:
     return df['Organization External ID'].nunique()
 
 
-def count_number_of_locs(df: pd.DataFrame) -> int:
+def count_locs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations in a DataFrame. Unique locations are determined by the 'Location External ID'.
 
@@ -43,7 +118,7 @@ def count_number_of_locs(df: pd.DataFrame) -> int:
     return df['Location External ID'].nunique()
 
 
-def count_number_of_locs_approved(df: pd.DataFrame) -> int:
+def count_valid_locs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations that are both active and approved.
 
@@ -57,7 +132,7 @@ def count_number_of_locs_approved(df: pd.DataFrame) -> int:
     return df['Location External ID'].nunique()
 
 
-def count_number_of_progs(df: pd.DataFrame) -> int:
+def count_progs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs in a DataFrame. Unique programs are determined by the 'Program External ID'.
 
@@ -67,7 +142,7 @@ def count_number_of_progs(df: pd.DataFrame) -> int:
     return df['Program External ID'].nunique()
 
 
-def count_number_of_progs_approved(df: pd.DataFrame) -> int:
+def count_valid_progs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs that are both active and approved.
 
@@ -97,16 +172,18 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of visualization functions
     graphing_functions = [
-
+        orgs_contact_completeness,
+        locs_contact_completeness,
+        progs_contact_completeness
     ]
     # Create a list of text functions
     calculating_functions = [
-        count_number_of_orgs,
-        count_number_of_orgs_approved,
-        count_number_of_locs,
-        count_number_of_locs_approved,
-        count_number_of_progs,
-        count_number_of_progs_approved
+        count_orgs,
+        count_valid_orgs,
+        count_locs,
+        count_valid_locs,
+        count_progs,
+        count_valid_progs
     ]
 
     # Create directory within project folder
@@ -126,4 +203,4 @@ if __name__ == "__main__":
     
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
-    [print(calculation(df)) for calculation in valid_calculation_functions]
+    [print(calculation.__name__ + ": " + str(calculation(df))) for calculation in valid_calculation_functions]
