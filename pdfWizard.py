@@ -43,7 +43,6 @@ if __name__ == "__main__":
     path = directory + "\\" + filename
     # Create DataFrame
     df = pd.read_csv(args.file)
-    print(df)
 
     # Create directory within project folder
     if not os.path.isdir(directory):

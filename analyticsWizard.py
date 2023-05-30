@@ -8,6 +8,33 @@ import os
 import shutil
 
 
+def count_number_of_orgs(df: pd.DataFrame) -> int:
+    return df['Organization External ID'].nunique()
+
+
+def count_number_of_orgs_approved(df: pd.DataFrame) -> int:
+    df = df[(df['Organization Active Status'] == True) & (df['Organization Approval Status'] == True)]
+    return df['Organization External ID'].nunique()
+
+
+def count_number_of_locs(df: pd.DataFrame) -> int:
+    return df['Location External ID'].nunique()
+
+
+def count_number_of_locs_approved(df: pd.DataFrame) -> int:
+    df = df[(df['Location Active Status'] == True) & (df['Location Approval Status'] == True)]
+    return df['Location External ID'].nunique()
+
+
+def count_number_of_progs(df: pd.DataFrame) -> int:
+    return df['Program External ID'].nunique()
+
+
+def count_number_of_progs_approved(df: pd.DataFrame) -> int:
+    df = df[(df['Program Active Status'] == True) & (df['Program Approval Status'] == True)]
+    return df['Program External ID'].nunique()
+
+
 if __name__ == "__main__":
     # Define console parser
     parser = argparse.ArgumentParser(description="Create data visualizations for a Pre-Validated file")
@@ -28,7 +55,12 @@ if __name__ == "__main__":
     ]
     # Create a list of text functions
     calculating_functions = [
-
+        count_number_of_orgs,
+        count_number_of_orgs_approved,
+        count_number_of_locs,
+        count_number_of_locs_approved,
+        count_number_of_progs,
+        count_number_of_progs_approved
     ]
 
     # Create directory within project folder
