@@ -16,19 +16,19 @@ def orgs_contact_completeness(df, directory):
     nan_count = (nan_count - 3) * -33
 
     # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 0, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]))
-    plt.title("Percentage of Organization Contact Information Shared")
-    plt.xlabel("Percentage")
-    plt.ylabel("Number of Organizations")
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
+    plt.title("Organization Contact Information Engagement Levels")
+    plt.xlabel("Engagement Levels")
+    plt.ylabel("Number of Locations")
 
     # Save graph
-    plt.savefig("percent_orgs_contact_info.png", dpi=300)
+    plt.savefig("organization_contact_completeness.png", dpi=300)
     try:
-        shutil.move("percent_orgs_contact_info.png", directory)
+        shutil.move("organization_contact_completeness.png", directory)
     except:
-        os.remove(directory + '\\' + "percent_orgs_contact_info.png")
-        shutil.move("percent_orgs_contact_info.png", directory)
+        os.remove(directory + '\\' + "organization_contact_completeness.png")
+        shutil.move("organization_contact_completeness.png", directory)
     plt.close()
     return
 
@@ -41,19 +41,19 @@ def locs_contact_completeness(df, directory):
     nan_count = (nan_count - 3) * -33
 
     # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 0, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]))
-    plt.title("Percentage of Location Contact Information Shared")
-    plt.xlabel("Percentage")
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
+    plt.title("Location Contact Information Engagement Levels")
+    plt.xlabel("Engagement Levels")
     plt.ylabel("Number of Locations")
 
     # Save graph
-    plt.savefig("percent_locs_contact_info.png", dpi=300)
+    plt.savefig("location_contact_completeness.png", dpi=300)
     try:
-        shutil.move("percent_locs_contact_info.png", directory)
+        shutil.move("location_contact_completeness.png", directory)
     except:
-        os.remove(directory + '\\' + "percent_locs_contact_info.png")
-        shutil.move("percent_locs_contact_info.png", directory)
+        os.remove(directory + '\\' + "location_contact_completeness.png")
+        shutil.move("location_contact_completeness.png", directory)
     plt.close()
     return
 
@@ -66,19 +66,19 @@ def progs_contact_completeness(df, directory):
     nan_count = (nan_count - 3) * -33
 
     # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 0, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]))
-    plt.title("Percentage of Program Contact Information Shared")
-    plt.xlabel("Percentage")
-    plt.ylabel("Number of Programs")
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
+    plt.title("Program Contact Information Engagement Levels")
+    plt.xlabel("Engagement Levels")
+    plt.ylabel("Number of Locations")
 
     # Save graph
-    plt.savefig("percent_progs_contact_info.png", dpi=300)
+    plt.savefig("program_contact_completeness.png", dpi=300)
     try:
-        shutil.move("percent_progs_contact_info.png", directory)
+        shutil.move("program_contact_completeness.png", directory)
     except:
-        os.remove(directory + '\\' + "percent_progs_contact_info.png")
-        shutil.move("percent_progs_contact_info.png", directory)
+        os.remove(directory + '\\' + "program_contact_completeness.png")
+        shutil.move("program_contact_completeness.png", directory)
     plt.close()
     return
 
