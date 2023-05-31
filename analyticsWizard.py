@@ -37,6 +37,7 @@ def orgs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
 
     :param df: A Pandas DataFrame containing the organization level columns.
     :param directory: A string containing the directory to save the graph in.
+    :return: None.
 
     :note: The directory must be a local path within the project.
     """
@@ -89,6 +90,7 @@ def locs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
 
     :param df: A Pandas DataFrame containing the organization level columns.
     :param directory: A string containing the directory to save the graph in.
+    :return: None.
 
     :note: The directory must be a local path within the project.
     """
@@ -152,6 +154,7 @@ def progs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
 
     :param df: A Pandas DataFrame containing the program level columns.
     :param directory: A string containing the directory to save the graph in.
+    :return: None.
 
     :note: The directory must be a local path within the project.
     """
@@ -201,6 +204,13 @@ def progs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
 
 def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     """
+    Creates a Histogram showing the percentage of contact information shared at the organization level.
+
+    :param df: A Pandas DataFrame containing the organization level columns.
+    :param directory: A string containing the directory to save the graph in.
+    :return: None.
+
+    :note: The directory must be a local path within the project.
     """
     # Collect data
     nan_count = df[['Organization External ID', 'Organization Contact Phone', 'Organization Contact Email', 'Organization Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
@@ -218,6 +228,13 @@ def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
 
 def locs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     """
+    Creates a Histogram showing the percentage of contact information shared at the location level.
+
+    :param df: A Pandas DataFrame containing the location level columns.
+    :param directory: A string containing the directory to save the graph in.
+    :return: None.
+
+    :note: The directory must be a local path within the project.
     """
     # Collect data
     nan_count = df[['Location External ID', 'Location Contact Phone', 'Location Contact Email', 'Location Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
@@ -235,6 +252,13 @@ def locs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
 
 def progs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     """
+    Creates a Histogram showing the percentage of contact information shared at the program level.
+
+    :param df: A Pandas DataFrame containing the program level columns.
+    :param directory: A string containing the directory to save the graph in.
+    :return: None.
+
+    :note: The directory must be a local path within the project.
     """
     # Collect data
     nan_count = df[['Program External ID', 'Program Contact Phone', 'Program Contact Email', 'Program Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
