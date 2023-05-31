@@ -8,6 +8,49 @@ import os
 import shutil
 
 
+def save_graph(file_name: str, directory: str, dpi: int) -> None:
+    """
+    """
+    plt.savefig(file_name, dpi=dpi)
+    try:
+        shutil.move(file_name, directory)
+    except:
+        os.remove(directory + '\\' + file_name)
+        shutil.move(file_name, directory)
+    plt.close()
+    return
+
+
+def orgs_columns_empty(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
+    temp_df = df[['Organization External ID',
+        'Organization Name',
+        'Organization Address 1',
+        'Organization Address 2',
+        'Organization City',
+        'Organization State',
+        'Organization Zip',
+        'Organization Contact Phone',
+        'Organization Contact Phone Ext',
+        'Organization Contact Email',
+        'Organization Contact Name',
+        'Organization Phone',
+        'Organization Phone Ext',
+        'Organization Email',
+        'Organization Website',
+        'Organization About Us',
+        'Organization Logo',
+        'Organization Approval Status',
+        'Organization Active Status']].drop_duplicates(subset=['Organization External ID'], keep='last')
+    temp_df['Organization Master Contact Phone'] = (temp_df['Organization Contact Phone'].astype(str) + temp_df['Organization Contact Phone Ext'].astype(str)).replace("nannan", "")
+    print(temp_df['Organization Master Contact Phone'])
+    temp_df['Organization Master Phone'] = (temp_df['Organization Phone'].astype(str) + temp_df['Organization Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Organization Master Address'] = (temp_df['Organization Address 1'].astype(str) + temp_df['Organization Address 2'].astype(str)).replace("nannan", "")
+    temp_df = temp_df.drop(['Organization Contact Phone', 'Organization Contact Phone Ext', 'Organization Phone', 'Organization Phone Ext', 'Organization Address 1', 'Organization Address 2'], axis=1).mask(temp_df == '')
+    return pd.DataFrame(data=temp_df.isna().sum())
+
+
 def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     """
     """
@@ -21,15 +64,7 @@ def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     plt.title("Organization Contact Information Engagement Levels")
     plt.xlabel("Engagement Levels")
     plt.ylabel("Number of Locations")
-
-    # Save graph
-    plt.savefig("organization_contact_completeness.png", dpi=300)
-    try:
-        shutil.move("organization_contact_completeness.png", directory)
-    except:
-        os.remove(directory + '\\' + "organization_contact_completeness.png")
-        shutil.move("organization_contact_completeness.png", directory)
-    plt.close()
+    save_graph("organization_contact_completeness.png", directory, 300)
     return
 
 
@@ -47,15 +82,7 @@ def locs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     plt.xlabel("Engagement Levels")
     plt.ylabel("Number of Locations")
 
-    # Save graph
-    plt.savefig("location_contact_completeness.png", dpi=300)
-    try:
-        shutil.move("location_contact_completeness.png", directory)
-    except:
-        os.remove(directory + '\\' + "location_contact_completeness.png")
-        shutil.move("location_contact_completeness.png", directory)
-    plt.close()
-    return
+    save_graph("location_contact_completeness.png", directory, 300)
 
 
 def progs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
@@ -72,15 +99,7 @@ def progs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     plt.xlabel("Engagement Levels")
     plt.ylabel("Number of Locations")
 
-    # Save graph
-    plt.savefig("program_contact_completeness.png", dpi=300)
-    try:
-        shutil.move("program_contact_completeness.png", directory)
-    except:
-        os.remove(directory + '\\' + "program_contact_completeness.png")
-        shutil.move("program_contact_completeness.png", directory)
-    plt.close()
-    return
+    save_graph("program_contact_completeness.png", directory, 300)
 
 
 def count_orgs(df: pd.DataFrame) -> int:
@@ -178,6 +197,7 @@ if __name__ == "__main__":
     ]
     # Create a list of text functions
     calculating_functions = [
+        orgs_columns_empty,
         count_orgs,
         count_valid_orgs,
         count_locs,
