@@ -21,10 +21,11 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     return
 
 
-def orgs_columns_empty(df: pd.DataFrame) -> pd.DataFrame:
+def orgs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    temp_df = df[['Organization External ID',
+    temp_df = df[[
+        'Organization External ID',
         'Organization Name',
         'Organization Address 1',
         'Organization Address 2',
@@ -42,12 +43,101 @@ def orgs_columns_empty(df: pd.DataFrame) -> pd.DataFrame:
         'Organization About Us',
         'Organization Logo',
         'Organization Approval Status',
-        'Organization Active Status']].drop_duplicates(subset=['Organization External ID'], keep='last')
-    temp_df['Organization Master Contact Phone'] = (temp_df['Organization Contact Phone'].astype(str) + temp_df['Organization Contact Phone Ext'].astype(str)).replace("nannan", "")
-    print(temp_df['Organization Master Contact Phone'])
-    temp_df['Organization Master Phone'] = (temp_df['Organization Phone'].astype(str) + temp_df['Organization Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Organization Master Address'] = (temp_df['Organization Address 1'].astype(str) + temp_df['Organization Address 2'].astype(str)).replace("nannan", "")
-    temp_df = temp_df.drop(['Organization Contact Phone', 'Organization Contact Phone Ext', 'Organization Phone', 'Organization Phone Ext', 'Organization Address 1', 'Organization Address 2'], axis=1).mask(temp_df == '')
+        'Organization Active Status'
+        ]].drop_duplicates(subset=['Organization External ID'], keep='last')
+    temp_df['Organization Contact Phone'] = (temp_df['Organization Contact Phone'].astype(str) + temp_df['Organization Contact Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Organization Phone'] = (temp_df['Organization Phone'].astype(str) + temp_df['Organization Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Organization Address'] = (temp_df['Organization Address 1'].astype(str) + temp_df['Organization Address 2'].astype(str)).replace("nannan", "")
+    temp_df = temp_df.drop([
+        'Organization Contact Phone Ext',
+        'Organization Phone Ext',
+        'Organization Address 1',
+        'Organization Address 2'
+        ], axis=1).mask(temp_df == '')
+    return pd.DataFrame(data=temp_df.isna().sum())
+
+
+def locs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
+    temp_df = df[[
+        'Location External ID',
+        'Location Name',
+        'Location Latitude',
+        'Location Longitude',
+        'Location Address 1',
+        'Location Address 2',
+        'Location City',
+        'Location State',
+        'Location Zip',
+        'Location Contact Phone',
+        'Location Contact Phone Ext',
+        'Location Contact Email',
+        'Location Contact Name',
+        'Location Office Phone',
+        'Location Office Phone Ext',
+        'Location Website',
+        'Location Features',
+        'Location Logo',
+        'Location Headline',
+        'Location Overview',
+        'Location Announcements',
+        'Location Automated Website Enabled Indicator',
+        'Location SMS Enabled Indicator',
+        'Location Main Image',
+        'Location Background Image',
+        'Location Additional Images',
+        'Location Action Links',
+        'Location Time Zone',
+        'Location Approval Status',
+        'Location Active Status'
+        ]].drop_duplicates(subset=['Location External ID'], keep='last')
+    temp_df['Location Contact Phone'] = (temp_df['Location Contact Phone'].astype(str) + temp_df['Location Contact Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Location Office Phone'] = (temp_df['Location Office Phone'].astype(str) + temp_df['Location Office Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Location Address'] = (temp_df['Location Address 1'].astype(str) + temp_df['Location Address 2'].astype(str)).replace("nannan", "")
+    temp_df = temp_df.drop([
+        'Location Contact Phone Ext',
+        'Location Office Phone Ext',
+        'Location Address 1',
+        'Location Address 2'
+        ], axis=1).mask(temp_df == '')
+    return pd.DataFrame(data=temp_df.isna().sum())
+
+
+def progs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
+    temp_df = df[[
+        'Program External ID',
+        'Program Name',
+        'Program Use Same Contact As Location',
+        'Program Contact Phone',
+        'Program Contact Phone Ext',
+        'Program Contact Email',
+        'Program Contact Name',
+        'Program Announcements',
+        'Program Overview',
+        'Program Qualifications',
+        'Program Service Area',
+        'Program Service Category',
+        'Food Program Category',
+        'Items Offered',
+        'Food Program Features',
+        'Dietary Options Available',
+        'Program Audience',
+        'Program Audience Groups',
+        'Program Audience Notes',
+        'Languages Spoken',
+        'Program Approval Status',
+        'Program Active Status'
+        ]].drop_duplicates(subset=['Program External ID'], keep='last')
+    temp_df['Program Contact Phone'] = (temp_df['Program Contact Phone'].astype(str) + temp_df['Program Contact Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Program Audience'] = (temp_df['Program Audience'].astype(str) + temp_df['Program Audience Groups'].astype(str) + temp_df['Program Audience Notes'].astype(str)).replace("nannannan", "")
+    temp_df = temp_df.drop([
+        'Program Contact Phone Ext',
+        'Program Audience Groups',
+        'Program Audience Notes'
+        ], axis=1).mask(temp_df == '')
     return pd.DataFrame(data=temp_df.isna().sum())
 
 
@@ -197,7 +287,9 @@ if __name__ == "__main__":
     ]
     # Create a list of text functions
     calculating_functions = [
-        orgs_columns_empty,
+        orgs_empty_columns,
+        locs_empty_columns,
+        progs_empty_columns,
         count_orgs,
         count_valid_orgs,
         count_locs,
