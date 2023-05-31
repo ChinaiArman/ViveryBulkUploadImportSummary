@@ -10,6 +10,16 @@ import shutil
 
 def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
+    Saves the active PyPlot with a given file name in a specified directory, with a specified size (dots per square inch).
+
+    :precondition: This function needs a PyPlot to be active to work correctly.
+
+    :param file_name: A string containing the name for the new image file.
+    :param directory: A string with the path to the directory to save the file in.
+    :param dpi: An integer representing the DPI to save the image in.
+    :return: None.
+
+    :note: The directory must be a local path.
     """
     plt.savefig(file_name, dpi=dpi)
     try:
@@ -23,6 +33,12 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
 
 def orgs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Counts the number of empty cells in each organization level column.
+
+    :param df: A Pandas DataFrame containing the organization level columns.
+    :return: A Pandas DataFrame with two columns, and each row containing a column name from the original DataFrame, and the number of empty cells in that column from the original DataFrame.
+
+    :note: Unique organizations are determined by the 'Organization External ID' column.
     """
     temp_df = df[[
         'Organization External ID',
@@ -59,6 +75,12 @@ def orgs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 def locs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Counts the number of empty cells in each location level column.
+
+    :param df: A Pandas DataFrame containing the location level columns.
+    :return: A Pandas DataFrame with two columns, and each row containing a column name from the original DataFrame, and the number of empty cells in that column from the original DataFrame.
+
+    :note: Unique locations are determined by the 'Locations External ID' column.
     """
     temp_df = df[[
         'Location External ID',
@@ -106,6 +128,12 @@ def locs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 def progs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Counts the number of empty cells in each program level column.
+
+    :param df: A Pandas DataFrame containing the program level columns.
+    :return: A Pandas DataFrame with two columns, and each row containing a column name from the original DataFrame, and the number of empty cells in that column from the original DataFrame.
+
+    :note: Unique programs are determined by the 'Program External ID' column.
     """
     temp_df = df[[
         'Program External ID',
@@ -199,6 +227,8 @@ def count_orgs(df: pd.DataFrame) -> int:
 
     :param df: A Pandas DataFrame
     :return: The number of unique organizations, represented as an integer.
+    
+    :note: Unique organizations are determined by the 'Organization External ID' column.
     """
     return df['Organization External ID'].nunique()
 
@@ -223,6 +253,8 @@ def count_locs(df: pd.DataFrame) -> int:
 
     :param df: A Pandas DataFrame
     :return: The number of unique locations, represented as an integer.
+
+    :note: Unique locations are determined by the 'Location External ID' column.
     """
     return df['Location External ID'].nunique()
 
@@ -247,6 +279,8 @@ def count_progs(df: pd.DataFrame) -> int:
 
     :param df: A Pandas DataFrame
     :return: The number of unique programs, represented as an integer.
+
+    :note: Unique programs are determined by the 'Program External ID' column.
     """
     return df['Program External ID'].nunique()
 
