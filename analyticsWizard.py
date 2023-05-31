@@ -31,6 +31,156 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     return
 
 
+def orgs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
+    # Collect data
+    temp_df = df[[
+        'Organization External ID',
+        'Organization Name',
+        'Organization Address 1',
+        'Organization Address 2',
+        'Organization City',
+        'Organization State',
+        'Organization Zip',
+        'Organization Contact Phone',
+        'Organization Contact Phone Ext',
+        'Organization Contact Email',
+        'Organization Contact Name',
+        'Organization Phone',
+        'Organization Phone Ext',
+        'Organization Email',
+        'Organization Website',
+        'Organization About Us',
+        'Organization Logo',
+        'Organization Approval Status',
+        'Organization Active Status'
+        ]].drop_duplicates()
+    temp_df['Organization Contact Phone'] = (temp_df['Organization Contact Phone'].astype(str) + temp_df['Organization Contact Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Organization Phone'] = (temp_df['Organization Phone'].astype(str) + temp_df['Organization Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Organization Address'] = (temp_df['Organization Address 1'].astype(str) + temp_df['Organization Address 2'].astype(str)).replace("nannan", "")
+    nan_count = temp_df.drop([
+        'Organization Contact Phone Ext',
+        'Organization Phone Ext',
+        'Organization Address 1',
+        'Organization Address 2'
+        ], axis=1).mask(temp_df == '').drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count / (len(temp_df.columns)) * 100)
+    
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105])
+    plt.xticks(np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]), fontsize=8)
+    plt.title("Organization Information Missing")
+    plt.xlabel("Percentage of Organization Information Missing")
+    plt.ylabel("Number of Organizations")
+    save_graph("organization_columns_completeness.png", directory, 300)
+    return
+
+
+def locs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
+    # Collect data
+    temp_df = df[[
+        'Location External ID',
+        'Location Name',
+        'Location Latitude',
+        'Location Longitude',
+        'Location Address 1',
+        'Location Address 2',
+        'Location City',
+        'Location State',
+        'Location Zip',
+        'Location Contact Phone',
+        'Location Contact Phone Ext',
+        'Location Contact Email',
+        'Location Contact Name',
+        'Location Office Phone',
+        'Location Office Phone Ext',
+        'Location Website',
+        'Location Features',
+        'Location Logo',
+        'Location Headline',
+        'Location Overview',
+        'Location Announcements',
+        'Location Automated Website Enabled Indicator',
+        'Location SMS Enabled Indicator',
+        'Location Main Image',
+        'Location Background Image',
+        'Location Additional Images',
+        'Location Action Links',
+        'Location Time Zone',
+        'Location Approval Status',
+        'Location Active Status'
+        ]].drop_duplicates()
+    temp_df['Location Contact Phone'] = (temp_df['Location Contact Phone'].astype(str) + temp_df['Location Contact Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Location Office Phone'] = (temp_df['Location Office Phone'].astype(str) + temp_df['Location Office Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Location Address'] = (temp_df['Location Address 1'].astype(str) + temp_df['Location Address 2'].astype(str)).replace("nannan", "")
+    nan_count = temp_df.drop([
+        'Location Contact Phone Ext',
+        'Location Office Phone Ext',
+        'Location Address 1',
+        'Location Address 2'
+        ], axis=1).mask(temp_df == '').drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count / (len(temp_df.columns)) * 100)
+    
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105])
+    plt.xticks(np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]), fontsize=8)
+    plt.title("Location Information Missing")
+    plt.xlabel("Percentage of Location Information Missing")
+    plt.ylabel("Number of Locations")
+    save_graph("location_columns_completeness.png", directory, 300)
+    return
+
+
+def progs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
+    # Collect data
+    temp_df = df[[
+        'Program External ID',
+        'Program Name',
+        'Program Use Same Contact As Location',
+        'Program Contact Phone',
+        'Program Contact Phone Ext',
+        'Program Contact Email',
+        'Program Contact Name',
+        'Program Announcements',
+        'Program Overview',
+        'Program Qualifications',
+        'Program Service Area',
+        'Program Service Category',
+        'Food Program Category',
+        'Items Offered',
+        'Food Program Features',
+        'Dietary Options Available',
+        'Program Audience',
+        'Program Audience Groups',
+        'Program Audience Notes',
+        'Languages Spoken',
+        'Program Approval Status',
+        'Program Active Status'
+        ]].drop_duplicates()
+    temp_df['Program Contact Phone'] = (temp_df['Program Contact Phone'].astype(str) + temp_df['Program Contact Phone Ext'].astype(str)).replace("nannan", "")
+    temp_df['Program Audience'] = (temp_df['Program Audience'].astype(str) + temp_df['Program Audience Groups'].astype(str) + temp_df['Program Audience Notes'].astype(str)).replace("nannannan", "")
+    nan_count = temp_df.drop([
+        'Program Contact Phone Ext',
+        'Program Audience Groups',
+        'Program Audience Notes'
+        ], axis=1).mask(temp_df == '').drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count / (len(temp_df.columns)) * 100)
+    
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105])
+    plt.xticks(np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]), fontsize=8)
+    plt.title("Program Information Missing")
+    plt.xlabel("Percentage of Program Information Missing")
+    plt.ylabel("Number of Programs")
+    save_graph("program_columns_completeness.png", directory, 300)
+    return
+
+
 def orgs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     Counts the number of empty cells in each organization level column.
@@ -60,7 +210,7 @@ def orgs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
         'Organization Logo',
         'Organization Approval Status',
         'Organization Active Status'
-        ]].drop_duplicates(subset=['Organization External ID'], keep='last')
+        ]].drop_duplicates()
     temp_df['Organization Contact Phone'] = (temp_df['Organization Contact Phone'].astype(str) + temp_df['Organization Contact Phone Ext'].astype(str)).replace("nannan", "")
     temp_df['Organization Phone'] = (temp_df['Organization Phone'].astype(str) + temp_df['Organization Phone Ext'].astype(str)).replace("nannan", "")
     temp_df['Organization Address'] = (temp_df['Organization Address 1'].astype(str) + temp_df['Organization Address 2'].astype(str)).replace("nannan", "")
@@ -113,7 +263,7 @@ def locs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
         'Location Time Zone',
         'Location Approval Status',
         'Location Active Status'
-        ]].drop_duplicates(subset=['Location External ID'], keep='last')
+        ]].drop_duplicates()
     temp_df['Location Contact Phone'] = (temp_df['Location Contact Phone'].astype(str) + temp_df['Location Contact Phone Ext'].astype(str)).replace("nannan", "")
     temp_df['Location Office Phone'] = (temp_df['Location Office Phone'].astype(str) + temp_df['Location Office Phone Ext'].astype(str)).replace("nannan", "")
     temp_df['Location Address'] = (temp_df['Location Address 1'].astype(str) + temp_df['Location Address 2'].astype(str)).replace("nannan", "")
@@ -158,7 +308,7 @@ def progs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
         'Languages Spoken',
         'Program Approval Status',
         'Program Active Status'
-        ]].drop_duplicates(subset=['Program External ID'], keep='last')
+        ]].drop_duplicates()
     temp_df['Program Contact Phone'] = (temp_df['Program Contact Phone'].astype(str) + temp_df['Program Contact Phone Ext'].astype(str)).replace("nannan", "")
     temp_df['Program Audience'] = (temp_df['Program Audience'].astype(str) + temp_df['Program Audience Groups'].astype(str) + temp_df['Program Audience Notes'].astype(str)).replace("nannannan", "")
     temp_df = temp_df.drop([
@@ -317,7 +467,10 @@ if __name__ == "__main__":
     graphing_functions = [
         orgs_contact_completeness,
         locs_contact_completeness,
-        progs_contact_completeness
+        progs_contact_completeness,
+        orgs_columns_completeness,
+        locs_columns_completeness,
+        progs_columns_completeness
     ]
     # Create a list of text functions
     calculating_functions = [
