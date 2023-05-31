@@ -33,6 +33,12 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
 
 def orgs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
     """
+    Creates a Histogram showing the percentage of information shared at the organization level.
+
+    :param df: A Pandas DataFrame containing the organization level columns.
+    :param directory: A string containing the directory to save the graph in.
+
+    :note: The directory must be a local path within the project.
     """
     # Collect data
     temp_df = df[[
@@ -79,6 +85,12 @@ def orgs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
 
 def locs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
     """
+    Creates a Histogram showing the percentage of information shared at the location level.
+
+    :param df: A Pandas DataFrame containing the organization level columns.
+    :param directory: A string containing the directory to save the graph in.
+
+    :note: The directory must be a local path within the project.
     """
     # Collect data
     temp_df = df[[
@@ -136,6 +148,12 @@ def locs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
 
 def progs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
     """
+    Creates a Histogram showing the percentage of information shared at the program level.
+
+    :param df: A Pandas DataFrame containing the program level columns.
+    :param directory: A string containing the directory to save the graph in.
+
+    :note: The directory must be a local path within the project.
     """
     # Collect data
     temp_df = df[[
@@ -179,6 +197,57 @@ def progs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
     plt.ylabel("Number of Programs")
     save_graph("program_columns_completeness.png", directory, 300)
     return
+
+
+def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
+    # Collect data
+    nan_count = df[['Organization External ID', 'Organization Contact Phone', 'Organization Contact Email', 'Organization Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count - 3) * -33
+
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
+    plt.title("Organization Contact Information Engagement Levels")
+    plt.xlabel("Engagement Levels")
+    plt.ylabel("Number of Locations")
+    save_graph("organization_contact_completeness.png", directory, 300)
+    return
+
+
+def locs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
+    # Collect data
+    nan_count = df[['Location External ID', 'Location Contact Phone', 'Location Contact Email', 'Location Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count - 3) * -33
+
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
+    plt.title("Location Contact Information Engagement Levels")
+    plt.xlabel("Engagement Levels")
+    plt.ylabel("Number of Locations")
+
+    save_graph("location_contact_completeness.png", directory, 300)
+
+
+def progs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
+    # Collect data
+    nan_count = df[['Program External ID', 'Program Contact Phone', 'Program Contact Email', 'Program Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
+    nan_count = (nan_count - 3) * -33
+
+    # Create graph
+    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
+    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
+    plt.title("Program Contact Information Engagement Levels")
+    plt.xlabel("Engagement Levels")
+    plt.ylabel("Number of Locations")
+
+    save_graph("program_contact_completeness.png", directory, 300)
 
 
 def orgs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -317,57 +386,6 @@ def progs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
         'Program Audience Notes'
         ], axis=1).mask(temp_df == '')
     return pd.DataFrame(data=temp_df.isna().sum())
-
-
-def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    """
-    # Collect data
-    nan_count = df[['Organization External ID', 'Organization Contact Phone', 'Organization Contact Email', 'Organization Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count - 3) * -33
-
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
-    plt.title("Organization Contact Information Engagement Levels")
-    plt.xlabel("Engagement Levels")
-    plt.ylabel("Number of Locations")
-    save_graph("organization_contact_completeness.png", directory, 300)
-    return
-
-
-def locs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    """
-    # Collect data
-    nan_count = df[['Location External ID', 'Location Contact Phone', 'Location Contact Email', 'Location Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count - 3) * -33
-
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
-    plt.title("Location Contact Information Engagement Levels")
-    plt.xlabel("Engagement Levels")
-    plt.ylabel("Number of Locations")
-
-    save_graph("location_contact_completeness.png", directory, 300)
-
-
-def progs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    """
-    # Collect data
-    nan_count = df[['Program External ID', 'Program Contact Phone', 'Program Contact Email', 'Program Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count - 3) * -33
-
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
-    plt.title("Program Contact Information Engagement Levels")
-    plt.xlabel("Engagement Levels")
-    plt.ylabel("Number of Locations")
-
-    save_graph("program_contact_completeness.png", directory, 300)
 
 
 def count_orgs(df: pd.DataFrame) -> int:
