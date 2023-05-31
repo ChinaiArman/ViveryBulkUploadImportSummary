@@ -8,7 +8,7 @@ import os
 import shutil
 
 
-def orgs_contact_completeness(df, directory):
+def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     """
     """
     # Collect data
@@ -33,7 +33,7 @@ def orgs_contact_completeness(df, directory):
     return
 
 
-def locs_contact_completeness(df, directory):
+def locs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     """
     """
     # Collect data
@@ -58,7 +58,7 @@ def locs_contact_completeness(df, directory):
     return
 
 
-def progs_contact_completeness(df, directory):
+def progs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
     """
     """
     # Collect data
