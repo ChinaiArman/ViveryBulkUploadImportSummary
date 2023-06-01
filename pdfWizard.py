@@ -1,12 +1,9 @@
 # Import packages
 from fpdf import FPDF
-import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.express as px
-import argparse
-import shutil
+import argparse, os, shutil
 
 # Import local files
 import analyticsWizard as aw

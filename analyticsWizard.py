@@ -2,10 +2,10 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.express as px
-import argparse
-import os
-import shutil
+import argparse, os, shutil
+
+# Import local files
+import keys
 
 
 def save_graph(file_name: str, directory: str, dpi: int) -> None:
@@ -541,7 +541,6 @@ if __name__ == "__main__":
     valid_graphing_functions = [graph for graph in graphing_functions if graph.__name__ not in silenced_functions]
     # Create valid text functions
     valid_calculation_functions = [calculation for calculation in calculating_functions if calculation.__name__ not in silenced_functions]
-    
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
     [print(calculation.__name__ + ": " + str(calculation(df))) for calculation in valid_calculation_functions]
