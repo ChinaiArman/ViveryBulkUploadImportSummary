@@ -6,8 +6,11 @@ import argparse, os, shutil
 
 # Import local files
 import keys
-
-
+#
+#
+#
+#
+# GRAPHS
 def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
     Saves the active PyPlot with a given file name in a specified directory, with a specified size (dots per square inch).
@@ -31,388 +34,101 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     return
 
 
-def orgs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    Creates a Histogram showing the percentage of information shared at the organization level.
+def create_map(df: pd.DataFrame, directory: str) -> None:
+    pass
 
-    :param df: A Pandas DataFrame containing the organization level columns.
-    :param directory: A string containing the directory to save the graph in.
-    :return: None.
 
-    :note: The directory must be a local path within the project.
-    """
-    # Collect data
-    temp_df = df[[
-        'Organization External ID',
-        'Organization Name',
-        'Organization Address 1',
-        'Organization Address 2',
-        'Organization City',
-        'Organization State',
-        'Organization Zip',
-        'Organization Contact Phone',
-        'Organization Contact Phone Ext',
-        'Organization Contact Email',
-        'Organization Contact Name',
-        'Organization Phone',
-        'Organization Phone Ext',
-        'Organization Email',
-        'Organization Website',
-        'Organization About Us',
-        'Organization Logo',
-        'Organization Approval Status',
-        'Organization Active Status'
-        ]].drop_duplicates()
-    temp_df['Organization Contact Phone'] = (temp_df['Organization Contact Phone'].astype(str) + temp_df['Organization Contact Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Organization Phone'] = (temp_df['Organization Phone'].astype(str) + temp_df['Organization Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Organization Address'] = (temp_df['Organization Address 1'].astype(str) + temp_df['Organization Address 2'].astype(str)).replace("nannan", "")
-    nan_count = temp_df.drop([
-        'Organization Contact Phone Ext',
-        'Organization Phone Ext',
-        'Organization Address 1',
-        'Organization Address 2'
-        ], axis=1).mask(temp_df == '').drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count / (len(temp_df.columns)) * 100)
-    
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105])
-    plt.xticks(np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]), fontsize=8)
-    plt.title("Organization Information Missing")
-    plt.xlabel("Percentage of Organization Information Missing")
-    plt.ylabel("Number of Organizations")
-    save_graph("organization_columns_completeness.png", directory, 300)
+def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_program_type(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_sample_location_hours(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_sample_program_hours(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
+    pass
+
+
+def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
+    pass
+#
+#
+#
+#
+# TABLES
+def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
     return
 
 
-def locs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    Creates a Histogram showing the percentage of information shared at the location level.
-
-    :param df: A Pandas DataFrame containing the organization level columns.
-    :param directory: A string containing the directory to save the graph in.
-    :return: None.
-
-    :note: The directory must be a local path within the project.
-    """
-    # Collect data
-    temp_df = df[[
-        'Location External ID',
-        'Location Name',
-        'Location Latitude',
-        'Location Longitude',
-        'Location Address 1',
-        'Location Address 2',
-        'Location City',
-        'Location State',
-        'Location Zip',
-        'Location Contact Phone',
-        'Location Contact Phone Ext',
-        'Location Contact Email',
-        'Location Contact Name',
-        'Location Office Phone',
-        'Location Office Phone Ext',
-        'Location Website',
-        'Location Features',
-        'Location Logo',
-        'Location Headline',
-        'Location Overview',
-        'Location Announcements',
-        'Location Automated Website Enabled Indicator',
-        'Location SMS Enabled Indicator',
-        'Location Main Image',
-        'Location Background Image',
-        'Location Additional Images',
-        'Location Action Links',
-        'Location Time Zone',
-        'Location Approval Status',
-        'Location Active Status'
-        ]].drop_duplicates()
-    temp_df['Location Contact Phone'] = (temp_df['Location Contact Phone'].astype(str) + temp_df['Location Contact Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Location Office Phone'] = (temp_df['Location Office Phone'].astype(str) + temp_df['Location Office Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Location Address'] = (temp_df['Location Address 1'].astype(str) + temp_df['Location Address 2'].astype(str)).replace("nannan", "")
-    nan_count = temp_df.drop([
-        'Location Contact Phone Ext',
-        'Location Office Phone Ext',
-        'Location Address 1',
-        'Location Address 2'
-        ], axis=1).mask(temp_df == '').drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count / (len(temp_df.columns)) * 100)
-    
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105])
-    plt.xticks(np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]), fontsize=8)
-    plt.title("Location Information Missing")
-    plt.xlabel("Percentage of Location Information Missing")
-    plt.ylabel("Number of Locations")
-    save_graph("location_columns_completeness.png", directory, 300)
+def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     return
 
 
-def progs_columns_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    Creates a Histogram showing the percentage of information shared at the program level.
-
-    :param df: A Pandas DataFrame containing the program level columns.
-    :param directory: A string containing the directory to save the graph in.
-    :return: None.
-
-    :note: The directory must be a local path within the project.
-    """
-    # Collect data
-    temp_df = df[[
-        'Program External ID',
-        'Program Name',
-        'Program Use Same Contact As Location',
-        'Program Contact Phone',
-        'Program Contact Phone Ext',
-        'Program Contact Email',
-        'Program Contact Name',
-        'Program Announcements',
-        'Program Overview',
-        'Program Qualifications',
-        'Program Service Area',
-        'Program Service Category',
-        'Food Program Category',
-        'Items Offered',
-        'Food Program Features',
-        'Dietary Options Available',
-        'Program Audience',
-        'Program Audience Groups',
-        'Program Audience Notes',
-        'Languages Spoken',
-        'Program Approval Status',
-        'Program Active Status'
-        ]].drop_duplicates()
-    temp_df['Program Contact Phone'] = (temp_df['Program Contact Phone'].astype(str) + temp_df['Program Contact Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Program Audience'] = (temp_df['Program Audience'].astype(str) + temp_df['Program Audience Groups'].astype(str) + temp_df['Program Audience Notes'].astype(str)).replace("nannannan", "")
-    nan_count = temp_df.drop([
-        'Program Contact Phone Ext',
-        'Program Audience Groups',
-        'Program Audience Notes'
-        ], axis=1).mask(temp_df == '').drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count / (len(temp_df.columns)) * 100)
-    
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105])
-    plt.xticks(np.array([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]), fontsize=8)
-    plt.title("Program Information Missing")
-    plt.xlabel("Percentage of Program Information Missing")
-    plt.ylabel("Number of Programs")
-    save_graph("program_columns_completeness.png", directory, 300)
+def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     return
 
 
-def orgs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    Creates a Histogram showing the percentage of contact information shared at the organization level.
-
-    :param df: A Pandas DataFrame containing the organization level columns.
-    :param directory: A string containing the directory to save the graph in.
-    :return: None.
-
-    :note: The directory must be a local path within the project.
-    """
-    # Collect data
-    nan_count = df[['Organization External ID', 'Organization Contact Phone', 'Organization Contact Email', 'Organization Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count - 3) * -33
-
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
-    plt.title("Organization Contact Information Engagement Levels")
-    plt.xlabel("Engagement Levels")
-    plt.ylabel("Number of Locations")
-    save_graph("organization_contact_completeness.png", directory, 300)
+def create_recommended_program_filters_table(df: pd.DataFrame) -> pd.DataFrame:
     return
 
 
-def locs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    Creates a Histogram showing the percentage of contact information shared at the location level.
-
-    :param df: A Pandas DataFrame containing the location level columns.
-    :param directory: A string containing the directory to save the graph in.
-    :return: None.
-
-    :note: The directory must be a local path within the project.
-    """
-    # Collect data
-    nan_count = df[['Location External ID', 'Location Contact Phone', 'Location Contact Email', 'Location Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count - 3) * -33
-
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
-    plt.title("Location Contact Information Engagement Levels")
-    plt.xlabel("Engagement Levels")
-    plt.ylabel("Number of Locations")
-
-    save_graph("location_contact_completeness.png", directory, 300)
+def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
 
 
-def progs_contact_completeness(df: pd.DataFrame, directory: str) -> None:
-    """
-    Creates a Histogram showing the percentage of contact information shared at the program level.
-
-    :param df: A Pandas DataFrame containing the program level columns.
-    :param directory: A string containing the directory to save the graph in.
-    :return: None.
-
-    :note: The directory must be a local path within the project.
-    """
-    # Collect data
-    nan_count = df[['Program External ID', 'Program Contact Phone', 'Program Contact Email', 'Program Contact Name']].drop_duplicates().isna().sum(axis = 1).to_numpy()
-    nan_count = (nan_count - 3) * -33
-
-    # Create graph
-    plt.hist(nan_count, edgecolor='black', bins=[-10, 10, 23, 43, 56, 76, 90, 110])
-    plt.xticks(np.array([0, 33, 66, 100]), fontsize=6, labels=["No Contact Information", "Two Contact Pieces Missing", "One Contact Piece Missing", "Ready for Engagement"])
-    plt.title("Program Contact Information Engagement Levels")
-    plt.xlabel("Engagement Levels")
-    plt.ylabel("Number of Locations")
-
-    save_graph("program_contact_completeness.png", directory, 300)
+def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
 
 
-def orgs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Counts the number of empty cells in each organization level column.
-
-    :param df: A Pandas DataFrame containing the organization level columns.
-    :return: A Pandas DataFrame with two columns, and each row containing a column name from the original DataFrame, and the number of empty cells in that column from the original DataFrame.
-
-    :note: Unique organizations are determined by the 'Organization External ID' column.
-    """
-    temp_df = df[[
-        'Organization External ID',
-        'Organization Name',
-        'Organization Address 1',
-        'Organization Address 2',
-        'Organization City',
-        'Organization State',
-        'Organization Zip',
-        'Organization Contact Phone',
-        'Organization Contact Phone Ext',
-        'Organization Contact Email',
-        'Organization Contact Name',
-        'Organization Phone',
-        'Organization Phone Ext',
-        'Organization Email',
-        'Organization Website',
-        'Organization About Us',
-        'Organization Logo',
-        'Organization Approval Status',
-        'Organization Active Status'
-        ]].drop_duplicates()
-    temp_df['Organization Contact Phone'] = (temp_df['Organization Contact Phone'].astype(str) + temp_df['Organization Contact Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Organization Phone'] = (temp_df['Organization Phone'].astype(str) + temp_df['Organization Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Organization Address'] = (temp_df['Organization Address 1'].astype(str) + temp_df['Organization Address 2'].astype(str)).replace("nannan", "")
-    temp_df = temp_df.drop([
-        'Organization Contact Phone Ext',
-        'Organization Phone Ext',
-        'Organization Address 1',
-        'Organization Address 2'
-        ], axis=1).mask(temp_df == '')
-    return pd.DataFrame(data=temp_df.isna().sum())
+def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
 
 
-def locs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Counts the number of empty cells in each location level column.
-
-    :param df: A Pandas DataFrame containing the location level columns.
-    :return: A Pandas DataFrame with two columns, and each row containing a column name from the original DataFrame, and the number of empty cells in that column from the original DataFrame.
-
-    :note: Unique locations are determined by the 'Locations External ID' column.
-    """
-    temp_df = df[[
-        'Location External ID',
-        'Location Name',
-        'Location Latitude',
-        'Location Longitude',
-        'Location Address 1',
-        'Location Address 2',
-        'Location City',
-        'Location State',
-        'Location Zip',
-        'Location Contact Phone',
-        'Location Contact Phone Ext',
-        'Location Contact Email',
-        'Location Contact Name',
-        'Location Office Phone',
-        'Location Office Phone Ext',
-        'Location Website',
-        'Location Features',
-        'Location Logo',
-        'Location Headline',
-        'Location Overview',
-        'Location Announcements',
-        'Location Automated Website Enabled Indicator',
-        'Location SMS Enabled Indicator',
-        'Location Main Image',
-        'Location Background Image',
-        'Location Additional Images',
-        'Location Action Links',
-        'Location Time Zone',
-        'Location Approval Status',
-        'Location Active Status'
-        ]].drop_duplicates()
-    temp_df['Location Contact Phone'] = (temp_df['Location Contact Phone'].astype(str) + temp_df['Location Contact Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Location Office Phone'] = (temp_df['Location Office Phone'].astype(str) + temp_df['Location Office Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Location Address'] = (temp_df['Location Address 1'].astype(str) + temp_df['Location Address 2'].astype(str)).replace("nannan", "")
-    temp_df = temp_df.drop([
-        'Location Contact Phone Ext',
-        'Location Office Phone Ext',
-        'Location Address 1',
-        'Location Address 2'
-        ], axis=1).mask(temp_df == '')
-    return pd.DataFrame(data=temp_df.isna().sum())
+def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
 
 
-def progs_empty_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Counts the number of empty cells in each program level column.
-
-    :param df: A Pandas DataFrame containing the program level columns.
-    :return: A Pandas DataFrame with two columns, and each row containing a column name from the original DataFrame, and the number of empty cells in that column from the original DataFrame.
-
-    :note: Unique programs are determined by the 'Program External ID' column.
-    """
-    temp_df = df[[
-        'Program External ID',
-        'Program Name',
-        'Program Use Same Contact As Location',
-        'Program Contact Phone',
-        'Program Contact Phone Ext',
-        'Program Contact Email',
-        'Program Contact Name',
-        'Program Announcements',
-        'Program Overview',
-        'Program Qualifications',
-        'Program Service Area',
-        'Program Service Category',
-        'Food Program Category',
-        'Items Offered',
-        'Food Program Features',
-        'Dietary Options Available',
-        'Program Audience',
-        'Program Audience Groups',
-        'Program Audience Notes',
-        'Languages Spoken',
-        'Program Approval Status',
-        'Program Active Status'
-        ]].drop_duplicates()
-    temp_df['Program Contact Phone'] = (temp_df['Program Contact Phone'].astype(str) + temp_df['Program Contact Phone Ext'].astype(str)).replace("nannan", "")
-    temp_df['Program Audience'] = (temp_df['Program Audience'].astype(str) + temp_df['Program Audience Groups'].astype(str) + temp_df['Program Audience Notes'].astype(str)).replace("nannannan", "")
-    temp_df = temp_df.drop([
-        'Program Contact Phone Ext',
-        'Program Audience Groups',
-        'Program Audience Notes'
-        ], axis=1).mask(temp_df == '')
-    return pd.DataFrame(data=temp_df.isna().sum())
-
-
-def count_orgs(df: pd.DataFrame) -> int:
+def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+#
+#
+#
+#
+# SUMMATIONS
+def count_organizations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations in a DataFrame.
     Unique organizations are determined by the 'Organization External ID' column.
@@ -425,7 +141,7 @@ def count_orgs(df: pd.DataFrame) -> int:
     return df['Organization External ID'].nunique()
 
 
-def count_valid_orgs(df: pd.DataFrame) -> int:
+def count_valid_organizations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations that are both active and approved.
 
@@ -439,7 +155,7 @@ def count_valid_orgs(df: pd.DataFrame) -> int:
     return df['Organization External ID'].nunique()
 
 
-def count_locs(df: pd.DataFrame) -> int:
+def count_locations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations in a DataFrame. Unique locations are determined by the 'Location External ID'.
 
@@ -451,7 +167,7 @@ def count_locs(df: pd.DataFrame) -> int:
     return df['Location External ID'].nunique()
 
 
-def count_valid_locs(df: pd.DataFrame) -> int:
+def count_valid_locations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations that are both active and approved.
 
@@ -465,7 +181,7 @@ def count_valid_locs(df: pd.DataFrame) -> int:
     return df['Location External ID'].nunique()
 
 
-def count_progs(df: pd.DataFrame) -> int:
+def count_programs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs in a DataFrame. Unique programs are determined by the 'Program External ID'.
 
@@ -477,7 +193,7 @@ def count_progs(df: pd.DataFrame) -> int:
     return df['Program External ID'].nunique()
 
 
-def count_valid_progs(df: pd.DataFrame) -> int:
+def count_valid_programs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs that are both active and approved.
 
@@ -507,24 +223,37 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of visualization functions
     graphing_functions = [
-        orgs_contact_completeness,
-        locs_contact_completeness,
-        progs_contact_completeness,
-        orgs_columns_completeness,
-        locs_columns_completeness,
-        progs_columns_completeness
+        create_map,
+        graph_profile_grade,
+        graph_missing_organization_contact_info,
+        graph_missing_location_contact_info,
+        graph_missing_program_contact_info,
+        graph_program_type,
+        graph_food_program_breakdown,
+        graph_program_filter_usage,
+        graph_network_hours_overview,
+        graph_sample_location_hours,
+        graph_sample_program_hours,
+        graph_program_qualifications
+    ]
+    # Create a list of DataFrame functions
+    dataframe_functions = [
+        create_network_overview_table,
+        create_highest_graded_profiles_table,
+        create_lowest_graded_profiles_table,
+        create_recommended_program_filters_table,
+        create_organization_table,
+        create_location_table,
+        create_program_table
     ]
     # Create a list of text functions
-    calculating_functions = [
-        orgs_empty_columns,
-        locs_empty_columns,
-        progs_empty_columns,
-        count_orgs,
-        count_valid_orgs,
-        count_locs,
-        count_valid_locs,
-        count_progs,
-        count_valid_progs
+    summation_functions = [
+        count_organizations,
+        count_valid_organizations,
+        count_locations,
+        count_valid_locations,
+        count_programs,
+        count_valid_programs
     ]
 
     # Create directory within project folder
@@ -540,7 +269,10 @@ if __name__ == "__main__":
     # Create valid visualizations functions
     valid_graphing_functions = [graph for graph in graphing_functions if graph.__name__ not in silenced_functions]
     # Create valid text functions
-    valid_calculation_functions = [calculation for calculation in calculating_functions if calculation.__name__ not in silenced_functions]
+    valid_summation_functions = [summation for summation in summation_functions if summation.__name__ not in silenced_functions]
+    # Create valid DataFrame functions
+    valid_dataframe_functions = [dataframe for dataframe in dataframe_functions if dataframe.__name__ not in silenced_functions]
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
-    [print(calculation.__name__ + ": " + str(calculation(df))) for calculation in valid_calculation_functions]
+    [print(dataframe.__name__ + ": " + dataframe(df)) for dataframe in valid_dataframe_functions]
+    [print(summation.__name__ + ": " + str(summation(df))) for summation in valid_summation_functions]
