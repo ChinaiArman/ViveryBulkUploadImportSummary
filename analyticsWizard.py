@@ -15,14 +15,13 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
     Saves the active PyPlot with a given file name in a specified directory, with a specified size (dots per square inch).
 
-    :precondition: This function needs a PyPlot to be active to work correctly.
-
     :param file_name: A string containing the name for the new image file.
     :param directory: A string with the path to the directory to save the file in.
     :param dpi: An integer representing the DPI to save the image in.
     :return: None.
 
-    :note: The directory must be a local path.
+    :precondition: This function needs a PyPlot to be active.
+    :precondition: The directory must be a local path.
     """
     plt.savefig(file_name, dpi=dpi)
     try:
@@ -183,11 +182,12 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
 def count_organizations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations in a DataFrame.
-    Unique organizations are determined by the 'Organization External ID' column.
 
     :param df: A Pandas DataFrame
     :return: The number of unique organizations, represented as an integer.
-    
+
+    :precondition: The Pandas DataFrame must contain the column 'Organization External ID'.
+
     :note: Unique organizations are determined by the 'Organization External ID' column.
     """
     return df['Organization External ID'].nunique()
