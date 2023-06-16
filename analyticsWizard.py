@@ -123,6 +123,58 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
     return
+
+
+def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_type_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
+
+
+def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
+    return
 #
 #
 #
@@ -244,7 +296,20 @@ if __name__ == "__main__":
         create_recommended_program_filters_table,
         create_organization_table,
         create_location_table,
-        create_program_table
+        create_program_table,
+        create_organization_contact_information_table,
+        create_location_contact_information_table,
+        create_program_contact_information_table,
+        create_program_by_program_type_table,
+        create_program_by_program_audience_table,
+        create_program_by_program_languages_spoken_table,
+        create_program_by_program_features_table,
+        create_program_by_program_items_offered_table,
+        create_program_by_program_dietary_options_table,
+        create_location_hours_table,
+        create_program_hours_table,
+        create_program_by_program_qualifications_table,
+        create_program_by_program_services_table
     ]
     # Create a list of text functions
     summation_functions = [
