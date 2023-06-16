@@ -1,16 +1,23 @@
-# Import packages
+"""
+"""
+
+
+# PACKAGE IMPORTS
 from fpdf import FPDF
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import argparse, os, shutil
+import pandas as pd                 # Pandas, used to represent CSVs and large data sets as a DataFrame.
+import numpy as np                  # NumPy, adds Arrays to python and enables large arithmatic operations.
+import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data sets and create data visualizations.
+import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
 
-# Import local files
-import analyticsWizard as aw
+# LOCAL FILE IMPORTS
+import analyticsWizard as aw        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
 
-# Constants
+# CONSTANTS
 
 
+
+
+# PDFCONSTRUCTOR CLASS
 class pdfConstructor:
     def __init__(self, 
                  new_df: pd.DataFrame(), 
@@ -18,12 +25,17 @@ class pdfConstructor:
                  new_filepath: str,
                  new_filename: str
                 ):
+        """
+        """
         self.df = new_df
         self.directory = new_directory
         self.filepath = new_filepath
         self.filename = new_filename
 
 
+
+
+# MAIN
 if __name__ == "__main__":
     # Define console parser
     parser = argparse.ArgumentParser(description="Create data visualizations for a Pre-Validated file")

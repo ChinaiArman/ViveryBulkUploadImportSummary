@@ -1,11 +1,15 @@
-# Import packages
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import argparse, os, shutil
+"""
+"""
 
-# Import local files
-import keys
+
+# PACKAGE IMPORTS
+import pandas as pd                 # Pandas, used to represent CSVs and large data sets as a DataFrame.
+import numpy as np                  # NumPy, adds Arrays to python and enables large arithmatic operations.
+import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data sets and create data visualizations.
+import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
+
+# LOCAL FILE IMPORTS
+import keys                         # API Key File, used to store the API Keys for the project.
 
 
 
@@ -13,7 +17,7 @@ import keys
 # GRAPHS
 def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
-    Saves the active PyPlot with a given file name in a specified directory, with a specified size (dots per square inch).
+    Saves the active PyPlot as a file.
 
     :param file_name: A string containing the name for the new image file.
     :param directory: A string with the path to the directory to save the file in.
@@ -22,6 +26,10 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
 
     :precondition: This function needs a PyPlot to be active.
     :precondition: The directory must be a local path.
+
+    :note: File type is specified within the 'file_name' local variable.
+    :note: File location is specified by the 'directory' local variable.
+    :note: File size is specified by the 'dpi' local variable
     """
     plt.savefig(file_name, dpi=dpi)
     try:
