@@ -259,6 +259,9 @@ def count_valid_programs(df: pd.DataFrame) -> int:
     return df['Program External ID'].nunique()
 
 
+
+
+# MAIN
 if __name__ == "__main__":
     # Define console parser
     parser = argparse.ArgumentParser(description="Create data visualizations for a Pre-Validated file")
