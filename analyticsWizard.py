@@ -6,10 +6,10 @@ import argparse, os, shutil
 
 # Import local files
 import keys
-#
-#
-#
-#
+
+
+
+
 # GRAPHS
 def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
@@ -84,10 +84,10 @@ def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
 
 def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
     pass
-#
-#
-#
-#
+
+
+
+
 # TABLES
 def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
     return
@@ -175,10 +175,10 @@ def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataF
 
 def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
     return
-#
-#
-#
-#
+
+
+
+
 # SUMMATIONS
 def count_organizations(df: pd.DataFrame) -> int:
     """
