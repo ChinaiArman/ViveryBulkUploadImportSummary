@@ -200,6 +200,8 @@ def count_valid_organizations(df: pd.DataFrame) -> int:
     :param df: A Pandas DataFrame
     :return: The number of unique organizations that are both approved and active, represented as an integer. 
 
+    :precondition: The Pandas DataFrame must contain the columns 'Organization External ID', 'Organization Active Status', and 'Organization Approved Status'.
+
     :note: Active and Approved organizations are determined by the 'Organization Active Status' and 'Organization Approved Status' columns.
     :note: Unique organizations are determined by the 'Organization External ID' column.
     """
@@ -209,10 +211,12 @@ def count_valid_organizations(df: pd.DataFrame) -> int:
 
 def count_locations(df: pd.DataFrame) -> int:
     """
-    Counts the number of unique locations in a DataFrame. Unique locations are determined by the 'Location External ID'.
+    Counts the number of unique locations in a DataFrame.
 
     :param df: A Pandas DataFrame
     :return: The number of unique locations, represented as an integer.
+
+    :precondition: The Pandas DataFrame must contain the column 'Location External ID'.
 
     :note: Unique locations are determined by the 'Location External ID' column.
     """
@@ -225,7 +229,9 @@ def count_valid_locations(df: pd.DataFrame) -> int:
 
     :param df: A Pandas DataFrame
     :return: The number of unique locations that are both approved and active, represented as an integer. 
-    
+
+    :precondition: The Pandas DataFrame must contain the columns 'Location External ID', 'Location Active Status', and 'Location Approved Status'.
+
     :note: Active and Approved locations are determined by the 'Location Active Status' and 'Location Approved Status' columns.
     :note: Unique locations are determined by the 'Location External ID' column.
     """
@@ -235,10 +241,12 @@ def count_valid_locations(df: pd.DataFrame) -> int:
 
 def count_programs(df: pd.DataFrame) -> int:
     """
-    Counts the number of unique programs in a DataFrame. Unique programs are determined by the 'Program External ID'.
+    Counts the number of unique programs in a DataFrame.
 
     :param df: A Pandas DataFrame
     :return: The number of unique programs, represented as an integer.
+
+    :precondition: The Pandas DataFrame must contain the column 'Program External ID'.
 
     :note: Unique programs are determined by the 'Program External ID' column.
     """
@@ -251,6 +259,8 @@ def count_valid_programs(df: pd.DataFrame) -> int:
 
     :param df: A Pandas DataFrame
     :return: The number of unique programs that are both approved and active, represented as an integer. 
+
+    :precondition: The Pandas DataFrame must contain the columns 'Program External ID', 'Program Active Status', and 'Program Approved Status'.
 
     :note: Active and Approved programs are determined by the 'Program Active Status' and 'Program Approved Status' columns.
     :note: Unique programs are determined by the 'Program External ID' column.
