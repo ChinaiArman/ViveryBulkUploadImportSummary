@@ -24,7 +24,7 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     - The directory must be a local path.
 
     Notes: 
-    - The file's type is specified within the 'file_name' local variable.
+    - The file's extension is specified within the 'file_name' local variable.
     - The file's location is specified by the 'directory' local variable.
     - The file's size is specified by the 'dpi' local variable.
     """
