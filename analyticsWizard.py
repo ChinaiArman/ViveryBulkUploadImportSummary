@@ -19,17 +19,14 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
     Saves the active PyPlot as a file.
 
-    :param file_name: A string containing the name for the new image file.
-    :param directory: A string with the path to the directory to save the file in.
-    :param dpi: An integer representing the DPI to save the image in.
-    :return: None.
+    Preconditions
+    - This function needs a PyPlot to be active.
+    - The directory must be a local path.
 
-    :precondition: This function needs a PyPlot to be active.
-    :precondition: The directory must be a local path.
-
-    :note: File type is specified within the 'file_name' local variable.
-    :note: File location is specified by the 'directory' local variable.
-    :note: File size is specified by the 'dpi' local variable
+    Notes: 
+    - The file's type is specified within the 'file_name' local variable.
+    - The file's location is specified by the 'directory' local variable.
+    - The file's size is specified by the 'dpi' local variable.
     """
     plt.savefig(file_name, dpi=dpi)
     try:
@@ -42,54 +39,80 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
 
 
 def create_map(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_program_type(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_sample_location_hours(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_sample_program_hours(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
 def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
     pass
 
 
@@ -97,90 +120,134 @@ def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
 
 # TABLES
 def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_recommended_program_filters_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_type_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
 def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
     return
 
 
@@ -191,12 +258,11 @@ def count_organizations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations in a DataFrame.
 
-    :param df: A Pandas DataFrame
-    :return: The number of unique organizations, represented as an integer.
+    Preconditions:
+    - The Pandas DataFrame must contain the column 'Organization External ID'.
 
-    :precondition: The Pandas DataFrame must contain the column 'Organization External ID'.
-
-    :note: Unique organizations are determined by the 'Organization External ID' column.
+    Notes:
+    - A unique organization is determined by the 'Organization External ID' column.
     """
     return df['Organization External ID'].nunique()
 
@@ -205,13 +271,12 @@ def count_valid_organizations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations that are both active and approved.
 
-    :param df: A Pandas DataFrame
-    :return: The number of unique organizations that are both approved and active, represented as an integer. 
-
-    :precondition: The Pandas DataFrame must contain the columns 'Organization External ID', 'Organization Active Status', and 'Organization Approved Status'.
-
-    :note: Active and Approved organizations are determined by the 'Organization Active Status' and 'Organization Approved Status' columns.
-    :note: Unique organizations are determined by the 'Organization External ID' column.
+    Preconditions:
+    - The Pandas DataFrame must contain the columns 'Organization External ID', 'Organization Active Status', and 'Organization Approved Status'.
+    
+    Notes:
+    - An active and approved organization is determined by the 'Organization Active Status' and 'Organization Approved Status' columns.
+    - A unique organization is determined by the 'Organization External ID' column.
     """
     df = df[(df['Organization Active Status'] == True) & (df['Organization Approval Status'] == True)]
     return df['Organization External ID'].nunique()
@@ -221,12 +286,11 @@ def count_locations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations in a DataFrame.
 
-    :param df: A Pandas DataFrame
-    :return: The number of unique locations, represented as an integer.
+    Preconditions:
+    - The Pandas DataFrame must contain the column 'Location External ID'.
 
-    :precondition: The Pandas DataFrame must contain the column 'Location External ID'.
-
-    :note: Unique locations are determined by the 'Location External ID' column.
+    Notes:
+    - A unique location is determined by the 'Location External ID' column.
     """
     return df['Location External ID'].nunique()
 
@@ -235,13 +299,12 @@ def count_valid_locations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations that are both active and approved.
 
-    :param df: A Pandas DataFrame
-    :return: The number of unique locations that are both approved and active, represented as an integer. 
-
-    :precondition: The Pandas DataFrame must contain the columns 'Location External ID', 'Location Active Status', and 'Location Approved Status'.
-
-    :note: Active and Approved locations are determined by the 'Location Active Status' and 'Location Approved Status' columns.
-    :note: Unique locations are determined by the 'Location External ID' column.
+    Preconditions:
+    - The Pandas DataFrame must contain the columns 'Location External ID', 'Location Active Status', and 'Location Approved Status'.
+    
+    Notes:
+    - An active and approved location is determined by the 'Location Active Status' and 'Location Approved Status' columns.
+    - A unique location is determined by the 'Location External ID' column.
     """
     df = df[(df['Location Active Status'] == True) & (df['Location Approval Status'] == True)]
     return df['Location External ID'].nunique()
@@ -251,12 +314,11 @@ def count_programs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs in a DataFrame.
 
-    :param df: A Pandas DataFrame
-    :return: The number of unique programs, represented as an integer.
+    Preconditions:
+    - The Pandas DataFrame must contain the column 'Program External ID'.
 
-    :precondition: The Pandas DataFrame must contain the column 'Program External ID'.
-
-    :note: Unique programs are determined by the 'Program External ID' column.
+    Notes:
+    - A unique program is determined by the 'Program External ID' column.
     """
     return df['Program External ID'].nunique()
 
@@ -265,13 +327,12 @@ def count_valid_programs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs that are both active and approved.
 
-    :param df: A Pandas DataFrame
-    :return: The number of unique programs that are both approved and active, represented as an integer. 
+    Preconditions:
+    - The Pandas DataFrame must contain the columns 'Program External ID', 'Program Active Status', and 'Program Approved Status'.
 
-    :precondition: The Pandas DataFrame must contain the columns 'Program External ID', 'Program Active Status', and 'Program Approved Status'.
-
-    :note: Active and Approved programs are determined by the 'Program Active Status' and 'Program Approved Status' columns.
-    :note: Unique programs are determined by the 'Program External ID' column.
+    Notes:
+    - An active and approved program is determined by the 'Program Active Status' and 'Program Approved Status' columns.
+    - A unique program is determined by the 'Program External ID' column.
     """
     df = df[(df['Program Active Status'] == True) & (df['Program Approval Status'] == True)]
     return df['Program External ID'].nunique()

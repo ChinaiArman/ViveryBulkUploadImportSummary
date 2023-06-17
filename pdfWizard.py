@@ -19,6 +19,8 @@ import analyticsWizard as aw        # AnalyticsWizard, used as an API to parse a
 
 # PDFCONSTRUCTOR CLASS
 class pdfConstructor:
+    """
+    """
     def __init__(self, 
                  new_df: pd.DataFrame(), 
                  new_directory: str,
