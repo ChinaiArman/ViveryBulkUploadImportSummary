@@ -355,7 +355,7 @@ if __name__ == "__main__":
     directory = "data_" + args.file.split("\\")[-1].replace(".csv", "")
     # Create DataFrame
     df = pd.read_csv(args.file)
-    # Create a list of visualization functions
+    # Create a list of graphing functions
     graphing_functions = [
         create_map,
         graph_profile_grade,
@@ -393,7 +393,7 @@ if __name__ == "__main__":
         create_program_by_program_qualifications_table,
         create_program_by_program_services_table
     ]
-    # Create a list of text functions
+    # Create a list of summation functions
     summation_functions = [
         count_organizations,
         count_valid_organizations,
@@ -413,12 +413,13 @@ if __name__ == "__main__":
     # Create list of silenced functions
     silenced_functions = args.silent if args.silent else []
 
-    # Create valid visualizations functions
+    # Create valid graphing functions
     valid_graphing_functions = [graph for graph in graphing_functions if graph.__name__ not in silenced_functions]
-    # Create valid text functions
-    valid_summation_functions = [summation for summation in summation_functions if summation.__name__ not in silenced_functions]
     # Create valid DataFrame functions
     valid_dataframe_functions = [dataframe for dataframe in dataframe_functions if dataframe.__name__ not in silenced_functions]
+    # Create valid summation functions
+    valid_summation_functions = [summation for summation in summation_functions if summation.__name__ not in silenced_functions]
+
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
     [print(dataframe.__name__ + ": " + dataframe(df)) for dataframe in valid_dataframe_functions]
