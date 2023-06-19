@@ -10,6 +10,7 @@ import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Ma
 
 # LOCAL FILE IMPORTS
 import keys                         # API Key File, used to store the API Keys for the project.
+import text                         # Text, used to store the Text for the report in a Dictionary (JSON) format.
 
 
 
