@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data se
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
 
 # LOCAL FILE IMPORTS
-import analyticsWizard as aw        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
+import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
+import text as txt                  # Text, used to store the Text for the report in a Dictionary (JSON) format.
 
 # CONSTANTS
 
