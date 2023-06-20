@@ -351,16 +351,25 @@ def count_programs(df: pd.DataFrame) -> int:
     Counts the number of unique programs in a DataFrame.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the data.
+        `df (pd.DataFrame)`: The Pandas DataFrame containing the data.
 
     Returns:
-        int: The number of unique programs.
+        `int`: The number of unique programs.
 
     Preconditions:
-        - The Pandas DataFrame must contain the column 'Program External ID'.
+        - The Pandas DataFrame must contain the column `Program External ID`.
 
-    Notes:
-        - A unique program is determined by the 'Program External ID' column.
+    Raises:
+        - `KeyError`: If the `Program External ID` column is not present in the DataFrame.
+
+    Examples:
+        >>> data = pd.DataFrame({'Program External ID': ['P1', 'P2', 'P2', 'P3', 'P1']})
+        >>> count_programs(data)
+        3
+
+    Additional Information:
+        - A unique program is determined by the `Program External ID` column.
+        - This function assumes that the provided DataFrame is properly formatted and contains the necessary column.
     """
     return df['Program External ID'].nunique()
 
@@ -370,21 +379,41 @@ def count_valid_programs(df: pd.DataFrame) -> int:
     Counts the number of unique programs that are both active and approved.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the data.
+        `df (pd.DataFrame)`: The Pandas DataFrame containing the data.
 
     Returns:
-        int: The number of unique programs that are active and approved.
+        `int`: The number of unique programs that are active and approved.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns 'Program External ID', 'Program Active Status',
-          and 'Program Approved Status'.
+        - The Pandas DataFrame must contain the columns:
+            - `Program External ID`
+            - `Program Active Status`
+            - `Program Approved Status`
 
-    Notes:
-        - An active and approved program is determined by the 'Program Active Status' and 'Program Approved Status' columns.
-        - A unique program is determined by the 'Program External ID' column.
+    Raises:
+        - `KeyError`: If any of the required columns (`Program External ID`, `Program Active Status`, `Program Approved Status`)
+          are not present in the DataFrame.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P2', 'P3', 'P1'],
+        ...     'Program Active Status': [True, False, True, True, True],
+        ...     'Program Approved Status': [True, True, False, True, True]
+        ... })
+        >>> count_valid_programs(data)
+        2
+
+    Additional Information:
+        - An active and approved program is determined by the `Program Active Status` and `Program Approved Status` columns.
+        - A unique program is determined by the `Program External ID` column.
+        - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
+        - Ensure that the `Program Active Status` and `Program Approved Status` columns use boolean values (True/False).
+        - For accurate results, make sure the DataFrame represents the relevant data and has no missing values.
     """
     df = df[(df['Program Active Status'] == True) & (df['Program Approved Status'] == True)]
     return df['Program External ID'].nunique()
+
+
 
 
 
