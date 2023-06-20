@@ -136,6 +136,55 @@ def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
 # TABLES
 def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a network overview table based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the network data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the network overview information.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns:
+            - `Organization External ID`
+            - `Organization Approval Status`
+            - `Organization Active Status`
+            - `Location External ID`
+            - `Location Approval Status`
+            - `Location Active Status`
+            - `Program External ID`
+            - `Program Approval Status`
+            - `Program Active Status`
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Organization External ID': ['O1', 'O2', 'O2', 'O3', 'O1'],
+        ...     'Organization Approval Status': [True, False, True, True, True],
+        ...     'Organization Active Status': [True, True, False, True, True],
+        ...     'Location External ID': ['L1', 'L2', 'L3', 'L1', 'L2'],
+        ...     'Location Approval Status': [True, True, True, False, True],
+        ...     'Location Active Status': [True, True, True, True, False],
+        ...     'Program External ID': ['P1', 'P2', 'P2', 'P3', 'P1'],
+        ...     'Program Approval Status': [True, True, True, True, True],
+        ...     'Program Active Status': [True, True, True, False, True]
+        ... })
+        >>> create_network_overview_table(data)
+                      Active  Inactive  Total
+        Organizations       2         1      3
+        Locations           3         2      3
+        Programs            2         1      3
+
+    Additional Information:
+        - The network overview table provides a summary of active, inactive, and total counts
+          for organizations, locations, and programs.
+        - An active organization, location, or program is determined by the `Organization Active Status`,
+          `Location Active Status`, or `Program Active Status` columns, respectively.
+        - An approved organization, location, or program is determined by the `Organization Approval Status`,
+          `Location Approval Status`, or `Program Approval Status` columns, respectively.
+        - The count of unique entities is based on their respective external ID columns.
     """
     active = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Organization External ID'].nunique(),
