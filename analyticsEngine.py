@@ -21,30 +21,36 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     Saves the active PyPlot as a file.
 
     Args:
-    - file_name (string): Contains the name for the file to be saved as.
-    - directory (string): Contains the name of the directory for the file to be saved in.
-    - dpi (int): The DPI (resolution) to save the image in.
+        file_name (str): The name for the file to be saved as.
+        directory (str): The name of the directory for the file to be saved in.
+        dpi (int): The DPI (resolution) to save the image in.
 
     Returns:
-    - `None.`
+        None.
 
     Preconditions:
-    - This function needs a PyPlot to be active.
-    - The directory must be a local path.
+        - A PyPlot must be active.
+        - The directory must be a local path.
 
-    Notes: 
-    - The file's extension is specified within the 'file_name' local variable.
-    - The file's location is specified by the 'directory' local variable.
-    - The file's size is specified by the 'dpi' local variable.
+    Raises:
+        OSError: If the file cannot be moved to the specified directory.
+
+    Example:
+        >>> save_graph('plot.png', 'output/', dpi=300)
+
+    Additional Information:
+        - The file's extension is specified within the `file_name` argument.
+        - The file's location is specified by the `directory` argument.
+        - The file's size is specified by the `dpi` argument.
+        - If the file cannot be moved to the specified directory, an `OSError` is raised.
     """
     plt.savefig(file_name, dpi=dpi)
     try:
         shutil.move(file_name, directory)
-    except:
-        os.remove(directory + '\\' + file_name)
+    except OSError:
+        os.remove(directory + '/' + file_name)
         shutil.move(file_name, directory)
     plt.close()
-    return
 
 
 def create_map(df: pd.DataFrame, directory: str) -> None:
@@ -268,16 +274,26 @@ def count_organizations(df: pd.DataFrame) -> int:
     Counts the number of unique organizations in a DataFrame.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the data.
+        `df (pd.DataFrame)`: The Pandas DataFrame containing the data.
 
     Returns:
-        int: The number of unique organizations.
+        `int`: The number of unique organizations.
 
     Preconditions:
-        - The Pandas DataFrame must contain the column 'Organization External ID'.
+        - The Pandas DataFrame must contain the column `Organization External ID`.
 
-    Notes:
-        - A unique organization is determined by the 'Organization External ID' column.
+    Raises:
+        - `KeyError`: If the `Organization External ID` column is not present in the DataFrame.
+
+    Example:
+        >>> data = pd.DataFrame({'Organization External ID': ['O1', 'O2', 'O2', 'O3', 'O1']})
+        >>> count_organizations(data)
+        3
+
+    Additional Information:
+        - A unique organization is determined by the `Organization External ID` column.
+        - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
+        - Ensure that the DataFrame represents the relevant data and has no missing values in the required column.
     """
     return df['Organization External ID'].nunique()
 
@@ -287,19 +303,33 @@ def count_valid_organizations(df: pd.DataFrame) -> int:
     Counts the number of unique organizations that are both active and approved.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the data.
+        `df (pd.DataFrame)`: The Pandas DataFrame containing the data.
 
     Returns:
-        int: The number of unique organizations that are active and approved.
+        `int`: The number of unique organizations that are active and approved.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns 'Organization External ID', 'Organization Active Status',
-          and 'Organization Approved Status'.
+        - The Pandas DataFrame must contain the columns:
+            - `Organization External ID`
+            - `Organization Active Status`
+            - `Organization Approved Status`
 
-    Notes:
-        - An active and approved organization is determined by the 'Organization Active Status' and
-          'Organization Approved Status' columns.
-        - A unique organization is determined by the 'Organization External ID' column.
+    Raises:
+        - `KeyError`: If any of the required columns are not present in the DataFrame.
+
+    Example:
+        >>> data = pd.DataFrame({'Organization External ID': ['O1', 'O2', 'O2', 'O3', 'O1'],
+                                'Organization Active Status': [True, False, True, True, True],
+                                'Organization Approved Status': [True, True, False, True, True]})
+        >>> count_valid_organizations(data)
+        2
+
+    Additional Information:
+        - An active and approved organization is determined by the `Organization Active Status` and
+          `Organization Approved Status` columns.
+        - A unique organization is determined by the `Organization External ID` column.
+        - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
+        - Ensure that the DataFrame represents the relevant data and has no missing values in the required columns.
     """
     df = df[(df['Organization Active Status'] == True) & (df['Organization Approved Status'] == True)]
     return df['Organization External ID'].nunique()
@@ -310,16 +340,26 @@ def count_locations(df: pd.DataFrame) -> int:
     Counts the number of unique locations in a DataFrame.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the data.
+        `df (pd.DataFrame)`: The Pandas DataFrame containing the data.
 
     Returns:
-        int: The number of unique locations.
+        `int`: The number of unique locations.
 
     Preconditions:
         - The Pandas DataFrame must contain the column 'Location External ID'.
 
-    Notes:
+    Raises:
+        - `KeyError`: If the column 'Location External ID' is not present in the DataFrame.
+
+    Example:
+        >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L2', 'L3', 'L1']})
+        >>> count_locations(data)
+        3
+
+    Additional Information:
         - A unique location is determined by the 'Location External ID' column.
+        - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
+        - Ensure that the DataFrame represents the relevant data and has no missing values in the 'Location External ID' column.
     """
     return df['Location External ID'].nunique()
 
@@ -329,18 +369,36 @@ def count_valid_locations(df: pd.DataFrame) -> int:
     Counts the number of unique locations that are both active and approved.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the data.
+        `df (pd.DataFrame)`: The Pandas DataFrame containing the data.
 
     Returns:
-        int: The number of unique locations that are active and approved.
+        `int`: The number of unique locations that are active and approved.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns 'Location External ID', 'Location Active Status',
-          and 'Location Approved Status'.
+        - The Pandas DataFrame must contain the columns:
+            - `Location External ID`
+            - `Location Active Status`
+            - `Location Approved Status`
 
-    Notes:
+    Raises:
+        - `KeyError`: If any of the required columns (`Location External ID`, `Location Active Status`, `Location Approved Status`)
+          are not present in the DataFrame.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Location External ID': ['L1', 'L2', 'L2', 'L3', 'L1'],
+        ...     'Location Active Status': [True, False, True, True, True],
+        ...     'Location Approved Status': [True, True, False, True, True]
+        ... })
+        >>> count_valid_locations(data)
+        2
+
+    Additional Information:
         - An active and approved location is determined by the 'Location Active Status' and 'Location Approved Status' columns.
         - A unique location is determined by the 'Location External ID' column.
+        - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
+        - Ensure that the 'Location Active Status' and 'Location Approved Status' columns use boolean values (True/False).
+        - For accurate results, make sure the DataFrame represents the relevant data and has no missing values.
     """
     df = df[(df['Location Active Status'] == True) & (df['Location Approved Status'] == True)]
     return df['Location External ID'].nunique()
@@ -412,8 +470,6 @@ def count_valid_programs(df: pd.DataFrame) -> int:
     """
     df = df[(df['Program Active Status'] == True) & (df['Program Approved Status'] == True)]
     return df['Program External ID'].nunique()
-
-
 
 
 
