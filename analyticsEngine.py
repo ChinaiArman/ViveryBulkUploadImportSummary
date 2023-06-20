@@ -679,6 +679,8 @@ if __name__ == "__main__":
         create_program_by_program_dietary_options_table,
         create_location_hours_table,
         create_program_hours_table,
+        create_profile_completion_tiers_table,
+        create_program_category_field_weights,
         create_program_by_program_qualifications_table,
         create_program_by_program_services_table
     ]
