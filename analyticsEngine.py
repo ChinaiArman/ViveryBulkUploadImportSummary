@@ -221,10 +221,35 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     return
 
 
-def create_recommended_program_filters_table(df: pd.DataFrame) -> pd.DataFrame:
+def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
     """
+    Creates a table of recommended program filters.
+
+    Args:
+        `_` (any): Placeholder argument (ignored).
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the recommended program filters.
+
+    Preconditions:
+        - The `recommended_filters.csv` file must exist in the `resources` directory.
+
+    Raises:
+        `pandas.errors.EmptyDataError`: If the CSV is empty.
+
+    Example:
+        >>> create_recommended_program_filters_table(None)
+            Program Audience            Location Features            Program Features           Items Offered           Dietary Options
+        0       Seniors                     Safe Space                  Reservations                Dairy                   Gluten Free
+        1       Immigrants                  Wi-Fi Available             Indoor Service              Eggs                    Vegan
+        2       Youth                                                   Prepared Food               Meat                    Vegetarian
+
+    Additional Information:
+        - The function reads the `recommended_filters.csv` file from the `resources` directory to create the table.
+        - The table includes filter categories and their corresponding filter names.
+        - The placeholder argument `_` is ignored and not used in the function.
     """
-    return
+    return pd.read_csv('resources/recommended_filters.csv')
 
 
 def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
