@@ -20,7 +20,15 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
     Saves the active PyPlot as a file.
 
-    Preconditions
+    Args:
+    - file_name (string): Contains the name for the file to be saved as.
+    - directory (string): Contains the name of the directory for the file to be saved in.
+    - dpi (int): The DPI (resolution) to save the image in.
+
+    Returns:
+    - `None.`
+
+    Preconditions:
     - This function needs a PyPlot to be active.
     - The directory must be a local path.
 
@@ -259,11 +267,17 @@ def count_organizations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations in a DataFrame.
 
+    Args:
+        df (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        int: The number of unique organizations.
+
     Preconditions:
-    - The Pandas DataFrame must contain the column 'Organization External ID'.
+        - The Pandas DataFrame must contain the column 'Organization External ID'.
 
     Notes:
-    - A unique organization is determined by the 'Organization External ID' column.
+        - A unique organization is determined by the 'Organization External ID' column.
     """
     return df['Organization External ID'].nunique()
 
@@ -272,14 +286,22 @@ def count_valid_organizations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique organizations that are both active and approved.
 
+    Args:
+        df (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        int: The number of unique organizations that are active and approved.
+
     Preconditions:
-    - The Pandas DataFrame must contain the columns 'Organization External ID', 'Organization Active Status', and 'Organization Approved Status'.
-    
+        - The Pandas DataFrame must contain the columns 'Organization External ID', 'Organization Active Status',
+          and 'Organization Approved Status'.
+
     Notes:
-    - An active and approved organization is determined by the 'Organization Active Status' and 'Organization Approved Status' columns.
-    - A unique organization is determined by the 'Organization External ID' column.
+        - An active and approved organization is determined by the 'Organization Active Status' and
+          'Organization Approved Status' columns.
+        - A unique organization is determined by the 'Organization External ID' column.
     """
-    df = df[(df['Organization Active Status'] == True) & (df['Organization Approval Status'] == True)]
+    df = df[(df['Organization Active Status'] == True) & (df['Organization Approved Status'] == True)]
     return df['Organization External ID'].nunique()
 
 
@@ -287,11 +309,17 @@ def count_locations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations in a DataFrame.
 
+    Args:
+        df (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        int: The number of unique locations.
+
     Preconditions:
-    - The Pandas DataFrame must contain the column 'Location External ID'.
+        - The Pandas DataFrame must contain the column 'Location External ID'.
 
     Notes:
-    - A unique location is determined by the 'Location External ID' column.
+        - A unique location is determined by the 'Location External ID' column.
     """
     return df['Location External ID'].nunique()
 
@@ -300,14 +328,21 @@ def count_valid_locations(df: pd.DataFrame) -> int:
     """
     Counts the number of unique locations that are both active and approved.
 
+    Args:
+        df (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        int: The number of unique locations that are active and approved.
+
     Preconditions:
-    - The Pandas DataFrame must contain the columns 'Location External ID', 'Location Active Status', and 'Location Approved Status'.
-    
+        - The Pandas DataFrame must contain the columns 'Location External ID', 'Location Active Status',
+          and 'Location Approved Status'.
+
     Notes:
-    - An active and approved location is determined by the 'Location Active Status' and 'Location Approved Status' columns.
-    - A unique location is determined by the 'Location External ID' column.
+        - An active and approved location is determined by the 'Location Active Status' and 'Location Approved Status' columns.
+        - A unique location is determined by the 'Location External ID' column.
     """
-    df = df[(df['Location Active Status'] == True) & (df['Location Approval Status'] == True)]
+    df = df[(df['Location Active Status'] == True) & (df['Location Approved Status'] == True)]
     return df['Location External ID'].nunique()
 
 
@@ -315,11 +350,17 @@ def count_programs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs in a DataFrame.
 
+    Args:
+        df (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        int: The number of unique programs.
+
     Preconditions:
-    - The Pandas DataFrame must contain the column 'Program External ID'.
+        - The Pandas DataFrame must contain the column 'Program External ID'.
 
     Notes:
-    - A unique program is determined by the 'Program External ID' column.
+        - A unique program is determined by the 'Program External ID' column.
     """
     return df['Program External ID'].nunique()
 
@@ -328,14 +369,21 @@ def count_valid_programs(df: pd.DataFrame) -> int:
     """
     Counts the number of unique programs that are both active and approved.
 
+    Args:
+        df (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        int: The number of unique programs that are active and approved.
+
     Preconditions:
-    - The Pandas DataFrame must contain the columns 'Program External ID', 'Program Active Status', and 'Program Approved Status'.
+        - The Pandas DataFrame must contain the columns 'Program External ID', 'Program Active Status',
+          and 'Program Approved Status'.
 
     Notes:
-    - An active and approved program is determined by the 'Program Active Status' and 'Program Approved Status' columns.
-    - A unique program is determined by the 'Program External ID' column.
+        - An active and approved program is determined by the 'Program Active Status' and 'Program Approved Status' columns.
+        - A unique program is determined by the 'Program External ID' column.
     """
-    df = df[(df['Program Active Status'] == True) & (df['Program Approval Status'] == True)]
+    df = df[(df['Program Active Status'] == True) & (df['Program Approved Status'] == True)]
     return df['Program External ID'].nunique()
 
 
