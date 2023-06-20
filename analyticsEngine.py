@@ -21,9 +21,9 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     Saves the active PyPlot as a file.
 
     Args:
-        file_name (str): The name for the file to be saved as.
-        directory (str): The name of the directory for the file to be saved in.
-        dpi (int): The DPI (resolution) to save the image in.
+        `file_name` (str): The name for the file to be saved as.
+        `directory` (str): The name of the directory for the file to be saved in.
+        `dpi` (int): The DPI (resolution) to save the image in.
 
     Returns:
         None.
@@ -33,7 +33,7 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
         - The directory must be a local path.
 
     Raises:
-        OSError: If the file cannot be moved to the specified directory.
+        `OSError`: If the file cannot be moved to the specified directory.
 
     Example:
         >>> save_graph('plot.png', 'output/', dpi=300)
