@@ -255,7 +255,23 @@ def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
 def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    locations = [
+        df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Weekly')]['Location External ID'].nunique(),
+        df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Every Other Week')]['Location External ID'].nunique(),
+        df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Week of Month')]['Location External ID'].nunique(),
+        df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Day of Month')]['Location External ID'].nunique()
+    ]
+    programs = [
+        df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Weekly')]['Program External ID'].nunique(),
+        df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Every Other Week')]['Program External ID'].nunique(),
+        df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Week of Month')]['Program External ID'].nunique(),
+        df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Day of Month')]['Program External ID'].nunique()
+    ]
+    data = {
+        'Location Usage': locations,
+        'Program Usage': programs,
+    }
+    return pd.DataFrame(data, index=['Weekly', 'Every Other Week', 'Week of Month', 'Day of Month'])
 
 
 def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -604,6 +620,7 @@ if __name__ == "__main__":
         create_highest_graded_profiles_table,
         create_lowest_graded_profiles_table,
         create_recommended_program_filters_table,
+        create_hour_type_usage_table,
         create_organization_table,
         create_location_table,
         create_program_table,
