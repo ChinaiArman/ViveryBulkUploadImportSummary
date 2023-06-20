@@ -137,7 +137,27 @@ def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
 def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    active = [
+        df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Organization External ID'].nunique(),
+        df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] == True) & (df['Location Active Status'] == True)]['Location External ID'].nunique(),
+        df[['Program External ID', 'Program Approval Status', 'Program Active Status']].loc[(df['Program Approval Status'] == True) & (df['Program Active Status'] == True)]['Program External ID'].nunique()
+        ]
+    inactive = [
+        df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] != True) | (df['Organization Active Status'] != True)]['Organization External ID'].nunique(),
+        df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] != True) | (df['Location Active Status'] != True)]['Location External ID'].nunique(),
+        df[['Program External ID', 'Program Approval Status', 'Program Active Status']].loc[(df['Program Approval Status'] != True) | (df['Program Active Status'] != True)]['Program External ID'].nunique()
+        ]
+    total = [
+        df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']]['Organization External ID'].nunique(),
+        df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']]['Organization External ID'].nunique(),
+        df[['Program External ID', 'Program Approval Status', 'Program Active Status']]['Program External ID'].nunique()
+        ]
+    data = {
+        'Active': active,
+        'Inactive': inactive,
+        'Total': total
+        }
+    return pd.DataFrame(data, index=['Organizations', 'Locations', 'Programs'])
 
 
 def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -312,7 +332,7 @@ def count_valid_organizations(df: pd.DataFrame) -> int:
         - The Pandas DataFrame must contain the columns:
             - `Organization External ID`
             - `Organization Active Status`
-            - `Organization Approved Status`
+            - `Organization Approval Status`
 
     Raises:
         - `KeyError`: If any of the required columns are not present in the DataFrame.
@@ -320,18 +340,18 @@ def count_valid_organizations(df: pd.DataFrame) -> int:
     Example:
         >>> data = pd.DataFrame({'Organization External ID': ['O1', 'O2', 'O2', 'O3', 'O1'],
                                 'Organization Active Status': [True, False, True, True, True],
-                                'Organization Approved Status': [True, True, False, True, True]})
+                                'Organization Approval Status': [True, True, False, True, True]})
         >>> count_valid_organizations(data)
         2
 
     Additional Information:
         - An active and approved organization is determined by the `Organization Active Status` and
-          `Organization Approved Status` columns.
+          `Organization Approval Status` columns.
         - A unique organization is determined by the `Organization External ID` column.
         - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
         - Ensure that the DataFrame represents the relevant data and has no missing values in the required columns.
     """
-    df = df[(df['Organization Active Status'] == True) & (df['Organization Approved Status'] == True)]
+    df = df[(df['Organization Active Status'] == True) & (df['Organization Approval Status'] == True)]
     return df['Organization External ID'].nunique()
 
 
@@ -378,29 +398,29 @@ def count_valid_locations(df: pd.DataFrame) -> int:
         - The Pandas DataFrame must contain the columns:
             - `Location External ID`
             - `Location Active Status`
-            - `Location Approved Status`
+            - `Location Approval Status`
 
     Raises:
-        - `KeyError`: If any of the required columns (`Location External ID`, `Location Active Status`, `Location Approved Status`)
+        - `KeyError`: If any of the required columns (`Location External ID`, `Location Active Status`, `Location Approval Status`)
           are not present in the DataFrame.
 
     Example:
         >>> data = pd.DataFrame({
         ...     'Location External ID': ['L1', 'L2', 'L2', 'L3', 'L1'],
         ...     'Location Active Status': [True, False, True, True, True],
-        ...     'Location Approved Status': [True, True, False, True, True]
+        ...     'Location Approval Status': [True, True, False, True, True]
         ... })
         >>> count_valid_locations(data)
         2
 
     Additional Information:
-        - An active and approved location is determined by the 'Location Active Status' and 'Location Approved Status' columns.
+        - An active and approved location is determined by the 'Location Active Status' and 'Location Approval Status' columns.
         - A unique location is determined by the 'Location External ID' column.
         - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
-        - Ensure that the 'Location Active Status' and 'Location Approved Status' columns use boolean values (True/False).
+        - Ensure that the 'Location Active Status' and 'Location Approval Status' columns use boolean values (True/False).
         - For accurate results, make sure the DataFrame represents the relevant data and has no missing values.
     """
-    df = df[(df['Location Active Status'] == True) & (df['Location Approved Status'] == True)]
+    df = df[(df['Location Active Status'] == True) & (df['Location Approval Status'] == True)]
     return df['Location External ID'].nunique()
 
 
@@ -446,29 +466,29 @@ def count_valid_programs(df: pd.DataFrame) -> int:
         - The Pandas DataFrame must contain the columns:
             - `Program External ID`
             - `Program Active Status`
-            - `Program Approved Status`
+            - `Program Approval Status`
 
     Raises:
-        - `KeyError`: If any of the required columns (`Program External ID`, `Program Active Status`, `Program Approved Status`)
+        - `KeyError`: If any of the required columns (`Program External ID`, `Program Active Status`, `Program Approval Status`)
           are not present in the DataFrame.
 
     Example:
         >>> data = pd.DataFrame({
         ...     'Program External ID': ['P1', 'P2', 'P2', 'P3', 'P1'],
         ...     'Program Active Status': [True, False, True, True, True],
-        ...     'Program Approved Status': [True, True, False, True, True]
+        ...     'Program Approval Status': [True, True, False, True, True]
         ... })
         >>> count_valid_programs(data)
         2
 
     Additional Information:
-        - An active and approved program is determined by the `Program Active Status` and `Program Approved Status` columns.
+        - An active and approved program is determined by the `Program Active Status` and `Program Approval Status` columns.
         - A unique program is determined by the `Program External ID` column.
         - This function assumes that the provided DataFrame is properly formatted and contains the necessary columns.
-        - Ensure that the `Program Active Status` and `Program Approved Status` columns use boolean values (True/False).
+        - Ensure that the `Program Active Status` and `Program Approval Status` columns use boolean values (True/False).
         - For accurate results, make sure the DataFrame represents the relevant data and has no missing values.
     """
-    df = df[(df['Program Active Status'] == True) & (df['Program Approved Status'] == True)]
+    df = df[(df['Program Active Status'] == True) & (df['Program Approval Status'] == True)]
     return df['Program External ID'].nunique()
 
 
@@ -556,5 +576,5 @@ if __name__ == "__main__":
 
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
-    [print(dataframe.__name__ + ": " + dataframe(df)) for dataframe in valid_dataframe_functions]
+    [print(dataframe(df)) for dataframe in valid_dataframe_functions]
     [print(summation.__name__ + ": " + str(summation(df))) for summation in valid_summation_functions]
