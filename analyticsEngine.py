@@ -254,6 +254,38 @@ def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
 
 def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of hour type usage based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing hour type usage information.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Location External ID`, `Hours Entity Type`, `Frequency`,
+          and `Program External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3', 'L4', 'L5'],
+                                'Hours Entity Type': ['Location', 'Location', 'Location', 'Location', 'Location'],
+                                'Frequency': ['Weekly', 'Every Other Week', 'Week of Month', 'Day of Month', 'Weekly'],
+                                'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5']})
+        >>> create_hour_type_usage_table(data)
+                        Location Usage  Program Usage
+        'Weekly'                     1              1
+        'Every Other Week'           1              1
+        'Week of Month'              1              1
+        'Day of Month'               1              1
+
+    Additional Information:
+        - The function calculates the usage of hour types based on the `Hours Entity Type` and `Frequency` columns in the DataFrame.
+        - The table displays the count of unique `Location External ID` and `Program External ID` for each hour type frequency.
+        - The hour type frequencies are `Weekly`, `Every Other Week`, `Week of Month`, and `Day of Month`.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
     """
     locations = [
         df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Weekly')]['Location External ID'].nunique(),
