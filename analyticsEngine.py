@@ -324,6 +324,18 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
     return
 
 
+def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
+    """
+    """
+    return
+
+
+def create_program_category_field_weights(_: any) -> pd.DataFrame:
+    """
+    """
+    return
+
+
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
