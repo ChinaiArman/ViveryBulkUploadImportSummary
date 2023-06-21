@@ -7,11 +7,14 @@ import pandas as pd                 # Pandas, used to represent CSVs and large d
 import numpy as np                  # NumPy, adds Arrays to python and enables large arithmatic operations.
 import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data sets and create data visualizations.
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
+import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
 
 # LOCAL FILE IMPORTS
 import keys                         # API Key File, used to store the API Keys for the project.
 import text                         # Text, used to store the Text for the report in a Dictionary (JSON) format.
 
+# CONSTANTS
+PROFILE_COMPLETION_GRADES = 'profile_completion_grades.json'
 
 
 
@@ -339,7 +342,10 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    with open(PROFILE_COMPLETION_GRADES) as json_file:
+        data = json.load(json_file)
+    df["Profile Score"] = df.notnull().astype('int').mul(data).sum(axis=1)
+    return df[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max()
 
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -682,7 +688,8 @@ if __name__ == "__main__":
         create_profile_completion_tiers_table,
         create_program_category_field_weights,
         create_program_by_program_qualifications_table,
-        create_program_by_program_services_table
+        create_program_by_program_services_table,
+        create_program_profile_completion_table
     ]
     # Create a list of summation functions
     summation_functions = [
