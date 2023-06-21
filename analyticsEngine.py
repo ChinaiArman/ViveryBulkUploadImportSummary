@@ -216,14 +216,14 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     """
-    """
-    return
+    """ 
+    return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=False).head(5)
 
 
 def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=True).head(5) 
 
 
 def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
@@ -378,10 +378,11 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
+    df2 = df.copy()
     with open(PROFILE_COMPLETION_GRADES) as json_file:
         key = json.load(json_file)
-    df["Profile Score"] = df.notnull().astype('int').mul(key).sum(axis=1)
-    return df[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max()
+    df2["Profile Score"] = df2.notnull().astype('int').mul(key).sum(axis=1)
+    return df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max()
 
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
