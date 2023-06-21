@@ -14,7 +14,9 @@ import keys                         # API Key File, used to store the API Keys f
 import text                         # Text, used to store the Text for the report in a Dictionary (JSON) format.
 
 # CONSTANTS
-PROFILE_COMPLETION_GRADES = 'profile_completion_grades.json'
+PROFILE_COMPLETION_GRADES = 'resources/profile_completion_grades.json'          # Path to Profile Completion Grades Key (JSON)
+RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                       # Path to Recommended Filters (CSV)
+
 
 
 
@@ -252,7 +254,7 @@ def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
         - The table includes filter categories and their corresponding filter names.
         - The placeholder argument `_` is ignored and not used in the function.
     """
-    return pd.read_csv('resources/recommended_filters.csv')
+    return pd.read_csv(RECOMMENDED_FILTERS)
 
 
 def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -341,10 +343,44 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
 
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of program profile completion grades based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing program profile completion grades for each Location.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns 'Location External ID' and any columns needed to calculate the profile completion grades.
+        - The `profile_completion_grades.json` file must exist in the `resources` directory.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
+                                'Location Name': [None, None, 'Good Food'],
+                                'Location ZIP': [715359, None, 136135],
+                                'Hours Entity Type': ['Program', 'Location', 'Location']})
+        >>> create_program_profile_completion_table(data)
+        Location External ID        Profile Score
+                        'L1'                    5
+                        'L2'                    5
+                        'L3'                    8
+
+    Additional Information:
+        - The function calculates the program profile completion score based on the provided DataFrame.
+        - The function checks for if a value is present in each cell, replacing present values with 1 and absent values with zeo.
+        - The function then multiplies the integers by the grade key, and sums the value in each row to calculate the profiles completeness.
+        - The grade key is stored in the resouces folder, which the function reads and uses to determine the weightage for each column.
+        - The table displays the maximum profile score for each location based on the 'Location External ID'.
+        - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
+        - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
     with open(PROFILE_COMPLETION_GRADES) as json_file:
-        data = json.load(json_file)
-    df["Profile Score"] = df.notnull().astype('int').mul(data).sum(axis=1)
+        key = json.load(json_file)
+    df["Profile Score"] = df.notnull().astype('int').mul(key).sum(axis=1)
     return df[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max()
 
 
