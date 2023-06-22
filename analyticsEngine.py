@@ -448,14 +448,14 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
         df (pd.DataFrame): The input DataFrame containing the data.
 
     Returns:
-        pd.DataFrame: A new DataFrame with columns: 'Organization External ID', 'Organization Name',
-        and 'Organization Address 1'.
+        pd.DataFrame: A new DataFrame with columns: `Organization External ID`, `Organization Name`,
+        and `Organization Address 1`.
 
     Preconditions:
         - The input DataFrame `df` should contain the necessary columns:
-            - 'Organization External ID'
-            - 'Organization Name'
-            - 'Organization Address 1'
+            - `Organization External ID`
+            - `Organization Name`
+            - `Organization Address 1`
 
     Raises:
         None.
@@ -473,9 +473,9 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
     Additional Information:
         - The function extracts specific columns related to organizations from the input DataFrame.
         - The selected columns include:
-            - 'Organization External ID': Represents the unique ID of the organization.
-            - 'Organization Name': Represents the name of the organization.
-            - 'Organization Address 1': Represents the first line of the organization's address.
+            - `Organization External ID`: Represents the unique ID of the organization.
+            - `Organization Name`: Represents the name of the organization.
+            - `Organization Address 1`: Represents the first line of the organization's address.
         - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the input DataFrame `df` represents the relevant data and contains the necessary columns.
     """
@@ -493,7 +493,7 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
         `pd.DataFrame`: A DataFrame containing the location information.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns 'Location External ID', 'Location Name', and 'Location Address 1'.
+        - The Pandas DataFrame must contain the columns `Location External ID`, `Location Name`, and `Location Address 1`.
 
     Raises:
         None.
@@ -510,8 +510,8 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function extracts the specified columns from the provided DataFrame to create a location table.
-        - The columns 'Location External ID', 'Location Name', and 'Location Address 1' are required to be present in the DataFrame.
-        - The table displays the location external ID, name, and address for each location.
+        - The columns `Location External ID`, `Location Name`, and `Location Address 1` are required to be present in the DataFrame.
+        - The table displays the `Location External ID`, `Name`, and `Address` for each location.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location data.
     """
     return df[['Location External ID', 'Location Name', 'Location Address 1']]
@@ -528,7 +528,7 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         `pd.DataFrame`: A DataFrame containing the program information.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns 'Program External ID' and 'Program Name'.
+        - The Pandas DataFrame must contain the columns `Program External ID` and `Program Name`.
 
     Raises:
         None.
@@ -544,8 +544,8 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function extracts the specified columns from the provided DataFrame to create a program table.
-        - The columns 'Program External ID' and 'Program Name' are required to be present in the DataFrame.
-        - The table displays the program external ID and name for each program.
+        - The columns `Program External ID` and `Program Name` are required to be present in the DataFrame.
+        - The table displays the `Program External ID` and name for each program.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
     """
     return df[['Program External ID', 'Program Name']]
@@ -553,6 +553,36 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
     """
+    Creates a table of profile completion tiers.
+
+    Args:
+        `_` (any): This parameter is not used and can be ignored.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the profile completion tiers.
+
+    Preconditions:
+        - The global variable `PROFILE_COMPLETION_TIERS` must be defined and contain the path to the `profile_completion_tiers.csv` file.
+
+    Raises:
+        None.
+
+    Example:
+        >>> create_profile_completion_tiers_table(None)
+            Tier            Min     Max
+        0   Basic            0      20
+        1   Quality         21      35
+        2   Exceptional     36
+
+    Additional Information:
+        - The function returns a predefined table of profile completion tiers.
+        - The tiers are categorized based on the score range.
+        - The table contains three columns: `Tier`, `Min`, `Max`.
+        - Each row represents a profile completion tier with its corresponding score range.
+        - The tiers are defined as `Basic`, `Quality`, and `Exceptional`.
+        - This function does not require any input data or parameters.
+        - The `PROFILE_COMPLETION_TIERS` variable is a global variable that should be defined in the code
+          and should contain the path to the `profile_completion_tiers.csv` file.
     """
     return PROFILE_COMPLETION_TIERS
 
@@ -596,7 +626,7 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - The function calculates the program profile completion score based on the provided DataFrame.
         - The function checks for if a value is present in each cell, replacing present values with 1 and absent values with zeo.
         - The function then multiplies the integers by the grade key, and sums the value in each row to calculate the profiles completeness.
-        - The grade key is stored in weights.py, which the function uses to determine the weightage for each column.
+        - The grade key is stored in `resources/weights.json`, which the function uses to determine the weightage for each column.
         - The table displays the maximum profile score for each location based on the 'Location External ID'.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - For an accurate calculation, ensure all columns are present in the DataFrame. 
