@@ -20,7 +20,7 @@ RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                   # Pa
 
 
 
-# GRAPHS
+# HELPERS
 def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
     Saves the active PyPlot as a file.
@@ -58,6 +58,21 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     plt.close()
 
 
+def save_text(directory: str) -> None:
+    """
+    """
+    pass
+
+
+def save_weights(directory: str) -> None:
+    """
+    """
+    pass
+
+
+
+
+# GRAPHS
 def create_map(df: pd.DataFrame, directory: str) -> None:
     """
     """
