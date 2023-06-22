@@ -12,10 +12,10 @@ import json                         # JSON, used to parse JSON files and convert
 # LOCAL FILE IMPORTS
 import keys                         # API Key File, used to store the API Keys for the project.
 import text                         # Text, used to store the Text for the report in a Dictionary (JSON) format.
+import weights                      # Weights, used to store the weight of each column for the profile completion grades in a Dictionary (JSON) format.   
 
 # CONSTANTS
-PROFILE_COMPLETION_GRADES = 'resources/profile_completion_grades.json'          # Path to Profile Completion Grades Key (JSON)
-RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                       # Path to Recommended Filters (CSV)
+RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                   # Path to Recommended Filters (CSV)
 
 
 
@@ -216,12 +216,78 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of the highest graded program profiles based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the highest graded program profiles.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the necessary columns to calculate program profile completion, as required by the `create_program_profile_completion_table` function.
+        - Weights.py file must be present in the working directory to access the completion weight for each column.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
+                                'Location Name': [None, None, 'Good Food'],
+                                'Location ZIP': [715359, None, 136135],
+                                'Hours Entity Type': ['Program', 'Location', 'Location']})
+        >>> create_program_profile_completion_table(data)
+        Location External ID        Profile Score
+                        'L3'                    8
+                        'L1'                    5
+                        'L2'                    5
+
+    Additional Information:
+        - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
+        - It then sorts the resulting table in descending order of the profile scores.
+        - The table displays the top 5 highest graded program profiles based on the 'Profile Score' column.
+        - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
+        - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """ 
     return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=False).head(5)
 
 
 def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of the lowest graded program profiles based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the lowest graded program profiles.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the necessary columns to calculate program profile completion, as required by the `create_program_profile_completion_table` function.
+        - Weights.py file must be present in the working directory to access the completion weight for each column.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
+                                'Location Name': [None, None, 'Good Food'],
+                                'Location ZIP': [715359, None, 136135],
+                                'Hours Entity Type': ['Program', 'Location', 'Location']})
+        >>> create_program_profile_completion_table(data)
+        Location External ID        Profile Score
+                        'L1'                    5
+                        'L2'                    5
+                        'L3'                    8
+
+    Additional Information:
+        - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
+        - It then sorts the resulting table in descending order of the profile scores.
+        - The table displays the 5 lowest graded program profiles based on the 'Profile Score' column.
+        - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
+        - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
     return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=True).head(5) 
 
@@ -353,7 +419,7 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Preconditions:
         - The Pandas DataFrame must contain the columns 'Location External ID' and any columns needed to calculate the profile completion grades.
-        - The `profile_completion_grades.json` file must exist in the `resources` directory.
+        - Weights.py file must be present in the working directory to access the completion weight for each column.
 
     Raises:
         None.
@@ -373,15 +439,13 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - The function calculates the program profile completion score based on the provided DataFrame.
         - The function checks for if a value is present in each cell, replacing present values with 1 and absent values with zeo.
         - The function then multiplies the integers by the grade key, and sums the value in each row to calculate the profiles completeness.
-        - The grade key is stored in the resouces folder, which the function reads and uses to determine the weightage for each column.
+        - The grade key is stored in weights.py, which the function uses to determine the weightage for each column.
         - The table displays the maximum profile score for each location based on the 'Location External ID'.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
     df2 = df.copy()
-    with open(PROFILE_COMPLETION_GRADES) as json_file:
-        key = json.load(json_file)
-    df2["Profile Score"] = df2.notnull().astype('int').mul(key).sum(axis=1)
+    df2["Profile Score"] = df2.notnull().astype('int').mul(weights.WEIGHTS).sum(axis=1)
     return df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max()
 
 
