@@ -10,12 +10,13 @@ import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Ma
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
 
 # LOCAL FILE IMPORTS
-import keys                         # API Key File, used to store the API Keys for the project.
-import text                         # Text, used to store the Text for the report in a Dictionary (JSON) format.
-import weights                      # Weights, used to store the weight of each column for the profile completion grades in a Dictionary (JSON) format.   
+
 
 # CONSTANTS
-RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                   # Path to Recommended Filters (CSV)
+from keys import PK, SK                                                     # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
+from text import TEXT                                                       # TEXT, used for all of the text in the PDF report; stored in the text storage file, 'text'.
+from weights import WEIGHTS                                                 # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the weight storage file, 'weights'.
+RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                   # Path to Recommended Filters (CSV).
 
 
 
@@ -464,7 +465,7 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
     df2 = df.copy()
-    df2["Profile Score"] = df2.notnull().astype('int').mul(weights.WEIGHTS).sum(axis=1)
+    df2["Profile Score"] = df2.notnull().astype('int').mul(WEIGHTS).sum(axis=1)
     return df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max().reset_index()
 
 

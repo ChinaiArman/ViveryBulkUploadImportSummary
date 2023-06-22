@@ -11,9 +11,9 @@ import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Ma
 
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
-import text as txt                  # Text, used to store the Text for the report in a Dictionary (JSON) format.
 
 # CONSTANTS
+from text import TEXT               # TEXT, used for all of the text in the PDF report; stored in the text storage file, 'text'.
 
 
 
