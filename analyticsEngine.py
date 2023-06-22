@@ -519,6 +519,34 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of programs based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program information.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns 'Program External ID' and 'Program Name'.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Program External ID': ['P1', 'P2', 'P3'],
+        ...                     'Program Name': ['Program 1', 'Program 2', 'Program 3']})
+        >>> create_program_table(data)
+          Program External ID Program Name
+        0                  P1   Program 1
+        1                  P2   Program 2
+        2                  P3   Program 3
+
+    Additional Information:
+        - The function extracts the specified columns from the provided DataFrame to create a program table.
+        - The columns 'Program External ID' and 'Program Name' are required to be present in the DataFrame.
+        - The table displays the program external ID and name for each program.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
     """
     return df[['Program External ID', 'Program Name']]
 
