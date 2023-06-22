@@ -589,6 +589,35 @@ def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
 
 def create_program_category_field_weights(_: any) -> pd.DataFrame:
     """
+    Creates a table of program category field weights.
+
+    Args:
+        `_` (any): This parameter is not used and can be ignored.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program category field weights.
+
+    Preconditions:
+        - The global variable `WEIGHTS` must be defined and contain the field weights.
+        - `weights.json` file must be present in the working directory's `resource` folder to access the completion weight for each column.
+
+    Raises:
+        None.
+
+    Example:
+        >>> create_program_category_field_weights(None)
+                        Columns         Weight
+        0   Program Contact Phone            1
+        1   Program Contact Phone Ext        0
+        2   Program Contact Email            1
+
+    Additional Information:
+        - The function returns a table of program category field weights.
+        - The field weights are defined in the global variable `WEIGHTS`.
+        - The table contains two columns: `Columns` and `Weight`.
+        - Each row represents a program category field with its corresponding weight.
+        - The `WEIGHTS` variable is a global variable that should be defined in the code from the `weights.json` file stored in the `resources` folder.
+        - This function does not require any input data or parameters.
     """
     df = pd.DataFrame.from_dict(WEIGHTS, orient='index')
     return df.reset_index().rename(columns={'index': 'Columns', 0: 'Weight'})
@@ -605,8 +634,9 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         `pd.DataFrame`: A DataFrame containing program profile completion grades for each Location.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns 'Location External ID' and any columns needed to calculate the profile completion grades.
-        - Weights.py file must be present in the working directory to access the completion weight for each column.
+        - The Pandas DataFrame must contain the columns `Location External ID` and any columns needed to calculate the profile completion grades.
+        - The global variable `WEIGHTS` must be defined and contain the field weights.
+        - `weights.json` file must be present in the working directory's `resource` folder to access the completion weight for each column.
 
     Raises:
         None.
@@ -627,7 +657,7 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - The function checks for if a value is present in each cell, replacing present values with 1 and absent values with zeo.
         - The function then multiplies the integers by the grade key, and sums the value in each row to calculate the profiles completeness.
         - The grade key is stored in `resources/weights.json`, which the function uses to determine the weightage for each column.
-        - The table displays the maximum profile score for each location based on the 'Location External ID'.
+        - The table displays the maximum profile score for each location based on the `Location External ID`.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
