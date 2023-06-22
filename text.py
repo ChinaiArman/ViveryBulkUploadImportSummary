@@ -1,156 +1,157 @@
 """
 """
 
+TEXT = {
 
-TITLE_PAGE = {
-    "title": "",
-}
+    "TITLE PAGE": {
+        "title": "",
+    },
 
-TABLE_OF_CONTENTS = {
-    "title": "",
-}
+    "TABLE OF CONTENTS": {
+        "title": "",
+    },
 
-LOCATION_MAP = {
-    "title": "",
-}
+    "LOCATION MAP": {
+        "title": "",
+    },
 
-NETWORK_OVERVIEW = {
-    "title": "",
-}
+    "NETWORK OVERVIEW": {
+        "title": "",
+    },
 
-PROFILE_COMPLETENESS = {
-    "title": "",
-}
+    "PROFILE COMPLETENESS": {
+        "title": "",
+    },
 
-HIGH_LOW_PROFILE_GRADES = {
-    "title": "",
-}
+    "HIGH LOW PROFILE GRADES": {
+        "title": "",
+    },
 
-VIVERY_CONTACT_INFORMATION = {
-    "title": "",
-}
+    "VIVERY CONTACT INFORMATION": {
+        "title": "",
+    },
 
-PUBLIC_CONTACT_INFORMATION = {
-    "title": "",
-}
+    "PUBLIC CONTACT INFORMATION": {
+        "title": "",
+    },
 
-PROGRAM_TYPES = {
-    "title": "",
-}
+    "PROGRAM TYPES": {
+        "title": "",
+    },
 
-PROGRAM_FILTER_FIELDS = {
-    "title": "",
-}
+    "PROGRAM FILTER FIELDS": {
+        "title": "",
+    },
 
-RECOMMENDED_PROGRAM_FILTER_OPTIONS = {
-    "title": "",
-}
+    "RECOMMENDED PROGRAM FILTER OPTIONS": {
+        "title": "",
+    },
 
-NETWORK_HOURS_OVERVIEW = {
-    "title": "",
-}
+    "NETWORK HOURS OVERVIEW": {
+        "title": "",
+    },
 
-NETWORK_HOUR_TYPE_USAGE = {
-    "title": "",
-}
+    "NETWORK HOUR TYPE USAGE": {
+        "title": "",
+    },
 
-LOCATION_HOURS_PREVIEW = {
-    "title": "",
-}
+    "LOCATION HOURS PREVIEW": {
+        "title": "",
+    },
 
-PROGRAM_HOURS_PREVIEW = {
-    "title": "",
-}
+    "PROGRAM HOURS PREVIEW": {
+        "title": "",
+    },
 
-MISSING_PROGRAM_QUALIFICATIONS = {
-    "title": "",
-}
+    "MISSING PROGRAM QUALIFICATIONS": {
+        "title": "",
+    },
 
-MISSING_PROGRAM_SERVICE_AREA = {
-    "title": "",
-}
+    "MISSING PROGRAM SERVICE AREA": {
+        "title": "",
+    },
 
-EXAMPLE_PROFILE_PREVIEW = {
-    "title": "",
-}
+    "EXAMPLE PROFILE PREVIEW": {
+        "title": "",
+    },
 
-APPENDIX_ORGANIZATION_LIST = {
-    "title": "",
-}
+    "APPENDIX ORGANIZATION LIST": {
+        "title": "",
+    },
 
-APPENDIX_LOCATION_LIST = {
-    "title": "",
-}
+    "APPENDIX LOCATION LIST": {
+        "title": "",
+    },
 
+    "APPENDIX PROGRAM LIST": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_LIST = {
-    "title": "",
-}
+    "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_PROFILE_COMPLETION_TIERS = {
-    "title": "",
-}
+    "APPENDIX PROGRAM CATEGORY FIELD WEIGHTS": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_CATEGORY_FIELD_WEIGHTS = {
-    "title": "",
-}
+    "APPENDIX PROGRAM PROFILE COMPLETION LIST": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_PROFILE_COMPLETION_LIST = {
-    "title": "",
-}
+    "APPENDIX ORGANIZATION CONTACT INFORMATION": {
+        "title": "",
+    },
 
-APPENDIX_ORGANIZATION_CONTACT_INFORMATION = {
-    "title": "",
-}
+    "APPENDIX LOCATION CONTACT INFORMATION": {
+        "title": "",
+    },
 
-APPENDIX_LOCATION_CONTACT_INFORMATION = {
-    "title": "",
-}
+    "APPENDIX PROGRAM CONTACT INFORMATION": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_CONTACT_INFORMATION = {
-    "title": "",
-}
+    "APPENDIX PROGRAM TYPE": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_TYPE = {
-    "title": "",
-}
+    "APPENDIX PROGRAM AUDIENCE": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_AUDIENCE = {
-    "title": "",
-}
+    "APPENDIX PROGRAM LANGUAGES SPOKEN": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_LANGUAGES_SPOKEN = {
-    "title": "",
-}
+    "APPENDIX PROGRAM FEATURES": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_FEATURES = {
-    "title": "",
-}
+    "APPENDIX PROGRAM ITEMS OFFERED": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_ITEMS_OFFERED = {
-    "title": "",
-}
+    "APPENDIX PROGRAM DIETARY OPTIONS": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_DIETARY_OPTIONS = {
-    "title": "",
-}
+    "APPENDIX PROGRAM FILTERS AVAILABLE": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_FILTERS_AVAILABLE = {
-    "title": "",
-}
+    "APPENDIX LOCATION HOURS INFORMATION": {
+        "title": "",
+    },
 
-APPENDIX_LOCATION_HOURS_INFORMATION = {
-    "title": "",
-}
+    "APPENDIX PROGRAM HOURS INFORMATION": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_HOURS_INFORMATION = {
-    "title": "",
-}
+    "APPENDIX PROGRAM QUALIFICATIONS": {
+        "title": "",
+    },
 
-APPENDIX_PROGRAM_QUALIFICATIONS = {
-    "title": "",
-}
-
-APPENDIX_PROGRAM_SERVICE_AREAS = {
-    "title": "",
+    "APPENDIX PROGRAM SERVICE AREAS": {
+        "title": "",
+    },
 }
