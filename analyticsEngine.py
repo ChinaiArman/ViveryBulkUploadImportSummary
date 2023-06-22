@@ -236,10 +236,10 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Program Active Status': [True, True, True, False, True]
         ... })
         >>> create_network_overview_table(data)
-                      Active  Inactive  Total
-        Organizations       2         1      3
-        Locations           3         2      3
-        Programs            2         1      3
+              Level  Active  Inactive  Total
+        0  Organizations       2         1      3
+        1      Locations       3         2      3
+        2       Programs       2         1      3
 
     Additional Information:
         - The network overview table provides a summary of active, inactive, and total counts
@@ -294,14 +294,14 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Example:
         >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
-                                'Location Name': [None, None, 'Good Food'],
-                                'Location ZIP': [715359, None, 136135],
-                                'Hours Entity Type': ['Program', 'Location', 'Location']})
+        ...                     'Location Name': [None, None, 'Good Food'],
+        ...                     'Location ZIP': [715359, None, 136135],
+        ...                     'Hours Entity Type': ['Program', 'Location', 'Location']})
         >>> create_program_profile_completion_table(data)
-        Location External ID        Profile Score
-                        'L3'                    8
-                        'L1'                    5
-                        'L2'                    5
+          Location External ID  Profile Score
+        0                   L3              8
+        1                   L1              5
+        2                   L2              5
 
     Additional Information:
         - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
@@ -333,14 +333,14 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Example:
         >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
-                                'Location Name': [None, None, 'Good Food'],
-                                'Location ZIP': [715359, None, 136135],
-                                'Hours Entity Type': ['Program', 'Location', 'Location']})
+        ...                     'Location Name': [None, None, 'Good Food'],
+        ...                     'Location ZIP': [715359, None, 136135],
+        ...                     'Hours Entity Type': ['Program', 'Location', 'Location']})
         >>> create_program_profile_completion_table(data)
-        Location External ID        Profile Score
-                        'L1'                    5
-                        'L2'                    5
-                        'L3'                    8
+          Location External ID  Profile Score
+        0                   L1              5
+        1                   L2              5
+        2                   L3              8
 
     Additional Information:
         - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
@@ -407,11 +407,11 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
                                 'Frequency': ['Weekly', 'Every Other Week', 'Week of Month', 'Day of Month', 'Weekly'],
                                 'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5']})
         >>> create_hour_type_usage_table(data)
-                        Location Usage  Program Usage
-        'Weekly'                     1              1
-        'Every Other Week'           1              1
-        'Week of Month'              1              1
-        'Day of Month'               1              1
+            Hour Type   Location Usage  Program Usage
+        0   'Weekly'                     1              1
+        1   'Every Other Week'           1              1
+        2   'Week of Month'              1              1
+        3   'Day of Month'               1              1
 
     Additional Information:
         - The function calculates the usage of hour types based on the `Hours Entity Type` and `Frequency` columns in the DataFrame.
@@ -442,6 +442,42 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a new DataFrame containing selected columns related to organizations.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing the data.
+
+    Returns:
+        pd.DataFrame: A new DataFrame with columns: 'Organization External ID', 'Organization Name',
+        and 'Organization Address 1'.
+
+    Preconditions:
+        - The input DataFrame `df` should contain the necessary columns:
+            - 'Organization External ID'
+            - 'Organization Name'
+            - 'Organization Address 1'
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Organization External ID': ['O1', 'O2', 'O3'],
+                                'Organization Name': ['Org1', 'Org2', 'Org3'],
+                                'Organization Address 1': ['Address1', 'Address2', 'Address3']})
+        >>> create_organization_table(data)
+           Organization External ID Organization Name Organization Address 1
+        0                        O1              Org1               Address1
+        1                        O2              Org2               Address2
+        2                        O3              Org3               Address3
+
+    Additional Information:
+        - The function extracts specific columns related to organizations from the input DataFrame.
+        - The selected columns include:
+            - 'Organization External ID': Represents the unique ID of the organization.
+            - 'Organization Name': Represents the name of the organization.
+            - 'Organization Address 1': Represents the first line of the organization's address.
+        - The function creates a new DataFrame containing only the selected columns.
+        - Ensure that the input DataFrame `df` represents the relevant data and contains the necessary columns.
     """
     return df[['Organization External ID', 'Organization Name', 'Organization Address 1']]
 
@@ -490,14 +526,14 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Example:
         >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
-                                'Location Name': [None, None, 'Good Food'],
-                                'Location ZIP': [715359, None, 136135],
-                                'Hours Entity Type': ['Program', 'Location', 'Location']})
+        ...                     'Location Name': [None, None, 'Good Food'],
+        ...                     'Location ZIP': [715359, None, 136135],
+        ...                     'Hours Entity Type': ['Program', 'Location', 'Location']})
         >>> create_program_profile_completion_table(data)
-        Location External ID        Profile Score
-                        'L1'                    5
-                        'L2'                    5
-                        'L3'                    8
+          Location External ID  Profile Score
+        0                   L1              5
+        1                   L2              5
+        2                   L3              8
 
     Additional Information:
         - The function calculates the program profile completion score based on the provided DataFrame.
