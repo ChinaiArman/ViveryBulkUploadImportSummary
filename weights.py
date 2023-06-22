@@ -1,4 +1,4 @@
-{
+WEIGHTS = {
     "Organization Internal ID": 0,
     "Organization External ID": 0,
     "Organization Name": 0,
