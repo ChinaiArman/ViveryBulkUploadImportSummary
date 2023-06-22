@@ -1,159 +1,154 @@
-"""
-"""
-
-
-TEXT_SAVE_NAME = "text.json"
-TEXT = {
+{
 
     "TITLE PAGE": {
-        "title": "",
+        "title": ""
     },
 
     "TABLE OF CONTENTS": {
-        "title": "",
+        "title": ""
     },
 
     "LOCATION MAP": {
-        "title": "",
+        "title": ""
     },
 
     "NETWORK OVERVIEW": {
-        "title": "",
+        "title": ""
     },
 
     "PROFILE COMPLETENESS": {
-        "title": "",
+        "title": ""
     },
 
     "HIGH LOW PROFILE GRADES": {
-        "title": "",
+        "title": ""
     },
 
     "VIVERY CONTACT INFORMATION": {
-        "title": "",
+        "title": ""
     },
 
     "PUBLIC CONTACT INFORMATION": {
-        "title": "",
+        "title": ""
     },
 
     "PROGRAM TYPES": {
-        "title": "",
+        "title": ""
     },
 
     "PROGRAM FILTER FIELDS": {
-        "title": "",
+        "title": ""
     },
 
     "RECOMMENDED PROGRAM FILTER OPTIONS": {
-        "title": "",
+        "title": ""
     },
 
     "NETWORK HOURS OVERVIEW": {
-        "title": "",
+        "title": ""
     },
 
     "NETWORK HOUR TYPE USAGE": {
-        "title": "",
+        "title": ""
     },
 
     "LOCATION HOURS PREVIEW": {
-        "title": "",
+        "title": ""
     },
 
     "PROGRAM HOURS PREVIEW": {
-        "title": "",
+        "title": ""
     },
 
     "MISSING PROGRAM QUALIFICATIONS": {
-        "title": "",
+        "title": ""
     },
 
     "MISSING PROGRAM SERVICE AREA": {
-        "title": "",
+        "title": ""
     },
 
     "EXAMPLE PROFILE PREVIEW": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX ORGANIZATION LIST": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX LOCATION LIST": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM LIST": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM CATEGORY FIELD WEIGHTS": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION LIST": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX ORGANIZATION CONTACT INFORMATION": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX LOCATION CONTACT INFORMATION": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM CONTACT INFORMATION": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM TYPE": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM AUDIENCE": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM LANGUAGES SPOKEN": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM FEATURES": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM ITEMS OFFERED": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM DIETARY OPTIONS": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM FILTERS AVAILABLE": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX LOCATION HOURS INFORMATION": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM HOURS INFORMATION": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM QUALIFICATIONS": {
-        "title": "",
+        "title": ""
     },
 
     "APPENDIX PROGRAM SERVICE AREAS": {
-        "title": "",
-    },
+        "title": ""
+    }
 }

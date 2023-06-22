@@ -13,12 +13,15 @@ import json                         # JSON, used to parse JSON files and convert
 
 
 # CONSTANTS
-from keys import PK, SK                                                     # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
-from text import TEXT                                                       # TEXT, used for all of the text in the PDF report; stored in the text storage file, 'text'.
-from text import TEXT_SAVE_NAME                                             # TEXT_SAVE_NAME, used to save the text dictionary to JSON after creating a PDF; stored in the text storage file, 'text'.
-from weights import WEIGHTS                                                 # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the weight storage file, 'weights'.
-from weights import WEIGHTS_SAVE_NAME                                       # WEIGHTS_SAVE_NAME, used to save the weight dictionary to JSON after creating a PDF; stored in the weight storage file, 'weights'.
-RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                   # Path to Recommended Filters (CSV).
+from keys import PK, SK                                                         # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
+TEXT_SAVE_NAME = "resources/text.json"                                          # Path to TEXT save file (JSON).
+with open(TEXT_SAVE_NAME) as f:                                      
+    TEXT = json.load(f)                                                         # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
+WEIGHTS_SAVE_NAME = "resources/weights.json"                                    # Path to WEIGHTS save file (JSON).
+with open(WEIGHTS_SAVE_NAME) as f:                                      
+    WEIGHTS = json.load(f)                                                      # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the file, 'resources/weights.json'.
+RECOMMENDED_FILTERS_SAVE_NAME = 'resources/recommended_filters.csv'             # Path to Recommended Filters (CSV).
+RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                # RECOMMENDED_FILTERS, used to store the recommended filters for locations and programs, stored in the file, 'resources/recommended_filters.csv'
 
 
 
@@ -378,7 +381,7 @@ def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
         - The table includes filter categories and their corresponding filter names.
         - The placeholder argument `_` is ignored and not used in the function.
     """
-    return pd.read_csv(RECOMMENDED_FILTERS)
+    return RECOMMENDED_FILTERS
 
 
 def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -885,6 +888,6 @@ if __name__ == "__main__":
     [print(summation.__name__ + ": " + str(summation(df))) for summation in valid_summation_functions]
 
     # Save State
-    save_state(TEXT, TEXT_SAVE_NAME, directory)
-    save_state(WEIGHTS, WEIGHTS_SAVE_NAME, directory)
-    save_state(pd.read_csv(RECOMMENDED_FILTERS), RECOMMENDED_FILTERS.replace('resources/', ''), directory)
+    save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory)
+    save_state(WEIGHTS, WEIGHTS_SAVE_NAME.replace('resources/', ''), directory)
+    save_state(RECOMMENDED_FILTERS, RECOMMENDED_FILTERS_SAVE_NAME.replace('resources/', ''), directory)
