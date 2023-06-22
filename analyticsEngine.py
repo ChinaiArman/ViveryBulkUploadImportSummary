@@ -64,6 +64,38 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
 
 def save_state(data: any, filename: str, directory: str) -> None:
     """
+    Saves the current state of the data in a specified folder.
+
+    Args:
+        `data` (any): The data to be saved. It can be either a dictionary or a Pandas DataFrame.
+        `filename` (str): The name for the file to be saved as.
+        `directory` (str): The name of the directory for the file to be saved in.
+
+    Returns:
+        None.
+
+    Preconditions:
+        - The `data` parameter must be either a dictionary or a Pandas DataFrame.
+        - The `filename` parameter should specify the desired name for the saved file.
+        - The `directory` parameter should specify the target directory for saving the file.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data_dict = {'name': 'John', 'age': 30}
+        >>> save_state(data_dict, 'data.json', 'output/')
+        >>> data_frame = pd.DataFrame({'col1': [1, 2, 3], 'col2': [4, 5, 6]})
+        >>> save_state(data_frame, 'data.csv', 'output/')
+
+    Additional Information:
+        - The function first checks the type of the `data` parameter to determine whether it is a dictionary or a Pandas DataFrame.
+        - If `data` is a dictionary, it is saved as a JSON file with the specified `filename`.
+        - If `data` is a Pandas DataFrame, it is saved as a CSV file with the specified `filename`.
+        - The saved file is then moved to the specified `directory`.
+        - If the file cannot be moved to the specified directory, an attempt is made to remove the existing file in the directory with the same name, and then move the new file to the directory.
+        - Ensure that the `filename` includes the appropriate file extension based on the data type.
+        - Ensure that the `directory` is a valid path for saving the file.
     """
     if type(data) == dict:
         file = open(filename,'w+')
