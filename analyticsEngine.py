@@ -13,13 +13,15 @@ import json                         # JSON, used to parse JSON files and convert
 
 
 # CONSTANTS
-from keys import PK, SK                                                         # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
-TEXT_SAVE_NAME = "resources/text.json"                                          # Path to TEXT save file (JSON).
-with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                             # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
-WEIGHTS_SAVE_NAME = "resources/weights.json"                                    # Path to WEIGHTS save file (JSON).
-with open(WEIGHTS_SAVE_NAME) as file: WEIGHTS = json.load(file)                       # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the file, 'resources/weights.json'.
-RECOMMENDED_FILTERS_SAVE_NAME = 'resources/recommended_filters.csv'             # Path to Recommended Filters (CSV).
-RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                # RECOMMENDED_FILTERS, used to store the recommended filters for locations and programs, stored in the file, 'resources/recommended_filters.csv'
+from keys import PK, SK                                                                 # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
+TEXT_SAVE_NAME = "resources/text.json"                                                  # Path to TEXT save file (JSON).
+with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
+WEIGHTS_SAVE_NAME = "resources/weights.json"                                            # Path to WEIGHTS save file (JSON).
+with open(WEIGHTS_SAVE_NAME) as file: WEIGHTS = json.load(file)                         # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the file, 'resources/weights.json'.
+RECOMMENDED_FILTERS_SAVE_NAME = 'resources/recommended_filters.csv'                     # Path to Recommended Filters (CSV).
+RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                        # RECOMMENDED_FILTERS, used to store the recommended filters for locations and programs, stored in the file, 'resources/recommended_filters.csv'
+PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'           # Path to Profile Completion Tiers (CSV).
+PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)              # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 
 
@@ -441,31 +443,32 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
 def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    return df[['Organization External ID', 'Organization Name', 'Organization Address 1']]
 
 
 def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    return df[['Location External ID', 'Location Name', 'Location Address 1']]
 
 
 def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    return df[['Program External ID', 'Program Name']]
 
 
 def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
     """
     """
-    return
+    return PROFILE_COMPLETION_TIERS
 
 
 def create_program_category_field_weights(_: any) -> pd.DataFrame:
     """
     """
-    return
+    df = pd.DataFrame.from_dict(WEIGHTS, orient='index')
+    return df.reset_index().rename(columns={'index': 'Columns', 0: 'Weight'})
 
 
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -889,3 +892,4 @@ if __name__ == "__main__":
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory)
     save_state(WEIGHTS, WEIGHTS_SAVE_NAME.replace('resources/', ''), directory)
     save_state(RECOMMENDED_FILTERS, RECOMMENDED_FILTERS_SAVE_NAME.replace('resources/', ''), directory)
+    save_state(PROFILE_COMPLETION_TIERS, PROFILE_COMPLETION_TIERS_SAVE_NAME.replace('resources/', ''), directory)
