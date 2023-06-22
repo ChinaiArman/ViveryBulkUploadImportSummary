@@ -484,6 +484,35 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of locations based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the location information.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns 'Location External ID', 'Location Name', and 'Location Address 1'.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
+        ...                     'Location Name': ['Location 1', 'Location 2', 'Location 3'],
+        ...                     'Location Address 1': ['Address 1', 'Address 2', 'Address 3']})
+        >>> create_location_table(data)
+          Location External ID Location Name Location Address 1
+        0                   L1    Location 1           Address 1
+        1                   L2    Location 2           Address 2
+        2                   L3    Location 3           Address 3
+
+    Additional Information:
+        - The function extracts the specified columns from the provided DataFrame to create a location table.
+        - The columns 'Location External ID', 'Location Name', and 'Location Address 1' are required to be present in the DataFrame.
+        - The table displays the location external ID, name, and address for each location.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location data.
     """
     return df[['Location External ID', 'Location Name', 'Location Address 1']]
 
