@@ -191,6 +191,7 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
           `Location Approval Status`, or `Program Approval Status` columns, respectively.
         - The count of unique entities is based on their respective external ID columns.
     """
+    level = ['Organizations', 'Locations', 'Programs']
     active = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Organization External ID'].nunique(),
         df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] == True) & (df['Location Active Status'] == True)]['Location External ID'].nunique(),
@@ -207,11 +208,12 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         df[['Program External ID', 'Program Approval Status', 'Program Active Status']]['Program External ID'].nunique()
         ]
     data = {
+        'Level': level,
         'Active': active,
         'Inactive': inactive,
         'Total': total
         }
-    return pd.DataFrame(data, index=['Organizations', 'Locations', 'Programs'])
+    return pd.DataFrame(data)
 
 
 def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -358,6 +360,7 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         - The hour type frequencies are `Weekly`, `Every Other Week`, `Week of Month`, and `Day of Month`.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
     """
+    hour_type = ['Weekly', 'Every Other Week', 'Week of Month', 'Day of Month']
     locations = [
         df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Weekly')]['Location External ID'].nunique(),
         df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Every Other Week')]['Location External ID'].nunique(),
@@ -371,10 +374,11 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Day of Month')]['Program External ID'].nunique()
     ]
     data = {
+        'Hour Type': hour_type,
         'Location Usage': locations,
         'Program Usage': programs,
     }
-    return pd.DataFrame(data, index=['Weekly', 'Every Other Week', 'Week of Month', 'Day of Month'])
+    return pd.DataFrame(data)
 
 
 def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -446,7 +450,7 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     df2 = df.copy()
     df2["Profile Score"] = df2.notnull().astype('int').mul(weights.WEIGHTS).sum(axis=1)
-    return df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max()
+    return df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max().reset_index()
 
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
