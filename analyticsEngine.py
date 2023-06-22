@@ -15,7 +15,9 @@ import json                         # JSON, used to parse JSON files and convert
 # CONSTANTS
 from keys import PK, SK                                                     # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
 from text import TEXT                                                       # TEXT, used for all of the text in the PDF report; stored in the text storage file, 'text'.
+from text import TEXT_SAVE_NAME                                             # TEXT_SAVE_NAME, used to save the text dictionary to JSON after creating a PDF; stored in the text storage file, 'text'.
 from weights import WEIGHTS                                                 # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the weight storage file, 'weights'.
+from weights import WEIGHTS_SAVE_NAME                                       # WEIGHTS_SAVE_NAME, used to save the weight dictionary to JSON after creating a PDF; stored in the weight storage file, 'weights'.
 RECOMMENDED_FILTERS = 'resources/recommended_filters.csv'                   # Path to Recommended Filters (CSV).
 
 
@@ -57,18 +59,24 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
         os.remove(directory + '/' + file_name)
         shutil.move(file_name, directory)
     plt.close()
+    return
 
 
-def save_text(directory: str) -> None:
+def save_state(data: any, filename: str, directory: str) -> None:
     """
     """
-    pass
-
-
-def save_weights(directory: str) -> None:
-    """
-    """
-    pass
+    if type(data) == dict:
+        file = open(filename,'w+')
+        json.dump(data, file)
+        file.close()
+    elif type(data) == pd.DataFrame:
+        data.to_csv(filename)
+    try:
+        shutil.move(filename, directory)
+    except OSError:
+        os.remove(directory + '/' + filename)
+        shutil.move(filename, directory)
+    return
 
 
 
@@ -843,3 +851,8 @@ if __name__ == "__main__":
     [graph(df, directory) for graph in valid_graphing_functions]
     [print(dataframe(df)) for dataframe in valid_dataframe_functions]
     [print(summation.__name__ + ": " + str(summation(df))) for summation in valid_summation_functions]
+
+    # Save State
+    save_state(TEXT, TEXT_SAVE_NAME, directory)
+    save_state(WEIGHTS, WEIGHTS_SAVE_NAME, directory)
+    save_state(pd.read_csv(RECOMMENDED_FILTERS), RECOMMENDED_FILTERS.replace('resources/', ''), directory)

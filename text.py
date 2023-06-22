@@ -1,6 +1,8 @@
 """
 """
 
+
+TEXT_SAVE_NAME = "text.json"
 TEXT = {
 
     "TITLE PAGE": {

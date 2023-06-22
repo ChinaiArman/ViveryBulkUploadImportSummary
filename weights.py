@@ -1,3 +1,8 @@
+"""
+"""
+
+
+WEIGHTS_SAVE_NAME = "weights.json"
 WEIGHTS = {
     "Organization Internal ID": 0,
     "Organization External ID": 0,
