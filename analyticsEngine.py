@@ -1042,8 +1042,57 @@ def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.Data
 
 def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of location hours based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the location hours data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the location external IDs, hours, day of week, and frequency.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Location External ID`, `Hours Entity Type`, `Hours Open X`, `Hours Closed X`, `Day of Week`, `Frequency`, and `Specific Date`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Location External ID': [1992, 1993, 1992, 1992],
+        ...     'Hours Entity Type': ['Location', 'Location', 'Location', 'Location'],
+        ...     'Hours Open 1': ['9:30', '11:00', '13:00', '17:00'],
+        ...     'Hours Closed 1': ['11:30', '13:00', '15:00', '19:00'],
+        ...     'Day of Week': ['Sunday', '2023-05-13', 'Sunday', 'Sunday'],
+        ...     'Frequency': ['Weekly', 'Date Specific', 'Weekly', 'Weekly'],
+        ...     'Specific Date': [None, None, None, None]
+        ... })
+        >>> create_location_hours_table(data)
+           Location External ID     Hours Entity Type       Hours Open      Hours Closed    Day of Week         Frequency
+        0                  1992             Location             9:30           11:30           Sunday              Weekly
+        1                  1993             Location            11:00           13:00           2023-05-13          Date Specific
+        2                  1992             Location            13:00           15:00           Sunday              Weekly
+        3                  1992             Location            17:00           19:00           Sunday              Weekly
+
+    Additional Information:
+        - The function extracts the relevant columns from the provided DataFrame to create the location hours table.
+        - Rows are filtered based on the conditions: `Hours Entity Type` is `Location` and `Hours Open X` and `Hours Closed X` are not null.
+        - The resulting table includes columns for location external ID, hours open, hours closed, day of week, and frequency.
+        - Duplicate rows are dropped to ensure each set of location hours appears only once in the resulting table.
+        - The `Frequency` column is filled with `Date Specific` for rows where the `Frequency` column is null.
+        - The `Day of Week` column is filled with values from the `Specific Date` column for rows where `Day of Week` is null.
+        - Ensure that the DataFrame contains the necessary columns and represents the relevant location hours data.
     """
-    return
+    location_hours_one = df[['Location External ID', 'Hours Entity Type', 'Hours Open 1', 'Hours Closed 1', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location')  & (df['Hours Open 1'].notna()) & (df['Hours Closed 1'].notna())].rename(columns={'Hours Open 1': 'Hours Open',
+                                                                                                                                                                                                                                      'Hours Closed 1': 'Hours Closed'})
+    location_hours_two = df[['Location External ID', 'Hours Entity Type', 'Hours Open 2', 'Hours Closed 2', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location')  & (df['Hours Open 2'].notna()) & (df['Hours Closed 2'].notna())].rename(columns={'Hours Open 2': 'Hours Open',
+                                                                                                                                                                                                                                      'Hours Closed 2': 'Hours Closed'})
+    location_hours_three = df[['Location External ID', 'Hours Entity Type', 'Hours Open 3', 'Hours Closed 3', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location')  & (df['Hours Open 3'].notna())  & (df['Hours Closed 3'].notna())].rename(columns={'Hours Open 3': 'Hours Open',
+                                                                                                                                                                                                                                      'Hours Closed 3': 'Hours Closed'})
+    location_hours = pd.concat([location_hours_one, location_hours_two, location_hours_three], axis=0).drop_duplicates()
+    location_hours['Frequency'] = location_hours['Frequency'].fillna('Date Specific')
+    location_date_specific = df['Specific Date'].loc[(df['Hours Entity Type'] == 'Location')].dropna().drop_duplicates()
+    location_hours['Day of Week'] = location_hours['Day of Week'].fillna(location_date_specific)
+    return location_hours.reset_index(drop=True)
 
 
 def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
