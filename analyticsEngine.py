@@ -1093,8 +1093,41 @@ def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataF
 
 def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of programs categorized by service area based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program external IDs and their corresponding services.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Program External ID` and `Program Service Area`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        ...     'Program Service Area': ['15913', 'LA County', '13595', 'Greater Chicago Area', 'Greater Vancouver']
+        ... })
+        >>> create_program_by_program_services_table(data)
+            Program External ID         Program Service Area
+        0                   P1                  15913
+        1                   P2                  LA County
+        2                   P3                  13595
+        3                   P4                  Greater Chicago Area
+        4                   P5                  Greater Vancouver
+
+    Additional Information:
+        - The function extracts the columns `Program External ID` and `Program Service Area` from the provided DataFrame.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
+        - The resulting table provides a mapping between program external IDs and their corresponding services.
+        - The service area describes what area neighbors must be in to receive service from the Program.
+        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return
+    return df[['Program External ID', 'Program Service Area']].drop_duplicates()
 
 
 
