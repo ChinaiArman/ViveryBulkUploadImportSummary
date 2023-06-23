@@ -620,7 +620,8 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
         - This function does not require any input data or parameters.
     """
     df = pd.DataFrame.from_dict(WEIGHTS, orient='index')
-    return df.reset_index().rename(columns={'index': 'Columns', 0: 'Weight'})
+    return df.reset_index().rename(columns={'index': 'Columns',
+                                            0: 'Weight'})
 
 
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -773,8 +774,45 @@ def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_program_by_program_type_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of programs grouped by program type based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing programs grouped by program type.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns:
+            - `Program External ID`
+            - `Program Service Category`
+            - `Food Program Category`
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3'],
+        ...     'Program Service Category': ['Food Program', 'Case Management Services', 'Housing Assistance'],
+        ...     'Food Program Category': ['Food Distribution', 'Hot/Cold Meal Program', 'Other']
+        ... })
+        >>> create_program_by_program_type_table(data)
+          Program External ID           Program Type                    Type Specification
+        0                  P1           Food Program                    Food Distribution
+        1                  P2           Case Management Services        Hot/Cold Meal Program
+        2                  P3           Housing Assistance              Other
+
+    Additional Information:
+        - The function groups programs based on their program type, represented by the 'Program Service Category'
+          column, and their type specification, represented by the 'Food Program Category' column.
+        - The resulting table includes the columns 'Program External ID', 'Program Type', and 'Type Specification'.
+        - The function removes any duplicate rows in the resulting table.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
     """
-    return
+    return df[['Program External ID', 'Program Service Category', 'Food Program Category']].drop_duplicates().rename(columns={'Program External ID': 'Program External ID',
+                                                                                                                              'Program Service Category': 'Program Type',
+                                                                                                                              'Food Program Category': 'Type Specification'})
 
 
 def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
