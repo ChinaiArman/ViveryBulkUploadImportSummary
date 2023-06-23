@@ -42,8 +42,9 @@
         "title": ""
     },
 
-    "RECOMMENDED PROGRAM FILTER OPTIONS": {
-        "title": ""
+    "RECOMMENDED FILTER OPTIONS": {
+        "title": "Recommended Filter Options",
+        "columns": ["#", "Program Audience", "Location Features", "Program Features", "Items Offered", "Dietary Options"]
     },
 
     "NETWORK HOURS OVERVIEW": {
@@ -92,11 +93,13 @@
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {
-        "title": ""
+        "title": "Appendix D - Program Profile Completion Tiers",
+        "columns": ["Tier Level", "Minimum", "Maximum"]
     },
 
     "APPENDIX PROGRAM CATEGORY FIELD WEIGHTS": {
-        "title": ""
+        "title": "Appendix E - Program Category Field Weights",
+        "columns": ["Program Field", "Weight"]
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION LIST": {

@@ -310,7 +310,7 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
         - For an accurate calculation, ensure all columns are present in the DataFrame.
-        - Table row headers and column headers are pulled from `text.json`.
+        - Table column headers are pulled from `text.json`.
     """ 
     return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=False).head(5)
 
@@ -350,7 +350,7 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
         - For an accurate calculation, ensure all columns are present in the DataFrame.
-        - Table row headers and column headers are pulled from `text.json`.
+        - Table column headers are pulled from `text.json`.
     """
     return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=True).head(5) 
 
@@ -383,8 +383,11 @@ def create_recommended_filters_slice(_: any) -> pd.DataFrame:
         - The table includes filter categories and their corresponding filter names.
         - The placeholder argument `_` is ignored and not used in the function.
         - This table only returns a slice of the recommended filters.
+        - Table column headers are pulled from `text.json`.
     """
-    return RECOMMENDED_FILTERS.head(5)
+    df = RECOMMENDED_FILTERS.head(5)
+    df.columns = TEXT["RECOMMENDED FILTER OPTIONS"]["columns"]
+    return df
 
 
 def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
@@ -513,8 +516,10 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
         - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the input DataFrame `df` represents the relevant data and contains the necessary columns.
         - Table column headers are pulled from `text.json`.
+        - Values sorted by `Organization External ID` in ascending order.
     """
     df = df[['Organization External ID', 'Organization Name', 'Organization Address 1']].drop_duplicates()
+    df.sort_values(by='Organization External ID', ascending=True)
     df.columns = TEXT["APPENDIX ORGANIZATION LIST"]["columns"]
     return df
 
@@ -551,8 +556,10 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
         - The table displays the `Location External ID`, `Name`, and `Address` for each location.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location data.
         - Table column headers are pulled from `text.json`.
+        - Values sorted by `Location External ID` in ascending order.
     """
     df = df[['Location External ID', 'Location Name', 'Location Address 1']].drop_duplicates()
+    df.sort_values(by='Location External ID', ascending=True)
     df.columns = TEXT["APPENDIX LOCATION LIST"]["columns"]
     return df
 
@@ -588,8 +595,10 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         - The table displays the `Program External ID` and name for each program.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
         - Table column headers are pulled from `text.json`.
+        - Values sorted by `Program External ID` in ascending order.
     """
     df = df[['Program External ID', 'Program Name']].drop_duplicates()
+    df.sort_values(by='Program External ID', ascending=True)
     df.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
     return df
 
@@ -626,8 +635,11 @@ def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
         - This function does not require any input data or parameters.
         - The `PROFILE_COMPLETION_TIERS` variable is a global variable that should be defined in the code
           and should contain the path to the `profile_completion_tiers.csv` file.
+        - Table column headers are pulled from `text.json`.
     """
-    return PROFILE_COMPLETION_TIERS
+    df = PROFILE_COMPLETION_TIERS
+    df.columns = TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["columns"]
+    return df
 
 
 def create_program_category_field_weights(_: any) -> pd.DataFrame:
@@ -663,8 +675,9 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
         - This function does not require any input data or parameters.
     """
     df = pd.DataFrame.from_dict(WEIGHTS, orient='index')
-    return df.reset_index().rename(columns={'index': 'Columns',
-                                            0: 'Weight'})
+    df = df.reset_index()
+    df.columns = TEXT["APPENDIX PROGRAM CATEGORY FIELD WEIGHTS"]["columns"]
+    return df
 
 
 def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
