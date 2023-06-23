@@ -977,11 +977,11 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
 # MAIN
 if __name__ == "__main__":
     # Define console parser
-    parser = argparse.ArgumentParser(description="Create data visualizations for a Pre-Validated file")
+    parser = argparse.ArgumentParser(description="Analyze bulk upload data")
     # Add file argument
     parser.add_argument("file", action="store", help="The file to validate.")
     # Add silent argument
-    parser.add_argument('--silent', action='store', nargs='+', help='Name of visualizations to not generate')
+    parser.add_argument('--silent', action='store', nargs='+', help='Name of functions to not run')
     # Console arguments
     args = parser.parse_args()
     
