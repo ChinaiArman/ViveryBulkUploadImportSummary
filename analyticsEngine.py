@@ -820,10 +820,10 @@ def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
     Creates a table of programs categorized by their program audience groups based on the provided DataFrame.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the program data.
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
 
     Returns:
-        pd.DataFrame: A DataFrame containing the program external IDs and their corresponding program audience groups.
+        `pd.DataFrame`: A DataFrame containing the program external IDs and their corresponding program audience groups.
 
     Preconditions:
         - The Pandas DataFrame must contain the columns `Program External ID` and `Program Audience Groups`.
@@ -834,11 +834,11 @@ def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
     Example:
         >>> data = pd.DataFrame({
         ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
-        ...     'Program Audience Groups': ['Teenagers / Young Adults', 'LGBTQ+', 'LGBTQ+', 'Veterans', 'Homebound']
+        ...     'Program Audience Groups': ['Teenagers / Young Adults;LGBTQ+', 'LGBTQ+', 'LGBTQ+', 'Veterans', 'Homebound']
         ... })
         >>> create_program_by_program_audience_table(data)
           Program External ID       Program Audience Groups
-        0                   P1                      Teenagers / Young Adults
+        0                   P1                      Teenagers / Young Adults;LGBTQ+
         1                   P2                      LGBTQ+
         2                   P3                      LGBTQ+
         3                   P4                      Veterans
@@ -855,8 +855,41 @@ def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of programs categorized by the languages spoken based on the provided DataFrame.
+
+    Args:
+        df (pd.DataFrame): The Pandas DataFrame containing the program data.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the program external IDs and their corresponding languages spoken.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns 'Program External ID' and 'Languages Spoken'.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        ...     'Languages Spoken': ['English', 'Spanish', 'English; Spanish', 'Japanese', 'English; French']
+        ... })
+        >>> create_program_by_program_languages_spoken_table(data)
+          Program External ID   Languages Spoken
+        0                   P1          English
+        1                   P2          Spanish
+        2                   P3          English;Spanish
+        3                   P4          Japanese
+        4                   P5          English;French
+
+    Additional Information:
+        - The function extracts the columns 'Program External ID' and 'Languages Spoken' from the provided DataFrame.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
+        - The resulting table provides a mapping between program external IDs and their corresponding languages spoken.
+        - The languages spoken may be listed as a single language or a combination of multiple languages.
+        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return
+    return df[['Program External ID', 'Languages Spoken']].drop_duplicates()
 
 
 def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
