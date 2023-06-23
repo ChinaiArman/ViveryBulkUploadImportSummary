@@ -1097,8 +1097,57 @@ def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of program hours based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program hours data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program external IDs, hours, day of week, and frequency.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Program External ID`, `Hours Entity Type`, `Hours Open X`, `Hours Closed X`, `Day of Week`, `Frequency`, and `Specific Date`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': [1992, 1993, 1992, 1992],
+        ...     'Hours Entity Type': ['Program', 'Program', 'Program', 'Program'],
+        ...     'Hours Open 1': ['9:30', '11:00', '13:00', '17:00'],
+        ...     'Hours Closed 1': ['11:30', '13:00', '15:00', '19:00'],
+        ...     'Day of Week': ['Sunday', '2023-05-13', 'Sunday', 'Sunday'],
+        ...     'Frequency': ['Weekly', 'Date Specific', 'Weekly', 'Weekly'],
+        ...     'Specific Date': [None, None, None, None]
+        ... })
+        >>> create_program_hours_table(data)
+           Program External ID     Hours Entity Type       Hours Open      Hours Closed    Day of Week         Frequency
+        0                  1992             Program             9:30           11:30           Sunday              Weekly
+        1                  1993             Program            11:00           13:00           2023-05-13          Date Specific
+        2                  1992             Program            13:00           15:00           Sunday              Weekly
+        3                  1992             Program            17:00           19:00           Sunday              Weekly
+
+    Additional Information:
+        - The function extracts the relevant columns from the provided DataFrame to create the program hours table.
+        - Rows are filtered based on the conditions: `Hours Entity Type` is `Program` and `Hours Open X` and `Hours Closed X` are not null.
+        - The resulting table includes columns for program external ID, hours open, hours closed, day of week, and frequency.
+        - Duplicate rows are dropped to ensure each set of program hours appears only once in the resulting table.
+        - The `Frequency` column is filled with `Date Specific` for rows where the `Frequency` column is null.
+        - The `Day of Week` column is filled with values from the `Specific Date` column for rows where `Day of Week` is null.
+        - Ensure that the DataFrame contains the necessary columns and represents the relevant program hours data.
     """
-    return
+    program_hours_one = df[['Program External ID', 'Hours Entity Type', 'Hours Open 1', 'Hours Closed 1', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program')  & (df['Hours Open 1'].notna()) & (df['Hours Closed 1'].notna())].rename(columns={'Hours Open 1': 'Hours Open',
+                                                                                                                                                                                                                                      'Hours Closed 1': 'Hours Closed'})
+    program_hours_two = df[['Program External ID', 'Hours Entity Type', 'Hours Open 2', 'Hours Closed 2', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program')  & (df['Hours Open 2'].notna()) & (df['Hours Closed 2'].notna())].rename(columns={'Hours Open 2': 'Hours Open',
+                                                                                                                                                                                                                                      'Hours Closed 2': 'Hours Closed'})
+    program_hours_three = df[['Program External ID', 'Hours Entity Type', 'Hours Open 3', 'Hours Closed 3', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program')  & (df['Hours Open 3'].notna())  & (df['Hours Closed 3'].notna())].rename(columns={'Hours Open 3': 'Hours Open',
+                                                                                                                                                                                                                                      'Hours Closed 3': 'Hours Closed'})
+    program_hours = pd.concat([program_hours_one, program_hours_two, program_hours_three], axis=0).drop_duplicates()
+    program_hours['Frequency'] = program_hours['Frequency'].fillna('Date Specific')
+    program_date_specific = df['Specific Date'].loc[(df['Hours Entity Type'] == 'Program')].dropna().drop_duplicates()
+    program_hours['Day of Week'] = program_hours['Day of Week'].fillna(program_date_specific)
+    return program_hours.reset_index(drop=True)
 
 
 def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataFrame:
