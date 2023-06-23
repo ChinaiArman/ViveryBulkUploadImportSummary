@@ -385,7 +385,7 @@ def create_recommended_filters_slice(_: any) -> pd.DataFrame:
         - This table only returns a slice of the recommended filters.
         - Table column headers are pulled from `text.json`.
     """
-    df = RECOMMENDED_FILTERS.head(5)
+    df = RECOMMENDED_FILTERS.copy().head(5)
     df.columns = TEXT["RECOMMENDED FILTER OPTIONS"]["columns"]
     return df
 
@@ -418,7 +418,9 @@ def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
         - The table includes filter categories and their corresponding filter names.
         - The placeholder argument `_` is ignored and not used in the function.
     """
-    return RECOMMENDED_FILTERS
+    df = RECOMMENDED_FILTERS.copy()
+    df.columns = TEXT["RECOMMENDED FILTER OPTIONS"]["columns"]
+    return df
 
 
 def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -637,7 +639,7 @@ def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
           and should contain the path to the `profile_completion_tiers.csv` file.
         - Table column headers are pulled from `text.json`.
     """
-    df = PROFILE_COMPLETION_TIERS
+    df = PROFILE_COMPLETION_TIERS.copy()
     df.columns = TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["columns"]
     return df
 
@@ -704,10 +706,10 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         ...                     'Location ZIP': [715359, None, 136135],
         ...                     'Hours Entity Type': ['Program', 'Location', 'Location']})
         >>> create_program_profile_completion_table(data)
-          Location External ID  Profile Score
-        0                   L1              5
-        1                   L2              5
-        2                   L3              8
+          Location External ID  Profile Score   Tier Level
+        0                   L1              5       Basic
+        1                   L2              5       Basic
+        2                   L3              8       Basic
 
     Additional Information:
         - The function calculates the program profile completion score based on the provided DataFrame.
@@ -716,11 +718,17 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - The grade key is stored in `resources/weights.json`, which the function uses to determine the weightage for each column.
         - The table displays the maximum profile score for each location based on the `Location External ID`.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
+        - The score calculated then determines the Tier Level displayed
+            - >= 36 --> Exceptional
+            - >= 21 --> Quality
+            - <= 20 --> Basic
         - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
     df2 = df.copy()
     df2["Profile Score"] = df2.notnull().astype('int').mul(WEIGHTS).sum(axis=1)
-    return df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max().reset_index()
+    df2 = df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max().reset_index()
+    df2["Tier Level"] = df2["Profile Score"].apply(lambda score: PROFILE_COMPLETION_TIERS["Tier"][2] if score >= 36 else PROFILE_COMPLETION_TIERS["Tier"][1] if score >= 21 else PROFILE_COMPLETION_TIERS["Tier"][0])
+    return df2.sort_values(by='Profile Score', ascending=False)
 
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:

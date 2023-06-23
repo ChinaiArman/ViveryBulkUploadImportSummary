@@ -103,7 +103,8 @@
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION LIST": {
-        "title": ""
+        "title": "Appendix F - Program Profile Completion List",
+        "columns": ["Program ID", "Points Earned", "Tier Level"]
     },
 
     "APPENDIX ORGANIZATION CONTACT INFORMATION": {
