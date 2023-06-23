@@ -353,6 +353,38 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=True).head(5) 
 
 
+def create_recommended_filters_slice(_: any) -> pd.DataFrame:
+    """
+    Creates a table of recommended program filters and returns the top 5 results.
+
+    Args:
+        `_` (any): Placeholder argument (ignored).
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the recommended program filters.
+
+    Preconditions:
+        - The `recommended_filters.csv` file must exist in the `resources` directory.
+
+    Raises:
+        `pandas.errors.EmptyDataError`: If the CSV is empty.
+
+    Example:
+        >>> create_recommended_program_filters_table(None)
+            Program Audience            Location Features            Program Features           Items Offered           Dietary Options
+        0       Seniors                     Safe Space                  Reservations                Dairy                   Gluten Free
+        1       Immigrants                  Wi-Fi Available             Indoor Service              Eggs                    Vegan
+        2       Youth                                                   Prepared Food               Meat                    Vegetarian
+
+    Additional Information:
+        - The function reads the `recommended_filters.csv` file from the `resources` directory to create the table.
+        - The table includes filter categories and their corresponding filter names.
+        - The placeholder argument `_` is ignored and not used in the function.
+        - This table only returns a slice of the recommended filters.
+    """
+    return RECOMMENDED_FILTERS.head(5)
+
+
 def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
     """
     Creates a table of recommended program filters.
@@ -1076,6 +1108,7 @@ if __name__ == "__main__":
         create_highest_graded_profiles_table,
         create_lowest_graded_profiles_table,
         create_recommended_program_filters_table,
+        create_recommended_filters_slice,
         create_hour_type_usage_table,
         create_organization_table,
         create_location_table,
