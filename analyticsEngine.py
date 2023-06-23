@@ -932,12 +932,6 @@ def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFrame:
     """
-    """
-    return
-
-
-def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.DataFrame:
-    """
     Creates a table of programs categorized by dietary options based on the provided DataFrame.
 
     Args:
@@ -973,6 +967,45 @@ def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.Data
         - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
     return df[['Program External ID', 'Items Offered']].drop_duplicates()
+
+
+def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Creates a table of programs categorized by dietary options based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program external IDs and their corresponding dietary options.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Program External ID` and `Dietary Options Available`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        ...     'Dietary Options Available': ['Gluten Free', 'Vegan', 'Halal', 'Vegetarian', 'Other']
+        ... })
+        >>> create_program_by_program_dietary_options_table(data)
+            Program External ID         Dietary Options Available
+        0                   P1                          Gluten Free
+        1                   P2                          Vegan
+        2                   P3                          Halal
+        3                   P4                          Vegetarian
+        4                   P5                          Other
+
+    Additional Information:
+        - The function extracts the columns `Program External ID` and `Dietary Options Available` from the provided DataFrame.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
+        - The resulting table provides a mapping between program external IDs and their corresponding dietary options.
+        - The dietary options may include categories such as vegetarian, vegan, gluten-free, etc.
+        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+    """
+    return df[['Program External ID', 'Dietary Options Available']].drop_duplicates()
 
 
 def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
