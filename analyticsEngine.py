@@ -312,7 +312,7 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - For an accurate calculation, ensure all columns are present in the DataFrame.
         - Table column headers are pulled from `text.json`.
     """ 
-    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False).head(5)
+    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False).head(5).reset_index(drop=True)
 
 
 def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -352,7 +352,7 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - For an accurate calculation, ensure all columns are present in the DataFrame.
         - Table column headers are pulled from `text.json`.
     """
-    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=True).head(5) 
+    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=True).head(5).reset_index(drop=True)
 
 
 def create_recommended_filters_slice(_: any) -> pd.DataFrame:
@@ -523,7 +523,7 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
     df = df[['Organization External ID', 'Organization Name', 'Organization Address 1']].drop_duplicates()
     df.sort_values(by='Organization External ID', ascending=True)
     df.columns = TEXT["APPENDIX ORGANIZATION LIST"]["columns"]
-    return df
+    return df.reset_index(drop=True)
 
 
 def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -563,7 +563,7 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
     df = df[['Location External ID', 'Location Name', 'Location Address 1']].drop_duplicates()
     df.sort_values(by='Location External ID', ascending=True)
     df.columns = TEXT["APPENDIX LOCATION LIST"]["columns"]
-    return df
+    return df.reset_index(drop=True)
 
 
 def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -602,7 +602,7 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
     df = df[['Program External ID', 'Program Name']].drop_duplicates()
     df.sort_values(by='Program External ID', ascending=True)
     df.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
-    return df
+    return df.reset_index(drop=True)
 
 
 def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
@@ -729,9 +729,10 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
     df2["Profile Score"] = df2.notnull().astype('int').mul(WEIGHTS).sum(axis=1)
     df2 = df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max().reset_index()
     df2["Tier Level"] = df2["Profile Score"].apply(lambda score: PROFILE_COMPLETION_TIERS["Tier"][2] if score >= 36 else PROFILE_COMPLETION_TIERS["Tier"][1] if score >= 21 else PROFILE_COMPLETION_TIERS["Tier"][0])
+    print(df2)
     df2.columns = TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"]
     df2 = df2.sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False)
-    return df2
+    return df2.reset_index(drop=True)
 
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -772,8 +773,12 @@ def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFr
         - The table includes the columns: `Organization External ID`, `Organization Contact Name`,
           `Organization Contact Email`, and `Organization Contact Phone`.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
+        - Table column headers are pulled from `text.json`.
     """
-    return df[['Organization External ID', 'Organization Contact Name', 'Organization Contact Email', 'Organization Contact Phone']].drop_duplicates()
+    df = df[['Organization External ID', 'Organization Contact Name', 'Organization Contact Email', 'Organization Contact Phone']].drop_duplicates()
+    df.sort_values(by='Organization External ID', ascending=True)
+    df.columns = TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"]
+    return df.reset_index(drop=True)
 
 
 def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:

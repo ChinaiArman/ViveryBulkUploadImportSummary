@@ -108,7 +108,8 @@
     },
 
     "APPENDIX ORGANIZATION CONTACT INFORMATION": {
-        "title": ""
+        "title": "Appendix G - Organization Contact Information",
+        "columns": ["Organization ID", "Name", "Email", "Phone"]
     },
 
     "APPENDIX LOCATION CONTACT INFORMATION": {
