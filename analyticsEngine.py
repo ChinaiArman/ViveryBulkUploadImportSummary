@@ -521,8 +521,8 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
         - Values sorted by `Organization External ID` in ascending order.
     """
     df = df[['Organization External ID', 'Organization Name', 'Organization Address 1']].drop_duplicates()
-    df.sort_values(by='Organization External ID', ascending=True)
     df.columns = TEXT["APPENDIX ORGANIZATION LIST"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX ORGANIZATION LIST"]["columns"][0], ascending=True)
     return df.reset_index(drop=True)
 
 
@@ -561,8 +561,8 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
         - Values sorted by `Location External ID` in ascending order.
     """
     df = df[['Location External ID', 'Location Name', 'Location Address 1']].drop_duplicates()
-    df.sort_values(by='Location External ID', ascending=True)
     df.columns = TEXT["APPENDIX LOCATION LIST"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX LOCATION LIST"]["columns"][0], ascending=True)
     return df.reset_index(drop=True)
 
 
@@ -600,8 +600,8 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         - Values sorted by `Program External ID` in ascending order.
     """
     df = df[['Program External ID', 'Program Name']].drop_duplicates()
-    df.sort_values(by='Program External ID', ascending=True)
     df.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX PROGRAM LIST"]["columns"][0], ascending=True)
     return df.reset_index(drop=True)
 
 
@@ -776,15 +776,52 @@ def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFr
         - Table column headers are pulled from `text.json`.
     """
     df = df[['Organization External ID', 'Organization Contact Name', 'Organization Contact Email', 'Organization Contact Phone']].drop_duplicates()
-    df.sort_values(by='Organization External ID', ascending=True)
     df.columns = TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][0], ascending=True)
     return df.reset_index(drop=True)
 
 
 def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of location contact information based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the location data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the location contact information.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Location External ID`, `Location Contact Name`,
+          `Location Contact Email`, `Location Contact Phone`, and `Location Website`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
+                                'Location Contact Name': ['John Doe', 'Jane Smith', 'Mark Johnson'],
+                                'Location Contact Email': ['john@example.com', 'jane@example.com', 'mark@example.com'],
+                                'Location Contact Phone': ['123456789', '987654321', '456123789'],
+                                'Location Website': ['www.location1.com', 'www.location2.com', 'www.location3.com']})
+        >>> create_location_contact_information_table(data)
+          Location External ID Location Contact Name Location Contact Email Location Contact Phone    Location Website
+        0                   L1              John Doe      john@example.com              123456789  www.location1.com
+        1                   L2           Jane Smith      jane@example.com              987654321  www.location2.com
+        2                   L3         Mark Johnson      mark@example.com              456123789  www.location3.com
+
+    Additional Information:
+        - The function extracts the relevant columns from the DataFrame: `Location External ID`,
+          `Location Contact Name`, `Location Contact Email`, `Location Contact Phone`, and `Location Website`.
+        - The resulting DataFrame is sorted in ascending order based on the first column name specified in
+          the `APPENDIX LOCATION CONTACT INFORMATION` section.
+        - Table column headers are pulled from `text.json`. 
     """
-    return df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone', 'Location Website']].drop_duplicates()
+    df = df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone', 'Location Website']].drop_duplicates()
+    df.columns = TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][0], ascending=True)
+    return df.reset_index(drop=True)
+    
 
 
 def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:

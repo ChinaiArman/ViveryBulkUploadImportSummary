@@ -113,7 +113,8 @@
     },
 
     "APPENDIX LOCATION CONTACT INFORMATION": {
-        "title": ""
+        "title": "Appendix H - Location Contact Information",
+        "columns": ["Location ID", "Name", "Email", "Phone", "Website"]
     },
 
     "APPENDIX PROGRAM CONTACT INFORMATION": {
