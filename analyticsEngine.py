@@ -479,7 +479,7 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
         - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the input DataFrame `df` represents the relevant data and contains the necessary columns.
     """
-    return df[['Organization External ID', 'Organization Name', 'Organization Address 1']]
+    return df[['Organization External ID', 'Organization Name', 'Organization Address 1']].drop_duplicates()
 
 
 def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -514,7 +514,7 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
         - The table displays the `Location External ID`, `Name`, and `Address` for each location.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location data.
     """
-    return df[['Location External ID', 'Location Name', 'Location Address 1']]
+    return df[['Location External ID', 'Location Name', 'Location Address 1']].drop_duplicates()
 
 
 def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -548,7 +548,7 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         - The table displays the `Program External ID` and name for each program.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return df[['Program External ID', 'Program Name']]
+    return df[['Program External ID', 'Program Name']].drop_duplicates()
 
 
 def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
@@ -705,20 +705,71 @@ def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFr
           `Organization Contact Email`, and `Organization Contact Phone`.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
     """
-    return df[['Organization External ID', 'Organization Contact Name', 'Organization Contact Email', 'Organization Contact Phone']]
+    return df[['Organization External ID', 'Organization Contact Name', 'Organization Contact Email', 'Organization Contact Phone']].drop_duplicates()
 
 
 def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    return df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone', 'Location Website']].drop_duplicates()
 
 
 def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
     """
-    """
-    return
+    Creates a table of program contact information based on the provided DataFrame.
 
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program and location data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program contact information.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns:
+            - `Program External ID`
+            - `Program Contact Name`
+            - `Program Contact Email`
+            - `Program Contact Phone`
+            - `Location External ID`
+            - `Location Contact Name`
+            - `Location Contact Email`
+            - `Location Contact Phone`
+            - `Program Use Same Contact As Location`
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3'],
+        ...     'Program Contact Name': ['John Doe', 'Jane Smith', 'Adam Johnson'],
+        ...     'Program Contact Email': ['john@example.com', 'jane@example.com', 'adam@example.com'],
+        ...     'Program Contact Phone': ['123456789', '987654321', '555555555'],
+        ...     'Location External ID': ['L1', 'L2', 'L3'],
+        ...     'Location Contact Name': ['Sarah Johnson', 'Robert Davis', 'Emma Thompson'],
+        ...     'Location Contact Email': ['sarah@example.com', 'robert@example.com', 'emma@example.com'],
+        ...     'Location Contact Phone': ['999888777', '777888999', '111222333'],
+        ...     'Program Use Same Contact As Location': [True, False, True]
+        ... })
+        >>> create_program_contact_information_table(data)
+          Program External ID Program Contact Name Program Contact Email Program Contact Phone
+        0                  P1            Sarah Johnson    sarah@example.com            999888777
+        1                  P2           Jane Smith       jane@example.com            987654321
+        2                  P3            Emma Thompson    emma@example.com            555555555
+
+    Additional Information:
+        - The function extracts the program contact information from the provided DataFrame.
+        - If the `Program Use Same Contact As Location` flag is set to True, the function retrieves the contact
+          information from the corresponding location columns instead of the program columns.
+        - The table includes the columns: `Program External ID`, `Program Contact Name`, `Program Contact Email`,
+          and `Program Contact Phone`.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
+    """
+    program_contact_info = df[['Program External ID', 'Program Contact Name', 'Program Contact Email', 'Program Contact Phone']]
+    location_contact_info = df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone']]
+    program_contact_info.loc[df['Program Use Same Contact As Location'] == True] = location_contact_info.loc[df['Program Use Same Contact As Location'] == True]
+    return program_contact_info.drop_duplicates()
+    
 
 def create_program_by_program_type_table(df: pd.DataFrame) -> pd.DataFrame:
     """
