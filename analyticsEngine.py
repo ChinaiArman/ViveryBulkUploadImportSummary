@@ -1054,8 +1054,41 @@ def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of programs categorized by qualifications based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program external IDs and their corresponding qualifications.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Program External ID` and `Program Qualifications`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        ...     'Program Qualifications': ['Within the service area', 'Seniors only', 'Students only', 'None', 'None']
+        ... })
+        >>> create_program_by_program_qualifications_table(data)
+            Program External ID       Program Qualifications
+        0                   P1                      Within the service area
+        1                   P2                      Seniors only
+        2                   P3                      Students only
+        3                   P4                      None
+        4                   P5                      None
+
+    Additional Information:
+        - The function extracts the columns `Program External ID` and `Program Qualifications` from the provided DataFrame.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
+        - The resulting table provides a mapping between program external IDs and their corresponding qualifications.
+        - The qualifications may include categories such as certified, licensed, qualified, etc.
+        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return
+    return df[['Program External ID', 'Program Qualifications']].drop_duplicates()
 
 
 def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
