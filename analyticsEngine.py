@@ -312,7 +312,7 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - For an accurate calculation, ensure all columns are present in the DataFrame.
         - Table column headers are pulled from `text.json`.
     """ 
-    return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=False).head(5)
+    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False).head(5)
 
 
 def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -352,7 +352,7 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - For an accurate calculation, ensure all columns are present in the DataFrame.
         - Table column headers are pulled from `text.json`.
     """
-    return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=True).head(5) 
+    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=True).head(5) 
 
 
 def create_recommended_filters_slice(_: any) -> pd.DataFrame:
@@ -718,17 +718,20 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - The grade key is stored in `resources/weights.json`, which the function uses to determine the weightage for each column.
         - The table displays the maximum profile score for each location based on the `Location External ID`.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
-        - The score calculated then determines the Tier Level displayed
+        - The score calculated then determines the Tier Level displayed.
             - >= 36 --> Exceptional
             - >= 21 --> Quality
             - <= 20 --> Basic
+        - Table column headers are pulled from `text.json`.
         - For an accurate calculation, ensure all columns are present in the DataFrame. 
     """
     df2 = df.copy()
     df2["Profile Score"] = df2.notnull().astype('int').mul(WEIGHTS).sum(axis=1)
     df2 = df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max().reset_index()
     df2["Tier Level"] = df2["Profile Score"].apply(lambda score: PROFILE_COMPLETION_TIERS["Tier"][2] if score >= 36 else PROFILE_COMPLETION_TIERS["Tier"][1] if score >= 21 else PROFILE_COMPLETION_TIERS["Tier"][0])
-    return df2.sort_values(by='Profile Score', ascending=False)
+    df2.columns = TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"]
+    df2 = df2.sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False)
+    return df2
 
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
