@@ -858,13 +858,13 @@ def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.Dat
     Creates a table of programs categorized by the languages spoken based on the provided DataFrame.
 
     Args:
-        df (pd.DataFrame): The Pandas DataFrame containing the program data.
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
 
     Returns:
-        pd.DataFrame: A DataFrame containing the program external IDs and their corresponding languages spoken.
+        `pd.DataFrame`: A DataFrame containing the program external IDs and their corresponding languages spoken.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns 'Program External ID' and 'Languages Spoken'.
+        - The Pandas DataFrame must contain the columns `Program External ID` and `Languages Spoken`.
 
     Raises:
         None.
@@ -883,7 +883,7 @@ def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.Dat
         4                   P5          English;French
 
     Additional Information:
-        - The function extracts the columns 'Program External ID' and 'Languages Spoken' from the provided DataFrame.
+        - The function extracts the columns `Program External ID` and `Languages Spoken` from the provided DataFrame.
         - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
         - The resulting table provides a mapping between program external IDs and their corresponding languages spoken.
         - The languages spoken may be listed as a single language or a combination of multiple languages.
@@ -894,8 +894,40 @@ def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.Dat
 
 def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of programs categorized by the program features based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the program external IDs and their corresponding program features.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns `Program External ID` and `Food Program Features`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        ...     'Food Program Features': ['Grocery / Client Choice', 'Home Delivery Service', 'Pre-Packed Boxes / Bags', 'Outdoor Seating', 'Other']
+        ... })
+        >>> create_program_by_program_features_table(data)
+            Program External ID     Food Program Features
+        0                   P1              Grocery / Client Choice
+        1                   P2              Home Delivery Service
+        2                   P3              Pre-Packed Boxes / Bags
+        3                   P4              Outdoor Seating
+        4                   P5              Other
+
+    Additional Information:
+        - The function extracts the columns `Program External ID` and `Food Program Features` from the provided DataFrame.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
+        - The resulting table provides a mapping between program external IDs and their corresponding program features.
+        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return
+    return df[['Program External ID', 'Food Program Features']].drop_duplicates()
 
 
 def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFrame:
