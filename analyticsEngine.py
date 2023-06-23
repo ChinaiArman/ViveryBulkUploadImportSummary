@@ -249,8 +249,8 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         - An approved organization, location, or program is determined by the `Organization Approval Status`,
           `Location Approval Status`, or `Program Approval Status` columns, respectively.
         - The count of unique entities is based on their respective external ID columns.
+        - Table row headers and column headers are pulled from `text.json`.
     """
-    level = ['Organizations', 'Locations', 'Programs']
     active = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Organization External ID'].nunique(),
         df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] == True) & (df['Location Active Status'] == True)]['Location External ID'].nunique(),
@@ -267,12 +267,12 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         df[['Program External ID', 'Program Approval Status', 'Program Active Status']]['Program External ID'].nunique()
         ]
     data = {
-        'Level': level,
+        'Level': TEXT["NETWORK OVERVIEW"]["rows"],
         'Active': active,
         'Inactive': inactive,
         'Total': total
         }
-    return pd.DataFrame(data)
+    return pd.DataFrame(data, columns=TEXT["NETWORK OVERVIEW"]["columns"])
 
 
 def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -309,7 +309,8 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - The table displays the top 5 highest graded program profiles based on the 'Profile Score' column.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
-        - For an accurate calculation, ensure all columns are present in the DataFrame. 
+        - For an accurate calculation, ensure all columns are present in the DataFrame.
+        - Table row headers and column headers are pulled from `text.json`.
     """ 
     return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=False).head(5)
 
@@ -348,7 +349,8 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - The table displays the 5 lowest graded program profiles based on the 'Profile Score' column.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
-        - For an accurate calculation, ensure all columns are present in the DataFrame. 
+        - For an accurate calculation, ensure all columns are present in the DataFrame.
+        - Table row headers and column headers are pulled from `text.json`.
     """
     return create_program_profile_completion_table(df).sort_values(by='Profile Score', ascending=True).head(5) 
 
@@ -450,8 +452,8 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         - The table displays the count of unique `Location External ID` and `Program External ID` for each hour type frequency.
         - The hour type frequencies are `Weekly`, `Every Other Week`, `Week of Month`, and `Day of Month`.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
+        - Table row headers and column headers are pulled from `text.json`.
     """
-    hour_type = ['Weekly', 'Every Other Week', 'Week of Month', 'Day of Month']
     locations = [
         df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Weekly')]['Location External ID'].nunique(),
         df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Every Other Week')]['Location External ID'].nunique(),
@@ -465,11 +467,11 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Day of Month')]['Program External ID'].nunique()
     ]
     data = {
-        'Hour Type': hour_type,
+        'Hour Type': TEXT["NETWORK HOUR TYPE USAGE"]["rows"],
         'Location Usage': locations,
         'Program Usage': programs,
     }
-    return pd.DataFrame(data)
+    return pd.DataFrame(data, columns=TEXT["NETWORK HOUR TYPE USAGE"]["columns"])
 
 
 def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -510,8 +512,11 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
             - `Organization Address 1`: Represents the first line of the organization's address.
         - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the input DataFrame `df` represents the relevant data and contains the necessary columns.
+        - Table column headers are pulled from `text.json`.
     """
-    return df[['Organization External ID', 'Organization Name', 'Organization Address 1']].drop_duplicates()
+    df = df[['Organization External ID', 'Organization Name', 'Organization Address 1']].drop_duplicates()
+    df.columns = TEXT["APPENDIX ORGANIZATION LIST"]["columns"]
+    return df
 
 
 def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -545,8 +550,11 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
         - The columns `Location External ID`, `Location Name`, and `Location Address 1` are required to be present in the DataFrame.
         - The table displays the `Location External ID`, `Name`, and `Address` for each location.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location data.
+        - Table column headers are pulled from `text.json`.
     """
-    return df[['Location External ID', 'Location Name', 'Location Address 1']].drop_duplicates()
+    df = df[['Location External ID', 'Location Name', 'Location Address 1']].drop_duplicates()
+    df.columns = TEXT["APPENDIX LOCATION LIST"]["columns"]
+    return df
 
 
 def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -579,8 +587,11 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         - The columns `Program External ID` and `Program Name` are required to be present in the DataFrame.
         - The table displays the `Program External ID` and name for each program.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - Table column headers are pulled from `text.json`.
     """
-    return df[['Program External ID', 'Program Name']].drop_duplicates()
+    df = df[['Program External ID', 'Program Name']].drop_duplicates()
+    df.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
+    return df
 
 
 def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:

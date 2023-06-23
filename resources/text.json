@@ -13,7 +13,9 @@
     },
 
     "NETWORK OVERVIEW": {
-        "title": ""
+        "title": "Network Overview",
+        "columns": ["Level", "Active", "Inactive", "Total"],
+        "rows": ["Organization", "Location", "Program"]
     },
 
     "PROFILE COMPLETENESS": {
@@ -49,7 +51,9 @@
     },
 
     "NETWORK HOUR TYPE USAGE": {
-        "title": ""
+        "title": "Network Hour Type Usage",
+        "columns": ["Hour Type", "Location Usage", "Program Usage"],
+        "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month"]
     },
 
     "LOCATION HOURS PREVIEW": {
@@ -73,15 +77,18 @@
     },
 
     "APPENDIX ORGANIZATION LIST": {
-        "title": ""
+        "title": "Appendix A - Organization List",
+        "columns": ["Organization ID", "Organization Name", "Organization Address"]
     },
 
     "APPENDIX LOCATION LIST": {
-        "title": ""
+        "title": "Appendix B - Location List",
+        "columns": ["Location ID", "Location Name", "Location Address"]
     },
 
     "APPENDIX PROGRAM LIST": {
-        "title": ""
+        "title": "Appendix C - Program List",
+        "columns": ["Program ID", "Program Name"]
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {
