@@ -668,8 +668,44 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Creates a table of organization contact information based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the organization data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the organization contact information.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the columns:
+            - `Organization External ID`
+            - `Organization Contact Name`
+            - `Organization Contact Email`
+            - `Organization Contact Phone`
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Organization External ID': ['O1', 'O2', 'O3'],
+        ...     'Organization Contact Name': ['John Doe', 'Jane Smith', 'Adam Johnson'],
+        ...     'Organization Contact Email': ['john@example.com', 'jane@example.com', 'adam@example.com'],
+        ...     'Organization Contact Phone': ['123456789', '987654321', '555555555']
+        ... })
+        >>> create_organization_contact_information_table(data)
+          Organization External ID Organization Contact Name Organization Contact Email Organization Contact Phone
+        0                      O1                 John Doe          john@example.com                  123456789
+        1                      O2              Jane Smith          jane@example.com                  987654321
+        2                      O3            Adam Johnson          adam@example.com                  555555555
+
+    Additional Information:
+        - The function extracts the organization contact information from the provided DataFrame.
+        - The table includes the columns: `Organization External ID`, `Organization Contact Name`,
+          `Organization Contact Email`, and `Organization Contact Phone`.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
     """
-    return
+    return df[['Organization External ID', 'Organization Contact Name', 'Organization Contact Email', 'Organization Contact Phone']]
 
 
 def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
