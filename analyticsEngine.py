@@ -1110,15 +1110,15 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
     Example:
         >>> data = pd.DataFrame({
         ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
-        ...     'Program Service Area': ['15913', 'LA County', '13595', 'Greater Chicago Area', 'Greater Vancouver']
+        ...     'Program Service Area': ['County: Greendale; Zip Code: 10023/40192', 'County: Los Angeles; Zip Code: 90272', 'County: Vancouver; Zip Code: V6Z2T9', 'County: Greendale; Zip Code: 10023/40192', 'County: Greendale; Zip Code: 10023/40192']
         ... })
         >>> create_program_by_program_services_table(data)
             Program External ID         Program Service Area
-        0                   P1                  15913
-        1                   P2                  LA County
-        2                   P3                  13595
-        3                   P4                  Greater Chicago Area
-        4                   P5                  Greater Vancouver
+        0                   P1                  County: Greendale; Zip Code: 10023/40192
+        1                   P2                  County: Los Angeles; Zip Code: 90272
+        2                   P3                  County: Vancouver; Zip Code: V6Z2T9
+        3                   P4                  County: Greendale; Zip Code: 10023/40192
+        4                   P5                  County: Greendale; Zip Code: 10023/40192
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Program Service Area` from the provided DataFrame.
