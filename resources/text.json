@@ -153,15 +153,17 @@
     },
 
     "APPENDIX PROGRAM FILTERS AVAILABLE": {
-        "title": ""
+        "title": "Appendix P - Program Filters Available"
     },
 
     "APPENDIX LOCATION HOURS INFORMATION": {
-        "title": ""
+        "title": "Appendix Q - Location Hours Information",
+        "columns": ["Location ID", "Hour Type", "Opening Hour", "Closing Hour", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM HOURS INFORMATION": {
-        "title": ""
+        "title": "Appendix R - Program Hours Information",
+        "columns": ["Program ID", "Hour Type", "Opening Hour", "Closing Hour", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM QUALIFICATIONS": {

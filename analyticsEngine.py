@@ -1171,7 +1171,8 @@ def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
     location_hours['Frequency'] = location_hours['Frequency'].fillna('Date Specific')
     location_date_specific = df['Specific Date'].loc[(df['Hours Entity Type'] == 'Location')].dropna().drop_duplicates()
     location_hours['Day of Week'] = location_hours['Day of Week'].fillna(location_date_specific)
-    return location_hours.reset_index(drop=True)
+    location_hours.columns = TEXT["APPENDIX LOCATION HOURS INFORMATION"]["columns"]
+    return location_hours.sort_values(by=TEXT["APPENDIX LOCATION HOURS INFORMATION"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -1226,7 +1227,8 @@ def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
     program_hours['Frequency'] = program_hours['Frequency'].fillna('Date Specific')
     program_date_specific = df['Specific Date'].loc[(df['Hours Entity Type'] == 'Program')].dropna().drop_duplicates()
     program_hours['Day of Week'] = program_hours['Day of Week'].fillna(program_date_specific)
-    return program_hours.reset_index(drop=True)
+    program_hours.columns = TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"]
+    return program_hours.sort_values(by=TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataFrame:
