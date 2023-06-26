@@ -1267,7 +1267,9 @@ def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataF
         - The qualifications may include categories such as certified, licensed, qualified, etc.
         - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return df[['Program External ID', 'Program Qualifications']].drop_duplicates()
+    df = df[['Program External ID', 'Program Qualifications']]
+    df.columns = TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -1306,7 +1308,9 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
         - The service area describes what area neighbors must be in to receive service from the Program.
         - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return df[['Program External ID', 'Program Service Area']].drop_duplicates()
+    df = df[['Program External ID', 'Program Service Area']]
+    df.columns = TEXT["APPENDIX PROGRAM SERVICE AREAS"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX PROGRAM SERVICE AREAS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 

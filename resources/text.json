@@ -167,10 +167,12 @@
     },
 
     "APPENDIX PROGRAM QUALIFICATIONS": {
-        "title": ""
+        "title": "Appendix S - Program Qualifications",
+        "columns": ["Program ID", "Program Qualifications"]
     },
 
     "APPENDIX PROGRAM SERVICE AREAS": {
-        "title": ""
+        "title": "Appendix T - Program Service Areas",
+        "columns": ["Program ID", "Program Service Area"]
     }
 }
