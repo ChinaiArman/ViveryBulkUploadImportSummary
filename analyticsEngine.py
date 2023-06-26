@@ -1034,7 +1034,7 @@ def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df[['Program External ID', 'Food Program Features']]
     df.columns = TEXT["APPENDIX PROGRAM FEATURES"]["columns"]
-    df.sort_values(by=TEXT["APPENDIX PROGRAM FEATURES"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
+    return df.sort_values(by=TEXT["APPENDIX PROGRAM FEATURES"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -1269,7 +1269,7 @@ def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataF
     """
     df = df[['Program External ID', 'Program Qualifications']]
     df.columns = TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["columns"]
-    df.sort_values(by=TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
+    return df.sort_values(by=TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -1310,7 +1310,7 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     df = df[['Program External ID', 'Program Service Area']]
     df.columns = TEXT["APPENDIX PROGRAM SERVICE AREAS"]["columns"]
-    df.sort_values(by=TEXT["APPENDIX PROGRAM SERVICE AREAS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
+    return df.sort_values(by=TEXT["APPENDIX PROGRAM SERVICE AREAS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 
