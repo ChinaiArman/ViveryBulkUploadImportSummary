@@ -992,7 +992,9 @@ def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.Dat
         - The languages spoken may be listed as a single language or a combination of multiple languages.
         - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return df[['Program External ID', 'Languages Spoken']].drop_duplicates()
+    df = df[['Program External ID', 'Languages Spoken']]
+    df.columns = TEXT["APPENDIX PROGRAM LANGUAGES SPOKEN"]["columns"]
+    return df.sort_values(by=TEXT["APPENDIX PROGRAM LANGUAGES SPOKEN"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:

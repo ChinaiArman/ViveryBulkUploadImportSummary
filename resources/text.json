@@ -133,7 +133,8 @@
     },
 
     "APPENDIX PROGRAM LANGUAGES SPOKEN": {
-        "title": ""
+        "title": "Appendix L - Program Languages Spoken",
+        "columns": ["Program ID", "Program Languages"]
     },
 
     "APPENDIX PROGRAM FEATURES": {
