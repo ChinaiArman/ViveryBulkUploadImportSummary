@@ -138,7 +138,8 @@
     },
 
     "APPENDIX PROGRAM FEATURES": {
-        "title": ""
+        "title": "Appendix M - Program Features",
+        "columns": ["Program ID", "Program Features"]
     },
 
     "APPENDIX PROGRAM ITEMS OFFERED": {

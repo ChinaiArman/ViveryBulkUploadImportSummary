@@ -1032,7 +1032,9 @@ def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
         - The resulting table provides a mapping between program external IDs and their corresponding program features.
         - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return df[['Program External ID', 'Food Program Features']].drop_duplicates()
+    df = df[['Program External ID', 'Food Program Features']]
+    df.columns = TEXT["APPENDIX PROGRAM FEATURES"]["columns"]
+    df.sort_values(by=TEXT["APPENDIX PROGRAM FEATURES"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFrame:
