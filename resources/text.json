@@ -118,7 +118,8 @@
     },
 
     "APPENDIX PROGRAM CONTACT INFORMATION": {
-        "title": ""
+        "title": "Appendix I - Program Contact Information",
+        "columns": ["Program ID", "Name", "Email", "Phone"]
     },
 
     "APPENDIX PROGRAM TYPE": {

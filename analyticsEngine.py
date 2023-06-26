@@ -823,7 +823,6 @@ def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
     return df.reset_index(drop=True)
     
 
-
 def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     Creates a table of program contact information based on the provided DataFrame.
@@ -876,9 +875,11 @@ def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
     """
     program_contact_info = df[['Program External ID', 'Program Contact Name', 'Program Contact Email', 'Program Contact Phone']]
-    location_contact_info = df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone']]
+    location_contact_info = df[['Program External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone']]
     program_contact_info.loc[df['Program Use Same Contact As Location'] == True] = location_contact_info.loc[df['Program Use Same Contact As Location'] == True]
-    return program_contact_info.drop_duplicates()
+    program_contact_info.columns = TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"]
+    program_contact_info.sort_values(by=TEXT["APPENDIX PROGRAM LIST"]["columns"][0], ascending=True)
+    return program_contact_info.drop_duplicates().reset_index(drop=True)
     
 
 def create_program_by_program_type_table(df: pd.DataFrame) -> pd.DataFrame:
