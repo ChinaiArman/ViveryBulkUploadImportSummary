@@ -209,7 +209,7 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         `pd.DataFrame`: A DataFrame containing the network overview information.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns:
+        - The Pandas DataFrame must contain the following columns:
             - `Organization External ID`
             - `Organization Approval Status`
             - `Organization Active Status`
@@ -242,14 +242,14 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         2       Programs       2         1      3
 
     Additional Information:
-        - The network overview table provides a summary of active, inactive, and total counts
-          for organizations, locations, and programs.
-        - An active organization, location, or program is determined by the `Organization Active Status`,
+        - The network overview table provides a summary of the active, inactive, and total counts for organizations,
+          locations, and programs within the network.
+        - The active status of an organization, location, or program is determined by the `Organization Active Status`,
           `Location Active Status`, or `Program Active Status` columns, respectively.
-        - An approved organization, location, or program is determined by the `Organization Approval Status`,
+        - The approval status of an organization, location, or program is determined by the `Organization Approval Status`,
           `Location Approval Status`, or `Program Approval Status` columns, respectively.
         - The count of unique entities is based on their respective external ID columns.
-        - Table row headers and column headers are pulled from `text.json`.
+        - The table row headers and column headers are obtained from the `TEXT` dictionary under the key `NETWORK OVERVIEW`.
     """
     active = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Organization External ID'].nunique(),
@@ -287,7 +287,7 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Preconditions:
         - The Pandas DataFrame must contain the necessary columns to calculate program profile completion, as required by the `create_program_profile_completion_table` function.
-        - Weights.py file must be present in the working directory to access the completion weight for each column.
+        - The `weights.py` file must be present in the working directory to access the completion weight for each column.
 
     Raises:
         None.
@@ -306,11 +306,11 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     Additional Information:
         - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
         - It then sorts the resulting table in descending order of the profile scores.
-        - The table displays the top 5 highest graded program profiles based on the 'Profile Score' column.
+        - The table displays the top 5 highest graded program profiles based on the `Profile Score` column.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
         - For an accurate calculation, ensure all columns are present in the DataFrame.
-        - Table column headers are pulled from `text.json`.
+        - The table column headers are obtained from the `TEXT` dictionary under the key `APPENDIX PROGRAM PROFILE COMPLETION LIST`.
     """ 
     return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False).head(5).reset_index(drop=True)
 
@@ -327,7 +327,7 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Preconditions:
         - The Pandas DataFrame must contain the necessary columns to calculate program profile completion, as required by the `create_program_profile_completion_table` function.
-        - Weights.py file must be present in the working directory to access the completion weight for each column.
+        - The `weights.py` file must be present in the working directory to access the completion weight for each column.
 
     Raises:
         None.
@@ -345,12 +345,12 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
-        - It then sorts the resulting table in descending order of the profile scores.
-        - The table displays the 5 lowest graded program profiles based on the 'Profile Score' column.
+        - It then sorts the resulting table in ascending order of the profile scores.
+        - The table displays the 5 lowest graded program profiles based on the `Profile Score` column.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data to calculate program profile completion.
         - For an accurate calculation, ensure all columns are present in the DataFrame.
-        - Table column headers are pulled from `text.json`.
+        - The table column headers are obtained from the `TEXT` dictionary under the key `APPENDIX PROGRAM PROFILE COMPLETION LIST`.
     """
     return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=True).head(5).reset_index(drop=True)
 
@@ -382,7 +382,7 @@ def create_recommended_filters_slice(_: any) -> pd.DataFrame:
         - The function reads the `recommended_filters.csv` file from the `resources` directory to create the table.
         - The table includes filter categories and their corresponding filter names.
         - The placeholder argument `_` is ignored and not used in the function.
-        - This table only returns a slice of the recommended filters.
+        - This table only returns a slice of the recommended filters, specifically the top 5 results.
         - Table column headers are pulled from `text.json`.
     """
     df = RECOMMENDED_FILTERS.copy().head(5)
@@ -416,7 +416,9 @@ def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
     Additional Information:
         - The function reads the `recommended_filters.csv` file from the `resources` directory to create the table.
         - The table includes filter categories and their corresponding filter names.
+        - The column headers are retrieved from the `text.json` file, which contains the necessary translations.
         - The placeholder argument `_` is ignored and not used in the function.
+        - The function returns the full table of recommended program filters.
     """
     df = RECOMMENDED_FILTERS.copy()
     df.columns = TEXT["RECOMMENDED FILTER OPTIONS"]["columns"]
@@ -517,8 +519,9 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
             - `Organization Address 1`: Represents the first line of the organization's address.
         - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the input DataFrame `df` represents the relevant data and contains the necessary columns.
-        - Table column headers are pulled from `text.json`.
-        - Values sorted by `Organization External ID` in ascending order.
+        - The resulting DataFrame uses the column headers defined in `text.json` under the `APPENDIX ORGANIZATION LIST` section.
+        - The resulting DataFrame is sorted by `Organization External ID` in ascending order.
+        - Duplicate values are dropped to ensure unique organizations.
     """
     df = df[['Organization External ID', 'Organization Name', 'Organization Address 1']]
     df.columns = TEXT["APPENDIX ORGANIZATION LIST"]["columns"]
@@ -553,11 +556,15 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function extracts the specified columns from the provided DataFrame to create a location table.
-        - The columns `Location External ID`, `Location Name`, and `Location Address 1` are required to be present in the DataFrame.
-        - The table displays the `Location External ID`, `Name`, and `Address` for each location.
+        - The required columns include:
+            - `Location External ID`: Represents the unique ID of the location.
+            - `Location Name`: Represents the name of the location.
+            - `Location Address 1`: Represents the first line of the location's address.
+        - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location data.
-        - Table column headers are pulled from `text.json`.
-        - Values sorted by `Location External ID` in ascending order.
+        - The resulting DataFrame uses the column headers defined in `text.json` under the `APPENDIX LOCATION LIST` section.
+        - The resulting DataFrame is sorted by `Location External ID` in ascending order.
+        - Duplicate values are dropped to ensure unique locations.
     """
     df = df[['Location External ID', 'Location Name', 'Location Address 1']]
     df.columns = TEXT["APPENDIX LOCATION LIST"]["columns"]
@@ -590,12 +597,12 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         2                  P3   Program 3
 
     Additional Information:
-        - The function extracts the specified columns from the provided DataFrame to create a program table.
+        - The function extracts the specified columns (`Program External ID` and `Program Name`) from the provided DataFrame to create a program table.
         - The columns `Program External ID` and `Program Name` are required to be present in the DataFrame.
-        - The table displays the `Program External ID` and name for each program.
+        - The resulting table displays the `Program External ID` and name for each program.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
-        - Table column headers are pulled from `text.json`.
-        - Values sorted by `Program External ID` in ascending order.
+        - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM LIST` section.
+        - The values in the table are sorted by `Program External ID` in ascending order.
     """
     df = df[['Program External ID', 'Program Name']]
     df.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
@@ -628,13 +635,14 @@ def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
     Additional Information:
         - The function returns a predefined table of profile completion tiers.
         - The tiers are categorized based on the score range.
-        - The table contains three columns: `Tier`, `Min`, `Max`.
+        - The table contains three columns: `Tier`, `Min`, and `Max`.
         - Each row represents a profile completion tier with its corresponding score range.
         - The tiers are defined as `Basic`, `Quality`, and `Exceptional`.
         - This function does not require any input data or parameters.
         - The `PROFILE_COMPLETION_TIERS` variable is a global variable that should be defined in the code
           and should contain the path to the `profile_completion_tiers.csv` file.
-        - Table column headers are pulled from `text.json`.
+        - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM PROFILE COMPLETION TIERS` section.
+        - The values in the table are sorted by the `Min` column in ascending order.
     """
     df = PROFILE_COMPLETION_TIERS.copy()
     df.columns = TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["columns"]
@@ -653,7 +661,7 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
 
     Preconditions:
         - The global variable `WEIGHTS` must be defined and contain the field weights.
-        - `weights.json` file must be present in the working directory's `resource` folder to access the completion weight for each column.
+        - The `weights.json` file must be present in the working directory's `resource` folder to access the completion weight for each column.
 
     Raises:
         None.
@@ -672,6 +680,9 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
         - Each row represents a program category field with its corresponding weight.
         - The `WEIGHTS` variable is a global variable that should be defined in the code from the `weights.json` file stored in the `resources` folder.
         - This function does not require any input data or parameters.
+        - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM CATEGORY FIELD WEIGHTS` section.
+        - The values in the table are sorted by the `Weight` column in descending order.
+        - The index of the DataFrame is reset to start from 0.
     """
     df = pd.DataFrame.from_dict(WEIGHTS, orient='index').reset_index()
     df.columns = TEXT["APPENDIX PROGRAM CATEGORY FIELD WEIGHTS"]["columns"]
@@ -709,17 +720,17 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function calculates the program profile completion score based on the provided DataFrame.
-        - The function checks for if a value is present in each cell, replacing present values with 1 and absent values with zeo.
-        - The function then multiplies the integers by the grade key, and sums the value in each row to calculate the profiles completeness.
-        - The grade key is stored in `resources/weights.json`, which the function uses to determine the weightage for each column.
+        - Each cell in the DataFrame is checked for the presence of a value. Present values are replaced with 1, and absent values are replaced with 0.
+        - The function then multiplies the integers by the corresponding weight from `weights.json` to calculate the profile completion score for each row.
         - The table displays the maximum profile score for each location based on the `Location External ID`.
         - The profile completion grades model after the internal scores Vivery uses to measure profile completeness.
-        - The score calculated then determines the Tier Level displayed.
-            - >= 36 --> Exceptional
-            - >= 21 --> Quality
-            - <= 20 --> Basic
-        - Table column headers are pulled from `text.json`.
-        - For an accurate calculation, ensure all columns are present in the DataFrame. 
+        - The calculated score determines the Tier Level displayed in the table:
+            - Score >= 36: Exceptional
+            - Score >= 21: Quality
+            - Score <= 20: Basic
+        - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM PROFILE COMPLETION LIST` section.
+        - The values in the table are sorted by the `Profile Score` column in descending order.
+        - To ensure an accurate calculation, make sure all required columns are present in the DataFrame.
     """
     df2 = df.copy()
     df2["Profile Score"] = df2.notnull().astype('int').mul(WEIGHTS).sum(axis=1)
@@ -757,17 +768,18 @@ def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFr
         ...     'Organization Contact Phone': ['123456789', '987654321', '555555555']
         ... })
         >>> create_organization_contact_information_table(data)
-          Organization External ID Organization Contact Name Organization Contact Email Organization Contact Phone
-        0                      O1                 John Doe          john@example.com                  123456789
-        1                      O2              Jane Smith          jane@example.com                  987654321
-        2                      O3            Adam Johnson          adam@example.com                  555555555
+          Organization External ID      Organization Contact Name       Organization Contact Email      Organization Contact Phone
+        0                      O1                   John Doe                    john@example.com                    123456789
+        1                      O2                   Jane Smith                  jane@example.com                    987654321
+        2                      O3                   Adam Johnson                adam@example.com                    555555555
 
     Additional Information:
         - The function extracts the organization contact information from the provided DataFrame.
-        - The table includes the columns: `Organization External ID`, `Organization Contact Name`,
-          `Organization Contact Email`, and `Organization Contact Phone`.
-        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
-        - Table column headers are pulled from `text.json`.
+        - The resulting table includes the following columns: `Organization External ID`,
+          `Organization Contact Name`, `Organization Contact Email`, and `Organization Contact Phone`.
+        - It is essential to ensure that the provided DataFrame contains all the necessary columns and represents the relevant data.
+        - The column headers for the table are sourced from `text.json` using the `APPENDIX ORGANIZATION CONTACT INFORMATION` section.
+        - The values in the table are sorted by the `Organization External ID` column in ascending order.
     """
     df = df[['Organization External ID', 'Organization Contact Name', 'Organization Contact Email', 'Organization Contact Phone']]
     df.columns = TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"]
@@ -798,17 +810,18 @@ def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
                                 'Location Contact Phone': ['123456789', '987654321', '456123789'],
                                 'Location Website': ['www.location1.com', 'www.location2.com', 'www.location3.com']})
         >>> create_location_contact_information_table(data)
-          Location External ID Location Contact Name Location Contact Email Location Contact Phone    Location Website
-        0                   L1              John Doe      john@example.com              123456789  www.location1.com
-        1                   L2           Jane Smith      jane@example.com              987654321  www.location2.com
-        2                   L3         Mark Johnson      mark@example.com              456123789  www.location3.com
+          Location External ID      Location Contact Name       Location Contact Email          Location Contact Phone    Location Website
+        0                   L1              John Doe                     john@example.com                   123456789              www.location1.com
+        1                   L2              Jane Smith                   jane@example.com                   987654321              www.location2.com
+        2                   L3              Mark Johnson                 mark@example.com                   456123789              www.location3.com
 
     Additional Information:
-        - The function extracts the relevant columns from the DataFrame: `Location External ID`,
+        - The function extracts the relevant columns from the provided DataFrame: `Location External ID`,
           `Location Contact Name`, `Location Contact Email`, `Location Contact Phone`, and `Location Website`.
         - The resulting DataFrame is sorted in ascending order based on the first column name specified in
-          the `APPENDIX LOCATION CONTACT INFORMATION` section.
-        - Table column headers are pulled from `text.json`. 
+          the `APPENDIX LOCATION CONTACT INFORMATION` section of `text.json`.
+        - Ensure that the provided DataFrame contains all the necessary columns and represents the relevant data.
+        - The column headers for the table are sourced from `text.json` using the `APPENDIX LOCATION CONTACT INFORMATION` section.
     """
     df = df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone', 'Location Website']]
     df.columns = TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"]
@@ -853,18 +866,21 @@ def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Program Use Same Contact As Location': [True, False, True]
         ... })
         >>> create_program_contact_information_table(data)
-          Program External ID Program Contact Name Program Contact Email Program Contact Phone
-        0                  P1            Sarah Johnson    sarah@example.com            999888777
-        1                  P2           Jane Smith       jane@example.com            987654321
-        2                  P3            Emma Thompson    emma@example.com            555555555
+          Program External ID       Program Contact Name        Program Contact Email       Program Contact Phone
+        0                  P1           Sarah Johnson               sarah@example.com                   999888777
+        1                  P2           Jane Smith                  jane@example.com                    987654321
+        2                  P3           Emma Thompson               emma@example.com                    555555555
 
     Additional Information:
         - The function extracts the program contact information from the provided DataFrame.
         - If the `Program Use Same Contact As Location` flag is set to True, the function retrieves the contact
           information from the corresponding location columns instead of the program columns.
-        - The table includes the columns: `Program External ID`, `Program Contact Name`, `Program Contact Email`,
-          and `Program Contact Phone`.
+        - The resulting DataFrame includes the columns: `Program External ID`, `Program Contact Name`,
+          `Program Contact Email`, and `Program Contact Phone`.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
+        - The resulting DataFrame is sorted in ascending order based on the first column name specified in
+          the `APPENDIX PROGRAM LIST` section.
+        - Table column headers are pulled from `text.json`.
     """
     program_contact_info = df[['Program External ID', 'Program Contact Name', 'Program Contact Email', 'Program Contact Phone']]
     location_contact_info = df[['Program External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone']]
@@ -900,16 +916,17 @@ def create_program_by_program_type_table(df: pd.DataFrame) -> pd.DataFrame:
         ... })
         >>> create_program_by_program_type_table(data)
           Program External ID           Program Type                    Type Specification
-        0                  P1           Food Program                    Food Distribution
-        1                  P2           Case Management Services        Hot/Cold Meal Program
-        2                  P3           Housing Assistance              Other
+        0                  P1               Food Program                    Food Distribution
+        1                  P2               Case Management Services        Hot/Cold Meal Program
+        2                  P3               Housing Assistance              Other
 
     Additional Information:
         - The function groups programs based on their program type, represented by the `Program Service Category`
           column, and their type specification, represented by the `Food Program Category` column.
-        - The resulting table includes the columns `Program External ID`, `Program Type`, and `Type Specification`.
-        - The function removes any duplicate rows in the resulting table.
+        - The resulting DataFrame includes the columns: `Program External ID`, `Program Type`, and `Type Specification`.
+        - The function removes any duplicate rows in the resulting DataFrame.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant data.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Program Service Category', 'Food Program Category']]
     df.columns = TEXT["APPENDIX PROGRAM TYPE"]["columns"]
@@ -947,9 +964,10 @@ def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Program Audience Groups` from the provided DataFrame.
-        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
-        - The resulting table provides a mapping between program external IDs and their corresponding program audience groups.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting DataFrame.
+        - The resulting DataFrame provides a mapping between program external IDs and their corresponding program audience groups.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Program Audience Groups']]
     df.columns = TEXT["APPENDIX PROGRAM AUDIENCE"]["columns"]
@@ -987,10 +1005,11 @@ def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.Dat
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Languages Spoken` from the provided DataFrame.
-        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
-        - The resulting table provides a mapping between program external IDs and their corresponding languages spoken.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting DataFrame.
+        - The resulting DataFrame provides a mapping between program external IDs and their corresponding languages spoken.
         - The languages spoken may be listed as a single language or a combination of multiple languages.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Languages Spoken']]
     df.columns = TEXT["APPENDIX PROGRAM LANGUAGES SPOKEN"]["columns"]
@@ -1028,9 +1047,10 @@ def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Food Program Features` from the provided DataFrame.
-        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
-        - The resulting table provides a mapping between program external IDs and their corresponding program features.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting DataFrame.
+        - The resulting DataFrame provides a mapping between program external IDs and their corresponding program features.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Food Program Features']]
     df.columns = TEXT["APPENDIX PROGRAM FEATURES"]["columns"]
@@ -1066,12 +1086,14 @@ def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFr
         3                   P4          Fruits & Vegetables
         4                   P5          Shelf-Stable / Non-Perishable Goods
 
+
     Additional Information:
         - The function extracts the columns `Program External ID` and `Items Offered` from the provided DataFrame.
-        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
-        - The resulting table provides a mapping between program external IDs and their corresponding dietary options.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting DataFrame.
+        - The resulting DataFrame provides a mapping between program external IDs and their corresponding dietary options.
         - The dietary options may include categories such as vegetarian, vegan, gluten-free, etc.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Items Offered']]
     df.columns = TEXT["APPENDIX PROGRAM ITEMS OFFERED"]["columns"]
@@ -1109,10 +1131,12 @@ def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.Data
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Dietary Options Available` from the provided DataFrame.
-        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
-        - The resulting table provides a mapping between program external IDs and their corresponding dietary options.
+        - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting DataFrame.
+        - The resulting DataFrame provides a mapping between program external IDs and their corresponding dietary options.
         - The dietary options may include categories such as vegetarian, vegan, gluten-free, etc.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+        - The resulting DataFrame is sorted based on the `Program External ID` column in ascending order.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Dietary Options Available']]
     df.columns = TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["columns"]
@@ -1154,12 +1178,14 @@ def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function extracts the relevant columns from the provided DataFrame to create the location hours table.
-        - Rows are filtered based on the conditions: `Hours Entity Type` is `Location` and `Hours Open X` and `Hours Closed X` are not null.
-        - The resulting table includes columns for location external ID, hours open, hours closed, day of week, and frequency.
+        - Rows are filtered based on the conditions: `Hours Entity Type` is `Location`, and `Hours Open X` and `Hours Closed X` are not null.
+        - The resulting table includes columns for location external ID, hours open, hours closed, day of the week, and frequency.
         - Duplicate rows are dropped to ensure each set of location hours appears only once in the resulting table.
         - The `Frequency` column is filled with `Date Specific` for rows where the `Frequency` column is null.
         - The `Day of Week` column is filled with values from the `Specific Date` column for rows where `Day of Week` is null.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant location hours data.
+        - The resulting DataFrame is sorted based on the `Location External ID` column in ascending order.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location hours data.
+        - Table column headers are pulled from `text.json`.
     """
     location_hours_one = df[['Location External ID', 'Hours Entity Type', 'Hours Open 1', 'Hours Closed 1', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location')  & (df['Hours Open 1'].notna()) & (df['Hours Closed 1'].notna())].rename(columns={'Hours Open 1': 'Hours Open',
                                                                                                                                                                                                                                       'Hours Closed 1': 'Hours Closed'})
@@ -1210,12 +1236,14 @@ def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
 
     Additional Information:
         - The function extracts the relevant columns from the provided DataFrame to create the program hours table.
-        - Rows are filtered based on the conditions: `Hours Entity Type` is `Program` and `Hours Open X` and `Hours Closed X` are not null.
-        - The resulting table includes columns for program external ID, hours open, hours closed, day of week, and frequency.
+        - Rows are filtered based on the conditions: `Hours Entity Type` is `Program`, and `Hours Open X` and `Hours Closed X` are not null.
+        - The resulting table includes columns for program external ID, hours open, hours closed, day of the week, and frequency.
         - Duplicate rows are dropped to ensure each set of program hours appears only once in the resulting table.
         - The `Frequency` column is filled with `Date Specific` for rows where the `Frequency` column is null.
         - The `Day of Week` column is filled with values from the `Specific Date` column for rows where `Day of Week` is null.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program hours data.
+        - The resulting DataFrame is sorted based on the `Program External ID` column in ascending order.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program hours data.
+        - Table column headers are pulled from `text.json`.
     """
     program_hours_one = df[['Program External ID', 'Hours Entity Type', 'Hours Open 1', 'Hours Closed 1', 'Day of Week', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program')  & (df['Hours Open 1'].notna()) & (df['Hours Closed 1'].notna())].rename(columns={'Hours Open 1': 'Hours Open',
                                                                                                                                                                                                                                       'Hours Closed 1': 'Hours Closed'})
@@ -1260,12 +1288,15 @@ def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataF
         3                   P4                      None
         4                   P5                      None
 
+
     Additional Information:
         - The function extracts the columns `Program External ID` and `Program Qualifications` from the provided DataFrame.
         - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
         - The resulting table provides a mapping between program external IDs and their corresponding qualifications.
         - The qualifications may include categories such as certified, licensed, qualified, etc.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+        - The resulting DataFrame is sorted based on the `Program External ID` column in ascending order.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Program Qualifications']]
     df.columns = TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["columns"]
@@ -1305,8 +1336,10 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
         - The function extracts the columns `Program External ID` and `Program Service Area` from the provided DataFrame.
         - Duplicate rows are dropped to ensure each program external ID is listed only once in the resulting table.
         - The resulting table provides a mapping between program external IDs and their corresponding services.
-        - The service area describes what area neighbors must be in to receive service from the Program.
-        - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
+        - The service area describes the area neighbors must be in to receive service from the program.
+        - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
+        - The resulting DataFrame is sorted based on the `Program External ID` column in ascending order.
+        - Table column headers are pulled from `text.json`.
     """
     df = df[['Program External ID', 'Program Service Area']]
     df.columns = TEXT["APPENDIX PROGRAM SERVICE AREAS"]["columns"]
