@@ -1315,12 +1315,6 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 
-# SUMMATIONS
-
-
-
-
-
 # MAIN
 if __name__ == "__main__":
     # Define console parser
@@ -1379,10 +1373,6 @@ if __name__ == "__main__":
         create_program_by_program_services_table,
         create_program_profile_completion_table
     ]
-    # Create a list of summation functions
-    summation_functions = [
-
-    ]
 
     # Create directory within project folder
     if not os.path.isdir(directory):
@@ -1398,13 +1388,10 @@ if __name__ == "__main__":
     valid_graphing_functions = [graph for graph in graphing_functions if graph.__name__ not in silenced_functions]
     # Create valid DataFrame functions
     valid_dataframe_functions = [dataframe for dataframe in dataframe_functions if dataframe.__name__ not in silenced_functions]
-    # Create valid summation functions
-    valid_summation_functions = [summation for summation in summation_functions if summation.__name__ not in silenced_functions]
 
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
     [print(dataframe(df)) for dataframe in valid_dataframe_functions]
-    [print(summation.__name__ + ": " + str(summation(df))) for summation in valid_summation_functions]
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory)
