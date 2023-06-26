@@ -148,7 +148,8 @@
     },
 
     "APPENDIX PROGRAM DIETARY OPTIONS": {
-        "title": ""
+        "title": "Appendix O - Program Dietary Options",
+        "columns": ["Program ID", "Program Dietary Options"]
     },
 
     "APPENDIX PROGRAM FILTERS AVAILABLE": {

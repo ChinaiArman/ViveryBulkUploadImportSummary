@@ -1114,7 +1114,9 @@ def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.Data
         - The dietary options may include categories such as vegetarian, vegan, gluten-free, etc.
         - Ensure that the DataFrame contains the necessary columns and represents the relevant program data.
     """
-    return df[['Program External ID', 'Dietary Options Available']].drop_duplicates()
+    df = df[['Program External ID', 'Dietary Options Available']]
+    df.columns = TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["columns"]
+    return df.sort_values(by=TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
