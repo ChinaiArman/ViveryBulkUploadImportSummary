@@ -123,11 +123,13 @@
     },
 
     "APPENDIX PROGRAM TYPE": {
-        "title": ""
+        "title": "Appendix J - Program Type",
+        "columns": ["Program ID", "Program Type", "Type Specification"]
     },
 
     "APPENDIX PROGRAM AUDIENCE": {
-        "title": ""
+        "title": "Appendix K - Program Audience",
+        "columns": ["Program ID", "Program Audience"]
     },
 
     "APPENDIX PROGRAM LANGUAGES SPOKEN": {
