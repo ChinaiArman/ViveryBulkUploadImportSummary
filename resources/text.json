@@ -9,72 +9,98 @@
     },
 
     "LOCATION MAP": {
-        "title": ""
+        "title": "Location Map",
+        "subtitle": "",
+        "paragraph": ""
     },
 
     "NETWORK OVERVIEW": {
         "title": "Network Overview",
+        "paragraph": "",
         "columns": ["Level", "Active", "Inactive", "Total"],
         "rows": ["Organization", "Location", "Program"]
     },
 
     "PROFILE COMPLETENESS": {
-        "title": ""
+        "title": "Profile Completeness",
+        "paragraph": "",
+        "subtext": ""
     },
 
     "HIGH LOW PROFILE GRADES": {
-        "title": ""
+        "title": "Highest and Lowest Graded Profiles",
+        "subtitle 1": "Highest Graded",
+        "subtitle 2": "Lowest Graded",
+        "paragraph": ""
     },
 
     "VIVERY CONTACT INFORMATION": {
-        "title": ""
+        "title": "Vivery Contact Information",
+        "paragraph": ""
     },
 
     "PUBLIC CONTACT INFORMATION": {
-        "title": ""
+        "title": "Public Contact Information",
+        "subtitle": "Missing Location and Program Contact Information",
+        "paragraph": ""
     },
 
     "PROGRAM TYPES": {
-        "title": ""
+        "title": "Program Types",
+        "subtitle": "Food Program Breakdown In Network",
+        "paragraph 1": "",
+        "paragraph 2": ""
     },
 
     "PROGRAM FILTER FIELDS": {
-        "title": ""
+        "title": "Filter Fields",
+        "paragraph": ""
     },
 
     "RECOMMENDED FILTER OPTIONS": {
         "title": "Recommended Filter Options",
+        "paragraph": "",
         "columns": ["#", "Program Audience", "Location Features", "Program Features", "Items Offered", "Dietary Options"]
     },
 
     "NETWORK HOURS OVERVIEW": {
-        "title": ""
+        "title": "Network Hours Overview",
+        "paragraph": ""
     },
 
     "NETWORK HOUR TYPE USAGE": {
         "title": "Network Hour Type Usage",
+        "paragraph": "",
         "columns": ["Hour Type", "Location Usage", "Program Usage"],
-        "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month"]
+        "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month"],
+        "subtext": ""
     },
 
     "LOCATION HOURS PREVIEW": {
-        "title": ""
+        "title": "Location Hours Preview",
+        "subtitle": "Sample Hour Totals Per Day",
+        "paragraph": ""
     },
 
     "PROGRAM HOURS PREVIEW": {
-        "title": ""
+        "title": "Program Hours Preview",
+        "subtitle": "Sample Hour Totals Per Day",
+        "paragraph": ""
     },
 
     "MISSING PROGRAM QUALIFICATIONS": {
-        "title": ""
+        "title": "Missing Program Qualifications",
+        "paragraph": ""
     },
 
     "MISSING PROGRAM SERVICE AREA": {
-        "title": ""
+        "title": "Missing Program Service Areas",
+        "paragraph": ""
     },
 
     "EXAMPLE PROFILE PREVIEW": {
-        "title": ""
+        "title": "Example Profile Preview",
+        "paragraph": ""
     },
 
     "APPENDIX ORGANIZATION LIST": {
