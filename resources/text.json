@@ -125,12 +125,12 @@
 
     "APPENDIX PROGRAM CATEGORY FIELD WEIGHTS": {
         "title": "Appendix E - Program Category Field Weights",
-        "columns": ["Program Field", "Weight"]
+        "columns": ["Field", "Weight"]
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION LIST": {
         "title": "Appendix F - Program Profile Completion List",
-        "columns": ["Program ID", "Points Earned", "Tier Level"]
+        "columns": ["Location ID", "Points Earned", "Tier Level"]
     },
 
     "APPENDIX ORGANIZATION CONTACT INFORMATION": {
@@ -170,7 +170,7 @@
 
     "APPENDIX PROGRAM ITEMS OFFERED": {
         "title": "Appendix N - Program Items Offered",
-        "columns": ["Program ID", "Program Items Offered"]
+        "columns": ["Program ID", "Items Offered"]
     },
 
     "APPENDIX PROGRAM DIETARY OPTIONS": {

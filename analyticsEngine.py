@@ -236,10 +236,10 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Program Active Status': [True, True, True, False, True]
         ... })
         >>> create_network_overview_table(data)
-              Level  Active  Inactive  Total
-        0  Organizations       2         1      3
-        1      Locations       3         2      3
-        2       Programs       2         1      3
+            Level               Active  Inactive  Total
+        0       Organizations       2         1      3
+        1       Locations           3         2      3
+        2       Programs            2         1      3
 
     Additional Information:
         - The network overview table provides a summary of the active, inactive, and total counts for organizations,
@@ -298,10 +298,10 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         ...                     'Location ZIP': [715359, None, 136135],
         ...                     'Hours Entity Type': ['Program', 'Location', 'Location']})
         >>> create_program_profile_completion_table(data)
-          Location External ID  Profile Score
-        0                   L3              8
-        1                   L1              5
-        2                   L2              5
+            Location ID     Profile Score   Tier Level
+        0           L3              8           Basic
+        1           L1              5           Basic
+        2           L2              5           Basic
 
     Additional Information:
         - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
@@ -338,10 +338,10 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         ...                     'Location ZIP': [715359, None, 136135],
         ...                     'Hours Entity Type': ['Program', 'Location', 'Location']})
         >>> create_program_profile_completion_table(data)
-          Location External ID  Profile Score
-        0                   L1              5
-        1                   L2              5
-        2                   L3              8
+            Location ID     Profile Score   Tier Level
+        0           L1              5           Basic
+        1           L2              5           Basic
+        2           L3              8           Basic
 
     Additional Information:
         - The function calls the `create_program_profile_completion_table` function to create a table of program profile completion based on the provided DataFrame.
@@ -373,10 +373,10 @@ def create_recommended_filters_slice(_: any) -> pd.DataFrame:
 
     Example:
         >>> create_recommended_program_filters_table(None)
-            Program Audience            Location Features            Program Features           Items Offered           Dietary Options
-        0       Seniors                     Safe Space                  Reservations                Dairy                   Gluten Free
-        1       Immigrants                  Wi-Fi Available             Indoor Service              Eggs                    Vegan
-        2       Youth                                                   Prepared Food               Meat                    Vegetarian
+            #   Program Audience            Location Features            Program Features           Items Offered           Dietary Options
+        0   1       Seniors                     Safe Space                  Reservations                Dairy                   Gluten Free
+        1   2       Immigrants                  Wi-Fi Available             Indoor Service              Eggs                    Vegan
+        2   3       Youth                                                   Prepared Food               Meat                    Vegetarian
 
     Additional Information:
         - The function reads the `recommended_filters.csv` file from the `resources` directory to create the table.
@@ -408,10 +408,10 @@ def create_recommended_program_filters_table(_: any) -> pd.DataFrame:
 
     Example:
         >>> create_recommended_program_filters_table(None)
-            Program Audience            Location Features            Program Features           Items Offered           Dietary Options
-        0       Seniors                     Safe Space                  Reservations                Dairy                   Gluten Free
-        1       Immigrants                  Wi-Fi Available             Indoor Service              Eggs                    Vegan
-        2       Youth                                                   Prepared Food               Meat                    Vegetarian
+            #   Program Audience            Location Features            Program Features           Items Offered           Dietary Options
+        0   1       Seniors                     Safe Space                  Reservations                Dairy                   Gluten Free
+        1   2       Immigrants                  Wi-Fi Available             Indoor Service              Eggs                    Vegan
+        2   3       Youth                                                   Prepared Food               Meat                    Vegetarian
 
     Additional Information:
         - The function reads the `recommended_filters.csv` file from the `resources` directory to create the table.
@@ -448,11 +448,11 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
                                 'Frequency': ['Weekly', 'Every Other Week', 'Week of Month', 'Day of Month', 'Weekly'],
                                 'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5']})
         >>> create_hour_type_usage_table(data)
-            Hour Type   Location Usage  Program Usage
-        0   'Weekly'                     1              1
-        1   'Every Other Week'           1              1
-        2   'Week of Month'              1              1
-        3   'Day of Month'               1              1
+            Hour Type           Location Usage      Program Usage
+        0   Weekly                       1                  1
+        1   Every Other Week             1                  1
+        2   Week of Month                1                  1
+        3   Day of Month                 1                  1
 
     Additional Information:
         - The function calculates the usage of hour types based on the `Hours Entity Type` and `Frequency` columns in the DataFrame.
@@ -506,10 +506,10 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
                                 'Organization Name': ['Org1', 'Org2', 'Org3'],
                                 'Organization Address 1': ['Address1', 'Address2', 'Address3']})
         >>> create_organization_table(data)
-           Organization External ID Organization Name Organization Address 1
-        0                        O1              Org1               Address1
-        1                        O2              Org2               Address2
-        2                        O3              Org3               Address3
+           Organization ID      Organization Name   Organization Address
+        0               O1                  Org1            Address1
+        1               O2                  Org2            Address2
+        2               O3                  Org3            Address3
 
     Additional Information:
         - The function extracts specific columns related to organizations from the input DataFrame.
@@ -549,10 +549,10 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
         ...                     'Location Name': ['Location 1', 'Location 2', 'Location 3'],
         ...                     'Location Address 1': ['Address 1', 'Address 2', 'Address 3']})
         >>> create_location_table(data)
-          Location External ID Location Name Location Address 1
-        0                   L1    Location 1           Address 1
-        1                   L2    Location 2           Address 2
-        2                   L3    Location 3           Address 3
+            Location ID     Location Name       Location Address
+        0           L1          Location 1              Address 1
+        1           L2          Location 2              Address 2
+        2           L3          Location 3              Address 3
 
     Additional Information:
         - The function extracts the specified columns from the provided DataFrame to create a location table.
@@ -591,10 +591,10 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         >>> data = pd.DataFrame({'Program External ID': ['P1', 'P2', 'P3'],
         ...                     'Program Name': ['Program 1', 'Program 2', 'Program 3']})
         >>> create_program_table(data)
-          Program External ID Program Name
-        0                  P1   Program 1
-        1                  P2   Program 2
-        2                  P3   Program 3
+            Program ID      Program Name
+        0           P1          Program 1
+        1           P2          Program 2
+        2           P3          Program 3
 
     Additional Information:
         - The function extracts the specified columns (`Program External ID` and `Program Name`) from the provided DataFrame to create a program table.
@@ -627,26 +627,26 @@ def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
 
     Example:
         >>> create_profile_completion_tiers_table(None)
-            Tier            Min     Max
-        0   Basic            0      20
-        1   Quality         21      35
-        2   Exceptional     36
+            Tier Level      Minimum     Maximum
+        0   Basic               0           20
+        1   Quality             21          35
+        2   Exceptional         36
 
     Additional Information:
         - The function returns a predefined table of profile completion tiers.
         - The tiers are categorized based on the score range.
-        - The table contains three columns: `Tier`, `Min`, and `Max`.
+        - The table contains three columns: `Tier Level`, `Minimum`, and `Maxaximum`.
         - Each row represents a profile completion tier with its corresponding score range.
         - The tiers are defined as `Basic`, `Quality`, and `Exceptional`.
         - This function does not require any input data or parameters.
         - The `PROFILE_COMPLETION_TIERS` variable is a global variable that should be defined in the code
           and should contain the path to the `profile_completion_tiers.csv` file.
         - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM PROFILE COMPLETION TIERS` section.
-        - The values in the table are sorted by the `Min` column in ascending order.
+        - The values in the table are sorted by the `Minimum` column in ascending order.
     """
     df = PROFILE_COMPLETION_TIERS.copy()
     df.columns = TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["columns"]
-    return df.sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["columns"][1], ascending=True).reset_index()
+    return df.sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["columns"][1], ascending=True).reset_index(drop=True)
 
 
 def create_program_category_field_weights(_: any) -> pd.DataFrame:
@@ -668,7 +668,7 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
 
     Example:
         >>> create_program_category_field_weights(None)
-                        Columns         Weight
+                            Field         Weight
         0   Program Contact Phone            1
         1   Program Contact Phone Ext        0
         2   Program Contact Email            1
@@ -676,13 +676,12 @@ def create_program_category_field_weights(_: any) -> pd.DataFrame:
     Additional Information:
         - The function returns a table of program category field weights.
         - The field weights are defined in the global variable `WEIGHTS`.
-        - The table contains two columns: `Columns` and `Weight`.
+        - The table contains two columns: `Field` and `Weight`.
         - Each row represents a program category field with its corresponding weight.
         - The `WEIGHTS` variable is a global variable that should be defined in the code from the `weights.json` file stored in the `resources` folder.
         - This function does not require any input data or parameters.
         - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM CATEGORY FIELD WEIGHTS` section.
         - The values in the table are sorted by the `Weight` column in descending order.
-        - The index of the DataFrame is reset to start from 0.
     """
     df = pd.DataFrame.from_dict(WEIGHTS, orient='index').reset_index()
     df.columns = TEXT["APPENDIX PROGRAM CATEGORY FIELD WEIGHTS"]["columns"]
@@ -713,10 +712,10 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         ...                     'Location ZIP': [715359, None, 136135],
         ...                     'Hours Entity Type': ['Program', 'Location', 'Location']})
         >>> create_program_profile_completion_table(data)
-          Location External ID  Profile Score   Tier Level
-        0                   L1              5       Basic
-        1                   L2              5       Basic
-        2                   L3              8       Basic
+            Location ID     Profile Score   Tier Level
+        0           L1              5           Basic
+        1           L2              5           Basic
+        2           L3              8           Basic
 
     Additional Information:
         - The function calculates the program profile completion score based on the provided DataFrame.
@@ -768,10 +767,10 @@ def create_organization_contact_information_table(df: pd.DataFrame) -> pd.DataFr
         ...     'Organization Contact Phone': ['123456789', '987654321', '555555555']
         ... })
         >>> create_organization_contact_information_table(data)
-          Organization External ID      Organization Contact Name       Organization Contact Email      Organization Contact Phone
-        0                      O1                   John Doe                    john@example.com                    123456789
-        1                      O2                   Jane Smith                  jane@example.com                    987654321
-        2                      O3                   Adam Johnson                adam@example.com                    555555555
+            Organization ID      Name               Email                   Phone
+        0               O1          John Doe            john@example.com        123456789
+        1               O2          Jane Smith          jane@example.com        987654321
+        2               O3          Adam Johnson        adam@example.com        555555555
 
     Additional Information:
         - The function extracts the organization contact information from the provided DataFrame.
@@ -810,10 +809,10 @@ def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
                                 'Location Contact Phone': ['123456789', '987654321', '456123789'],
                                 'Location Website': ['www.location1.com', 'www.location2.com', 'www.location3.com']})
         >>> create_location_contact_information_table(data)
-          Location External ID      Location Contact Name       Location Contact Email          Location Contact Phone    Location Website
-        0                   L1              John Doe                     john@example.com                   123456789              www.location1.com
-        1                   L2              Jane Smith                   jane@example.com                   987654321              www.location2.com
-        2                   L3              Mark Johnson                 mark@example.com                   456123789              www.location3.com
+            Location ID         Name            Email                   Phone           Website
+        0           L1          John Doe            john@example.com        123456789       www.location1.com
+        1           L2          Jane Smith          jane@example.com        987654321       www.location2.com
+        2           L3          Mark Johnson        mark@example.com        456123789       www.location3.com
 
     Additional Information:
         - The function extracts the relevant columns from the provided DataFrame: `Location External ID`,
@@ -866,10 +865,10 @@ def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Program Use Same Contact As Location': [True, False, True]
         ... })
         >>> create_program_contact_information_table(data)
-          Program External ID       Program Contact Name        Program Contact Email       Program Contact Phone
-        0                  P1           Sarah Johnson               sarah@example.com                   999888777
-        1                  P2           Jane Smith                  jane@example.com                    987654321
-        2                  P3           Emma Thompson               emma@example.com                    555555555
+            Program ID       Program Contact Name           Program Contact Email           Program Contact Phone
+        0           P1                  Sarah Johnson                   sarah@example.com               999888777
+        1           P2                  Jane Smith                      jane@example.com                987654321
+        2           P3                  Emma Thompson                   emma@example.com                555555555
 
     Additional Information:
         - The function extracts the program contact information from the provided DataFrame.
@@ -915,10 +914,10 @@ def create_program_by_program_type_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Food Program Category': ['Food Distribution', 'Hot/Cold Meal Program', 'Other']
         ... })
         >>> create_program_by_program_type_table(data)
-          Program External ID           Program Type                    Type Specification
-        0                  P1               Food Program                    Food Distribution
-        1                  P2               Case Management Services        Hot/Cold Meal Program
-        2                  P3               Housing Assistance              Other
+            Program ID           Program Type                    Type Specification
+        0           P1               Food Program                    Food Distribution
+        1           P2               Case Management Services        Hot/Cold Meal Program
+        2           P3               Housing Assistance              Other
 
     Additional Information:
         - The function groups programs based on their program type, represented by the `Program Service Category`
@@ -955,12 +954,12 @@ def create_program_by_program_audience_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Program Audience Groups': ['Teenagers / Young Adults;LGBTQ+', 'LGBTQ+', 'LGBTQ+', 'Veterans', 'Homebound']
         ... })
         >>> create_program_by_program_audience_table(data)
-          Program External ID       Program Audience Groups
-        0                   P1                      Teenagers / Young Adults;LGBTQ+
-        1                   P2                      LGBTQ+
-        2                   P3                      LGBTQ+
-        3                   P4                      Veterans
-        4                   P5                      Homebound
+            Program ID          Program Audience
+        0           P1                  Teenagers / Young Adults;LGBTQ+
+        1           P2                  LGBTQ+
+        2           P3                  LGBTQ+
+        3           P4                  Veterans
+        4           P5                  Homebound
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Program Audience Groups` from the provided DataFrame.
@@ -996,12 +995,12 @@ def create_program_by_program_languages_spoken_table(df: pd.DataFrame) -> pd.Dat
         ...     'Languages Spoken': ['English', 'Spanish', 'English; Spanish', 'Japanese', 'English; French']
         ... })
         >>> create_program_by_program_languages_spoken_table(data)
-          Program External ID   Languages Spoken
-        0                   P1          English
-        1                   P2          Spanish
-        2                   P3          English;Spanish
-        3                   P4          Japanese
-        4                   P5          English;French
+            Program ID   Program Languages
+        0           P1          English
+        1           P2          Spanish
+        2           P3          English;Spanish
+        3           P4          Japanese
+        4           P5          English;French
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Languages Spoken` from the provided DataFrame.
@@ -1038,12 +1037,12 @@ def create_program_by_program_features_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Food Program Features': ['Grocery / Client Choice', 'Home Delivery Service', 'Pre-Packed Boxes / Bags', 'Outdoor Seating', 'Other']
         ... })
         >>> create_program_by_program_features_table(data)
-            Program External ID     Food Program Features
-        0                   P1              Grocery / Client Choice
-        1                   P2              Home Delivery Service
-        2                   P3              Pre-Packed Boxes / Bags
-        3                   P4              Outdoor Seating
-        4                   P5              Other
+            Program ID     Program Features
+        0           P1              Grocery / Client Choice
+        1           P2              Home Delivery Service
+        2           P3              Pre-Packed Boxes / Bags
+        3           P4              Outdoor Seating
+        4           P5              Other
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Food Program Features` from the provided DataFrame.
@@ -1079,12 +1078,12 @@ def create_program_by_program_items_offered_table(df: pd.DataFrame) -> pd.DataFr
         ...     'Items Offered': ['Dairy', 'Eggs', 'Meat', 'Fruits & Vegetables', 'Shelf-Stable / Non-Perishable Goods']
         ... })
         >>> create_program_by_program_dietary_options_table(data)
-            Program External ID  Items Offered
-        0                   P1          Dairy
-        1                   P2          Eggs
-        2                   P3          Meat
-        3                   P4          Fruits & Vegetables
-        4                   P5          Shelf-Stable / Non-Perishable Goods
+            Program ID      Items Offered
+        0           P1              Dairy
+        1           P2              Eggs
+        2           P3              Meat
+        3           P4              Fruits & Vegetables
+        4           P5              Shelf-Stable / Non-Perishable Goods
 
 
     Additional Information:
@@ -1122,12 +1121,12 @@ def create_program_by_program_dietary_options_table(df: pd.DataFrame) -> pd.Data
         ...     'Dietary Options Available': ['Gluten Free', 'Vegan', 'Halal', 'Vegetarian', 'Other']
         ... })
         >>> create_program_by_program_dietary_options_table(data)
-            Program External ID         Dietary Options Available
-        0                   P1                          Gluten Free
-        1                   P2                          Vegan
-        2                   P3                          Halal
-        3                   P4                          Vegetarian
-        4                   P5                          Other
+            Program ID         Dietary Options Available
+        0           P1                      Gluten Free
+        1           P2                      Vegan
+        2           P3                      Halal
+        3           P4                      Vegetarian
+        4           P5                      Other
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Dietary Options Available` from the provided DataFrame.
@@ -1170,11 +1169,11 @@ def create_location_hours_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Specific Date': [None, None, None, None]
         ... })
         >>> create_location_hours_table(data)
-           Location External ID     Hours Entity Type       Hours Open      Hours Closed    Day of Week         Frequency
-        0                  1992             Location             9:30           11:30           Sunday              Weekly
-        1                  1993             Location            11:00           13:00           2023-05-13          Date Specific
-        2                  1992             Location            13:00           15:00           Sunday              Weekly
-        3                  1992             Location            17:00           19:00           Sunday              Weekly
+            Location ID         Hours Type          Opening Hour      Closing Hour          Day             Frequency
+        0           1992             Location             9:30              11:30           Sunday              Weekly
+        1           1993             Location            11:00              13:00           2023-05-13          Date Specific
+        2           1992             Location            13:00              15:00           Sunday              Weekly
+        3           1992             Location            17:00              19:00           Sunday              Weekly
 
     Additional Information:
         - The function extracts the relevant columns from the provided DataFrame to create the location hours table.
@@ -1228,11 +1227,11 @@ def create_program_hours_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Specific Date': [None, None, None, None]
         ... })
         >>> create_program_hours_table(data)
-           Program External ID     Hours Entity Type       Hours Open      Hours Closed    Day of Week         Frequency
-        0                  1992             Program             9:30           11:30           Sunday              Weekly
-        1                  1993             Program            11:00           13:00           2023-05-13          Date Specific
-        2                  1992             Program            13:00           15:00           Sunday              Weekly
-        3                  1992             Program            17:00           19:00           Sunday              Weekly
+            Program ID          Hours Type          Opening Hour      Closing Hour          Day             Frequency
+        0           1992             Program             9:30               11:30           Sunday              Weekly
+        1           1993             Program            11:00               13:00           2023-05-13          Date Specific
+        2           1992             Program            13:00               15:00           Sunday              Weekly
+        3           1992             Program            17:00               19:00           Sunday              Weekly
 
     Additional Information:
         - The function extracts the relevant columns from the provided DataFrame to create the program hours table.
@@ -1281,12 +1280,12 @@ def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataF
         ...     'Program Qualifications': ['Within the service area', 'Seniors only', 'Students only', 'None', 'None']
         ... })
         >>> create_program_by_program_qualifications_table(data)
-            Program External ID       Program Qualifications
-        0                   P1                      Within the service area
-        1                   P2                      Seniors only
-        2                   P3                      Students only
-        3                   P4                      None
-        4                   P5                      None
+            Program ID       Program Qualifications
+        0           P1                      Within the service area
+        1           P2                      Seniors only
+        2           P3                      Students only
+        3           P4                      None
+        4           P5                      None
 
 
     Additional Information:
@@ -1325,12 +1324,12 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
         ...     'Program Service Area': ['County: Greendale; Zip Code: 10023/40192', 'County: Los Angeles; Zip Code: 90272', 'County: Vancouver; Zip Code: V6Z2T9', 'County: Greendale; Zip Code: 10023/40192', 'County: Greendale; Zip Code: 10023/40192']
         ... })
         >>> create_program_by_program_services_table(data)
-            Program External ID         Program Service Area
-        0                   P1                  County: Greendale; Zip Code: 10023/40192
-        1                   P2                  County: Los Angeles; Zip Code: 90272
-        2                   P3                  County: Vancouver; Zip Code: V6Z2T9
-        3                   P4                  County: Greendale; Zip Code: 10023/40192
-        4                   P5                  County: Greendale; Zip Code: 10023/40192
+            Program ID         Program Service Area
+        0           P1                  County: Greendale; Zip Code: 10023/40192
+        1           P2                  County: Los Angeles; Zip Code: 90272
+        2           P3                  County: Vancouver; Zip Code: V6Z2T9
+        3           P4                  County: Greendale; Zip Code: 10023/40192
+        4           P5                  County: Greendale; Zip Code: 10023/40192
 
     Additional Information:
         - The function extracts the columns `Program External ID` and `Program Service Area` from the provided DataFrame.
