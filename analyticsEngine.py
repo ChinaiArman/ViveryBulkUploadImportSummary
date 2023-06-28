@@ -139,12 +139,13 @@ def map_scope(int: int) -> None:
     return 12
 
 
-def crop_image(width: int, height: int, filename: str, directory: str):
+def crop_image(width: int, height: int, filename: str, directory: str) -> None:
     """
     """
     im = Image.open(directory + "/" + filename)
     im = im.crop((height/2, width/2, height/2 + width, width/2 + height))
     im.save(directory + "/" + filename, "png")
+    return
 
 
 
@@ -154,8 +155,8 @@ def create_map(df: pd.DataFrame, directory: str) -> None:
     """
     """
     df2 = df.copy()
-    df2 = df2[['Location Latitude', 'Location Longitude', 'Location Active Status']]
-    df2['Color'] = np.where(df['Location Active Status'] == True, DARK_SAGE, RED)
+    df2 = df2[['Location Latitude', 'Location Longitude', 'Organization Approval Status', 'Organization Active Status', 'Location Active Status', 'Location Approval Status']]
+    df2['Color'] = np.where((df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True) & (df['Location Approval Status'] == True) & (df['Location Active Status'] == True), DARK_SAGE, RED)
 
     fig = go.Figure(go.Scattermapbox(
             lat=df2['Location Latitude'],
