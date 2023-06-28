@@ -7,7 +7,9 @@ import pandas as pd                 # Pandas, used to represent CSVs and large d
 import numpy as np                  # NumPy, adds Arrays to python and enables large arithmatic operations.
 import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data sets and create data visualizations.
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
+import plotly.graph_objects as go   #
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
+from PIL import Image               #
 
 # LOCAL FILE IMPORTS
 
@@ -22,6 +24,11 @@ RECOMMENDED_FILTERS_SAVE_NAME = 'resources/recommended_filters.csv'             
 RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                        # RECOMMENDED_FILTERS, used to store the recommended filters for locations and programs, stored in the file, 'resources/recommended_filters.csv'
 PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'           # Path to Profile Completion Tiers (CSV).
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)              # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
+
+# COLOURS
+VIVERY_GREEN = '#00483D'                                                                #
+DARK_SAGE = '#00796B'                                                                   #
+RED = '#D4A392'                                                                         #
 
 
 
@@ -114,13 +121,66 @@ def save_state(data: any, filename: str, directory: str) -> None:
     return
 
 
+def map_scope(int: int) -> None:
+    """
+    """
+    if int > 60:
+        return 2
+    if int > 50:
+        return 3
+    if int > 30:
+        return 4
+    if int > 5:
+        return 5
+    if int > 2:
+        return 6
+    if int > 1:
+        return 8
+    return 12
+
+
+def crop_image(width: int, height: int, filename: str, directory: str):
+    """
+    """
+    im = Image.open(directory + "/" + filename)
+    im = im.crop((height/2, width/2, height/2 + width, width/2 + height))
+    im.save(directory + "/" + filename, "png")
+
+
 
 
 # GRAPHS
 def create_map(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    df2 = df.copy()
+    df2 = df2[['Location Latitude', 'Location Longitude', 'Location Active Status']]
+    df2['Color'] = np.where(df['Location Active Status'] == True, DARK_SAGE, RED)
+
+    fig = go.Figure(go.Scattermapbox(
+            lat=df2['Location Latitude'],
+            lon=df2['Location Longitude'],
+            mode='markers',
+            marker={'color': df2['Color'],
+                    'size': 8}
+        ))
+    fig.update_layout(
+        autosize=True,
+        hovermode='closest',
+        mapbox=dict(
+            accesstoken=PK,
+            bearing=0,
+            center=dict(
+                lat=df2['Location Latitude'].mean(),
+                lon=df2['Location Longitude'].mean(),
+            ),
+            pitch=0,
+            zoom=max(map_scope((df2['Location Longitude'].max() - df2['Location Longitude'].min())), map_scope((df2['Location Latitude'].max() - df2['Location Latitude'].min())))
+        ),
+    )
+    fig.write_image(directory + '/map.png', width=1000, height=1000)
+    crop_image(624, 403, "map.png", directory)
+    return
 
 
 def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
@@ -1423,7 +1483,7 @@ if __name__ == "__main__":
 
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
-    [print(dataframe(df)) for dataframe in valid_dataframe_functions]
+    # [print(dataframe(df)) for dataframe in valid_dataframe_functions]
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory)
