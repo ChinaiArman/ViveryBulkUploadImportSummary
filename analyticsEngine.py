@@ -228,6 +228,18 @@ def plot_bar_graph(x_axis, y_axis, text_section) -> None:
     plt.ylabel(TEXT[text_section]["ylabel"])
 
 
+def plot_pie_graph() -> None:
+    """
+    """
+    pass
+
+
+def plot_histogram() -> None:
+    """
+    """
+    pass
+
+
 
 
 # GRAPHS
