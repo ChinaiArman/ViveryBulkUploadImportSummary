@@ -70,10 +70,10 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
     """
     plt.savefig(file_name, dpi=dpi)
     try:
-        shutil.move(file_name, directory)
+        shutil.move(file_name, directory + "/images")
     except OSError:
-        os.remove(directory + '/' + file_name)
-        shutil.move(file_name, directory)
+        os.remove(directory + "/images"+ '/' + file_name)
+        shutil.move(file_name, directory + "/images")
     plt.close()
     return
 
@@ -195,11 +195,11 @@ def crop_image(width: int, height: int, filename: str, directory: str) -> None:
         - Ensure that the image file exists in the specified directory, the dimensions are positive integers, and the dimensions are valid for cropping.
     """
     try:
-        im = Image.open(directory + "/" + filename)
+        im = Image.open(directory + "/images/" + filename)
     except FileNotFoundError:
-        raise FileNotFoundError(f"The image file '{filename}' does not exist in the directory '{directory}'.")
+        raise FileNotFoundError(f"The image file '{filename}' does not exist in the directory '{directory}'/images.")
     im = im.crop((height/2, width/2, height/2 + width, width/2 + height))
-    im.save(directory + "/" + filename, "png")
+    im.save(directory + "/images/" + filename, "png")
     return
 
 
@@ -302,7 +302,7 @@ def create_map(df: pd.DataFrame, directory: str) -> None:
             zoom=max(map_scope((df2['Location Longitude'].max() - df2['Location Longitude'].min())), map_scope((df2['Location Latitude'].max() - df2['Location Latitude'].min())))
         ),
     )
-    fig.write_image(directory + '/map.png', width=1000, height=1000)
+    fig.write_image(directory + "/images" + '/map.png', width=1000, height=1000)
     crop_image(624, 403, "map.png", directory)
     return
 
@@ -1557,7 +1557,7 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of graphing functions
     graphing_functions = [
-        # create_map,
+        create_map,
         graph_profile_grade,
         graph_missing_organization_contact_info,
         graph_missing_location_contact_info,
@@ -1602,6 +1602,12 @@ if __name__ == "__main__":
     # Create directory within project folder
     if not os.path.isdir(directory):
         os.mkdir(directory)
+    if not os.path.isdir(directory + "/resources"):
+        os.mkdir(directory + "/resources")
+    if not os.path.isdir(directory + "/csvs"):
+        os.mkdir(directory + "/csvs")
+    if not os.path.isdir(directory + "/images"):
+        os.mkdir(directory + "/images")
     # Move file to directory
     if args.file.split("\\")[0] != directory:
         shutil.move(args.file, directory)
@@ -1616,10 +1622,10 @@ if __name__ == "__main__":
 
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
-    # [print(dataframe(df)) for dataframe in valid_dataframe_functions]
+    [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
 
     # Save State
-    save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory)
-    save_state(WEIGHTS, WEIGHTS_SAVE_NAME.replace('resources/', ''), directory)
-    save_state(RECOMMENDED_FILTERS, RECOMMENDED_FILTERS_SAVE_NAME.replace('resources/', ''), directory)
-    save_state(PROFILE_COMPLETION_TIERS, PROFILE_COMPLETION_TIERS_SAVE_NAME.replace('resources/', ''), directory)
+    save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")
+    save_state(WEIGHTS, WEIGHTS_SAVE_NAME.replace('resources/', ''), directory + "/resources")
+    save_state(RECOMMENDED_FILTERS, RECOMMENDED_FILTERS_SAVE_NAME.replace('resources/', ''), directory + "/resources")
+    save_state(PROFILE_COMPLETION_TIERS, PROFILE_COMPLETION_TIERS_SAVE_NAME.replace('resources/', ''), directory + "/resources")
