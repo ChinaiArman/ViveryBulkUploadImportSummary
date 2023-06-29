@@ -7,14 +7,14 @@ import pandas as pd                 # Pandas, used to represent CSVs and large d
 import numpy as np                  # NumPy, adds Arrays to python and enables large arithmatic operations.
 import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data sets and create data visualizations.
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
-import plotly.graph_objects as go   #
+import plotly.graph_objects as go   # Plotly, used to create the map object using the MapBox API.
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
-from PIL import Image               #
+from PIL import Image               # Image, used to handle varius tasks with Image files like PNGs.
 
 # LOCAL FILE IMPORTS
 
 
-# CONSTANTS
+# IMPORT CONSTANTS
 from keys import PK, SK                                                                 # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
 TEXT_SAVE_NAME = "resources/text.json"                                                  # Path to TEXT save file (JSON).
 with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
@@ -25,10 +25,13 @@ RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                
 PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'           # Path to Profile Completion Tiers (CSV).
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)              # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
+# MISC CONSTANTS
+MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                                 # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
+
 # COLOURS
-VIVERY_GREEN = '#00483D'                                                                #
-DARK_SAGE = '#00796B'                                                                   #
-RED = '#D4A392'                                                                         #
+VIVERY_GREEN = '#00483D'                                                                # A colour in the Vivery colour scheme.
+DARK_SAGE = '#00796B'                                                                   # A colour in the Vivery colour scheme.
+RED = '#D4A392'                                                                         # A colour in the Vivery colour scheme.
 
 
 
@@ -121,28 +124,77 @@ def save_state(data: any, filename: str, directory: str) -> None:
     return
 
 
-def map_scope(int: int) -> None:
+def map_scope(value: int) -> None:
     """
+    Maps the difference between the maximum and minimum lat/lon value to a corresponding map scope.
+
+    Args:
+        `value` (int): The integer value to be mapped to a scope.
+
+    Returns:
+        `None`.
+
+    Preconditions:
+        None.
+
+    Raises:
+        None.
+
+    Example:
+        >>> value = 40
+        >>> scope = map_scope(value)
+        >>> print(f"The scope for value {value} is {scope}")
+        The scope for value 40 is 4
+
+
+    Additional Information:
+        - The function maps an input integer value to a specific scope.
+        - The function uses a dictionary to map ranges to their corresponding scopes.
+        - The keys in the dictionary represent the upper bounds of the ranges.
+        - The values in the dictionary represent the corresponding scopes.
+        - The function iterates through the dictionary and returns the first matching scope based on the value else returns 12.
+        - Ensure that the input value is an integer.
     """
-    if int > 60:
-        return 2
-    if int > 50:
-        return 3
-    if int > 30:
-        return 4
-    if int > 5:
-        return 5
-    if int > 2:
-        return 6
-    if int > 1:
-        return 8
+    for range_end, scope in MAP_SCOPE_KEY.items():
+        if value > range_end:
+            return scope
     return 12
 
 
 def crop_image(width: int, height: int, filename: str, directory: str) -> None:
     """
+    Crops an image to a specified width and height.
+
+    Args:
+        `width` (int): The desired width of the cropped image.
+        `height` (int): The desired height of the cropped image.
+        `filename` (str): The name of the image file to be cropped.
+        `directory` (str): The directory where the image file is located.
+
+    Returns:
+        `None`
+
+    Preconditions:
+        - The image file specified by `filename` must exist in the given `directory`.
+        - The `width` and `height` values must be positive integers.
+
+    Raises:
+        FileNotFoundError: If the specified image file does not exist in the given directory.
+
+    Example:
+        >>> crop_image(200, 150, "image.jpg", "/path/to/images")
+        # The image.jpg file in the /path/to/images directory will be cropped to a width of 200 and height of 150.
+
+    Additional Information:
+        - The `crop_image` function uses the Python Imaging Library (PIL) to open the specified image file.
+        - The function crops the image using the coordinates (height/2, width/2, height/2 + width, width/2 + height).
+        - The resulting cropped image is saved as a PNG file in the same directory with the same filename, overwriting the original file.
+        - Ensure that the image file exists in the specified directory, the dimensions are positive integers, and the dimensions are valid for cropping.
     """
-    im = Image.open(directory + "/" + filename)
+    try:
+        im = Image.open(directory + "/" + filename)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"The image file '{filename}' does not exist in the directory '{directory}'.")
     im = im.crop((height/2, width/2, height/2 + width, width/2 + height))
     im.save(directory + "/" + filename, "png")
     return
@@ -153,6 +205,37 @@ def crop_image(width: int, height: int, filename: str, directory: str) -> None:
 # GRAPHS
 def create_map(df: pd.DataFrame, directory: str) -> None:
     """
+    Creates a map visualization based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the map data.
+        `directory` (str): The directory where the map image will be saved.
+
+    Returns:
+        None
+
+    Preconditions:
+        - The Pandas DataFrame must contain the required columns: `Location Latitude`, `Location Longitude`, `Organization Approval Status`,
+          `Organization Active Status`, `Location Active Status`, and `Location Approval Status`.
+        - The `Location Latitude` and `Location Longitude` columns must contain valid latitude and longitude values.
+        - The `Organization Approval Status`, `Organization Active Status`, `Location Approval Status`, and `Location Active Status` columns
+          must contain boolean values.
+
+    Raises:
+        None
+
+    Example:
+        >>> create_map(data, "/path/to/maps")
+        # Creates a map visualization based on the provided DataFrame and saves the map image in the /path/to/maps directory.
+
+    Additional Information:
+        - The function creates a scattermapbox plot using the latitude and longitude coordinates from the DataFrame.
+        - The marker color is determined based on the conditions specified using the Organization and Location statuses.
+        - The resulting map is centered based on the average latitude and longitude values.
+        - The zoom level is determined dynamically based on the range of latitude and longitude values in the DataFrame.
+        - The generated map image is saved as a PNG file in the specified directory.
+        - The function uses the `crop_image` function to crop the map image to a specific width and height (624x403).
+        - Ensure that the DataFrame contains the required columns and represents the relevant map data, and the directory is valid.
     """
     df2 = df.copy()
     df2 = df2[['Location Latitude', 'Location Longitude', 'Organization Approval Status', 'Organization Active Status', 'Location Active Status', 'Location Approval Status']]
