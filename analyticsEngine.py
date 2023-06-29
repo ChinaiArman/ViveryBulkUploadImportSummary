@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data se
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
 import plotly.graph_objects as go   # Plotly, used to create the map object using the MapBox API.
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
+import math                         # Math, used for basic mathematical operations.
 from PIL import Image               # Image, used to handle varius tasks with Image files like PNGs.
 
 # LOCAL FILE IMPORTS
@@ -200,6 +201,31 @@ def crop_image(width: int, height: int, filename: str, directory: str) -> None:
     return
 
 
+def plot_bar_graph(x_axis, y_axis, text_section) -> None:
+    """
+    """
+    # Create Graph
+    fig, ax = plt.subplots()
+    ax.bar(x_axis, y_axis, width=0.5, color=DARK_SAGE, zorder=2)
+
+    # Y-Ticks
+    if max(y_axis) <= 10:
+        plt.yticks(range(math.floor(min(y_axis)), math.ceil(max(y_axis))+1))
+    
+    # Y-Dash Lines
+    for tick in plt.yticks()[0][1:]:
+        ax.axhline(y=tick, color='grey', linewidth=0.3, zorder=1)
+    
+    # Remove Box
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    # Axis Labels
+    plt.xlabel(TEXT[text_section]["xlabel"])
+    plt.ylabel(TEXT[text_section]["ylabel"])
+
+
 
 
 # GRAPHS
@@ -270,7 +296,16 @@ def create_map(df: pd.DataFrame, directory: str) -> None:
 def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    df = create_program_profile_completion_table(df)
+    x_axis = TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["tier levels"]
+    y_axis = [0, 0, 0]
+    for i in range(3):
+        try:
+            y_axis[i] = df[TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][2]].value_counts()[x_axis[i]]
+        except KeyError:
+            y_axis[i] = 0
+    plot_bar_graph(x_axis, y_axis, "PROFILE COMPLETENESS")
+    save_graph(TEXT["PROFILE COMPLETENESS"]["filename"], directory, 300)
 
 
 def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) -> None:
@@ -1508,7 +1543,7 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of graphing functions
     graphing_functions = [
-        create_map,
+        # create_map,
         graph_profile_grade,
         graph_missing_organization_contact_info,
         graph_missing_location_contact_info,
