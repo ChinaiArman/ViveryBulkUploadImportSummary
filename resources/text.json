@@ -23,6 +23,9 @@
 
     "PROFILE COMPLETENESS": {
         "title": "Profile Completeness",
+        "filename": "profile_completeness_graph.png",
+        "xlabel": "Locations",
+        "ylabel": "Profile Grade",
         "paragraph": "",
         "subtext": ""
     },
@@ -120,7 +123,8 @@
 
     "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {
         "title": "Appendix D - Program Profile Completion Tiers",
-        "columns": ["Tier Level", "Minimum", "Maximum"]
+        "columns": ["Tier Level", "Minimum", "Maximum"],
+        "tier levels": ["Basic", "Quality", "Exceptional"]
     },
 
     "APPENDIX PROGRAM CATEGORY FIELD WEIGHTS": {
