@@ -24,8 +24,8 @@
     "PROFILE COMPLETENESS": {
         "title": "Profile Completeness",
         "filename": "profile_completeness_graph.png",
-        "xlabel": "Locations",
-        "ylabel": "Profile Grade",
+        "xlabel": "Profile Grade",
+        "ylabel": "Locations",
         "paragraph": "",
         "subtext": ""
     },

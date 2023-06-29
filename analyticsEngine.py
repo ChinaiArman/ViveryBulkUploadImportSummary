@@ -32,6 +32,8 @@ MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                         
 # COLOURS
 VIVERY_GREEN = '#00483D'                                                                # A colour in the Vivery colour scheme.
 DARK_SAGE = '#00796B'                                                                   # A colour in the Vivery colour scheme.
+VIRIDIAN = '#5F9575'                                                                    # A colour in the Vivery colour scheme.
+SAGE = '#A2C3A8'                                                                        # A colour in the Vivery colour scheme.
 RED = '#D4A392'                                                                         # A colour in the Vivery colour scheme.
 
 
@@ -206,7 +208,7 @@ def plot_bar_graph(x_axis, y_axis, text_section) -> None:
     """
     # Create Graph
     fig, ax = plt.subplots()
-    ax.bar(x_axis, y_axis, width=0.5, color=DARK_SAGE, zorder=2)
+    ax.bar(x_axis, y_axis, width=0.5, color=VIRIDIAN, zorder=2)
 
     # Y-Ticks
     if max(y_axis) <= 10:
@@ -265,7 +267,7 @@ def create_map(df: pd.DataFrame, directory: str) -> None:
     """
     df2 = df.copy()
     df2 = df2[['Location Latitude', 'Location Longitude', 'Organization Approval Status', 'Organization Active Status', 'Location Active Status', 'Location Approval Status']]
-    df2['Color'] = np.where((df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True) & (df['Location Approval Status'] == True) & (df['Location Active Status'] == True), DARK_SAGE, RED)
+    df2['Color'] = np.where((df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True) & (df['Location Approval Status'] == True) & (df['Location Active Status'] == True), VIRIDIAN, RED)
 
     fig = go.Figure(go.Scattermapbox(
             lat=df2['Location Latitude'],
@@ -1543,7 +1545,7 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of graphing functions
     graphing_functions = [
-        # create_map,
+        create_map,
         graph_profile_grade,
         graph_missing_organization_contact_info,
         graph_missing_location_contact_info,
