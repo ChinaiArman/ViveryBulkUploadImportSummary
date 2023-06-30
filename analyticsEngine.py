@@ -16,25 +16,29 @@ from PIL import Image               # Image, used to handle varius tasks with Im
 
 
 # IMPORT CONSTANTS
-from keys import PK, SK                                                                 # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
-TEXT_SAVE_NAME = "resources/text.json"                                                  # Path to TEXT save file (JSON).
-with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
-WEIGHTS_SAVE_NAME = "resources/weights.json"                                            # Path to WEIGHTS save file (JSON).
-with open(WEIGHTS_SAVE_NAME) as file: WEIGHTS = json.load(file)                         # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the file, 'resources/weights.json'.
-RECOMMENDED_FILTERS_SAVE_NAME = 'resources/recommended_filters.csv'                     # Path to Recommended Filters (CSV).
-RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                        # RECOMMENDED_FILTERS, used to store the recommended filters for locations and programs, stored in the file, 'resources/recommended_filters.csv'
-PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'           # Path to Profile Completion Tiers (CSV).
-PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)              # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
+from keys import PK, SK                                                                                         # PK and SK, used for the MapBoxAPI; stored in the API Key File 'keys'.
+TEXT_SAVE_NAME = "resources/text.json"                                                                          # Path to TEXT save file (JSON).
+with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                                                       # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
+WEIGHTS_SAVE_NAME = "resources/weights.json"                                                                    # Path to WEIGHTS save file (JSON).
+with open(WEIGHTS_SAVE_NAME) as file: WEIGHTS = json.load(file)                                                 # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the file, 'resources/weights.json'.
+RECOMMENDED_FILTERS_SAVE_NAME = 'resources/recommended_filters.csv'                                             # Path to Recommended Filters (CSV).
+RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                                                # RECOMMENDED_FILTERS, used to store the recommended filters for locations and programs, stored in the file, 'resources/recommended_filters.csv'
+PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'                                   # Path to Profile Completion Tiers (CSV).
+PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
-MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                                 # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
+MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                                                         # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
 
 # COLOURS
-VIVERY_GREEN = '#00483D'                                                                # A colour in the Vivery colour scheme.
-DARK_SAGE = '#00796B'                                                                   # A colour in the Vivery colour scheme.
-VIRIDIAN = '#5F9575'                                                                    # A colour in the Vivery colour scheme.
-SAGE = '#A2C3A8'                                                                        # A colour in the Vivery colour scheme.
-SALMON = '#D4A392'                                                                      # A colour in the Vivery colour scheme.
+VIVERY_GREEN = '#00483D'                                                                                        # A colour in the Vivery colour scheme.
+DARK_SAGE = '#00796B'                                                                                           # A colour in the Vivery colour scheme.
+VIRIDIAN = '#5F9575'                                                                                            # A colour in the Vivery colour scheme.
+SAGE = '#A2C3A8'                                                                                                # A colour in the Vivery colour scheme.
+SALMON = '#D4A392'                                                                                              # A colour in the Vivery colour scheme.
+
+# STYLES
+AXES_LABEL_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 16,}      # A Dictionary used to style the pyplot axes text.
+
 
 
 
@@ -68,7 +72,7 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
         - The file's size is specified by the `dpi` argument.
         - If the file cannot be moved to the specified directory, an `OSError` is raised.
     """
-    plt.savefig(file_name, dpi=dpi)
+    plt.savefig(file_name, dpi=dpi, bbox_inches='tight')
     try:
         shutil.move(file_name, directory + "/images")
     except OSError:
@@ -210,10 +214,15 @@ def plot_bar_graph(x_axis, y_axis, text_section) -> None:
     fig, ax = plt.subplots()
     ax.bar(x_axis, y_axis, width=0.5, color=VIRIDIAN, zorder=2)
 
+    # X-Ticks
+    plt.xticks(font="Roobert Medium", fontsize=10, color=VIVERY_GREEN)
+
     # Y-Ticks
     if max(y_axis) <= 10:
         plt.yticks(range(math.floor(min(y_axis)), math.ceil(max(y_axis))+1))
-    
+    plt.yticks(font="Roobert Medium", fontsize=10, color=VIVERY_GREEN)
+    ax.tick_params(axis=u'both', which=u'both',length=0)
+
     # Y-Dash Lines
     for tick in plt.yticks()[0][1:]:
         ax.axhline(y=tick, color='grey', linewidth=0.3, zorder=1)
@@ -224,8 +233,9 @@ def plot_bar_graph(x_axis, y_axis, text_section) -> None:
     ax.spines['left'].set_visible(False)
 
     # Axis Labels
-    plt.xlabel(TEXT[text_section]["xlabel"])
-    plt.ylabel(TEXT[text_section]["ylabel"])
+    plt.xlabel(TEXT[text_section]["xlabel"], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
+    plt.ylabel(TEXT[text_section]["ylabel"], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
+    return
 
 
 def plot_pie_graph() -> None:
@@ -1557,7 +1567,7 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of graphing functions
     graphing_functions = [
-        create_map,
+        # create_map,
         graph_profile_grade,
         graph_missing_organization_contact_info,
         graph_missing_location_contact_info,
