@@ -31,7 +31,6 @@ MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                         
 
 # COLOURS
 VIVERY_GREEN = '#00483D'                                                                                        # A colour in the Vivery colour scheme.
-DARK_SAGE = '#00796B'                                                                                           # A colour in the Vivery colour scheme.
 VIRIDIAN = '#5F9575'                                                                                            # A colour in the Vivery colour scheme.
 SAGE = '#A2C3A8'                                                                                                # A colour in the Vivery colour scheme.
 SALMON = '#D4A392'                                                                                              # A colour in the Vivery colour scheme.
@@ -207,12 +206,50 @@ def crop_image(width: int, height: int, filename: str, directory: str) -> None:
     return
 
 
-def plot_bar_graph(x_axis, y_axis, text_section) -> None:
+def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str) -> None:
     """
+    Plots a bar graph based on the provided data.
+
+    Args:
+        `x_axis` (list): The values for the x-axis.
+        `y_axis` (list): The values for the y-axis.
+        `text_section` (str): The key of the text section in the `TEXT` dictionary for labeling.
+        `barcolor` (str): The color of the bars.
+
+    Returns:
+        `None`
+
+    Preconditions:
+        - The lengths of `x_axis` and `y_axis` must be the same.
+        - `text_section` must be a valid key in the `TEXT` dictionary.
+        - `barcolor` must be a valid color string.
+
+    Raises:
+        None
+
+    Example:
+        >>> plot_bar_graph([1, 2, 3, 4], [10, 20, 30, 40], "bar_graph_section", VIVERY_GREEN)
+        # Plots a bar graph with x-axis values [1, 2, 3, 4], y-axis values [10, 20, 30, 40],
+        # using the text section "bar_graph_section" for labeling, and blue color for the bars.
+
+    Additional Information:
+        - The function creates a bar graph using the provided x-axis and y-axis values.
+        - The width of the bars is set to 0.5.
+        - The x-axis ticks are customized with the font `Roobert Medium`, fontsize 10, and color `VIVERY_GREEN`.
+        - The y-axis ticks are customized with the font `Roobert Medium`, fontsize 10, and color `VIVERY_GREEN`.
+        - If the maximum value in the y-axis data is less than or equal to 10, the y-axis ticks are set to a range based on the minimum and maximum values.
+        - Y-dash lines are added at each y-axis tick except the first one.
+        - The top, right, and left spines of the plot are removed.
+        - The x-axis label is set using the specified `text_section` key and the `AXES_LABEL_FONT_DICT` font settings.
+        - The y-axis label is set using the specified `text_section` key and the `AXES_LABEL_FONT_DICT` font settings.
+        - No box or frame is drawn around the plot.
+
+    Note:
+        - Ensure that the lengths of `x_axis` and `y_axis` are the same, and the `text_section` key and `barcolor` are valid.
     """
     # Create Graph
     fig, ax = plt.subplots()
-    ax.bar(x_axis, y_axis, width=0.5, color=VIRIDIAN, zorder=2)
+    ax.bar(x_axis, y_axis, width=0.5, color=barcolor, zorder=2)
 
     # X-Ticks
     plt.xticks(font="Roobert Medium", fontsize=10, color=VIVERY_GREEN)
@@ -328,7 +365,7 @@ def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
             y_axis[i] = df[TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][2]].value_counts()[x_axis[i]]
         except KeyError:
             y_axis[i] = 0
-    plot_bar_graph(x_axis, y_axis, "PROFILE COMPLETENESS")
+    plot_bar_graph(x_axis, y_axis, "PROFILE COMPLETENESS", VIRIDIAN)
     save_graph(TEXT["PROFILE COMPLETENESS"]["filename"], directory, 300)
     return
 
@@ -345,7 +382,7 @@ def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) ->
         len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][3]].isna()]),
         len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
         ]
-    plot_bar_graph(x_axis, y_axis, "VIVERY CONTACT INFORMATION")
+    plot_bar_graph(x_axis, y_axis, "VIVERY CONTACT INFORMATION", VIVERY_GREEN)
     save_graph(TEXT["VIVERY CONTACT INFORMATION"]["filename"], directory, 300)
     return
 
