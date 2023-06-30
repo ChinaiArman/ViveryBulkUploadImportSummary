@@ -26,6 +26,7 @@
         "filename": "profile_completeness_graph.png",
         "xlabel": "Profile Grade",
         "ylabel": "Locations",
+        "xaxis": ["Basic", "Quality", "Exceptional"],
         "paragraph": "",
         "subtext": ""
     },
@@ -39,6 +40,10 @@
 
     "VIVERY CONTACT INFORMATION": {
         "title": "Vivery Contact Information",
+        "xlabel": "Missing Organization Contact Fields",
+        "ylabel": "Organizations",
+        "filename": "missing_organization_contact_information_graph.png",
+        "xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
         "paragraph": ""
     },
 

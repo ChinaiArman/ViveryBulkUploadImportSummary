@@ -321,7 +321,7 @@ def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
     """
     """
     df = create_program_profile_completion_table(df)
-    x_axis = TEXT["APPENDIX PROGRAM PROFILE COMPLETION TIERS"]["tier levels"]
+    x_axis = TEXT["PROFILE COMPLETENESS"]["xaxis"]
     y_axis = [0, 0, 0]
     for i in range(3):
         try:
@@ -330,12 +330,25 @@ def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
             y_axis[i] = 0
     plot_bar_graph(x_axis, y_axis, "PROFILE COMPLETENESS")
     save_graph(TEXT["PROFILE COMPLETENESS"]["filename"], directory, 300)
+    return
 
 
 def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    df = create_organization_contact_information_table(df)
+    x_axis = TEXT["VIVERY CONTACT INFORMATION"]["xaxis"]
+    y_axis = [
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1]].isna()]),
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][2]].isna()]),
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][3]].isna()]),
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
+        ]
+    plot_bar_graph(x_axis, y_axis, "VIVERY CONTACT INFORMATION")
+    save_graph(TEXT["VIVERY CONTACT INFORMATION"]["filename"], directory, 300)
+    return
+
 
 
 def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> None:
