@@ -1622,7 +1622,7 @@ if __name__ == "__main__":
 
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
-    [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
+    # [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")
