@@ -49,6 +49,14 @@
 
     "PUBLIC CONTACT INFORMATION": {
         "title": "Public Contact Information",
+        "location xlabel": "Missing Locations Contact Fields",
+        "location ylabel": "Locations",
+        "location filename": "missing_location_contact_information_graph.png",
+        "location xaxis": ["Not Contactable", "Name", "Phone", "Email", "Website", "Fully Engaged"],
+        "program xlabel": "Missing Program Contact Fields",
+        "program ylabel": "Programs",
+        "program filename": "missing_program_contact_information_graph.png",
+        "program xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
         "subtitle": "Missing Location and Program Contact Information",
         "paragraph": ""
     },

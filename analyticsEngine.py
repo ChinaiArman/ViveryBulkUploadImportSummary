@@ -206,7 +206,7 @@ def crop_image(width: int, height: int, filename: str, directory: str) -> None:
     return
 
 
-def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str) -> None:
+def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str, xlabel="xlabel", ylabel="ylabel") -> None:
     """
     Plots a bar graph based on the provided data.
 
@@ -215,6 +215,8 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str)
         `y_axis` (list): The values for the y-axis.
         `text_section` (str): The key of the text section in the `TEXT` dictionary for labeling.
         `barcolor` (str): The color of the bars.
+        `xlabel` (str) [kwargg]: A keyword argument used to find the X Axis Label in the `TEXT` dictionary.
+        `ylabel` (str) [kwargg]: A keyword argument used to find the Y Axis Label in the `TEXT` dictionary.
 
     Returns:
         `None`
@@ -270,8 +272,8 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str)
     ax.spines['left'].set_visible(False)
 
     # Axis Labels
-    plt.xlabel(TEXT[text_section]["xlabel"], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
-    plt.ylabel(TEXT[text_section]["ylabel"], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
+    plt.xlabel(TEXT[text_section][xlabel], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
+    plt.ylabel(TEXT[text_section][ylabel], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
     return
 
 
@@ -356,6 +358,39 @@ def create_map(df: pd.DataFrame, directory: str) -> None:
 
 def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to visualize the profile completion grade based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the profile completion data.
+        `directory` (str): The directory where the generated graph will be saved.
+
+    Returns:
+        None
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant profile completion data.
+        - `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_profile_grade(data, "/path/to/directory")
+        # Generates a bar graph based on the profile completion data in the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Notes:
+        - Ensure that the DataFrame `df` contains the necessary columns and represents the relevant profile completion data.
+        - Provide a valid directory path in `directory` to save the generated graph.
+
+    Additional Information:
+        - The function first creates a program profile completion table based on the provided DataFrame using the `create_program_profile_completion_table` function.
+        - The x-axis values for the bar graph are retrieved from the `TEXT["PROFILE COMPLETENESS"]["xaxis"]` dictionary key.
+        - The y-axis values represent the count of each profile completion grade.
+        - The function iterates over the x-axis values and retrieves the corresponding count from the program profile completion table.
+        - If a profile completion grade does not exist in the table, the count is set to 0.
+        - The `plot_bar_graph` function is called to generate the bar graph using the x-axis and y-axis values.
+        - The graph is saved with the filename specified in `TEXT["PROFILE COMPLETENESS"]["filename"]` in the specified directory.
     """
     df = create_program_profile_completion_table(df)
     x_axis = TEXT["PROFILE COMPLETENESS"]["xaxis"]
@@ -372,14 +407,51 @@ def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
 
 def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to visualize the missing organization contact information based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the organization contact information data.
+        `directory` (str): The directory where the generated graph will be saved.
+
+    Returns:
+        None
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant organization contact information data.
+        - `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_missing_organization_contact_info(data, "/path/to/directory")
+        # Generates a bar graph based on the missing organization contact information data in the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Notes:
+        - Ensure that the DataFrame `df` contains the necessary columns and represents the relevant organization contact information data.
+        - Provide a valid directory path in `directory` to save the generated graph.
+
+    Additional Information:
+        - The function first creates an organization contact information table based on the provided DataFrame using the `create_organization_contact_information_table` function.
+        - The x-axis values for the bar graph are retrieved from the `TEXT["VIVERY CONTACT INFORMATION"]["xaxis"]` dictionary key.
+        - The y-axis values represent the count of missing values for different contact information fields.
+        - The function calculates the count of missing values for each contact information field:
+          - The first y-axis value represents the count of rows where all contact information fields are missing.
+          - The second y-axis value represents the count of rows where only the first contact information field is missing.
+          - The third y-axis value represents the count of rows where only the second contact information field is missing.
+          - The fourth y-axis value represents the count of rows where only the third contact information field is missing.
+          - The fifth y-axis value represents the count of rows where all contact information fields are present.
+        - The `plot_bar_graph` function is called to generate the bar graph using the x-axis and y-axis values.
+        - The graph is saved with the filename specified in `TEXT["VIVERY CONTACT INFORMATION"]["filename"]` in the specified directory.
     """
     df = create_organization_contact_information_table(df)
     x_axis = TEXT["VIVERY CONTACT INFORMATION"]["xaxis"]
     y_axis = [
         len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
-        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1]].isna()]),
-        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][2]].isna()]),
-        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][3]].isna()]),
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1]].isna()]) - len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][2]].isna()]) - len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][3]].isna()]) - len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
         len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
         ]
     plot_bar_graph(x_axis, y_axis, "VIVERY CONTACT INFORMATION", VIVERY_GREEN)
@@ -387,17 +459,114 @@ def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) ->
     return
 
 
-
 def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to visualize the missing location contact information based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the location contact information data.
+        `directory` (str): The directory where the generated graph will be saved.
+
+    Returns:
+        None
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant location contact information data.
+        - `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_missing_location_contact_info(data, "/path/to/directory")
+        # Generates a bar graph based on the missing location contact information data in the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Notes:
+        - Ensure that the DataFrame `df` contains the necessary columns and represents the relevant location contact information data.
+        - Provide a valid directory path in `directory` to save the generated graph.
+
+    Additional Information:
+        - The function first creates a location contact information table based on the provided DataFrame using the `create_location_contact_information_table` function.
+        - The x-axis values for the bar graph are retrieved from the `TEXT["PUBLIC CONTACT INFORMATION"]["location xaxis"]` dictionary key.
+        - The y-axis values represent the count of missing values for different contact information fields.
+        - The function calculates the count of missing values for each contact information field:
+          - The first y-axis value represents the count of rows where all contact information fields are missing.
+          - The second y-axis value represents the count of rows where only the first contact information field is missing.
+          - The third y-axis value represents the count of rows where only the second contact information field is missing.
+          - The fourth y-axis value represents the count of rows where only the third contact information field is missing.
+          - The fifth y-axis value represents the count of rows where only the fourth contact information field is missing.
+          - The sixth y-axis value represents the count of rows where all contact information fields are present.
+        - The `plot_bar_graph` function is called to generate the bar graph using the x-axis and y-axis values.
+        - The graph is saved with the filename specified in `TEXT["PUBLIC CONTACT INFORMATION"]["location filename"]` in the specified directory.
     """
-    pass
+    df = create_location_contact_information_table(df)
+    x_axis = TEXT["PUBLIC CONTACT INFORMATION"]["location xaxis"]
+    y_axis = [
+        len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][4]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
+        ]
+    plot_bar_graph(x_axis, y_axis, "PUBLIC CONTACT INFORMATION", VIRIDIAN, xlabel="location xlabel", ylabel="location ylabel")
+    save_graph(TEXT["PUBLIC CONTACT INFORMATION"]["location filename"], directory, 300)
+    return
 
 
 def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to visualize the missing program contact information based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program contact information data.
+        `directory` (str): The directory where the generated graph will be saved.
+
+    Returns:
+        None
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant program contact information data.
+        - `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_missing_program_contact_info(data, "/path/to/directory")
+        # Generates a bar graph based on the missing program contact information data in the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Notes:
+        - Ensure that the DataFrame `df` contains the necessary columns and represents the relevant program contact information data.
+        - Provide a valid directory path in `directory` to save the generated graph.
+
+    Additional Information:
+        - The function first creates a program contact information table based on the provided DataFrame using the `create_program_contact_information_table` function.
+        - The x-axis values for the bar graph are retrieved from the `TEXT["PUBLIC CONTACT INFORMATION"]["program xaxis"]` dictionary key.
+        - The y-axis values represent the count of missing values for different contact information fields.
+        - The function calculates the count of missing values for each contact information field:
+          - The first y-axis value represents the count of rows where all contact information fields are missing.
+          - The second y-axis value represents the count of rows where only the first contact information field is missing.
+          - The third y-axis value represents the count of rows where only the second contact information field is missing.
+          - The fourth y-axis value represents the count of rows where only the third contact information field is missing.
+          - The fifth y-axis value represents the count of rows where all contact information fields are present.
+        - The `plot_bar_graph` function is called to generate the bar graph using the x-axis and y-axis values.
+        - The graph is saved with the filename specified in `TEXT["PUBLIC CONTACT INFORMATION"]["program filename"]` in the specified directory.
     """
-    pass
+    df = create_program_contact_information_table(df)
+    x_axis = TEXT["PUBLIC CONTACT INFORMATION"]["program xaxis"]
+    y_axis = [
+        len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1]].isna()]) - len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][2]].isna()]) - len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][3]].isna()]) - len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
+        len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
+        ]
+    plot_bar_graph(x_axis, y_axis, "PUBLIC CONTACT INFORMATION", SAGE, xlabel="program xlabel", ylabel="program ylabel")
+    save_graph(TEXT["PUBLIC CONTACT INFORMATION"]["program filename"], directory, 300)
+    return
 
 
 def graph_program_type(df: pd.DataFrame, directory: str) -> None:
