@@ -36,8 +36,7 @@ SAGE = '#A2C3A8'                                                                
 SALMON = '#D4A392'                                                                                              # A colour in the Vivery colour scheme.
 
 # STYLES
-AXES_LABEL_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 16,}      # A Dictionary used to style the pyplot axes text.
-
+AXES_LABEL_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 16}       # A Dictionary used to style the pyplot axes text.
 
 
 
@@ -584,7 +583,13 @@ def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
 def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    programs = df[["Program External ID", "Program Audience Groups", "Languages Spoken", "Food Program Features", "Items Offered", "Dietary Options Available"]].drop_duplicates().notna().sum().to_list()[1:]
+    locations = df[["Location External ID", "Location Features"]].drop_duplicates().notna().sum().to_list()[1:]
+    x_axis = TEXT["PROGRAM FILTER FIELDS"]["xaxis"]
+    y_axis = programs + locations
+    plot_bar_graph(x_axis, y_axis, "PROGRAM FILTER FIELDS", SAGE)
+    save_graph(TEXT["PROGRAM FILTER FIELDS"]["filename"], directory, 300)
+    return
 
 
 def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
