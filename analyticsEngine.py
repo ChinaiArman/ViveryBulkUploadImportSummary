@@ -583,6 +583,32 @@ def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
 
 def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to visualize the usage of program and location filter fields.
+
+    Args:
+        `df` (pd.DataFrame): The DataFrame containing the program and location filter fields data.
+        `directory` (str): The directory path where the generated graph will be saved.
+
+    Preconditions:
+        - The DataFrame `df` must contain the necessary columns representing the program and location filter fields.
+        - The `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_program_filter_usage(data, "/path/to/directory")
+        # Generates a bar graph based on the usage of program and location filter fields in the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Additional Information:
+        - The function retrieves the count of non-null values for each program filter field from the DataFrame `df`.
+        - The function also retrieves the count of non-null values for each location filter field from the DataFrame `df`.
+        - The x-axis values for the bar graph are retrieved from the `TEXT["PROGRAM FILTER FIELDS"]["xaxis"]` dictionary key.
+        - The y-axis values represent the count of non-null values for each program and location filter field.
+        - The function calculates the y-axis values by concatenating the counts of program filter fields and location filter fields.
+        - The `plot_bar_graph` function is called to generate the bar graph using the `x-axis` and `y-axis` values.
+        - The graph is saved with the filename specified in `TEXT["PROGRAM FILTER FIELDS"]["filename"]` in the specified directory.
     """
     programs = df[["Program External ID", "Program Audience Groups", "Languages Spoken", "Food Program Features", "Items Offered", "Dietary Options Available"]].drop_duplicates().notna().sum().to_list()[1:]
     locations = df[["Location External ID", "Location Features"]].drop_duplicates().notna().sum().to_list()[1:]
@@ -613,6 +639,32 @@ def graph_sample_program_hours(df: pd.DataFrame, directory: str) -> None:
 
 def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to visualize the number of programs with missing qualifications.
+
+    Args:
+        `df` (pd.DataFrame): The DataFrame containing program data.
+        `directory` (str): The directory path where the generated graph will be saved.
+
+    Preconditions:
+        - The DataFrame `df` must contain the necessary columns representing program qualifications.
+        - The `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_program_qualifications(data, "/path/to/directory")
+        # Generates a bar graph based on the number of programs with missing qualifications in the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Additional Information:
+        - The function creates two DataFrame objects:
+            - `create_program_by_program_qualifications_table(df).dropna()`: Contains programs with non-null qualifications.
+            - `create_program_table(df)`: Contains all programs.
+        - The x-axis values for the bar graph are retrieved from the `TEXT["MISSING PROGRAM QUALIFICATIONS"]["xaxis"]` dictionary key.
+        - The y-axis values represent the number of programs with missing qualifications and the number of programs with qualifications, respectively.
+        - The `plot_bar_graph` function is called to generate the bar graph using the `x-axis` and `y-axis` values.
+        - The graph is saved with the filename specified in `TEXT["MISSING PROGRAM QUALIFICATIONS"]["filename"]` in the specified directory.
     """
     x_axis = TEXT["MISSING PROGRAM QUALIFICATIONS"]["xaxis"]
     y_axis = [len(create_program_by_program_qualifications_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_qualifications_table(df).dropna())] 
@@ -623,6 +675,32 @@ def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
 
 def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to visualize the number of programs with missing service areas.
+
+    Args:
+        `df` (pd.DataFrame): The DataFrame containing program data.
+        `directory` (str): The directory path where the generated graph will be saved.
+
+    Preconditions:
+        - The DataFrame `df` must contain the necessary columns representing program service areas.
+        - The `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_program_service_areas(data, "/path/to/directory")
+        # Generates a bar graph based on the number of programs with missing service areas in the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Additional Information:
+        - The function creates two DataFrame objects:
+            - `create_program_by_program_services_table(df).dropna()`: Contains programs with non-null service areas.
+            - `create_program_table(df)`: Contains all programs.
+        - The x-axis values for the bar graph are retrieved from the `TEXT["MISSING PROGRAM SERVICE AREA"]["xaxis"]` dictionary key.
+        - The y-axis values represent the number of programs with missing service areas and the number of programs with service areas, respectively.
+        - The `plot_bar_graph` function is called to generate the bar graph using the `x-axis` and `y-axis` values.
+        - The graph is saved with the filename specified in `TEXT["MISSING PROGRAM SERVICE AREA"]["filename"]` in the specified directory.
     """
     x_axis = TEXT["MISSING PROGRAM SERVICE AREA"]["xaxis"]
     y_axis = [len(create_program_by_program_services_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_services_table(df).dropna())] 
