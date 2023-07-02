@@ -110,12 +110,20 @@
 
     "MISSING PROGRAM QUALIFICATIONS": {
         "title": "Missing Program Qualifications",
-        "paragraph": ""
+        "paragraph": "",
+        "xaxis": ["Qualifications Listed", "No Qualifications"],
+        "xlabel": "",
+        "ylabel": "Programs",
+        "filename": "program_qualification_usage.png"
     },
 
     "MISSING PROGRAM SERVICE AREA": {
         "title": "Missing Program Service Areas",
-        "paragraph": ""
+        "paragraph": "",
+        "xaxis": ["Service Area Provided", "No Service Area"],
+        "xlabel": "",
+        "ylabel": "Programs",
+        "filename": "program_service_area_usage.png"
     },
 
     "EXAMPLE PROFILE PREVIEW": {

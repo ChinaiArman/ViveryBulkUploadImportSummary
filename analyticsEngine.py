@@ -271,7 +271,8 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
     ax.spines['left'].set_visible(False)
 
     # Axis Labels
-    plt.xlabel(TEXT[text_section][xlabel], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
+    if TEXT[text_section][xlabel] != "":
+        plt.xlabel(TEXT[text_section][xlabel], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
     plt.ylabel(TEXT[text_section][ylabel], fontdict=AXES_LABEL_FONT_DICT, labelpad=10)
     return
 
@@ -613,13 +614,21 @@ def graph_sample_program_hours(df: pd.DataFrame, directory: str) -> None:
 def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    x_axis = TEXT["MISSING PROGRAM QUALIFICATIONS"]["xaxis"]
+    y_axis = [len(create_program_by_program_qualifications_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_qualifications_table(df).dropna())] 
+    plot_bar_graph(x_axis, y_axis, "MISSING PROGRAM QUALIFICATIONS", SAGE)
+    save_graph(TEXT["MISSING PROGRAM QUALIFICATIONS"]["filename"], directory, 300)
+    return
 
 
 def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    x_axis = TEXT["MISSING PROGRAM SERVICE AREA"]["xaxis"]
+    y_axis = [len(create_program_by_program_services_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_services_table(df).dropna())] 
+    plot_bar_graph(x_axis, y_axis, "MISSING PROGRAM SERVICE AREA", SAGE)
+    save_graph(TEXT["MISSING PROGRAM SERVICE AREA"]["filename"], directory, 300)
+    return
 
 
 
@@ -1802,7 +1811,8 @@ if __name__ == "__main__":
         graph_network_hours_overview,
         graph_sample_location_hours,
         graph_sample_program_hours,
-        graph_program_qualifications
+        graph_program_qualifications,
+        graph_program_service_areas
     ]
     # Create a list of DataFrame functions
     dataframe_functions = [
