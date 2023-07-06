@@ -11,6 +11,8 @@ import plotly.graph_objects as go   # Plotly, used to create the map object usin
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
 import math                         # Math, used for basic mathematical operations.
 from PIL import Image               # Image, used to handle varius tasks with Image files like PNGs.
+import datetime
+import calendar
 
 # LOCAL FILE IMPORTS
 
@@ -628,7 +630,29 @@ def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
 def graph_sample_location_hours(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    weekdays = {
+        "Monday": 0,
+        "Tuesday": 0,
+        "Wednesday": 0,
+        "Thursday": 0,
+        "Friday": 0,
+        "Saturday": 0,
+        "Sunday": 0
+    }
+    weekly_hours = create_location_hours_table(df.loc[df["Frequency"] == "Weekly"])
+    for _, rows in weekly_hours.iterrows():
+        weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+    current_month = {day: 0 for day in pd.date_range(start=datetime.date.today().replace(day=1),
+                                                     end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='D'
+                                                     ).to_pydatetime()}
+    next_month = {day: 0 for day in pd.date_range(start=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1),
+                                                  end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='D'
+                                                  ).to_pydatetime()}
+    for day, _ in current_month.items():
+        current_month[day] = weekdays[calendar.day_name[day.weekday()]]
+    for day, _ in next_month.items():
+        next_month[day] = weekdays[calendar.day_name[day.weekday()]]
+
 
 
 def graph_sample_program_hours(df: pd.DataFrame, directory: str) -> None:
