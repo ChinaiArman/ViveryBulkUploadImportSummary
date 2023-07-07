@@ -1,4 +1,66 @@
 """
+Analytics Engine API.
+
+@author Arman Chinai
+@version 1.1
+
+The primary purpose of this file is to serve as an API for the pdfWizard, assisting in creating the analytical report (PDF).
+This file provides a full range of functions used to perform data analytics on a network bulk upload file.
+The file outputs various graphs (PNGs) and dataframes (CSVs) when provided with a CSV.
+The output is stored in a dedicated folder created by the scripts.
+
+This file contains the following functions:
+
+    * Graphing
+        * graph_profile_grade                                   - Graphs the profile grades for all locations
+        * graph_missing_organization_contact_info               - Graphs the missing contact information at the organization level
+        * graph_missing_location_contact_info                   - Graphs the missing contact information at the location level
+        * graph_missing_program_contact_info                    - Graphs the missing contact information at the program level
+        * graph_program_type                                    - Graphs the different program types
+        * graph_food_program_breakdown                          - Graphs the different food program types
+        * graph_program_filter_usage                            - Graphs the program filter usage
+        * graph_network_hours_overview                          - Graphs the usage of location and program hours
+        * graph_sample_location_hours_current_month             - Graphs the location hours for the current month
+        * graph_sample_location_hours_next_month                - Graphs the location hours for the next month
+        * graph_sample_program_hours_current_month              - Graphs the program hours for the current month
+        * graph_sample_program_hours_next_month                 - Graphs the program hours for the next month
+        * graph_program_qualifications                          - Graphs the program qualifications
+        * graph_program_service_areas                           - Graphs the program service areas
+
+    * DataFrames
+        * create_network_overview_table                         - Creates a table summarizing the network overview
+        * create_highest_graded_profiles_table                  - Creates a table with the highest graded profiles
+        * create_lowest_graded_profiles_table                   - Creates a table with the lowest graded profiles
+        * create_recommended_program_filters_table              - Creates a table with recommended program filters
+        * create_recommended_filters_slice                      - Creates a slice of recommended filters
+        * create_hour_type_usage_table                          - Creates a table with hour type usage information
+        * create_organization_table                             - Creates a table with organization information
+        * create_location_table                                 - Creates a table with location information
+        * create_program_table                                  - Creates a table with program information
+        * create_organization_contact_information_table         - Creates a table with organization contact information
+        * create_location_contact_information_table             - Creates a table with location contact information
+        * create_program_contact_information_table              - Creates a table with program contact information
+        * create_program_by_program_type_table                  - Creates a table grouping programs by program type
+        * create_program_by_program_audience_table              - Creates a table grouping programs by program audience
+        * create_program_by_program_languages_spoken_table      - Creates a table grouping programs by languages spoken
+        * create_program_by_program_features_table              - Creates a table grouping programs by features
+        * create_program_by_program_items_offered_table         - Creates a table grouping programs by items offered
+        * create_program_by_program_dietary_options_table       - Creates a table grouping programs by dietary options
+        * create_location_hours_table                           - Creates a table with location hours information
+        * create_program_hours_table                            - Creates a table with program hours information
+        * create_profile_completion_tiers_table                 - Creates a table with profile completion tiers
+        * create_program_category_field_weights                 - Creates program category field weights
+        * create_program_by_program_qualifications_table        - Creates a table grouping programs by program qualifications
+        * create_program_by_program_services_table              - Creates a table grouping programs by program services
+        * create_program_profile_completion_table               - Creates a table with program profile completion information
+
+    * Helpers
+        * save_graph                                            - Saves a graph to the specified directory
+        * save_state                                            - Saves the current state of the application
+        * map_scope                                             - Maps a value to a specific scope
+        * crop_image                                            - Crops an image based on specified dimensions
+        * plot_bar_graph                                        - Generates a bar graph
+        * plot_pie_graph                                        - Generates a pie graph
 """
 
 
