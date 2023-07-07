@@ -315,6 +315,15 @@ def plot_pie_graph(sizes: list, colours: list, text_section: str, labels="labels
         - The box surrounding the graph is removed by hiding the spines.
         - The labels are matched with their corresponding patch colors by setting the text color to the patch face color.
     """
+    # Remove elements of size 0
+    indexes = []
+    for i in range(len(sizes)):
+        if sizes[i] == 0:
+            indexes.append(i)
+    indexes = sorted(indexes, reverse=True)
+    for index in indexes:
+        del sizes[index], colours[index], TEXT[text_section][labels][index]
+
     # Create Graph
     fig, ax = plt.subplots()
     patches, texts, percents = ax.pie(x=sizes, labels=TEXT[text_section][labels], colors=colours, startangle=90, autopct='%1.2f%%', pctdistance=0.80, explode=[0.05] * len(sizes), textprops=PIE_SLICE_FONT_DICT)
