@@ -45,6 +45,24 @@ class pdfConstructor:
         # Create PDF
         self.pdf = FPDF()
         return
+    
+
+    def create_page(self) -> None:
+        """
+        """
+        self.pdf.add_page()
+        return
+    
+
+    def save_pdf(self) -> None:
+        """
+        """
+        self.pdf.output(self.filename)
+        try:
+            shutil.move(self.filename, self.directory)
+        except OSError:
+            os.remove(self.directory + '/' + self.filename)
+            shutil.move(self.filename, self.directory)
 
 
 
@@ -84,4 +102,5 @@ if __name__ == "__main__":
     constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + TEXT["FILE"]["filename"], network_name)
 
     # Create PDF
-    constructor.show_data()
+    constructor.create_page()
+    constructor.save_pdf()
