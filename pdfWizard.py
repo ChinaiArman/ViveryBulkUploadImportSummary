@@ -33,10 +33,16 @@ class pdfConstructor:
             ) -> None:
         """
         """
+        # Initialize class variables
         self.df = new_df
         self.directory = new_directory
         self.filename = new_filename
         self.network_name = new_network_name
+
+        # Add network name to TEXT
+        TEXT["FILE"]["network name"] = new_network_name
+        
+        # Create PDF
         self.pdf = FPDF()
         return
 
@@ -75,7 +81,7 @@ if __name__ == "__main__":
         shutil.move(args.file, directory)
 
     # Create pdfConstructor instance
-    constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + "_analytical_report.pdf", network_name)
+    constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + TEXT["FILE"]["filename"], network_name)
 
     # Create PDF
     constructor.show_data()
