@@ -37,6 +37,8 @@ VIRIDIAN = '#5F9575'                                                            
 SAGE = '#A2C3A8'                                                                                                # A colour in the Vivery colour scheme.
 SALMON = '#D4A392'                                                                                              # A colour in the Vivery colour scheme.
 WARM_WHITE = '#FAF9F6'                                                                                          # A colour in the Vivery colour scheme.
+NEON_LIME = '#E1FFB3'                                                                                           # A colour in the Vivery colour scheme.
+NEON_BLUE = '#B4F9DF'                                                                                           # A colour in the Vivery colour scheme.
 
 # STYLES
 AXES_LABEL_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 16}       # A Dictionary used to style the pyplot axes text.
@@ -653,8 +655,43 @@ def graph_program_type(df: pd.DataFrame, directory: str) -> None:
 
 def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a pie chart to provide a breakdown of food programs.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the food program data.
+        `directory` (str): The directory where the graph will be saved.
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant food program data.
+        - The `directory` must be a valid path to an existing directory.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_food_program_breakdown(data, "graphs/")
+        # Generates a pie chart based on the food program breakdown in the provided DataFrame.
+        # The resulting graph is saved in the "graphs/" directory.
+
+    Additional Information:
+        - The function calls `create_program_by_program_type_table()` to create a DataFrame for program types.
+        - The number of rows in each category of food programs is calculated and stored in `sizes`.
+        - The colours for the pie chart slices are defined in `colours`.
+        - The function calls `plot_pie_graph()` to generate the pie chart using `sizes`, `colours`, and the appropriate text section.
+        - The resulting graph is saved in the specified directory with a filename retrieved from the `TEXT` dictionary.
     """
-    pass
+    df = create_program_by_program_type_table(df)
+    sizes = [
+        len(df.loc[df["Type Specification"] == 'Food Distribution']),
+        len(df.loc[df["Type Specification"] == "Hot/Cold Meal Program"]),
+        len(df.loc[df["Type Specification"] == "Pop-Up/Mobile Resource"]),
+        len(df.loc[df["Type Specification"] == "Shelter"]),
+        len(df.loc[(df["Type Specification"] != 'Food Distribution') & (df["Type Specification"] != 'Hot/Cold Meal Program') & (df["Type Specification"] != 'Pop-Up/Mobile Resource') & (df["Type Specification"] != 'Shelter')])
+        ]
+    colours = [VIVERY_GREEN, VIRIDIAN, SAGE, NEON_LIME, NEON_BLUE]
+    plot_pie_graph(sizes, colours, "PROGRAM TYPES", labels="food program types labels")
+    save_graph(TEXT["PROGRAM TYPES"]["food program types filename"], directory, 300)
+    return
 
 
 def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:

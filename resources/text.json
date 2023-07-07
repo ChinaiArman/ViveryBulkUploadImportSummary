@@ -66,6 +66,8 @@
         "subtitle": "Food Program Breakdown In Network",
         "program types labels": ["Food Program", "Non Food Program"],
         "program types filename": "program_by_program_type.png",
+        "food program types labels": ["Food Distribution", "Hot/Cold Meal Program", "Pop-Up/Mobile Resource", "Shelter", "Other"],
+        "food program types filename": "program_by_food_program_type.png",
         "paragraph 1": "",
         "paragraph 2": ""
     },
