@@ -618,6 +618,30 @@ def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None
 
 def graph_program_type(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a pie chart to visualize the distribution of program types.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
+        `directory` (str): The directory where the graph will be saved.
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant program data.
+        - The `directory` must be a valid path to an existing directory.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_program_type(data, "graphs/")
+        # Generates a pie chart based on the program types in the provided DataFrame.
+        # The resulting graph is saved in the "graphs/" directory.
+
+    Additional Information:
+        - The function calls `create_program_by_program_type_table()` to create a DataFrame with program types.
+        - The number of programs in each program type is calculated and stored in `sizes`.
+        - The colours for the pie chart slices are defined in `colours`.
+        - The function calls `plot_pie_graph()` to generate the pie chart using `sizes`, `colours`, and the appropriate text section and labels.
+        - The resulting graph is saved in the specified directory with a filename retrieved from the `TEXT` dictionary.
     """
     df = create_program_by_program_type_table(df)
     sizes = [len(df.loc[df["Program Type"] == "Food Program"]), len(df) - len(df.loc[df["Program Type"] == "Food Program"])]
