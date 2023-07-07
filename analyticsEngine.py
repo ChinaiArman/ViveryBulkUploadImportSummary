@@ -30,6 +30,7 @@ PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)      
 
 # MISC CONSTANTS
 MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                                                         # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
+MONTHS = {1: "January", 2: "February", 3: "March"}
 
 # COLOURS
 VIVERY_GREEN = '#00483D'                                                                                        # A colour in the Vivery colour scheme.
@@ -207,7 +208,7 @@ def crop_image(width: int, height: int, filename: str, directory: str) -> None:
     return
 
 
-def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str, xlabel="xlabel", ylabel="ylabel") -> None:
+def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str, xlabel="xlabel", ylabel="ylabel", rotation=0) -> None:
     """
     Plots a bar graph based on the provided data.
 
@@ -218,6 +219,7 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
         `barcolor` (str): The color of the bars.
         `xlabel` (str) [kwargg]: A keyword argument used to find the X Axis Label in the `TEXT` dictionary.
         `ylabel` (str) [kwargg]: A keyword argument used to find the Y Axis Label in the `TEXT` dictionary.
+        `rotation` (int) [kwargg]: A keyword argument used to rotate the x-axis tickmarks.
 
     Returns:
         `None`
@@ -255,7 +257,7 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
     ax.bar(x_axis, y_axis, width=0.5, color=barcolor, zorder=2)
 
     # X-Ticks
-    plt.xticks(font="Roobert Medium", fontsize=10, color=VIVERY_GREEN)
+    plt.xticks(font="Roobert Medium", fontsize=10, color=VIVERY_GREEN, rotation=rotation)
 
     # Y-Ticks
     if max(y_axis) <= 10:
@@ -280,12 +282,6 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
 
 
 def plot_pie_graph() -> None:
-    """
-    """
-    pass
-
-
-def plot_histogram() -> None:
     """
     """
     pass
@@ -635,7 +631,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
                                                      end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='D'
                                                      ).to_pydatetime()}
     
-    # WEEKLY HOURS
+    # Weekly hours
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_location_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
@@ -643,7 +639,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
     for day, _ in current_month.items():
         current_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
-    # EVERY OTHER WEEK HOURS
+    # Every other week hours
     every_other_week_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     every_other_week_hours = create_location_hours_table(df.loc[df["Frequency"] == "Every Other Week"])
     for _, rows in every_other_week_hours.iterrows():
@@ -652,7 +648,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
         if (day.toordinal() % 14 <= 6):
             current_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
     
-    # WEEK OF MONTH
+    # Week of month
     week_of_month_hours = df.loc[(df["Frequency"] == "Week of Month") & (df['Hours Entity Type'] == 'Program')]
     for _, rows in week_of_month_hours.iterrows():
         current_month_day_indexer = datetime.date.today().replace(day=1)
@@ -668,7 +664,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
             except TypeError:
                 pass
 
-    # DAY OF MONTH
+    # Day of month
     day_of_month_hours = df.loc[(df["Frequency"] == "Day of Month") & (df['Hours Entity Type'] == 'Location')]
     for _, rows in day_of_month_hours.iterrows():
         current_month_indexer = pd.date_range(datetime.date.today().replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
@@ -678,7 +674,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
             except TypeError:
                 pass
     
-    # SPECIFIC DATE
+    # Specific date
     specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == "Location")]
     for _, rows in specific_date_hours.iterrows():
         if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in current_month.keys():
@@ -689,6 +685,14 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
                     pass
         if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in current_month.keys() and rows["Specific Date Closed Indicator"] == "CLOSED":
             current_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] = 0
+
+    # Graph
+    x_axis = [str(date.strftime("%d")) for date in list(current_month.keys())[:-1]]
+    y_axis = list(current_month.values())[:-1]
+    TEXT["LOCATION HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
+    TEXT["LOCATION HOURS PREVIEW"]["current month filename"] = "location_hours_" + calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))].lower() + ".png"
+    plot_bar_graph(x_axis, y_axis, "LOCATION HOURS PREVIEW", VIRIDIAN, rotation=45)
+    save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
     return
 
 
@@ -753,19 +757,158 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
                     pass
         if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in next_month.keys() and rows["Specific Date Closed Indicator"] == "CLOSED":
             next_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] = 0
+    # Graph
+    x_axis = [str(date.strftime("%d")) for date in list(next_month.keys())[:-1]]
+    y_axis = list(next_month.values())[:-1]
+    TEXT["LOCATION HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
+    TEXT["LOCATION HOURS PREVIEW"]["current month filename"] = "location_hours_" + calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))].lower() + ".png"
+    plot_bar_graph(x_axis, y_axis, "LOCATION HOURS PREVIEW", VIRIDIAN, rotation=45)
+    save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
     return
 
 
 def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    # Initialize dates
+    current_month = {day: 0 for day in pd.date_range(start=datetime.date.today().replace(day=1),
+                                                     end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='D'
+                                                     ).to_pydatetime()}
+    
+    # Weekly hours
+    weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
+    weekly_hours = create_program_hours_table(df.loc[df["Frequency"] == "Weekly"])
+    for _, rows in weekly_hours.iterrows():
+        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+    for day, _ in current_month.items():
+        current_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
+
+    # Every other week hours
+    every_other_week_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
+    every_other_week_hours = create_program_hours_table(df.loc[df["Frequency"] == "Every Other Week"])
+    for _, rows in every_other_week_hours.iterrows():
+        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+    for day, _ in current_month.items():
+        if (day.toordinal() % 14 <= 6):
+            current_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
+    
+    # Week of month
+    week_of_month_hours = df.loc[(df["Frequency"] == "Week of Month") & (df['Hours Entity Type'] == 'Program')]
+    for _, rows in week_of_month_hours.iterrows():
+        current_month_day_indexer = datetime.date.today().replace(day=1)
+        current_month_week_counter = 1
+        current_month_day_counter = 1
+        while calendar.day_name[current_month_day_indexer.weekday()] != rows['Day of Week'] or current_month_week_counter != rows['Week of Month']:
+            current_month_day_indexer = datetime.date.today().replace(day=current_month_day_counter)
+            current_month_day_counter += 1
+            current_month_week_counter += calendar.day_name[current_month_day_indexer.weekday()] == "Saturday"
+        for i in range(1, 4):
+            try:
+                current_month[datetime.datetime.strptime(str(current_month_day_indexer), '%Y-%m-%d')] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+            except TypeError:
+                pass
+
+    # Day of month
+    day_of_month_hours = df.loc[(df["Frequency"] == "Day of Month") & (df['Hours Entity Type'] == 'Program')]
+    for _, rows in day_of_month_hours.iterrows():
+        current_month_indexer = pd.date_range(datetime.date.today().replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
+        for i in range(1, 4):
+            try:
+                current_month[current_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+            except TypeError:
+                pass
+    
+    # Specific date
+    specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == 'Program')]
+    for _, rows in specific_date_hours.iterrows():
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in current_month.keys():
+            for i in range(1, 4):
+                try:
+                    current_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in current_month.keys() and rows["Specific Date Closed Indicator"] == "CLOSED":
+            current_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] = 0
+
+    # Graph
+    x_axis = [str(date.strftime("%d")) for date in list(current_month.keys())[:-1]]
+    y_axis = list(current_month.values())[:-1]
+    TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
+    TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))].lower() + ".png"
+    plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", VIRIDIAN, rotation=45)
+    save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
+    return
 
 
 def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    # Initialize dates
+    next_month = {day: 0 for day in pd.date_range(start=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1),
+                                                  end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='D'
+                                                  ).to_pydatetime()}
+    
+    # WEEKLY HOURS
+    weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
+    weekly_hours = create_program_hours_table(df.loc[df["Frequency"] == "Weekly"])
+    for _, rows in weekly_hours.iterrows():
+        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+    for day, _ in next_month.items():
+        next_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
+
+    # EVERY OTHER WEEK HOURS
+    every_other_week_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
+    every_other_week_hours = create_program_hours_table(df.loc[df["Frequency"] == "Every Other Week"])
+    for _, rows in every_other_week_hours.iterrows():
+        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+    for day, _ in next_month.items():
+        if (day.toordinal() % 14 <= 6):
+            next_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
+    
+    # WEEK OF MONTH
+    week_of_month_hours = df.loc[(df["Frequency"] == "Week of Month") & (df['Hours Entity Type'] == 'Program')]
+    for _, rows in week_of_month_hours.iterrows():
+        next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
+        next_month_week_counter = 1
+        next_month_day_counter = 1
+        while calendar.day_name[next_month_day_indexer.weekday()] != rows['Day of Week'] or next_month_week_counter != rows['Week of Month']:
+            next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=next_month_day_counter)
+            next_month_day_counter += 1
+            next_month_week_counter += calendar.day_name[next_month_day_indexer.weekday()] == "Saturday"
+        for i in range(1, 4):
+            try:
+                next_month[datetime.datetime.strptime(str(next_month_day_indexer), '%Y-%m-%d')] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+            except TypeError:
+                pass
+
+    # DAY OF MONTH
+    day_of_month_hours = df.loc[(df["Frequency"] == "Day of Month") & (df['Hours Entity Type'] == 'Program')]
+    for _, rows in day_of_month_hours.iterrows():
+        next_month_indexer = pd.date_range((datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
+        for i in range(1, 4):
+            try:
+                next_month[next_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+            except TypeError:
+                pass
+    
+    specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == 'Program')]
+    for _, rows in specific_date_hours.iterrows():
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in next_month.keys():
+            for i in range(1, 4):
+                try:
+                    next_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in next_month.keys() and rows["Specific Date Closed Indicator"] == "CLOSED":
+            next_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] = 0
+    # Graph
+    x_axis = [str(date.strftime("%d")) for date in list(next_month.keys())[:-1]]
+    y_axis = list(next_month.values())[:-1]
+    TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
+    TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))].lower() + ".png"
+    plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", VIRIDIAN, rotation=45)
+    save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
+    return
 
 
 def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:

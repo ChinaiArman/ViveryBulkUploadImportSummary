@@ -99,12 +99,20 @@
     "LOCATION HOURS PREVIEW": {
         "title": "Location Hours Preview",
         "subtitle": "Sample Hour Totals Per Day",
+        "xlabel": "",
+        "ylabel": "Total Hours",
+        "current month filename": "",
+        "next month filename": "",
         "paragraph": ""
     },
 
     "PROGRAM HOURS PREVIEW": {
         "title": "Program Hours Preview",
         "subtitle": "Sample Hour Totals Per Day",
+        "xlabel": "",
+        "ylabel": "Total Hours",
+        "current month filename": "",
+        "next month filename": "",
         "paragraph": ""
     },
 
