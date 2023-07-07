@@ -697,8 +697,38 @@ def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:
 
 def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a pie chart to provide an overview of network hours.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the network hours data.
+        `directory` (str): The directory where the graph will be saved.
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant network hours data.
+        - The `directory` must be a valid path to an existing directory.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_network_hours_overview(data, "graphs/")
+        # Generates a pie chart based on the network hours in the provided DataFrame.
+        # The resulting graph is saved in the "graphs/" directory.
+
+    Additional Information:
+        - The function calls `create_location_hours_table()` and `create_program_hours_table()` to create DataFrames for location hours and program hours, respectively.
+        - The number of rows in each DataFrame is calculated and stored in `sizes`.
+        - The colours for the pie chart slices are defined in `colours`.
+        - The function calls `plot_pie_graph()` to generate the pie chart using `sizes`, `colours`, and the appropriate text section.
+        - The resulting graph is saved in the specified directory with a filename retrieved from the `TEXT` dictionary.
     """
-    pass
+    location_hours_dataframe = create_location_hours_table(df)
+    program_hours_dataframe = create_program_hours_table(df)
+    sizes = [len(program_hours_dataframe), len(location_hours_dataframe)]
+    colours = [SAGE, VIRIDIAN]
+    plot_pie_graph(sizes, colours, "NETWORK HOURS OVERVIEW")
+    save_graph(TEXT["NETWORK HOURS OVERVIEW"]["filename"], directory, 300)
+    return
 
 
 def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) -> None:

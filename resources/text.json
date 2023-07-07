@@ -87,6 +87,8 @@
 
     "NETWORK HOURS OVERVIEW": {
         "title": "Network Hours Overview",
+        "labels": ["Program Hours", "Location Hours"],
+        "filename": "hour_type_usage.png",
         "paragraph": ""
     },
 
