@@ -61,6 +61,47 @@ This file contains the following functions:
         * crop_image                                            - Crops an image based on specified dimensions
         * plot_bar_graph                                        - Generates a bar graph
         * plot_pie_graph                                        - Generates a pie graph
+
+        
+        
+---> OPERATIONAL INSTRUCTIONS <---
+
+Package Imports:
+    * Pandas                            * Graph Objects (Plotly)                * ArgParse                          * PIL (Image)
+    * NumPy                             * JSON                                  * OS                                * DateTime
+    * PyPlot (MatPlotLib)               * Math                                  * Shutil                            * Calendar
+
+API Keys: (stored in keys.py)
+    * MapBoxAPI Secret Key: https://docs.mapbox.com/help/getting-started/access-tokens/
+    * MapBoxAPI Public Key: https://docs.mapbox.com/help/getting-started/access-tokens/
+
+Fonts:
+    * Roobert Font Suite (found in Resources)
+
+Instructions:
+    1) Package Imports:
+        a) Create a new terminal
+        b) Run `pip install -r requirements.txt`
+    2) API Keys:
+        a) Visit `https://docs.mapbox.com/help/getting-started/access-tokens/`
+        b) Complete steps to acquire API Keys
+        c) Create a file `keys.py`
+        d) Define two variables (SK, PK) and assign the appropriate key values
+    3) Fonts (Windows OS):
+        a) From root directory: `'resources' > 'Roobert Font Suite' > 'TTF'`
+        b) Open all TTF files and Click `Install`
+        c) From the Windows folder: `Fonts`
+        d) Clear MatPlotLib font cache by deleting the cache file (fontlist.json, likely stored in `Users/{user}/.matplotlib`)
+    4) Add a bulk upload file to the working directory
+    5) Run the following command: `python analyticsEngine.py "{path to file from root directory}"`
+
+Desired Output:
+    * A folder will be created with the name `data_{bulk upload file name}`, containing the directories `csvs`, `images`, and `resources`, as well as the bulk upload file.
+    * Within `csvs`, a copy of all dataframes generated will be stored in CSV format.
+    * Within `images`, a copy of all graphs generated will be stored in PNG format.
+    * Within `resources`, a copy of all generation data will be stored in CSV/JSON format.
+
+Still have questions? Send an email to arman@vivery.org with the subject line `Analytics Engine API - {question}`. 
 """
 
 
