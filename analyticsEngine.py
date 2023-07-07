@@ -284,6 +284,34 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
 
 def plot_pie_graph(sizes: list, colours: list, text_section: str, labels="labels") -> None:
     """
+    Generates a pie chart to visualize data.
+
+    Args:
+        `sizes` (list): A list of values representing the sizes of each pie slice.
+        `colours` (list): A list of colours to be applied to each pie slice.
+        `text_section` (str): The key for the text section in the TEXT dictionary containing labels.
+        `labels` (str) [kwargg]: The key for the labels in the TEXT[text_section].
+
+    Preconditions:
+        - The length of `sizes` and `colours` should be the same.
+        - `text_section` and `labels` must correspond to valid keys in the TEXT dictionary.
+
+    Raises:
+        None
+
+    Example:
+        >>> plot_pie_graph([10, 20, 30], ['red', 'blue', 'green'], `DATA_SECTION`, `label_key`)
+        # Generates a pie chart with slices corresponding to the values [10, 20, 30].
+        # The colours 'red', 'blue', and 'green' are applied to the slices.
+        # The labels for the pie slices are retrieved from the `label_key` in the `DATA_SECTION` of the TEXT dictionary.
+
+    Additional Information:
+        - The function creates a figure and axis objects using `plt.subplots()`.
+        - The pie slices are created using `ax.pie()` with the provided sizes, labels, colours, start angle, percentage format, and text properties.
+        - A donut hole is created using `plt.Circle()` and added to the graph.
+        - The percentage values on the pie chart are styled using `plt.setp()` to set the color and fontsize.
+        - The box surrounding the graph is removed by hiding the spines.
+        - The labels are matched with their corresponding patch colors by setting the text color to the patch face color.
     """
     # Create Graph
     fig, ax = plt.subplots()
