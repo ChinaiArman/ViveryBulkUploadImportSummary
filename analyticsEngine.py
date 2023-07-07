@@ -625,6 +625,33 @@ def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
 
 def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to display the sample location hours for the current month.
+
+    Args:
+        `df` (pd.DataFrame): The DataFrame containing location hours data.
+        `directory` (str): The directory path where the generated graph will be saved.
+
+    Preconditions:
+        - The DataFrame `df` must contain the necessary columns representing location hours data.
+        - The `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_sample_location_hours_current_month(data, "/path/to/directory")
+        # Generates a bar graph based on the sample location hours for the current month using the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Additional Information:
+        - The function initializes `current_month` as a dictionary with dates as keys and initial values set to zero.
+        - The function retrieves weekly hours data and updates the corresponding weekdays in `current_month` based on the opening and closing hours.
+        - The function retrieves every other week hours data and updates the corresponding weekdays in `current_month` based on the opening and closing hours.
+        - The function retrieves week of the month hours data and updates the corresponding dates in `current_month` based on the opening and closing hours and the specified week and day of the week.
+        - The function retrieves day of the month hours data and updates the corresponding dates in `current_month` based on the opening and closing hours and the specified day and day of the week.
+        - The function retrieves specific date hours data and updates the corresponding dates in `current_month` based on the opening and closing hours and the specified specific dates.
+        - The function generates a bar graph using the x-axis values from `current_month` and the y-axis values representing the accumulated hours.
+        - The graph is saved with the filename specified in `TEXT["LOCATION HOURS PREVIEW"]["current month filename"]` in the specified directory.
     """
     # Initialize dates
     current_month = {day: 0 for day in pd.date_range(start=datetime.date.today().replace(day=1),
@@ -698,6 +725,33 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
 
 def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to display the sample location hours for the next month.
+
+    Args:
+        `df` (pd.DataFrame): The DataFrame containing location hours data.
+        `directory` (str): The directory path where the generated graph will be saved.
+
+    Preconditions:
+        - The DataFrame `df` must contain the necessary columns representing location hours data.
+        - The `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_sample_location_hours_next_month(data, "/path/to/directory")
+        # Generates a bar graph based on the sample location hours for the next month using the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Additional Information:
+        - The function initializes `next_month` as a dictionary with dates as keys and initial values set to zero.
+        - The function retrieves weekly hours data and updates the corresponding weekdays in `next_month` based on the opening and closing hours.
+        - The function retrieves every other week hours data and updates the corresponding weekdays in `next_month` based on the opening and closing hours.
+        - The function retrieves week of the month hours data and updates the corresponding dates in `next_month` based on the opening and closing hours and the specified week and day of the week.
+        - The function retrieves day of the month hours data and updates the corresponding dates in `next_month` based on the opening and closing hours and the specified day and day of the week.
+        - The function retrieves specific date hours data and updates the corresponding dates in `next_month` based on the opening and closing hours and the specified specific dates.
+        - The function generates a bar graph using the x-axis values from `next_month` and the y-axis values representing the accumulated hours.
+        - The graph is saved with the filename specified in `TEXT["LOCATION HOURS PREVIEW"]["next month filename"]` in the specified directory.
     """
     # Initialize dates
     next_month = {day: 0 for day in pd.date_range(start=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1),
@@ -769,6 +823,33 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
 
 def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to display the sample program hours for the current month.
+
+    Args:
+        `df` (pd.DataFrame): The DataFrame containing program hours data.
+        `directory` (str): The directory path where the generated graph will be saved.
+
+    Preconditions:
+        - The DataFrame `df` must contain the necessary columns representing program hours data.
+        - The `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_sample_program_hours_current_month(data, "/path/to/directory")
+        # Generates a bar graph based on the sample program hours for the current month using the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Additional Information:
+        - The function initializes `current_month` as a dictionary with dates as keys and initial values set to zero.
+        - The function retrieves weekly hours data and updates the corresponding weekdays in `current_month` based on the opening and closing hours.
+        - The function retrieves every other week hours data and updates the corresponding weekdays in `current_month` based on the opening and closing hours.
+        - The function retrieves week of the month hours data and updates the corresponding dates in `current_month` based on the opening and closing hours and the specified week and day of the week.
+        - The function retrieves day of the month hours data and updates the corresponding dates in `current_month` based on the opening and closing hours and the specified day and day of the week.
+        - The function retrieves specific date hours data and updates the corresponding dates in `current_month` based on the opening and closing hours and the specified specific dates.
+        - The function generates a bar graph using the x-axis values from `current_month` and the y-axis values representing the accumulated hours.
+        - The graph is saved with the filename specified in `TEXT["PROGRAM HOURS PREVIEW"]["current month filename"]` in the specified directory.
     """
     # Initialize dates
     current_month = {day: 0 for day in pd.date_range(start=datetime.date.today().replace(day=1),
@@ -842,6 +923,33 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
 
 def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> None:
     """
+    Generates a bar graph to display the sample program hours for the next month.
+
+    Args:
+        `df` (pd.DataFrame): The DataFrame containing program hours data.
+        `directory` (str): The directory path where the generated graph will be saved.
+
+    Preconditions:
+        - The DataFrame `df` must contain the necessary columns representing program hours data.
+        - The `directory` must be a valid directory path.
+
+    Raises:
+        None
+
+    Example:
+        >>> graph_sample_program_hours_next_month(data, "/path/to/directory")
+        # Generates a bar graph based on the sample program hours for the next month using the DataFrame `data`,
+        # and saves the graph in the specified directory.
+
+    Additional Information:
+        - The function initializes `next_month` as a dictionary with dates as keys and initial values set to zero.
+        - The function retrieves weekly hours data and updates the corresponding weekdays in `next_month` based on the opening and closing hours.
+        - The function retrieves every other week hours data and updates the corresponding weekdays in `next_month` based on the opening and closing hours.
+        - The function retrieves week of the month hours data and updates the corresponding dates in `next_month` based on the opening and closing hours and the specified week and day of the week.
+        - The function retrieves day of the month hours data and updates the corresponding dates in `next_month` based on the opening and closing hours and the specified day and day of the week.
+        - The function retrieves specific date hours data and updates the corresponding dates in `next_month` based on the opening and closing hours and the specified specific dates.
+        - The function generates a bar graph using the x-axis values from `next_month` and the y-axis values representing the accumulated hours.
+        - The graph is saved with the filename specified in `TEXT["PROGRAM HOURS PREVIEW"]["next month filename"]` in the specified directory.
     """
     # Initialize dates
     next_month = {day: 0 for day in pd.date_range(start=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1),
