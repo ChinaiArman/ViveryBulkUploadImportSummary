@@ -316,10 +316,7 @@ def plot_pie_graph(sizes: list, colours: list, text_section: str, labels="labels
         - The labels are matched with their corresponding patch colors by setting the text color to the patch face color.
     """
     # Remove elements of size 0
-    indexes = []
-    for i in range(len(sizes)):
-        if sizes[i] == 0:
-            indexes.append(i)
+    indexes = [i for i in range(len(sizes)) if sizes[i] == 0]
     indexes = sorted(indexes, reverse=True)
     for index in indexes:
         del sizes[index], colours[index], TEXT[text_section][labels][index]
