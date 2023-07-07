@@ -64,6 +64,8 @@
     "PROGRAM TYPES": {
         "title": "Program Types",
         "subtitle": "Food Program Breakdown In Network",
+        "program types labels": ["Food Program", "Non Food Program"],
+        "program types filename": "program_by_program_type.png",
         "paragraph 1": "",
         "paragraph 2": ""
     },

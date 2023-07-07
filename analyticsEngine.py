@@ -36,9 +36,11 @@ VIVERY_GREEN = '#00483D'                                                        
 VIRIDIAN = '#5F9575'                                                                                            # A colour in the Vivery colour scheme.
 SAGE = '#A2C3A8'                                                                                                # A colour in the Vivery colour scheme.
 SALMON = '#D4A392'                                                                                              # A colour in the Vivery colour scheme.
+WARM_WHITE = '#FAF9F6'                                                                                          # A colour in the Vivery colour scheme.
 
 # STYLES
 AXES_LABEL_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 16}       # A Dictionary used to style the pyplot axes text.
+PIE_SLICE_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 12}        # A Dictionary used to style the pyplot axes text.
 
 
 
@@ -280,10 +282,30 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
     return
 
 
-def plot_pie_graph() -> None:
+def plot_pie_graph(sizes: list, colours: list, text_section: str, labels="labels") -> None:
     """
     """
-    pass
+    # Create Graph
+    fig, ax = plt.subplots()
+    patches, texts, percents = ax.pie(x=sizes, labels=TEXT[text_section][labels], colors=colours, startangle=90, autopct='%1.2f%%', pctdistance=0.80, explode=[0.05] * len(sizes), textprops=PIE_SLICE_FONT_DICT)
+
+    # Create Donut Hole
+    hole = plt.Circle((0, 0), 0.5, facecolor='white')
+    plt.gcf().gca().add_artist(hole)
+
+    # Percentage Styling
+    plt.setp(percents, color=WARM_WHITE, fontsize=8)
+
+    # Remove Box
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+
+    # Labels
+    for i, patch in enumerate(patches):
+        texts[i].set_color(patch.get_facecolor())
+    return
 
 
 
@@ -569,7 +591,12 @@ def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None
 def graph_program_type(df: pd.DataFrame, directory: str) -> None:
     """
     """
-    pass
+    df = create_program_by_program_type_table(df)
+    sizes = [len(df.loc[df["Program Type"] == "Food Program"]), len(df) - len(df.loc[df["Program Type"] == "Food Program"])]
+    colours = [SAGE, VIRIDIAN]
+    plot_pie_graph(sizes, colours, "PROGRAM TYPES", labels="program types labels")
+    save_graph(TEXT["PROGRAM TYPES"]["program types filename"], directory, 300)
+    return
 
 
 def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
