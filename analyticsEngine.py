@@ -11,8 +11,8 @@ import plotly.graph_objects as go   # Plotly, used to create the map object usin
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
 import math                         # Math, used for basic mathematical operations.
 from PIL import Image               # Image, used to handle varius tasks with Image files like PNGs.
-import datetime
-import calendar
+import datetime                     # Datetime, used to handle date related tasks and allows python to have access to real world calendar data.
+import calendar                     # Calendar, used to match dates to their months and days using real world calendar data.
 
 # LOCAL FILE IMPORTS
 
@@ -30,7 +30,6 @@ PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)      
 
 # MISC CONSTANTS
 MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                                                         # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
-MONTHS = {1: "January", 2: "February", 3: "March"}
 
 # COLOURS
 VIVERY_GREEN = '#00483D'                                                                                        # A colour in the Vivery colour scheme.
@@ -916,7 +915,7 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
     y_axis = list(current_month.values())[:-1]
     TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
     TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))].lower() + ".png"
-    plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", VIRIDIAN, rotation=45)
+    plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", SAGE, rotation=45)
     save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
     return
 
@@ -1014,7 +1013,7 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> N
     y_axis = list(next_month.values())[:-1]
     TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
     TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))].lower() + ".png"
-    plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", VIRIDIAN, rotation=45)
+    plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", SAGE, rotation=45)
     save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
     return
 
