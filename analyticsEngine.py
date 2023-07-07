@@ -653,7 +653,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
             current_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
     
     # WEEK OF MONTH
-    week_of_month_hours = df.loc[(df["Frequency"] == "Week of Month") & (df['Hours Entity Type'] == 'Location')]
+    week_of_month_hours = df.loc[(df["Frequency"] == "Week of Month") & (df['Hours Entity Type'] == 'Program')]
     for _, rows in week_of_month_hours.iterrows():
         current_month_day_indexer = datetime.date.today().replace(day=1)
         current_month_week_counter = 1
@@ -679,6 +679,16 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
                 pass
     
     # SPECIFIC DATE
+    specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == "Location")]
+    for _, rows in specific_date_hours.iterrows():
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in current_month.keys():
+            for i in range(1, 4):
+                try:
+                    current_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in current_month.keys() and rows["Specific Date Closed Indicator"] == "CLOSED":
+            current_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] = 0
     return
 
 
@@ -733,11 +743,26 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
             except TypeError:
                 pass
     
-    # SPECIFIC DATE
+    specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == "Location")]
+    for _, rows in specific_date_hours.iterrows():
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in next_month.keys():
+            for i in range(1, 4):
+                try:
+                    next_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in next_month.keys() and rows["Specific Date Closed Indicator"] == "CLOSED":
+            next_month[datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d')] = 0
     return
 
 
-def graph_sample_program_hours(df: pd.DataFrame, directory: str) -> None:
+def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -> None:
+    """
+    """
+    pass
+
+
+def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> None:
     """
     """
     pass
@@ -1995,7 +2020,8 @@ if __name__ == "__main__":
         graph_network_hours_overview,
         graph_sample_location_hours_current_month,
         graph_sample_location_hours_next_month,
-        graph_sample_program_hours,
+        graph_sample_program_hours_current_month,
+        graph_sample_program_hours_next_month,
         graph_program_qualifications,
         graph_program_service_areas
     ]
