@@ -63,7 +63,7 @@ This file contains the following functions:
         * plot_pie_graph                                        - Generates a pie graph
 
         
-        
+
 ---> OPERATIONAL INSTRUCTIONS <---
 
 Package Imports:
@@ -89,7 +89,7 @@ Instructions:
         d) Define two variables (SK, PK) and assign the appropriate key values
     3) Fonts (Windows OS):
         a) From root directory: `'resources' > 'Roobert Font Suite' > 'TTF'`
-        b) Open all TTF files and Click `Install`
+        b) Open all TTF files and click `Install`
         c) From the Windows folder: `Fonts`
         d) Clear MatPlotLib font cache by deleting the cache file (fontlist.json, likely stored in `Users/{user}/.matplotlib`)
     4) Add a bulk upload file to the working directory
