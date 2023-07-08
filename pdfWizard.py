@@ -3,10 +3,8 @@
 
 
 # PACKAGE IMPORTS
-from fpdf import FPDF
+from fpdf import FPDF               #
 import pandas as pd                 # Pandas, used to represent CSVs and large data sets as a DataFrame.
-import numpy as np                  # NumPy, adds Arrays to python and enables large arithmatic operations.
-import matplotlib.pyplot as plt     # MatPlotLib's PyPlot, used to graph data sets and create data visualizations.
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
 
@@ -18,11 +16,11 @@ TEXT_SAVE_NAME = "resources/text.json"                                          
 with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
 
 # MISC CONSTANTS
-WIDTH = 8.3
-HEIGHT = 11
+WIDTH = 8.3                         #
+HEIGHT = 11                         #
 
 # COLOURS
-VIVERY_GREEN = (0, 72, 61)
+VIVERY_GREEN = (0, 72, 61)          #
 
 # STYLES
 
@@ -34,13 +32,7 @@ VIVERY_GREEN = (0, 72, 61)
 class pdfConstructor:
     """
     """
-    def __init__(
-            self, 
-            new_df: pd.DataFrame(), 
-            new_directory: str,
-            new_filename: str,
-            new_network_name: str
-            ) -> None:
+    def __init__(self, new_df: pd.DataFrame(), new_directory: str,new_filename: str,new_network_name: str) -> None:
         """
         """
         # Initialize class variables
