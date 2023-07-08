@@ -85,11 +85,16 @@ class pdfConstructor:
         return
     
 
-    def add_image(self, graphing_function, df: pd.DataFrame, directory: str, w: int, h: int) -> None:
+    def add_image(self, graphing_function, df: pd.DataFrame, directory: str, w: int, h: int, pagenumber=-2) -> None:
         """
         """
+        if pagenumber > -2:
+            pagelink = self.pdf.add_link()
+            self.pdf.set_link(pagelink, page=pagenumber)
+        else:
+            pagelink = None
         filepath = graphing_function(df, directory)
-        self.pdf.image(filepath, (WIDTH - w)/2, FPDF.get_y(self.pdf), w, h)
+        self.pdf.image(filepath, (WIDTH - w)/2, FPDF.get_y(self.pdf), w, h, link=pagelink)
         self.pdf.ln(h)
         return
 
@@ -126,12 +131,6 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Regular', '', 11)
         self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, alignment)
         return
-        
-
-    def add_linked_normal_text(self, text: str, link: str) -> None:
-        """
-        """
-        pass
 
 
     def add_subtitle_text(self, text: str) -> None:
@@ -142,12 +141,6 @@ class pdfConstructor:
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', 9)
         self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, 'C')
-
-
-    def add_linked_subtitle_text(self, text: str, link: str) -> None:
-        """
-        """
-        pass
 
 
     def add_horizontal_line(self, x: int, y:int) -> None:
@@ -162,7 +155,9 @@ class pdfConstructor:
         pass
 
 
-    def add_line_break(self, height: int) -> None:
+    def add_vertical_space(self, height: int) -> None:
+        """
+        """
         self.pdf.ln(height)
         return
 
@@ -210,4 +205,5 @@ if __name__ == "__main__":
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
     constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
     constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
+    constructor.create_page()
     constructor.save_pdf()
