@@ -124,7 +124,7 @@ class pdfConstructor:
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', 11)
-        self.pdf.cell(0, 0, text, 0, 0, alignment)
+        self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, alignment)
         return
         
 
@@ -141,7 +141,7 @@ class pdfConstructor:
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', 9)
-        self.pdf.cell(0, 0, text, 0, 0, 'C')
+        self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, 'C')
 
 
     def add_linked_subtitle_text(self, text: str, link: str) -> None:
