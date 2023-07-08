@@ -13,9 +13,18 @@ import json                         # JSON, used to parse JSON files and convert
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
 
-# CONSTANTS
+# IMPORT CONSTANTS
 TEXT_SAVE_NAME = "resources/text.json"                                                  # Path to TEXT save file (JSON).
 with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
+
+# MISC CONSTANTS
+
+
+# COLOURS
+VIVERY_GREEN = (0, 72, 61)
+
+# STYLES
+
 
 
 
@@ -44,6 +53,13 @@ class pdfConstructor:
         
         # Create PDF
         self.pdf = FPDF()
+        self.pdf.set_top_margin(25.4)
+        self.pdf.set_auto_page_break(25.4)
+        self.pdf.set_left_margin(25.4)
+        self.pdf.set_right_margin(25.4)
+
+        # Add font family
+        self.pdf.add_font('Roobert Medium', '', fname='resources\Roobert Font Suite\TTF\Roobert-Medium.ttf')
         return
     
 
@@ -63,6 +79,70 @@ class pdfConstructor:
         except OSError:
             os.remove(self.directory + '/' + self.filename)
             shutil.move(self.filename, self.directory)
+        return
+    
+
+    def add_image(self, graphing_function, df: pd.DataFrame, directory: str, x: int, y: int, width: int) -> None:
+        """
+        """
+        return
+
+
+    def add_h1_text(self, text: str) -> None:
+        """
+        """
+        # self.pdf.ln(20)
+        self.pdf.set_text_color(VIVERY_GREEN)
+        self.pdf.set_font('Roobert Medium', '', 20)
+        self.pdf.cell(0, 0, text, 0, 0, 'C')
+        self.pdf.ln(10)
+    
+
+    def add_h2_text(self, text: str) -> None:
+        """
+        """
+        pass
+    
+
+    def add_normal_text(self, text: str) -> None:
+        """
+        """
+        pass
+        
+
+    def add_linked_normal_text(self, text: str, link: str) -> None:
+        """
+        """
+        pass
+
+
+    def add_subtitle_text(self, text: str) -> None:
+        """
+        """
+        pass
+
+
+    def add_linked_subtitle_text(self, text: str, link: str) -> None:
+        """
+        """
+        pass
+
+
+    def add_horizontal_line(self, x: int, y:int) -> None:
+        """
+        """
+        pass
+
+
+    def add_table(self, x: int, y:int) -> None:
+        """
+        """
+        pass
+
+
+    def add_line_break(self, height: int) -> None:
+        self.pdf.ln(height)
+        return
 
 
 
@@ -103,4 +183,5 @@ if __name__ == "__main__":
 
     # Create PDF
     constructor.create_page()
+    constructor.add_h1_text("Location Map")
     constructor.save_pdf()

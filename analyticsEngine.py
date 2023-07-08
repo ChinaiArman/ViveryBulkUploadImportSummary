@@ -131,7 +131,7 @@ def save_graph(file_name: str, directory: str, dpi: int) -> None:
         os.remove(directory + "/images"+ '/' + file_name)
         shutil.move(file_name, directory + "/images")
     plt.close()
-    return
+    return directory + "/images/" + file_name
 
 
 def save_state(data: any, filename: str, directory: str) -> None:
@@ -256,7 +256,7 @@ def crop_image(width: int, height: int, filename: str, directory: str) -> None:
         raise FileNotFoundError(f"The image file '{filename}' does not exist in the directory '{directory}'/images.")
     im = im.crop((height/2, width/2, height/2 + width, width/2 + height))
     im.save(directory + "/images/" + filename, "png")
-    return
+    return directory + "/images/" + filename
 
 
 def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str, xlabel="xlabel", ylabel="ylabel", rotation=0) -> None:
@@ -395,7 +395,7 @@ def plot_pie_graph(sizes: list, colours: list, text_section: str, labels="labels
 
 
 # GRAPHS
-def create_map(df: pd.DataFrame, directory: str) -> None:
+def create_map(df: pd.DataFrame, directory: str) -> str:
     """
     Creates a map visualization based on the provided DataFrame.
 
@@ -404,7 +404,7 @@ def create_map(df: pd.DataFrame, directory: str) -> None:
         `directory` (str): The directory where the map image will be saved.
 
     Returns:
-        None
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The Pandas DataFrame must contain the required columns: `Location Latitude`, `Location Longitude`, `Organization Approval Status`,
@@ -455,11 +455,10 @@ def create_map(df: pd.DataFrame, directory: str) -> None:
         ),
     )
     fig.write_image(directory + "/images" + '/map.png', width=1000, height=1000)
-    crop_image(624, 403, "map.png", directory)
-    return
+    return crop_image(624, 403, "map.png", directory)
 
 
-def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
+def graph_profile_grade(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the profile completion grade based on the provided DataFrame.
 
@@ -468,7 +467,7 @@ def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
         `directory` (str): The directory where the generated graph will be saved.
 
     Returns:
-        None
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant profile completion data.
@@ -504,11 +503,10 @@ def graph_profile_grade(df: pd.DataFrame, directory: str) -> None:
         except KeyError:
             y_axis[i] = 0
     plot_bar_graph(x_axis, y_axis, "PROFILE COMPLETENESS", VIRIDIAN)
-    save_graph(TEXT["PROFILE COMPLETENESS"]["filename"], directory, 300)
-    return
+    return save_graph(TEXT["PROFILE COMPLETENESS"]["filename"], directory, 300)
 
 
-def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) -> None:
+def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the missing organization contact information based on the provided DataFrame.
 
@@ -517,7 +515,7 @@ def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) ->
         `directory` (str): The directory where the generated graph will be saved.
 
     Returns:
-        None
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant organization contact information data.
@@ -558,11 +556,10 @@ def graph_missing_organization_contact_info(df: pd.DataFrame, directory: str) ->
         len(df[df[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
         ]
     plot_bar_graph(x_axis, y_axis, "VIVERY CONTACT INFORMATION", VIVERY_GREEN)
-    save_graph(TEXT["VIVERY CONTACT INFORMATION"]["filename"], directory, 300)
-    return
+    return save_graph(TEXT["VIVERY CONTACT INFORMATION"]["filename"], directory, 300)
 
 
-def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> None:
+def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the missing location contact information based on the provided DataFrame.
 
@@ -571,7 +568,7 @@ def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> Non
         `directory` (str): The directory where the generated graph will be saved.
 
     Returns:
-        None
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant location contact information data.
@@ -614,11 +611,10 @@ def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> Non
         len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
         ]
     plot_bar_graph(x_axis, y_axis, "PUBLIC CONTACT INFORMATION", VIRIDIAN, xlabel="location xlabel", ylabel="location ylabel")
-    save_graph(TEXT["PUBLIC CONTACT INFORMATION"]["location filename"], directory, 300)
-    return
+    return save_graph(TEXT["PUBLIC CONTACT INFORMATION"]["location filename"], directory, 300)
 
 
-def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None:
+def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the missing program contact information based on the provided DataFrame.
 
@@ -627,7 +623,7 @@ def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None
         `directory` (str): The directory where the generated graph will be saved.
 
     Returns:
-        None
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant program contact information data.
@@ -668,17 +664,19 @@ def graph_missing_program_contact_info(df: pd.DataFrame, directory: str) -> None
         len(df[df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
         ]
     plot_bar_graph(x_axis, y_axis, "PUBLIC CONTACT INFORMATION", SAGE, xlabel="program xlabel", ylabel="program ylabel")
-    save_graph(TEXT["PUBLIC CONTACT INFORMATION"]["program filename"], directory, 300)
-    return
+    return save_graph(TEXT["PUBLIC CONTACT INFORMATION"]["program filename"], directory, 300)
 
 
-def graph_program_type(df: pd.DataFrame, directory: str) -> None:
+def graph_program_type(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a pie chart to visualize the distribution of program types.
 
     Args:
         `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
         `directory` (str): The directory where the graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant program data.
@@ -703,17 +701,19 @@ def graph_program_type(df: pd.DataFrame, directory: str) -> None:
     sizes = [len(df.loc[df["Program Type"] == "Food Program"]), len(df) - len(df.loc[df["Program Type"] == "Food Program"])]
     colours = [SAGE, VIRIDIAN]
     plot_pie_graph(sizes, colours, "PROGRAM TYPES", labels="program types labels")
-    save_graph(TEXT["PROGRAM TYPES"]["program types filename"], directory, 300)
-    return
+    return save_graph(TEXT["PROGRAM TYPES"]["program types filename"], directory, 300)
 
 
-def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
+def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a pie chart to provide a breakdown of food programs.
 
     Args:
         `df` (pd.DataFrame): The Pandas DataFrame containing the food program data.
         `directory` (str): The directory where the graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant food program data.
@@ -744,17 +744,19 @@ def graph_food_program_breakdown(df: pd.DataFrame, directory: str) -> None:
         ]
     colours = [VIVERY_GREEN, VIRIDIAN, SAGE, NEON_LIME, NEON_BLUE]
     plot_pie_graph(sizes, colours, "PROGRAM TYPES", labels="food program types labels")
-    save_graph(TEXT["PROGRAM TYPES"]["food program types filename"], directory, 300)
-    return
+    return save_graph(TEXT["PROGRAM TYPES"]["food program types filename"], directory, 300)
 
 
-def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:
+def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the usage of program and location filter fields.
 
     Args:
         `df` (pd.DataFrame): The DataFrame containing the program and location filter fields data.
         `directory` (str): The directory path where the generated graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
 
     Preconditions:
         - The DataFrame `df` must contain the necessary columns representing the program and location filter fields.
@@ -782,17 +784,19 @@ def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> None:
     x_axis = TEXT["PROGRAM FILTER FIELDS"]["xaxis"]
     y_axis = programs + locations
     plot_bar_graph(x_axis, y_axis, "PROGRAM FILTER FIELDS", SAGE)
-    save_graph(TEXT["PROGRAM FILTER FIELDS"]["filename"], directory, 300)
-    return
+    return save_graph(TEXT["PROGRAM FILTER FIELDS"]["filename"], directory, 300)
 
 
-def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
+def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a pie chart to provide an overview of network hours.
 
     Args:
         `df` (pd.DataFrame): The Pandas DataFrame containing the network hours data.
         `directory` (str): The directory where the graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory.       
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant network hours data.
@@ -818,17 +822,19 @@ def graph_network_hours_overview(df: pd.DataFrame, directory: str) -> None:
     sizes = [len(program_hours_dataframe), len(location_hours_dataframe)]
     colours = [SAGE, VIRIDIAN]
     plot_pie_graph(sizes, colours, "NETWORK HOURS OVERVIEW")
-    save_graph(TEXT["NETWORK HOURS OVERVIEW"]["filename"], directory, 300)
-    return
+    return save_graph(TEXT["NETWORK HOURS OVERVIEW"]["filename"], directory, 300)
 
 
-def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) -> None:
+def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to display the sample location hours for the current month.
 
     Args:
         `df` (pd.DataFrame): The DataFrame containing location hours data.
         `directory` (str): The directory path where the generated graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory.       
 
     Preconditions:
         - The DataFrame `df` must contain the necessary columns representing location hours data.
@@ -918,17 +924,19 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
     TEXT["LOCATION HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
     TEXT["LOCATION HOURS PREVIEW"]["current month filename"] = "location_hours_" + calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))].lower() + ".png"
     plot_bar_graph(x_axis, y_axis, "LOCATION HOURS PREVIEW", VIRIDIAN, rotation=45)
-    save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
-    return
+    return save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
 
 
-def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> None:
+def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to display the sample location hours for the next month.
 
     Args:
         `df` (pd.DataFrame): The DataFrame containing location hours data.
         `directory` (str): The directory path where the generated graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory.   
 
     Preconditions:
         - The DataFrame `df` must contain the necessary columns representing location hours data.
@@ -1016,17 +1024,19 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
     TEXT["LOCATION HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
     TEXT["LOCATION HOURS PREVIEW"]["current month filename"] = "location_hours_" + calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))].lower() + ".png"
     plot_bar_graph(x_axis, y_axis, "LOCATION HOURS PREVIEW", VIRIDIAN, rotation=45)
-    save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
-    return
+    return save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
 
 
-def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -> None:
+def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to display the sample program hours for the current month.
 
     Args:
         `df` (pd.DataFrame): The DataFrame containing program hours data.
         `directory` (str): The directory path where the generated graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory.   
 
     Preconditions:
         - The DataFrame `df` must contain the necessary columns representing program hours data.
@@ -1116,17 +1126,19 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
     TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
     TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))].lower() + ".png"
     plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", SAGE, rotation=45)
-    save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
-    return
+    return save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
 
 
-def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> None:
+def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to display the sample program hours for the next month.
 
     Args:
         `df` (pd.DataFrame): The DataFrame containing program hours data.
         `directory` (str): The directory path where the generated graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory.
 
     Preconditions:
         - The DataFrame `df` must contain the necessary columns representing program hours data.
@@ -1214,17 +1226,19 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> N
     TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
     TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))].lower() + ".png"
     plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", SAGE, rotation=45)
-    save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
-    return
+    return save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
 
 
-def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
+def graph_program_qualifications(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the number of programs with missing qualifications.
 
     Args:
         `df` (pd.DataFrame): The DataFrame containing program data.
         `directory` (str): The directory path where the generated graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory.
 
     Preconditions:
         - The DataFrame `df` must contain the necessary columns representing program qualifications.
@@ -1250,17 +1264,19 @@ def graph_program_qualifications(df: pd.DataFrame, directory: str) -> None:
     x_axis = TEXT["MISSING PROGRAM QUALIFICATIONS"]["xaxis"]
     y_axis = [len(create_program_by_program_qualifications_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_qualifications_table(df).dropna())] 
     plot_bar_graph(x_axis, y_axis, "MISSING PROGRAM QUALIFICATIONS", SAGE)
-    save_graph(TEXT["MISSING PROGRAM QUALIFICATIONS"]["filename"], directory, 300)
-    return
+    return save_graph(TEXT["MISSING PROGRAM QUALIFICATIONS"]["filename"], directory, 300)
 
 
-def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
+def graph_program_service_areas(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the number of programs with missing service areas.
 
     Args:
         `df` (pd.DataFrame): The DataFrame containing program data.
         `directory` (str): The directory path where the generated graph will be saved.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory.
 
     Preconditions:
         - The DataFrame `df` must contain the necessary columns representing program service areas.
@@ -1286,8 +1302,7 @@ def graph_program_service_areas(df: pd.DataFrame, directory: str) -> None:
     x_axis = TEXT["MISSING PROGRAM SERVICE AREA"]["xaxis"]
     y_axis = [len(create_program_by_program_services_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_services_table(df).dropna())] 
     plot_bar_graph(x_axis, y_axis, "MISSING PROGRAM SERVICE AREA", SAGE)
-    save_graph(TEXT["MISSING PROGRAM SERVICE AREA"]["filename"], directory, 300)
-    return
+    return save_graph(TEXT["MISSING PROGRAM SERVICE AREA"]["filename"], directory, 300)
 
 
 
@@ -2459,7 +2474,7 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of graphing functions
     graphing_functions = [
-        # create_map,
+        create_map,
         graph_profile_grade,
         graph_missing_organization_contact_info,
         graph_missing_location_contact_info,
