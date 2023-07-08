@@ -15,8 +15,8 @@
 
     "LOCATION MAP": {
         "title": "Location Map",
-        "subtitle": "",
-        "paragraph": ""
+        "subtitle": "Location Map | Green = Active | Red = Inactive",
+        "paragraph": "Any locations missing? Check here to review location addresses and make sure everything is where it should be."
     },
 
     "NETWORK OVERVIEW": {

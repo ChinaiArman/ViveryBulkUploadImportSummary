@@ -18,7 +18,8 @@ TEXT_SAVE_NAME = "resources/text.json"                                          
 with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
 
 # MISC CONSTANTS
-
+WIDTH = 8.3
+HEIGHT = 11
 
 # COLOURS
 VIVERY_GREEN = (0, 72, 61)
@@ -52,14 +53,16 @@ class pdfConstructor:
         TEXT["FILE"]["network name"] = new_network_name
         
         # Create PDF
-        self.pdf = FPDF()
-        self.pdf.set_top_margin(25.4)
-        self.pdf.set_auto_page_break(25.4)
-        self.pdf.set_left_margin(25.4)
-        self.pdf.set_right_margin(25.4)
+        self.pdf = FPDF(orientation='P', unit='in', format='A4')
+        self.pdf.set_top_margin(1)
+        self.pdf.set_auto_page_break(1)
+        self.pdf.set_left_margin(1)
+        self.pdf.set_right_margin(1)
 
         # Add font family
-        self.pdf.add_font('Roobert Medium', '', fname='resources\Roobert Font Suite\TTF\Roobert-Medium.ttf')
+        self.pdf.add_font('Roobert Medium', '', fname='resources\Roobert Font Suite\TTF\Roobert-Medium.ttf', uni=True)
+        self.pdf.add_font('Roobert Light Italic', '', fname='resources\Roobert Font Suite\TTF\Roobert-LightItalic.ttf', uni=True)
+        self.pdf.add_font('Roobert Regular', '', fname='resources\Roobert Font Suite\TTF\Roobert-Regular.ttf', uni=True)
         return
     
 
@@ -82,32 +85,47 @@ class pdfConstructor:
         return
     
 
-    def add_image(self, graphing_function, df: pd.DataFrame, directory: str, x: int, y: int, width: int) -> None:
+    def add_image(self, graphing_function, df: pd.DataFrame, directory: str, w: int, h: int) -> None:
         """
         """
+        filepath = graphing_function(df, directory)
+        self.pdf.image(filepath, (WIDTH - w)/2, FPDF.get_y(self.pdf), w, h)
+        self.pdf.ln(h)
         return
 
 
     def add_h1_text(self, text: str) -> None:
         """
         """
-        # self.pdf.ln(20)
-        self.pdf.set_text_color(VIVERY_GREEN)
+        self.pdf.set_y(FPDF.get_y(self.pdf))
+        if FPDF.get_y(self.pdf) > 1:
+            self.pdf.ln(0.5)
+        self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', 20)
         self.pdf.cell(0, 0, text, 0, 0, 'C')
-        self.pdf.ln(10)
+        self.pdf.ln(0.3)
+        return
     
 
     def add_h2_text(self, text: str) -> None:
         """
         """
-        pass
+        self.pdf.set_y(FPDF.get_y(self.pdf))
+        self.pdf.set_text_color(250, 249, 246)
+        self.pdf.set_font('Roobert Medium', '', 12)
+        self.pdf.cell(0, 0, text, 0, 0, 'C')
+        return
     
 
-    def add_normal_text(self, text: str) -> None:
+    def add_normal_text(self, text: str, alignment='L') -> None:
         """
         """
-        pass
+        self.pdf.ln(0.20)
+        self.pdf.set_y(FPDF.get_y(self.pdf))
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Regular', '', 11)
+        self.pdf.cell(0, 0, text, 0, 0, alignment)
+        return
         
 
     def add_linked_normal_text(self, text: str, link: str) -> None:
@@ -119,7 +137,11 @@ class pdfConstructor:
     def add_subtitle_text(self, text: str) -> None:
         """
         """
-        pass
+        self.pdf.ln(0.15)
+        self.pdf.set_y(FPDF.get_y(self.pdf))
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', 9)
+        self.pdf.cell(0, 0, text, 0, 0, 'C')
 
 
     def add_linked_subtitle_text(self, text: str, link: str) -> None:
@@ -183,5 +205,9 @@ if __name__ == "__main__":
 
     # Create PDF
     constructor.create_page()
-    constructor.add_h1_text("Location Map")
+    constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
+    constructor.add_image(ae.create_map, df, directory, 6.5, 4.2)
+    constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
+    constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
+    constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
     constructor.save_pdf()
