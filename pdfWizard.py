@@ -7,6 +7,7 @@ from fpdf import FPDF               #
 import pandas as pd                 # Pandas, used to represent CSVs and large data sets as a DataFrame.
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
+import types                        #
 
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
@@ -24,6 +25,16 @@ VIVERY_GREEN = (0, 72, 61)          #
 
 # STYLES
 
+
+
+
+
+# FPDF CLASS OVERRIDES
+def _footer(self):
+    pass
+
+
+FPDF.footer = types.MethodType(_footer, FPDF)
 
 
 
@@ -77,7 +88,7 @@ class pdfConstructor:
         return
     
 
-    def add_image(self, graphing_function, df: pd.DataFrame, directory: str, w: int, h: int, pagenumber=-2) -> None:
+    def add_image(self, filepath: str, w: int, h: int, pagenumber=-2) -> None:
         """
         """
         if pagenumber > -2:
@@ -85,7 +96,6 @@ class pdfConstructor:
             self.pdf.set_link(pagelink, page=pagenumber)
         else:
             pagelink = None
-        filepath = graphing_function(df, directory)
         self.pdf.image(filepath, (WIDTH - w)/2, FPDF.get_y(self.pdf), w, h, link=pagelink)
         self.pdf.ln(h)
         return
@@ -197,7 +207,7 @@ if __name__ == "__main__":
     # Create PDF
     constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
-    constructor.add_image(ae.create_map, df, directory, 6.5, 4.2)
+    constructor.add_image(ae.create_map(df, directory), 6.5, 4.2)
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
     constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
     constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
