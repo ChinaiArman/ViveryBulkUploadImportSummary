@@ -135,10 +135,14 @@ class pdfConstructor:
         self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, 'C')
 
 
-    def add_horizontal_line(self, x: int, y:int) -> None:
+    def add_horizontal_line(self) -> None:
         """
         """
-        pass
+        self.pdf.ln(0.01)
+        self.pdf.set_draw_color(0, 72, 61)
+        self.pdf.set_line_width(0.05)
+        self.pdf.line(1, FPDF.get_y(self.pdf), 7.3, FPDF.get_y(self.pdf))
+        return
 
 
     def add_table(self) -> None:
