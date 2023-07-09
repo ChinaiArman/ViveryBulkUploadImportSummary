@@ -17,24 +17,14 @@ TEXT_SAVE_NAME = "resources/text.json"                                          
 with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
 
 # MISC CONSTANTS
-WIDTH = 8.3                         #
+WIDTH = 8.5                         #
 HEIGHT = 11                         #
 
 # COLOURS
-VIVERY_GREEN = (0, 72, 61)          #
+
 
 # STYLES
 
-
-
-
-
-# FPDF CLASS OVERRIDES
-def _footer(self):
-    pass
-
-
-FPDF.footer = types.MethodType(_footer, FPDF)
 
 
 
@@ -73,6 +63,14 @@ class pdfConstructor:
         """
         """
         self.pdf.add_page()
+        if self.pdf.page_no() > 1:
+            self.pdf.set_right_margin(0.5)
+            self.pdf.set_y(HEIGHT - 0.5)
+            self.pdf.set_text_color(0, 72, 61)
+            self.pdf.set_font('Roobert Light Italic', '', 9)
+            self.pdf.cell(0, 0, '%s' % self.pdf.page_no(), 0, 0, 'R')
+            self.pdf.set_y(1)
+            self.pdf.set_right_margin(1)
         return
     
 
@@ -151,7 +149,7 @@ class pdfConstructor:
         self.pdf.ln(0.01)
         self.pdf.set_draw_color(0, 72, 61)
         self.pdf.set_line_width(0.05)
-        self.pdf.line(1, FPDF.get_y(self.pdf), 7.3, FPDF.get_y(self.pdf))
+        self.pdf.line(1, FPDF.get_y(self.pdf), WIDTH - 1, FPDF.get_y(self.pdf))
         return
 
 
@@ -205,6 +203,10 @@ if __name__ == "__main__":
     constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + TEXT["FILE"]["filename"], network_name)
 
     # Create PDF
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["TITLE PAGE"]["title"])
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["TABLE OF CONTENTS"]["title"])
     constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
     constructor.add_image(ae.create_map(df, directory), 6.5, 4.2)
