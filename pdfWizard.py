@@ -45,7 +45,7 @@ class pdfConstructor:
         TEXT["FILE"]["network name"] = new_network_name
         
         # Create PDF
-        self.pdf = FPDF(orientation='P', unit='in', format='A4')
+        self.pdf = FPDF(orientation='P', unit='in', format='letter')
         self.pdf.set_top_margin(1)
         self.pdf.set_auto_page_break(1)
         self.pdf.set_left_margin(1)
@@ -58,7 +58,7 @@ class pdfConstructor:
         return
     
 
-    def create_page(self) -> None:
+    def add_page(self) -> None:
         """
         """
         self.pdf.add_page()
@@ -117,18 +117,18 @@ class pdfConstructor:
     def add_normal_text(self, text: str, alignment='L') -> None:
         """
         """
-        self.pdf.ln(0.20)
+        self.pdf.ln(0.15)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', 11)
-        self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, alignment)
+        self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, 0, alignment)
         return
 
 
     def add_subtitle_text(self, text: str) -> None:
         """
         """
-        self.pdf.ln(0.15)
+        self.pdf.ln(0.1)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', 9)
@@ -141,7 +141,7 @@ class pdfConstructor:
         pass
 
 
-    def add_table(self, x: int, y:int) -> None:
+    def add_table(self) -> None:
         """
         """
         pass
@@ -191,11 +191,10 @@ if __name__ == "__main__":
     constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + TEXT["FILE"]["filename"], network_name)
 
     # Create PDF
-    constructor.create_page()
+    constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
     constructor.add_image(ae.create_map, df, directory, 6.5, 4.2)
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
     constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
     constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
-    constructor.create_page()
     constructor.save_pdf()
