@@ -114,7 +114,7 @@ class pdfConstructor:
             pagelink_two = None
         current_y = FPDF.get_y(self.pdf)
         self.pdf.image(filepath_one, (WIDTH - w*2)/2, current_y, w, h, link=pagelink_one)
-        self.pdf.image(filepath_one, ((WIDTH - w*2)/2) + w, current_y, w, h, link=pagelink_one)
+        self.pdf.image(filepath_two, ((WIDTH - w*2)/2) + w, current_y, w, h, link=pagelink_one)
         self.pdf.ln(h)
         return
 
@@ -132,9 +132,11 @@ class pdfConstructor:
         return
     
 
-    def add_normal_text(self, text: str, alignment='L') -> None:
+    def add_normal_text(self, text: str, alignment: str='L', formatter=None) -> None:
         """
         """
+        if formatter:
+            text = formatter(self.df, text)
         self.pdf.ln(0.15)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
@@ -163,11 +165,11 @@ class pdfConstructor:
         return
 
 
-    def add_table(self, function, df: pd.DataFrame, pagenumber: int=-2) -> None:
+    def add_table(self, function, pagenumber: int=-2) -> None:
         """
         """
         # Create iterable data
-        df_copy = df.copy()
+        df_copy = self.df.copy()
         df_copy = function(df_copy)
         list_of_lists = df_copy.values
 
@@ -262,9 +264,9 @@ if __name__ == "__main__":
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
     constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
     constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
-    constructor.add_table(ae.create_network_overview_table, df)
+    constructor.add_table(ae.create_network_overview_table)
     constructor.add_horizontal_line()
-    constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"])
+    constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"], formatter=ae.calculate_percent_locations_inactive)
 
     # Save PDF
     constructor.save_pdf()

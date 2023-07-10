@@ -2486,6 +2486,17 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 
+# NUMBERS
+def calculate_percent_locations_inactive(df: pd.DataFrame, text: str) -> int:
+    """
+    """
+    df = create_network_overview_table(df)
+    percent_locations_inactive = int(round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 0))
+    return text.format(percent_locations_inactive)
+
+
+
+
 # MAIN
 if __name__ == "__main__":
     # Define console parser
@@ -2547,6 +2558,10 @@ if __name__ == "__main__":
         create_program_by_program_services_table,
         create_program_profile_completion_table
     ]
+    # Create a list of calculation functions
+    calculation_functions = [
+        calculate_percent_locations_inactive
+    ]
 
     # Create directory within project folder
     if not os.path.isdir(directory):
@@ -2568,10 +2583,13 @@ if __name__ == "__main__":
     valid_graphing_functions = [graph for graph in graphing_functions if graph.__name__ not in silenced_functions]
     # Create valid DataFrame functions
     valid_dataframe_functions = [dataframe for dataframe in dataframe_functions if dataframe.__name__ not in silenced_functions]
+    # Create valid calculation functions
+    valid_calculation_functions = [calculation for calculation in calculation_functions if calculation.__name__ not in silenced_functions]
 
     # Execute functions
-    [graph(df, directory) for graph in valid_graphing_functions]
-    [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
+    # [graph(df, directory) for graph in valid_graphing_functions]
+    # [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
+    [print(calculation(df, TEXT["NETWORK OVERVIEW"]["paragraph"])) for calculation in valid_calculation_functions]
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")

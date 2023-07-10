@@ -21,7 +21,7 @@
 
     "NETWORK OVERVIEW": {
         "title": "Network Overview",
-        "paragraph": "Setting the inactive or unapproved statuses means some locations or programs won't show up on the map, which means clients won't see them. It looks like 16% of your Locations won't be visible to neighbors searching for food. Click the table above to review these!",
+        "paragraph": "Setting the inactive or unapproved statuses means some locations or programs won't show up on the map, which means clients won't see them. It looks like {}% of your Locations won't be visible to neighbors searching for food. Click the table above to review these!",
         "columns": ["Level", "Active", "Inactive", "Total"],
         "rows": ["Organization", "Location", "Program"]
     },
