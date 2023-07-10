@@ -97,6 +97,26 @@ class pdfConstructor:
         self.pdf.image(filepath, (WIDTH - w)/2, FPDF.get_y(self.pdf), w, h, link=pagelink)
         self.pdf.ln(h)
         return
+    
+
+    def add_two_images(self, filepath_one: str, filepath_two: str, w: int, h: int, pagenumber_one=-2, pagenumber_two=-2) -> None:
+        """
+        """
+        if pagenumber_one > -2:
+            pagelink_one = self.pdf.add_link()
+            self.pdf.set_link(pagelink_one, page=pagenumber_one)
+        else:
+            pagelink_one = None
+        if pagenumber_two > -2:
+            pagelink_two = self.pdf.add_link()
+            self.pdf.set_link(pagelink_two, page=pagenumber_two)
+        else:
+            pagelink_two = None
+        current_y = FPDF.get_y(self.pdf)
+        self.pdf.image(filepath_one, (WIDTH - w*2)/2, current_y, w, h, link=pagelink_one)
+        self.pdf.image(filepath_one, ((WIDTH - w*2)/2) + w, current_y, w, h, link=pagelink_one)
+        self.pdf.ln(h)
+        return
 
 
     def add_h1_text(self, text: str) -> None:
