@@ -1392,13 +1392,13 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     active = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Organization External ID'].nunique(),
-        df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] == True) & (df['Location Active Status'] == True)]['Location External ID'].nunique(),
-        df[['Program External ID', 'Program Approval Status', 'Program Active Status']].loc[(df['Program Approval Status'] == True) & (df['Program Active Status'] == True)]['Program External ID'].nunique()
+        df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] == True) & (df['Location Active Status'] == True) & (df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Location External ID'].nunique(),
+        df[['Program External ID', 'Program Approval Status', 'Program Active Status']].loc[(df['Program Approval Status'] == True) & (df['Program Active Status'] == True) & (df['Location Approval Status'] == True) & (df['Location Active Status'] == True) & (df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True)]['Program External ID'].nunique()
         ]
     inactive = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']].loc[(df['Organization Approval Status'] != True) | (df['Organization Active Status'] != True)]['Organization External ID'].nunique(),
-        df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] != True) | (df['Location Active Status'] != True)]['Location External ID'].nunique(),
-        df[['Program External ID', 'Program Approval Status', 'Program Active Status']].loc[(df['Program Approval Status'] != True) | (df['Program Active Status'] != True)]['Program External ID'].nunique()
+        df[['Location External ID', 'Location Approval Status', 'Location Active Status']].loc[(df['Location Approval Status'] != True) | (df['Location Active Status'] != True) | (df['Organization Approval Status'] != True) | (df['Organization Active Status'] != True)]['Location External ID'].nunique(),
+        df[['Program External ID', 'Program Approval Status', 'Program Active Status']].loc[(df['Program Approval Status'] != True) | (df['Program Active Status'] != True) | (df['Location Approval Status'] != True) | (df['Location Active Status'] != True) | (df['Organization Approval Status'] != True) | (df['Organization Active Status'] != True)]['Program External ID'].nunique()
         ]
     total = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']]['Organization External ID'].nunique(),
