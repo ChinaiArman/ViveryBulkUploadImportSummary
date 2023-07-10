@@ -86,7 +86,7 @@ class pdfConstructor:
         return
     
 
-    def add_image(self, filepath: str, w: int, h: int, pagenumber=-2) -> None:
+    def add_image(self, filepath: str, w: int, h: int, pagenumber: int=-2) -> None:
         """
         """
         if pagenumber > -2:
@@ -99,7 +99,7 @@ class pdfConstructor:
         return
     
 
-    def add_two_images(self, filepath_one: str, filepath_two: str, w: int, h: int, pagenumber_one=-2, pagenumber_two=-2) -> None:
+    def add_two_images(self, filepath_one: str, filepath_two: str, w: int, h: int, pagenumber_one: int=-2, pagenumber_two: int=-2) -> None:
         """
         """
         if pagenumber_one > -2:
@@ -132,23 +132,13 @@ class pdfConstructor:
         return
     
 
-    def add_h2_text(self, text: str) -> None:
-        """
-        """
-        self.pdf.set_y(FPDF.get_y(self.pdf))
-        self.pdf.set_text_color(250, 249, 246)
-        self.pdf.set_font('Roobert Medium', '', 12)
-        self.pdf.cell(0, 0, text, 0, 0, 'C')
-        return
-    
-
     def add_normal_text(self, text: str, alignment='L') -> None:
         """
         """
         self.pdf.ln(0.15)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Regular', '', 11)
+        self.pdf.set_font('Roobert Regular', '', 12)
         self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, 0, alignment)
         return
 
@@ -173,10 +163,45 @@ class pdfConstructor:
         return
 
 
-    def add_table(self) -> None:
+    def add_table(self, function, df: pd.DataFrame, pagenumber: int=-2) -> None:
         """
         """
-        pass
+        # Create iterable data
+        df_copy = df.copy()
+        df_copy = function(df_copy)
+        list_of_lists = df_copy.values
+
+        # Define number of columns
+        columns = len(list(df_copy.columns))
+
+        # Define Page Linker
+        if pagenumber > -2:
+            pagelink = self.pdf.add_link()
+            self.pdf.set_link(pagelink, page=pagenumber)
+        else:
+            pagelink = None
+        
+        # Header Row
+        self.pdf.set_fill_color(0, 72, 61)
+        self.pdf.set_text_color(250, 249, 246)
+        self.pdf.set_font('Roobert Medium', '', 14)
+        for element in list(df_copy.columns):
+            self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, 0, 0, 'C', True, pagelink)
+        self.pdf.ln(self.pdf.font_size + 0.2)
+        self.pdf.set_x(1)
+
+        # Datum Rows
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Regular', '', 11)
+        for row in list_of_lists:
+            for datum in row:
+                self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, str(datum), 0, 0, 'C', False, pagelink)
+            self.pdf.ln(self.pdf.font_size + 0.2)
+            self.pdf.set_x(1)
+        
+        # Save
+        df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
+        return
 
 
     def add_vertical_space(self, height: int) -> None:
@@ -222,15 +247,24 @@ if __name__ == "__main__":
     # Create pdfConstructor instance
     constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + TEXT["FILE"]["filename"], network_name)
 
-    # Create PDF
+    # Cover Page
     constructor.add_page()
     constructor.add_h1_text(TEXT["TITLE PAGE"]["title"])
+
+    # Table of Contents
     constructor.add_page()
     constructor.add_h1_text(TEXT["TABLE OF CONTENTS"]["title"])
+
+    # Network Overview
     constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
     constructor.add_image(ae.create_map(df, directory), 6.5, 4.2)
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
     constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
     constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
+    constructor.add_table(ae.create_network_overview_table, df)
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"])
+
+    # Save PDF
     constructor.save_pdf()
