@@ -116,12 +116,12 @@ VIRIDIAN = '#5F9575'                                                            
 SAGE = '#A2C3A8'                                                                                                # A colour in the Vivery colour scheme.
 SALMON = '#D4A392'                                                                                              # A colour in the Vivery colour scheme.
 WARM_WHITE = '#FAF9F6'                                                                                          # A colour in the Vivery colour scheme.
-NEON_LIME = '#E1FFB3'                                                                                           # A colour in the Vivery colour scheme.
-NEON_BLUE = '#B4F9DF'                                                                                           # A colour in the Vivery colour scheme.
+NEON_LIME = '#BBD98D'                                                                                           # A colour in the Vivery colour scheme.
+NEON_BLUE = '#8CCFB6'                                                                                           # A colour in the Vivery colour scheme.
 
 # STYLES
 AXES_LABEL_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 16}       # A Dictionary used to style the pyplot axes text.
-PIE_SLICE_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 12}        # A Dictionary used to style the pyplot axes text.
+PIE_SLICE_FONT_DICT = {'family': 'Roobert Medium', 'color':  VIVERY_GREEN, 'weight': 'bold', 'size': 16}        # A Dictionary used to style the pyplot axes text.
 
 
 
@@ -340,12 +340,12 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
     ax.bar(x_axis, y_axis, width=0.5, color=barcolor, zorder=2)
 
     # X-Ticks
-    plt.xticks(font="Roobert Medium", fontsize=10, color=VIVERY_GREEN, rotation=rotation)
+    plt.xticks(font="Roobert Medium", fontsize=11, color=VIVERY_GREEN, rotation=rotation)
 
     # Y-Ticks
     if max(y_axis) <= 10:
         plt.yticks(range(math.floor(min(y_axis)), math.ceil(max(y_axis))+1))
-    plt.yticks(font="Roobert Medium", fontsize=10, color=VIVERY_GREEN)
+    plt.yticks(font="Roobert Medium", fontsize=11, color=VIVERY_GREEN)
     ax.tick_params(axis=u'both', which=u'both',length=0)
 
     # Y-Dash Lines
@@ -410,7 +410,7 @@ def plot_pie_graph(sizes: list, colours: list, text_section: str, labels="labels
     plt.gcf().gca().add_artist(hole)
 
     # Percentage Styling
-    plt.setp(percents, color=WARM_WHITE, fontsize=8)
+    plt.setp(percents, color=WARM_WHITE, fontsize=11)
 
     # Remove Box
     ax.spines['top'].set_visible(False)
