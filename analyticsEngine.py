@@ -2636,6 +2636,51 @@ def calculate_locations_programs_without_contact(df: pd.DataFrame, text: dict, s
 
 def calculate_food_distribution_program_percent(df: pd.DataFrame, text: dict, section: str, field: str) -> None:
     """
+    Calculates the percentage of food distribution programs based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program data.
+        `text` (dict): The dictionary containing the text sections and fields for updating the results.
+        `section` (str): The section in the text dictionary to update.
+        `field` (str): The field in the specified section to update.
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the program data.
+        - The `text` dictionary must contain the specified `section` and `field`.
+        - The `section` and `field` must be valid keys in the `text` dictionary.
+
+    Returns:
+        None. The `text` dictionary is updated with the calculated results.
+
+    Raises:
+        None
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        ...     'Program Type': ['Food Distribution', 'Food Pantry', 'Meal Program', 'Food Distribution', 'Food Distribution']
+        ... })
+        >>> text = {
+        ...     'section1': {
+        ...         'field1': 'The percentage of food distribution programs is {}%.'
+        ...     }
+        ... }
+        >>> calculate_food_distribution_program_percent(data, text, 'section1', 'field1')
+        >>> print(text)
+        {
+            'section1': {
+                'field1': 'The percentage of food distribution programs is 60.0%.'
+            }
+        }
+
+    Additional Information:
+        - The function calls `create_program_by_program_type_table()` to create a DataFrame for program types.
+        - The relevant column for program types is selected using the appropriate key from the TEXT dictionary.
+        - The number of rows in the selected column that have the value 'Food Distribution' is calculated.
+        - The total number of rows in the selected column is calculated.
+        - The percentage of food distribution programs is calculated by dividing the count of 'Food Distribution' rows by the total count and multiplying by 100.
+        - The results are formatted using the specified `section` and `field` in the `text` dictionary.
+        - The updated `text` dictionary is returned, with the provided `section` and `field` updated with the calculated results.
     """
     df = create_program_by_program_type_table(df)[TEXT["APPENDIX PROGRAM TYPE"]["columns"][2]]
     percent_food_distribution = round((len(df.loc[(df == 'Food Distribution')]) / len(df)) * 100, 1)
