@@ -2662,8 +2662,8 @@ if __name__ == "__main__":
     valid_calculation_functions = [calculation for calculation in calculation_functions if calculation.__name__ not in silenced_functions]
 
     # Execute functions
-    # [graph(df, directory) for graph in valid_graphing_functions]
-    # [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
+    [graph(df, directory) for graph in valid_graphing_functions]
+    [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
     [print(calculation(df, TEXT["NETWORK OVERVIEW"]["paragraph"])) for calculation in valid_calculation_functions]
 
     # Save State
