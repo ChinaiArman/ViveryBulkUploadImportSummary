@@ -8,6 +8,8 @@ import pandas as pd                 # Pandas, used to represent CSVs and large d
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
 import types                        #
+from datetime import date           #
+import calendar
 
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
@@ -55,9 +57,47 @@ class pdfConstructor:
         # Add font family
         self.pdf.add_font('Roobert Medium', '', fname='resources\Roobert Font Suite\TTF\Roobert-Medium.ttf', uni=True)
         self.pdf.add_font('Roobert Light Italic', '', fname='resources\Roobert Font Suite\TTF\Roobert-LightItalic.ttf', uni=True)
+        self.pdf.add_font('Roobert Light', '', fname='resources\Roobert Font Suite\TTF\Roobert-Light.ttf', uni=True)
         self.pdf.add_font('Roobert Regular', '', fname='resources\Roobert Font Suite\TTF\Roobert-Regular.ttf', uni=True)
+        self.pdf.add_font('Roobert Bold', '', fname='resources\Roobert Font Suite\TTF\Roobert-Bold.ttf', uni=True)
         return
     
+
+    def add_cover_page(self) -> None:
+        """
+        """
+        # Add Background Image
+        self.pdf.set_top_margin(0)
+        self.pdf.set_auto_page_break(0)
+        self.pdf.set_left_margin(0)
+        self.pdf.set_right_margin(0)
+        self.pdf.image("resources\images\cover.png", 0, 0, WIDTH, HEIGHT)
+
+        # Set Date Font
+        self.pdf.set_xy(0.6, 8.5)
+        self.pdf.set_text_color(216, 255, 170)
+        self.pdf.set_font('Roobert Light', '', 16)
+
+        # Calculate Date
+        current_date = date.today().strftime("%m/%d/%Y")
+        month = calendar.month_name[int(current_date[0:2])] + " "
+        current_date = current_date[3:].replace('/', ', ')
+        current_date = month + current_date
+        self.pdf.multi_cell(0, self.pdf.font_size + 0.05, current_date, 0, 'L')
+
+        # Add Title
+        self.pdf.set_xy(0.5, 8.75)
+        self.pdf.set_text_color(216, 255, 170)
+        self.pdf.set_font('Roobert Bold', '', 40)
+        self.pdf.multi_cell(0, self.pdf.font_size + 0.05, TEXT["FILE"]["network name"] + "\nData Analysis", 0, 'L')
+
+        # Reset Margins
+        self.pdf.set_top_margin(1)
+        self.pdf.set_auto_page_break(1)
+        self.pdf.set_left_margin(1)
+        self.pdf.set_right_margin(1)
+        return
+
 
     def add_page(self) -> None:
         """
@@ -274,7 +314,7 @@ if __name__ == "__main__":
 
     # Cover Page
     constructor.add_page()
-    constructor.add_h1_text(TEXT["TITLE PAGE"]["title"])
+    constructor.add_cover_page()
 
     # Table of Contents
     constructor.add_page()
@@ -305,6 +345,7 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["HIGH LOW PROFILE GRADES"]["title"])
     constructor.add_table_header(TEXT["HIGH LOW PROFILE GRADES"]["header row"])
     constructor.add_table(ae.create_high_low_graded_profiles_table)
+    constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["HIGH LOW PROFILE GRADES"]["paragraph"])
 
     # Save PDF
