@@ -2532,9 +2532,9 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: 
 
     Args:
         `df` (pd.DataFrame): The Pandas DataFrame containing the network overview data.
-        `text` (dict): A dictionary containing all of the text for the PDF.
-        `section` (str): A string containing the name of the text section.
-        `field` (str): A string containing the name of the field within the text section to modify.
+        `text` (dict): The dictionary containing the text sections and fields for updating the results.
+        `section` (str): The section in the text dictionary to update.
+        `field` (str): The field in the specified section to update.
 
     Returns:
         `dict`: A dictionary with the modifications to the text field.
@@ -2566,7 +2566,7 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: 
         - The function calls `create_network_overview_table()` to generate a network overview DataFrame.
         - The percentage of inactive locations is calculated by dividing the number of inactive locations by the total number of locations and multiplying by 100.
         - The result is rounded and stored in the variable `percent_locations_inactive`.
-        - The formatted result is stored back in the dictionary and returned.
+        - The updated `text` dictionary is returned, with the provided `section` and `field` updated with the calculated results.
     """
     df = create_network_overview_table(df)
     percent_locations_inactive = int(round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 0))
@@ -2576,6 +2576,54 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: 
 
 def calculate_locations_programs_without_contact(df: pd.DataFrame, text: dict, section: str, field: str) -> None:
     """
+    Calculates the number of locations and programs without contact information based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the location and program contact information data.
+        `text` (dict): The dictionary containing the text sections and fields for updating the results.
+        `section` (str): The section in the text dictionary to update.
+        `field` (str): The field in the specified section to update.
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the location and program contact information data.
+        - The `text` dictionary must contain the specified `section` and `field`.
+        - The `section` and `field` must be valid keys in the `text` dictionary.
+
+    Returns:
+        None. The `text` dictionary is updated with the calculated results.
+
+    Raises:
+        None
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Location External ID': ['L1', 'L2', 'L3', 'L4', 'L5'],
+        ...     'Contact Name': [None, 'John', 'Jane', None, 'Mike'],
+        ...     'Contact Email': [None, 'john@example.com', 'jane@example.com', 'None', None],
+        ...     'Program External ID': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        ...     'Contact Name': ['Peter', None, 'Emily', None, 'Sam'],
+        ...     'Contact Email': ['peter@example.com', None, 'emily@example.com', 'info@example.com', None]
+        ... })
+        >>> text = {
+        ...     'section1': {
+        ...         'field1': 'There are {} locations and {} programs without contact information.'
+        ...     }
+        ... }
+        >>> calculate_locations_programs_without_contact(data, text, 'section1', 'field1')
+        >>> print(text)
+        {
+            'section1': {
+                'field1': 'There are 2 locations and 1 programs without contact information.'
+            }
+        }
+
+    Additional Information:
+        - The function calls `create_location_contact_information_table()` to create a DataFrame for location contact information.
+        - The function calls `create_program_contact_information_table()` to create a DataFrame for program contact information.
+        - The number of locations without contact information is calculated by filtering the location DataFrame for rows where all contact information columns are NaN.
+        - The number of programs without contact information is calculated by filtering the program DataFrame for rows where all contact information columns are NaN.
+        - The results are formatted using the specified `section` and `field` in the `text` dictionary.
+        - The updated `text` dictionary is returned, with the provided `section` and `field` updated with the calculated results.
     """
     location_df = create_location_contact_information_table(df)
     program_df = create_program_contact_information_table(df)
