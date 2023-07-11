@@ -108,7 +108,7 @@ PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'   
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
-MAP_SCOPE_KEY = {60: 2, 50: 3, 30: 4, 5: 5, 2: 6, 1: 8}                                                         # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
+MAP_SCOPE_KEY = {0: 12, 0.1: 10, 0.2: 9, 0.4: 8, 0.9: 7, 1.5: 6, 3.5: 5, 7: 4, 25: 3, 32: 2, 70: 1}             # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
 
 # COLOURS
 VIVERY_GREEN = '#00483D'                                                                                        # A colour in the Vivery colour scheme.
@@ -246,9 +246,10 @@ def map_scope(value: int) -> None:
         - Ensure that the input value is an integer.
     """
     for range_end, scope in MAP_SCOPE_KEY.items():
-        if value > range_end:
+        if range_end >= value:
             return scope
-    return 12
+    print('one')
+    return 0
 
 
 def crop_image(width: int, height: int, filename: str, directory: str) -> None:
@@ -482,7 +483,7 @@ def create_map(df: pd.DataFrame, directory: str) -> str:
                 lon=df2['Location Longitude'].mean(),
             ),
             pitch=0,
-            zoom=max(map_scope((df2['Location Longitude'].max() - df2['Location Longitude'].min())), map_scope((df2['Location Latitude'].max() - df2['Location Latitude'].min())))
+            zoom=min(map_scope((df2['Location Longitude'].max() - df2['Location Longitude'].min())), map_scope((df2['Location Latitude'].max() - df2['Location Latitude'].min())))
         ),
     )
     fig.write_image(directory + "/images" + '/map.png', width=1000, height=1000)
@@ -1404,7 +1405,7 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         ]
     total = [
         df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']]['Organization External ID'].nunique(),
-        df[['Organization External ID', 'Organization Approval Status', 'Organization Active Status']]['Organization External ID'].nunique(),
+        df[['Location External ID', 'Location Approval Status', 'Location Active Status']]['Location External ID'].nunique(),
         df[['Program External ID', 'Program Approval Status', 'Program Active Status']]['Program External ID'].nunique()
         ]
     data = {
