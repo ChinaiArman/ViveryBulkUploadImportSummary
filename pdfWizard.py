@@ -7,7 +7,6 @@ from fpdf import FPDF               #
 import pandas as pd                 # Pandas, used to represent CSVs and large data sets as a DataFrame.
 import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
 import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
-import types                        #
 from datetime import date           #
 import calendar
 import glob
