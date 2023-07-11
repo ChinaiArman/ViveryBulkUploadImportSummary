@@ -2643,6 +2643,8 @@ if __name__ == "__main__":
         os.mkdir(directory)
     if not os.path.isdir(directory + "/resources"):
         os.mkdir(directory + "/resources")
+    if not os.path.isdir(directory + "/resources/images"):
+        os.mkdir(directory + "/resources/images")
     if not os.path.isdir(directory + "/csvs"):
         os.mkdir(directory + "/csvs")
     if not os.path.isdir(directory + "/images"):
