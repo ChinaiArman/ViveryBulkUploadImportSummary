@@ -2526,6 +2526,43 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
 # NUMBERS
 def calculate_percent_locations_inactive(df: pd.DataFrame, text: str) -> int:
     """
+    Calculates the percentage of inactive locations based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the network overview data.
+        `text` (str): The text format specifying how the result will be displayed.
+
+    Returns:
+        `int`: The calculated percentage of inactive locations formatted according to the provided `text`.    
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the network overview data.
+        - The `text` must be a valid string format with a placeholder for the percentage value.
+
+    Raises:
+        None
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Organization External ID': ['O1', 'O2', 'O2', 'O3', 'O1'],
+        ...     'Organization Approval Status': [True, False, True, True, True],
+        ...     'Organization Active Status': [True, True, False, True, True],
+        ...     'Location External ID': ['L1', 'L2', 'L3', 'L1', 'L2'],
+        ...     'Location Approval Status': [True, True, True, False, True],
+        ...     'Location Active Status': [True, True, True, True, False],
+        ...     'Program External ID': ['P1', 'P2', 'P2', 'P3', 'P1'],
+        ...     'Program Approval Status': [True, True, True, True, True],
+        ...     'Program Active Status': [True, True, True, False, True]
+        ... })
+        >>> result = calculate_percent_locations_inactive(data, "The percentage of inactive locations is {}%.")
+        >>> print(result)
+        The percentage of inactive locations is 40%.
+
+    Additional Information:
+        - The function calls `create_network_overview_table()` to generate a network overview DataFrame.
+        - The percentage of inactive locations is calculated by dividing the number of inactive locations by the total number of locations and multiplying by 100.
+        - The result is rounded and stored in the variable `percent_locations_inactive`.
+        - The formatted result is returned using the provided `text` format string.
     """
     df = create_network_overview_table(df)
     percent_locations_inactive = int(round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 0))
