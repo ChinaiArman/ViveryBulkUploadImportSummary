@@ -1451,7 +1451,7 @@ def create_highest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - For an accurate calculation, ensure all columns are present in the DataFrame.
         - The table column headers are obtained from the `TEXT` dictionary under the key `APPENDIX PROGRAM PROFILE COMPLETION LIST`.
     """ 
-    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False).head(5).reset_index(drop=True)
+    return create_program_profile_completion_table(df).sort_values(by=[TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][0]], ascending=[False, True]).head(5).reset_index(drop=True)
 
 
 def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -1491,11 +1491,42 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
         - For an accurate calculation, ensure all columns are present in the DataFrame.
         - The table column headers are obtained from the `TEXT` dictionary under the key `APPENDIX PROGRAM PROFILE COMPLETION LIST`.
     """
-    return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=True).head(5).reset_index(drop=True)
+    return create_program_profile_completion_table(df).sort_values(by=[TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][0]], ascending=[True, False]).head(5).reset_index(drop=True)
 
 
 def create_high_low_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Concatenates the highest graded profiles table and the lowest graded profiles table.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the profile data.
+
+    Returns:
+        `pd.DataFrame`: A DataFrame containing the highest and lowest graded program profiles.
+    
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the relevant profile data.
+
+    Raises:
+        None
+
+    Example:
+        >>> profile_data = pd.DataFrame({
+        ...     'Location': ['A0001', 'A0003', 'A0005', 'A0006'],
+        ...     'Points': [18.0, 20.0, 11.0, 6.0],
+        ...     'Tier': ['Basic', 'Basic', 'Basic', 'Basic']
+        ... })
+        >>> result = create_high_low_graded_profiles_table(profile_data)
+        >>> print(result)
+            Location    Points  Tier    Location    Points      Tier
+        0    A0003      20.0    Basic    A0006      6.0         Basic
+        1    A0001      18.0    Basic    A0005      11.0        Basic
+
+    Additional Information:
+        - The function calls `create_highest_graded_profiles_table()` to create the highest graded profiles table.
+        - The function calls `create_lowest_graded_profiles_table()` to create the lowest graded profiles table.
+        - The resulting tables are concatenated using `pd.concat()` along the columns axis (axis=1).
+        - The concatenated table is returned as the result.
     """
     return pd.concat([create_highest_graded_profiles_table(df), create_lowest_graded_profiles_table(df)], axis=1)
 
