@@ -16,8 +16,14 @@ import os
 import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
 
 # IMPORT CONSTANTS
-TEXT_SAVE_NAME = "resources/text.json"                                                  # Path to TEXT save file (JSON).
-with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                               # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
+TEXT_SAVE_NAME = "resources/text.json"                                                                          # Path to TEXT save file (JSON).
+with open(TEXT_SAVE_NAME) as file: TEXT = json.load(file)                                                       # TEXT, used for all of the text in the PDF report; stored in the file, 'resources/text.json'.
+WEIGHTS_SAVE_NAME = "resources/weights.json"                                                                    # Path to WEIGHTS save file (JSON).
+with open(WEIGHTS_SAVE_NAME) as file: WEIGHTS = json.load(file)                                                 # WEIGHTS, used for the weightage of each column in the profile completion grades; stored in the file, 'resources/weights.json'.
+RECOMMENDED_FILTERS_SAVE_NAME = 'resources/recommended_filters.csv'                                             # Path to Recommended Filters (CSV).
+RECOMMENDED_FILTERS = pd.read_csv(RECOMMENDED_FILTERS_SAVE_NAME)                                                # RECOMMENDED_FILTERS, used to store the recommended filters for locations and programs, stored in the file, 'resources/recommended_filters.csv'
+PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'                                   # Path to Profile Completion Tiers (CSV).
+PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
 WIDTH = 8.5                         #
@@ -175,11 +181,9 @@ class pdfConstructor:
         return
     
 
-    def add_normal_text(self, text: str, alignment: str='L', formatter=None) -> None:
+    def add_normal_text(self, text: str, alignment: str='L') -> None:
         """
         """
-        if formatter:
-            text = formatter(self.df, text)
         self.pdf.ln(0.10)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
@@ -339,7 +343,8 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
     constructor.add_table(ae.create_network_overview_table)
     constructor.add_horizontal_line()
-    constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"], formatter=ae.calculate_percent_locations_inactive)
+    TEXT = ae.calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
+    constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"])
 
     # Profile Completeness
     constructor.add_page()
@@ -369,3 +374,9 @@ if __name__ == "__main__":
 
     # Save PDF
     constructor.save_pdf()
+
+    # Save State
+    ae.save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")
+    ae.save_state(WEIGHTS, WEIGHTS_SAVE_NAME.replace('resources/', ''), directory + "/resources")
+    ae.save_state(RECOMMENDED_FILTERS, RECOMMENDED_FILTERS_SAVE_NAME.replace('resources/', ''), directory + "/resources")
+    ae.save_state(PROFILE_COMPLETION_TIERS, PROFILE_COMPLETION_TIERS_SAVE_NAME.replace('resources/', ''), directory + "/resources")

@@ -2526,20 +2526,22 @@ def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # NUMBERS
-def calculate_percent_locations_inactive(df: pd.DataFrame, text: str) -> int:
+def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: str, field: str) -> dict:
     """
     Calculates the percentage of inactive locations based on the provided DataFrame.
 
     Args:
         `df` (pd.DataFrame): The Pandas DataFrame containing the network overview data.
-        `text` (str): The text format specifying how the result will be displayed.
+        `text` (dict): A dictionary containing all of the text for the PDF.
+        `section` (str): A string containing the name of the text section.
+        `field` (str): A string containing the name of the field within the text section to modify.
 
     Returns:
-        `int`: The calculated percentage of inactive locations formatted according to the provided `text`.    
+        `dict`: A dictionary with the modifications to the text field.
 
     Preconditions:
         - The Pandas DataFrame `df` must contain the necessary columns and represent the network overview data.
-        - The `text` must be a valid string format with a placeholder for the percentage value.
+        - The `text`, `section`, `field`, must be a valid string with a splot for modifying the string with an integer value.
 
     Raises:
         None
@@ -2556,7 +2558,7 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: str) -> int:
         ...     'Program Approval Status': [True, True, True, True, True],
         ...     'Program Active Status': [True, True, True, False, True]
         ... })
-        >>> result = calculate_percent_locations_inactive(data, "The percentage of inactive locations is {}%.")
+        >>> result = calculate_percent_locations_inactive(data, TEXT, "NETWORK OVERVIEW", "paragraph")
         >>> print(result)
         The percentage of inactive locations is 40%.
 
@@ -2564,11 +2566,12 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: str) -> int:
         - The function calls `create_network_overview_table()` to generate a network overview DataFrame.
         - The percentage of inactive locations is calculated by dividing the number of inactive locations by the total number of locations and multiplying by 100.
         - The result is rounded and stored in the variable `percent_locations_inactive`.
-        - The formatted result is returned using the provided `text` format string.
+        - The formatted result is stored back in the dictionary and returned.
     """
     df = create_network_overview_table(df)
     percent_locations_inactive = int(round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 0))
-    return text.format(percent_locations_inactive)
+    text[section][field] = text[section][field].format(percent_locations_inactive)
+    return text
 
 
 
@@ -2635,10 +2638,6 @@ if __name__ == "__main__":
         create_program_by_program_services_table,
         create_program_profile_completion_table
     ]
-    # Create a list of calculation functions
-    calculation_functions = [
-        calculate_percent_locations_inactive
-    ]
 
     # Create directory within project folder
     if not os.path.isdir(directory):
@@ -2665,13 +2664,11 @@ if __name__ == "__main__":
     valid_graphing_functions = [graph for graph in graphing_functions if graph.__name__ not in silenced_functions]
     # Create valid DataFrame functions
     valid_dataframe_functions = [dataframe for dataframe in dataframe_functions if dataframe.__name__ not in silenced_functions]
-    # Create valid calculation functions
-    valid_calculation_functions = [calculation for calculation in calculation_functions if calculation.__name__ not in silenced_functions]
 
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
     [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
-    [print(calculation(df, TEXT["NETWORK OVERVIEW"]["paragraph"])) for calculation in valid_calculation_functions]
+    TEXT = calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")
