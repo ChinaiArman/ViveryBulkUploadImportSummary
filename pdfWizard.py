@@ -298,7 +298,7 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["PROFILE COMPLETENESS"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["PROFILE COMPLETENESS"]["paragraph"])
-    constructor.add_image(ae.graph_profile_grade(df, directory), 5, 3.57)
+    constructor.add_image(ae.graph_profile_grade(df, directory), 5, 3.75)
     constructor.add_subtitle_text(TEXT["PROFILE COMPLETENESS"]["subtitle"])
 
     # Highest Lowest Profile Grades
@@ -306,6 +306,6 @@ if __name__ == "__main__":
     constructor.add_table_header(TEXT["HIGH LOW PROFILE GRADES"]["header row"])
     constructor.add_table(ae.create_high_low_graded_profiles_table)
     constructor.add_normal_text(TEXT["HIGH LOW PROFILE GRADES"]["paragraph"])
-    
+
     # Save PDF
     constructor.save_pdf()
