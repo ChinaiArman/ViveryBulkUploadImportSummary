@@ -10,6 +10,8 @@ import json                         # JSON, used to parse JSON files and convert
 import types                        #
 from datetime import date           #
 import calendar
+import glob
+import os
 
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
@@ -310,6 +312,9 @@ if __name__ == "__main__":
     # Move file to directory
     if args.file.split("\\")[0] != directory:
         shutil.move(args.file, directory)
+    # Move resource images to directory
+    for image in glob.iglob("resources/images/*png"):
+        shutil.copyfile(image, directory + "/resources/images/" + image.split("\\")[1])
 
     # Create pdfConstructor instance
     constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + TEXT["FILE"]["filename"], network_name)

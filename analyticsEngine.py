@@ -90,6 +90,8 @@ import math                         # Math, used for basic mathematical operatio
 from PIL import Image               # Image, used to handle varius tasks with Image files like PNGs.
 import datetime                     # Datetime, used to handle date related tasks and allows python to have access to real world calendar data.
 import calendar                     # Calendar, used to match dates to their months and days using real world calendar data.
+import glob                         #
+import os                           #
 
 # LOCAL FILE IMPORTS
 
@@ -2652,6 +2654,9 @@ if __name__ == "__main__":
     # Move file to directory
     if args.file.split("\\")[0] != directory:
         shutil.move(args.file, directory)
+    # Move resource images to directory
+    for image in glob.iglob("resources/images/*png"):
+        shutil.copyfile(image, directory + "/resources/images/" + image.split("\\")[1])
 
     # Create list of silenced functions
     silenced_functions = args.silent if args.silent else []
