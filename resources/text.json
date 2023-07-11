@@ -63,8 +63,8 @@
         "program ylabel": "Programs",
         "program filename": "missing_program_contact_information_graph.png",
         "program xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
-        "subtitle": "Missing Location and Program Contact Information",
-        "paragraph": "You have {} locations and {} programs with no public contact information. Clients won't be able to reach out to confirm hours, ask for more information, or volunteer. Click here to review. Public contact information includes any name, phone, email, or website field on the location or program level."
+        "subtitle": ["Missing Location and Program Contact Information"],
+        "paragraph": "You have **{} locations and {} programs without public contact information.** Clients won't be able to ask for more information or volunteer. Public contact information includes a name, phone number, email, and website."
     },
 
     "PROGRAM TYPES": {
@@ -74,8 +74,8 @@
         "program types filename": "program_by_program_type.png",
         "food program types labels": ["Food Distribution", "Hot/Cold Meal Program", "Pop-Up/Mobile Resource", "Shelter", "Other"],
         "food program types filename": "program_by_food_program_type.png",
-        "paragraph 1": "",
-        "paragraph 2": ""
+        "paragraph one": "Below is **your network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some programs? To review the complete list of Programs and their Program Types, click the graph below.",
+        "paragraph two": "The Food Program slice can be broken down further into a few food program types. The graph below states that {}% of your network's programs are in food distribution. To review these Food Programs, click the chart below."
     },
 
     "PROGRAM FILTER FIELDS": {

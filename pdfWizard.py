@@ -253,7 +253,7 @@ class pdfConstructor:
         return
 
 
-    def add_table_header(self, header_row: list, pagenumber: int=-2) -> None:
+    def add_table_header(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
         """
         """
         # Define number of columns
@@ -267,12 +267,17 @@ class pdfConstructor:
             pagelink = None
         
         # Header Row
+        self.pdf.set_x(1)
         self.pdf.set_fill_color(0, 72, 61)
         self.pdf.set_text_color(250, 249, 246)
         self.pdf.set_font('Roobert Medium', '', 14)
-        for element in header_row:
-            self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
-        self.pdf.ln(self.pdf.font_size + 0.2)
+        if len(header_row) == 1:
+            self.pdf.multi_cell(WIDTH-2, self.pdf.font_size + 0.2, header_row[0], align='C', fill=True, link=pagelink)
+        else:
+            for element in header_row:
+                self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
+        if padding:
+            self.pdf.ln(self.pdf.font_size + 0.2)
         self.pdf.set_x(1)
 
 
@@ -373,6 +378,19 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     TEXT = ae.calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
     constructor.add_normal_text(TEXT["PUBLIC CONTACT INFORMATION"]["paragraph"])
+    constructor.add_vertical_space(0.05)
+    constructor.add_table_header(TEXT["PUBLIC CONTACT INFORMATION"]["subtitle"], padding=False)
+    constructor.add_vertical_space(0.01)
+    constructor.add_two_images(ae.graph_missing_location_contact_info(df, directory), ae.graph_missing_program_contact_info(df, directory), 3, 2.25)
+
+    # Program Types
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["PROGRAM TYPES"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["PROGRAM TYPES"]["paragraph one"])
+    constructor.add_image(ae.graph_program_type(df, directory), 3.25, 3.25)
+    constructor.add_horizontal_line()
+    
 
     # Save PDF
     constructor.save_pdf()
