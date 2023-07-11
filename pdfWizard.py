@@ -109,7 +109,7 @@ class pdfConstructor:
             self.pdf.set_right_margin(0.5)
             self.pdf.set_y(HEIGHT - 0.5)
             self.pdf.set_text_color(0, 72, 61)
-            self.pdf.set_font('Roobert Light Italic', '', 10)
+            self.pdf.set_font('Roobert Light', '', 10)
             self.pdf.cell(0, 0, '%s' % self.pdf.page_no(), 0, 0, 'R')
             self.pdf.set_y(1)
             self.pdf.set_right_margin(1)
