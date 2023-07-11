@@ -16,12 +16,12 @@
     "LOCATION MAP": {
         "title": "Location Map",
         "subtitle": "Location Map | Green = Active | Red = Inactive",
-        "paragraph": "Any locations missing? Click the map above to review location addresses and make sure everything is where it should be."
+        "paragraph": "Are any locations missing? Click the map above to review location addresses and ensure everything is where it should be."
     },
 
     "NETWORK OVERVIEW": {
         "title": "Network Overview",
-        "paragraph": "Setting the inactive or unapproved statuses means some locations or programs won't show up on the map, which means clients won't see them. It looks like {}% of your Locations won't be visible to neighbors searching for food. Click the table above to review these!",
+        "paragraph": "Setting the inactive or unapproved statuses means some locations or programs won't show up on the map, which means clients won't see them. **{}% of your Locations won't be visible** to neighbors searching for food. Click the table above to review these!",
         "columns": ["Level", "Active", "Inactive", "Total"],
         "rows": ["Organization", "Location", "Program"]
     },
@@ -32,7 +32,7 @@
         "xlabel": "Profile Grade",
         "ylabel": "Locations",
         "xaxis": ["Basic", "Quality", "Exceptional"],
-        "paragraph": "Vivery uses an internal scoring algorithm to evaluate the completeness of location profiles. This scoring system is divided into three tiers, basic, quality, and exceptional. Increasing profile completeness allows locations to access the full range of Vivery features, and assists neighbors in finding the resources they need.",
+        "paragraph": "Vivery uses an internal scoring algorithm to evaluate the completeness of location profiles. This scoring system is divided into three tiers, basic, quality, and exceptional. Increasing profile completeness **allows locations to access the full range of Vivery features** and assists neighbors in finding the resources they need.",
         "subtitle": "Click the graph above to view the complete list of profile grades."
     },
 
@@ -41,7 +41,7 @@
         "header row": ["Highest Graded", "Lowest Graded"],
         "subtitle 1": "Highest Graded",
         "subtitle 2": "Lowest Graded",
-        "paragraph": "On the right are the location profiles with the lowest completion grades. Consider adding more information to these locations to increase their score."
+        "paragraph": "On the right are the **location profiles with the lowest completion grades**. Consider adding more information to these locations to increase their score."
     },
 
     "VIVERY CONTACT INFORMATION": {
@@ -50,7 +50,7 @@
         "ylabel": "Organizations",
         "filename": "missing_organization_contact_information_graph.png",
         "xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
-        "paragraph": ""
+        "paragraph": "Vivery needs organization contact information to allow Organizations to claim their profiles. This isn't public information, but **pantry administrators won't be able to control their online presence** without it. Click the graph above to review these organizations."
     },
 
     "PUBLIC CONTACT INFORMATION": {
@@ -64,7 +64,7 @@
         "program filename": "missing_program_contact_information_graph.png",
         "program xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
         "subtitle": "Missing Location and Program Contact Information",
-        "paragraph": ""
+        "paragraph": "You have {} locations and {} programs with no public contact information. Clients won't be able to reach out to confirm hours, ask for more information, or volunteer. Click here to review. Public contact information includes any name, phone, email, or website field on the location or program level."
     },
 
     "PROGRAM TYPES": {

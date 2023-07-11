@@ -56,11 +56,13 @@ class pdfConstructor:
         self.pdf.set_right_margin(1)
 
         # Add font family
-        self.pdf.add_font('Roobert Medium', '', fname='resources\Roobert Font Suite\TTF\Roobert-Medium.ttf', uni=True)
-        self.pdf.add_font('Roobert Light Italic', '', fname='resources\Roobert Font Suite\TTF\Roobert-LightItalic.ttf', uni=True)
-        self.pdf.add_font('Roobert Light', '', fname='resources\Roobert Font Suite\TTF\Roobert-Light.ttf', uni=True)
-        self.pdf.add_font('Roobert Regular', '', fname='resources\Roobert Font Suite\TTF\Roobert-Regular.ttf', uni=True)
-        self.pdf.add_font('Roobert Bold', '', fname='resources\Roobert Font Suite\TTF\Roobert-Bold.ttf', uni=True)
+        self.pdf.add_font('Roobert Medium', '', fname='resources\Roobert Font Suite\TTF\Roobert-Medium.ttf')
+        self.pdf.add_font('Roobert Light Italic', '', fname='resources\Roobert Font Suite\TTF\Roobert-LightItalic.ttf')
+        self.pdf.add_font('Roobert Light', '', fname='resources\Roobert Font Suite\TTF\Roobert-Light.ttf')
+        self.pdf.add_font('Roobert Regular', '', fname='resources\Roobert Font Suite\TTF\Roobert-Regular.ttf')
+        self.pdf.add_font('Roobert Regular', 'B', fname='resources\Roobert Font Suite\TTF\Roobert-SemiBold.ttf')
+        self.pdf.add_font('Roobert Regular', 'I', fname='resources\Roobert Font Suite\TTF\Roobert-RegularItalic.ttf')
+        self.pdf.add_font('Roobert Bold', '', fname='resources\Roobert Font Suite\TTF\Roobert-Bold.ttf')
         return
     
 
@@ -109,7 +111,7 @@ class pdfConstructor:
             self.pdf.set_y(HEIGHT - 0.5)
             self.pdf.set_text_color(0, 72, 61)
             self.pdf.set_font('Roobert Light', '', 10)
-            self.pdf.cell(0, 0, '%s' % self.pdf.page_no(), 0, 0, 'R')
+            self.pdf.cell(0, 0, '%s' % self.pdf.page_no(), align='R')
             self.pdf.set_y(1)
             self.pdf.set_right_margin(1)
         return
@@ -168,7 +170,7 @@ class pdfConstructor:
             self.pdf.ln(0.5)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', 20)
-        self.pdf.cell(0, 0, text, 0, 0, 'C')
+        self.pdf.cell(0, 0, text, align='C')
         self.pdf.ln(0.3)
         return
     
@@ -182,7 +184,7 @@ class pdfConstructor:
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', 12)
-        self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, 0, alignment)
+        self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, align=alignment, markdown=True)
         return
 
 
@@ -229,7 +231,7 @@ class pdfConstructor:
         self.pdf.set_text_color(250, 249, 246)
         self.pdf.set_font('Roobert Medium', '', 14)
         for element in list(df_copy.columns):
-            self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, 0, 0, 'C', True, pagelink)
+            self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
         self.pdf.ln(self.pdf.font_size + 0.2)
         self.pdf.set_x(1)
 
@@ -238,7 +240,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Regular', '', 11)
         for row in list_of_lists:
             for datum in row:
-                self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, str(datum), 0, 0, 'C', False, pagelink)
+                self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, str(datum), align='C', link=pagelink)
             self.pdf.ln(self.pdf.font_size + 0.2)
             self.pdf.set_x(1)
         
@@ -265,7 +267,7 @@ class pdfConstructor:
         self.pdf.set_text_color(250, 249, 246)
         self.pdf.set_font('Roobert Medium', '', 14)
         for element in header_row:
-            self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, 0, 0, 'C', True, pagelink)
+            self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
         self.pdf.ln(self.pdf.font_size + 0.2)
         self.pdf.set_x(1)
 
@@ -353,6 +355,17 @@ if __name__ == "__main__":
     constructor.add_table(ae.create_high_low_graded_profiles_table)
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["HIGH LOW PROFILE GRADES"]["paragraph"])
+
+    # Vivery Contact Information
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["VIVERY CONTACT INFORMATION"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["VIVERY CONTACT INFORMATION"]["paragraph"])
+    constructor.add_image(ae.graph_missing_organization_contact_info(df, directory), 5, 3.75)
+
+    # Public Contact Information
+    constructor.add_h1_text(TEXT["PUBLIC CONTACT INFORMATION"]["title"])
+    constructor.add_horizontal_line()
 
     # Save PDF
     constructor.save_pdf()
