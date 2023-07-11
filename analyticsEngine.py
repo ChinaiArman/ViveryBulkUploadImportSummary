@@ -2569,7 +2569,7 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: 
         - The updated `text` dictionary is returned, with the provided `section` and `field` updated with the calculated results.
     """
     df = create_network_overview_table(df)
-    percent_locations_inactive = int(round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 0))
+    percent_locations_inactive = round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 1)
     text[section][field] = text[section][field].format(percent_locations_inactive)
     return text
 
@@ -2630,6 +2630,15 @@ def calculate_locations_programs_without_contact(df: pd.DataFrame, text: dict, s
     locations_without_contact = len(location_df.loc[(location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][4]].isna())])
     programs_without_contact = len(program_df.loc[(program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][2]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][3]].isna())])
     text[section][field] = text[section][field].format(locations_without_contact, programs_without_contact)
+    return text
+
+
+def calculate_food_distribution_program_percent(df: pd.DataFrame, text: dict, section: str, field: str) -> None:
+    """
+    """
+    df = create_program_by_program_type_table(df)[TEXT["APPENDIX PROGRAM TYPE"]["columns"][2]]
+    percent_food_distribution = round((len(df.loc[(df == 'Food Distribution')]) / len(df)) * 100, 1)
+    text[section][field] = text[section][field].format(percent_food_distribution)
     return text
 
 
@@ -2728,6 +2737,7 @@ if __name__ == "__main__":
     # [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
     TEXT = calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
     TEXT = calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
+    TEXT = calculate_food_distribution_program_percent(df, TEXT, "PROGRAM TYPES", "paragraph two")
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")
