@@ -137,7 +137,7 @@ class pdfConstructor:
         """
         if formatter:
             text = formatter(self.df, text)
-        self.pdf.ln(0.15)
+        self.pdf.ln(0.10)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', 12)
@@ -158,7 +158,7 @@ class pdfConstructor:
     def add_horizontal_line(self) -> None:
         """
         """
-        self.pdf.ln(0.01)
+        self.pdf.ln(0.05)
         self.pdf.set_draw_color(0, 72, 61)
         self.pdf.set_line_width(0.05)
         self.pdf.line(1, FPDF.get_y(self.pdf), WIDTH - 1, FPDF.get_y(self.pdf))
@@ -204,6 +204,29 @@ class pdfConstructor:
         # Save
         df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
         return
+
+
+    def add_table_header(self, header_row: list, pagenumber: int=-2) -> None:
+        """
+        """
+        # Define number of columns
+        columns = len(header_row)
+
+        # Define Page Linker
+        if pagenumber > -2:
+            pagelink = self.pdf.add_link()
+            self.pdf.set_link(pagelink, page=pagenumber)
+        else:
+            pagelink = None
+        
+        # Header Row
+        self.pdf.set_fill_color(0, 72, 61)
+        self.pdf.set_text_color(250, 249, 246)
+        self.pdf.set_font('Roobert Medium', '', 14)
+        for element in header_row:
+            self.pdf.cell((WIDTH-2)/columns, self.pdf.font_size + 0.2, element, 0, 0, 'C', True, pagelink)
+        self.pdf.ln(self.pdf.font_size + 0.2)
+        self.pdf.set_x(1)
 
 
     def add_vertical_space(self, height: int) -> None:
@@ -257,16 +280,32 @@ if __name__ == "__main__":
     constructor.add_page()
     constructor.add_h1_text(TEXT["TABLE OF CONTENTS"]["title"])
 
-    # Network Overview
+    # Location Map
     constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
     constructor.add_image(ae.create_map(df, directory), 6.5, 4.2)
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
     constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
+
+    # Network Overview
     constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
     constructor.add_table(ae.create_network_overview_table)
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"], formatter=ae.calculate_percent_locations_inactive)
 
+    # Profile Completeness
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["PROFILE COMPLETENESS"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["PROFILE COMPLETENESS"]["paragraph"])
+    constructor.add_image(ae.graph_profile_grade(df, directory), 5, 3.57)
+    constructor.add_subtitle_text(TEXT["PROFILE COMPLETENESS"]["subtitle"])
+
+    # Highest Lowest Profile Grades
+    constructor.add_h1_text(TEXT["HIGH LOW PROFILE GRADES"]["title"])
+    constructor.add_table_header(TEXT["HIGH LOW PROFILE GRADES"]["header row"])
+    constructor.add_table(ae.create_high_low_graded_profiles_table)
+    constructor.add_normal_text(TEXT["HIGH LOW PROFILE GRADES"]["paragraph"])
+    
     # Save PDF
     constructor.save_pdf()

@@ -32,15 +32,16 @@
         "xlabel": "Profile Grade",
         "ylabel": "Locations",
         "xaxis": ["Basic", "Quality", "Exceptional"],
-        "paragraph": "",
-        "subtext": ""
+        "paragraph": "Vivery uses an internal scoring algorithm to evaluate the completeness of location profiles. This scoring system is divided into three tiers, basic, quality, and exceptional. Increasing profile completeness allows locations to access the full range of Vivery features, and assists neighbors in finding the resources they need.",
+        "subtitle": "Click the graph above to view the complete list of profile grades."
     },
 
     "HIGH LOW PROFILE GRADES": {
         "title": "Highest and Lowest Graded Profiles",
+        "header row": ["Highest Graded", "Lowest Graded"],
         "subtitle 1": "Highest Graded",
         "subtitle 2": "Lowest Graded",
-        "paragraph": ""
+        "paragraph": "On the right are the location profiles with the lowest completion grades. Review these locations and the complete list of profiles by clicking here. Consider adding more information to these locations to increase their score to the Quality or Exceptional level"
     },
 
     "VIVERY CONTACT INFORMATION": {
@@ -178,7 +179,7 @@
 
     "APPENDIX PROGRAM PROFILE COMPLETION LIST": {
         "title": "Appendix F - Program Profile Completion List",
-        "columns": ["Location ID", "Points Earned", "Tier Level"]
+        "columns": ["Location", "Points", "Tier"]
     },
 
     "APPENDIX ORGANIZATION CONTACT INFORMATION": {

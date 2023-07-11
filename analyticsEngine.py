@@ -1494,6 +1494,12 @@ def create_lowest_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
     return create_program_profile_completion_table(df).sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=True).head(5).reset_index(drop=True)
 
 
+def create_high_low_graded_profiles_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
+    return pd.concat([create_highest_graded_profiles_table(df), create_lowest_graded_profiles_table(df)], axis=1)
+
+
 def create_recommended_filters_slice(_: any) -> pd.DataFrame:
     """
     Creates a table of recommended program filters and returns the top 5 results.
@@ -2535,6 +2541,7 @@ if __name__ == "__main__":
         create_network_overview_table,
         create_highest_graded_profiles_table,
         create_lowest_graded_profiles_table,
+        create_high_low_graded_profiles_table,
         create_recommended_program_filters_table,
         create_recommended_filters_slice,
         create_hour_type_usage_table,
