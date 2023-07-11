@@ -371,6 +371,8 @@ if __name__ == "__main__":
     # Public Contact Information
     constructor.add_h1_text(TEXT["PUBLIC CONTACT INFORMATION"]["title"])
     constructor.add_horizontal_line()
+    TEXT = ae.calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
+    constructor.add_normal_text(TEXT["PUBLIC CONTACT INFORMATION"]["paragraph"])
 
     # Save PDF
     constructor.save_pdf()

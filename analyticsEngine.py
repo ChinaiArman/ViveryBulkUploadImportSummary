@@ -2574,6 +2574,16 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: 
     return text
 
 
+def calculate_locations_programs_without_contact(df: pd.DataFrame, text: dict, section: str, field: str) -> None:
+    """
+    """
+    location_df = create_location_contact_information_table(df)
+    program_df = create_program_contact_information_table(df)
+    locations_without_contact = len(location_df.loc[(location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][4]].isna())])
+    programs_without_contact = len(program_df.loc[(program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][2]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][3]].isna())])
+    text[section][field] = text[section][field].format(locations_without_contact, programs_without_contact)
+    return text
+
 
 
 # MAIN
@@ -2666,9 +2676,10 @@ if __name__ == "__main__":
     valid_dataframe_functions = [dataframe for dataframe in dataframe_functions if dataframe.__name__ not in silenced_functions]
 
     # Execute functions
-    [graph(df, directory) for graph in valid_graphing_functions]
-    [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
+    # [graph(df, directory) for graph in valid_graphing_functions]
+    # [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
     TEXT = calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
+    TEXT = calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")
