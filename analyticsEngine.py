@@ -2747,7 +2747,7 @@ def calculate_least_used_programs(df: pd.DataFrame, text: dict, section: str, fi
     locations = df[["Location External ID", "Location Features"]].drop_duplicates().notna().sum().to_list()[1:]
     filter_usage = programs + locations
     filter_groups = TEXT["PROGRAM FILTER FIELDS"]["xaxis"]
-    filter_groups_usage = {group: usage for group in filter_groups for usage in filter_usage}
+    filter_groups_usage = {filter_groups[i]: filter_usage[i] for i in range(len(filter_groups))}
     least_used = [key for key, value in filter_groups_usage.items() if value == min(filter_groups_usage.values())][0]
     del filter_groups_usage[least_used]
     second_least_used = [key for key, value in filter_groups_usage.items() if value == min(filter_groups_usage.values())][0]
