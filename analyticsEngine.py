@@ -90,8 +90,8 @@ import math                         # Math, used for basic mathematical operatio
 from PIL import Image               # Image, used to handle varius tasks with Image files like PNGs.
 import datetime                     # Datetime, used to handle date related tasks and allows python to have access to real world calendar data.
 import calendar                     # Calendar, used to match dates to their months and days using real world calendar data.
-import glob                         #
-import os                           #
+import glob                         # Glob, used for grouping files together and working with OS storing system.
+import os                           # OS, used to navigate the OS for file storage and manipulation.
 
 # LOCAL FILE IMPORTS
 
