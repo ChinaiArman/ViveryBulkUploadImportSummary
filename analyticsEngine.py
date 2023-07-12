@@ -83,15 +83,12 @@ Still have questions? Send an email to `arman@vivery.org` with the subject line 
 import pandas as pd                     # Pandas, used to represent CSVs and large data sets as a DataFrame.
 import numpy as np                      # NumPy, adds Arrays to python and enables large arithmatic operations.
 import matplotlib.pyplot as plt         # MatPlotLib's PyPlot, used to graph data sets and create data visualizations.
-import argparse, os, shutil             # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
+import argparse, os, glob, shutil       # Argparse, OS, Glob, and Shutil, used for File Manipulation and the Command Line Interface
 import plotly.graph_objects as go       # Plotly, used to create the map object using the MapBox API.
 import json                             # JSON, used to parse JSON files and convert to Dictionary data types.
 import math                             # Math, used for basic mathematical operations.
 from PIL import Image                   # Image, used to handle varius tasks with Image files like PNGs.
-import datetime                         # Datetime, used to handle date related tasks and allows python to have access to real world calendar data.
-import calendar                         # Calendar, used to match dates to their months and days using real world calendar data.
-import glob                             # Glob, used for grouping files together and working with OS storing system.
-import os                               # OS, used to navigate the OS for file storage and manipulation.
+import datetime, calendar               # Datetime and Calendar, used to handle date related tasks and allows python to have access to real world calendar data.
 
 # LOCAL FILE IMPORTS
 
