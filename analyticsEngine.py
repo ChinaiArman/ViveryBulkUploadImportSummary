@@ -2688,6 +2688,77 @@ def calculate_food_distribution_program_percent(df: pd.DataFrame, text: dict, se
     return text
 
 
+def calculate_least_used_programs(df: pd.DataFrame, text: dict, section: str, field: str) -> None:
+    """
+    Calculates the least used program filters based on the provided DataFrame.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the program and location data.
+        `text` (dict): The dictionary containing the text sections and fields for updating the results.
+        `section` (str): The section in the text dictionary to update.
+        `field` (str): The field in the specified section to update.
+
+    Returns:
+        None. The `text` dictionary is updated with the calculated results.
+
+    Preconditions:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the program and location data.
+        - The `text` dictionary must contain the specified `section` and `field`.
+        - The `section` and `field` must be valid keys in the `text` dictionary.    
+
+    Raises:
+        None
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Program External ID': ['P1', 'P2', 'P2', 'P3', 'P1'],
+        ...     'Program Audience Groups': ['Group1', 'Group2', 'Group1', 'Group3', 'Group1'],
+        ...     'Languages Spoken': ['English', 'Spanish', 'English', 'French', 'English'],
+        ...     'Food Program Features': [True, False, False, True, True],
+        ...     'Items Offered': ['Item1', 'Item2', 'Item1', 'Item3', 'Item1'],
+        ...     'Dietary Options Available': ['Option1', 'Option1', 'Option2', 'Option2', 'Option1'],
+        ...     'Location External ID': ['L1', 'L2', 'L2', 'L3', 'L1'],
+        ...     'Location Features': ['Feature1', 'Feature2', 'Feature1', 'Feature3', 'Feature1']
+        ... })
+        >>> text = {
+        ...     'section1': {
+        ...         'field1': 'The least used program filters are "{}" and "{}".'
+        ...     }
+        ... }
+        >>> calculate_least_used_programs(data, text, 'section1', 'field1')
+        >>> print(text)
+        {
+            'section1': {
+                'field1': 'The least used program filters are "Languages Spoken" and "Program Audience Groups".'
+            }
+        }
+
+    Additional Information:
+        - The function extracts the necessary columns from the DataFrame for program filters and drops any duplicate rows.
+        - The number of non-null values for each program filter is calculated and stored in the `programs` list.
+        - The number of non-null values for each location filter is calculated and stored in the `locations` list.
+        - The filter usage counts for programs and locations are combined into the `filter_usage` list.
+        - The filter groups from the TEXT dictionary are assigned to the `filter_groups` variable.
+        - A dictionary `filter_groups_usage` is created to map each filter group to its corresponding usage count.
+        - The least used filter group is identified by finding the key with the minimum value in `filter_groups_usage`.
+        - The least used filter group is removed from `filter_groups_usage` dictionary.
+        - The second least used filter group is identified by finding the key with the new minimum value in `filter_groups_usage`.
+        - The results are formatted using the specified `section` and `field` in the `text` dictionary.
+        - The updated `text` dictionary is returned, with the provided `section` and `field` updated with the calculated results.
+    """
+    programs = df[["Program External ID", "Program Audience Groups", "Languages Spoken", "Food Program Features", "Items Offered", "Dietary Options Available"]].drop_duplicates().notna().sum().to_list()[1:]
+    locations = df[["Location External ID", "Location Features"]].drop_duplicates().notna().sum().to_list()[1:]
+    filter_usage = programs + locations
+    filter_groups = TEXT["PROGRAM FILTER FIELDS"]["xaxis"]
+    filter_groups_usage = {group: usage for group in filter_groups for usage in filter_usage}
+    least_used = [key for key, value in filter_groups_usage.items() if value == min(filter_groups_usage.values())][0]
+    del filter_groups_usage[least_used]
+    second_least_used = [key for key, value in filter_groups_usage.items() if value == min(filter_groups_usage.values())][0]
+    text[section][field] = text[section][field].format(least_used.replace("\n", " "), second_least_used.replace("\n", " "))
+    return text
+
+
+
 
 # MAIN
 if __name__ == "__main__":
@@ -2784,6 +2855,7 @@ if __name__ == "__main__":
     TEXT = calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
     TEXT = calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
     TEXT = calculate_food_distribution_program_percent(df, TEXT, "PROGRAM TYPES", "paragraph two")
+    TEXT = calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")

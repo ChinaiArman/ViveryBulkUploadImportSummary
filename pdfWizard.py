@@ -405,6 +405,14 @@ if __name__ == "__main__":
     constructor.add_vertical_space(0.01)
     constructor.add_image(ae.graph_food_program_breakdown(df, directory), 3.25)
 
+    # Filter Fields
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["PROGRAM FILTER FIELDS"]["title"])
+    constructor.add_horizontal_line()
+    TEXT = ae.calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
+    constructor.add_normal_text(TEXT["PROGRAM FILTER FIELDS"]["paragraph"])
+    constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.25)
+
     # Save PDF
     constructor.save_pdf()
 

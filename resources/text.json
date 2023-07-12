@@ -81,7 +81,7 @@
     "PROGRAM FILTER FIELDS": {
         "title": "Filter Fields",
         "xaxis": ["Audience\nGroups", "Languages", "Program\nFeatures", "Items\nOffered", "Dietary\nOptions", "Location\nFeatures"],
-        "paragraph": "",
+        "paragraph": "Many filters are available to help distinguish your network's wide variety of programs. The graph below shows the usage for each program filter. **Consider increasing the use of {} and {}** to help neighbors find programs that match their needs. Click the chart below to view all of the programs with filters.",
         "xlabel": "Supplementary Fields",
         "ylabel": "Field Usage",
         "filename": "program_filter_usage.png"
