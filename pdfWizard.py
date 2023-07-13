@@ -428,6 +428,24 @@ if __name__ == "__main__":
     constructor.add_normal_text(TEXT["NETWORK HOURS OVERVIEW"]["paragraph"])
     constructor.add_image(ae.graph_network_hours_overview(df, directory), 3.25)
 
+    # Network Hour Type Usage
+    constructor.add_h1_text(TEXT["NETWORK HOUR TYPE USAGE"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["paragraph"])
+    constructor.add_vertical_space(0.1)
+    constructor.add_table(ae.create_hour_type_usage_table)
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["subtext"])
+
+    # Location Hours Preview
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["LOCATION HOURS PREVIEW"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["LOCATION HOURS PREVIEW"]["paragraph"])
+    constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"])
+    constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.75)
+    constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.75)
+
     # Save PDF
     constructor.save_pdf()
 

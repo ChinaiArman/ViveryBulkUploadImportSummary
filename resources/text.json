@@ -97,25 +97,25 @@
         "title": "Network Hours Overview",
         "labels": ["Program Hours", "Location Hours"],
         "filename": "hour_type_usage.png",
-        "paragraph": "The graph below shows the usage between location and program hours. Location hours describe the hours open for the physical establishment, while program hours represent the hours the program is actively providing its service."
+        "paragraph": "The graph below shows the usage between location and program hours. Location hours describe the **hours open for the physical establishment,** while program hours represent the **hours the program is actively providing its service.**"
     },
 
     "NETWORK HOUR TYPE USAGE": {
         "title": "Network Hour Type Usage",
-        "paragraph": "",
+        "paragraph": "The wide variety in frequencies between hours can be challenging to store in a database. **Vivery uses Hour Types to distinguish the different ways to represent hours to remedy this.** Below are the usages of these hour types at the location and program levels.",
         "columns": ["Hour Type", "Location Usage", "Program Usage"],
         "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month"],
-        "subtext": ""
+        "subtext": "The following pages will dive deeper into the Network's location and program hours for the upcoming months."
     },
 
     "LOCATION HOURS PREVIEW": {
         "title": "Location Hours Preview",
-        "subtitle": "Sample Hour Totals Per Day",
+        "subtitle": ["Sample Hour Totals Per Day"],
         "xlabel": "",
         "ylabel": "Total Hours",
         "current month filename": "",
         "next month filename": "",
-        "paragraph": ""
+        "paragraph": "The charts below show the total hours open for all locations in {} and {}. See an anomaly in the data? To review all location hours in detail, click the graph below."
     },
 
     "PROGRAM HOURS PREVIEW": {
