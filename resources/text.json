@@ -50,7 +50,7 @@
         "ylabel": "Organizations",
         "filename": "missing_organization_contact_information_graph.png",
         "xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
-        "paragraph": "Vivery needs organization contact information to allow Organizations to claim their profiles. This isn't public information, but **pantry administrators won't be able to control their online presence** without it. Click the graph above to review these organizations."
+        "paragraph": "Vivery needs organization contact information to allow Organizations to claim their profiles. This isn't public information, but **pantry administrators won't be able to control their online presence** without it."
     },
 
     "PUBLIC CONTACT INFORMATION": {
@@ -74,7 +74,7 @@
         "program types filename": "program_by_program_type.png",
         "food program types labels": ["Food Distribution", "Hot/Cold Meal Program", "Pop-Up/Mobile Resource", "Shelter", "Other"],
         "food program types filename": "program_by_food_program_type.png",
-        "paragraph one": "Below is **your network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some programs? To review the complete list of Programs and their Program Types, click the graph below.",
+        "paragraph one": "Below is **your network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some programs? To review all Programs and their Program Types, click the graph below.",
         "paragraph two": "The Food Program slice can be broken down further into a few food program types. The graph below states that **{}% of your network's programs are in food distribution.** To review these Food Programs, click the chart below."
     },
 

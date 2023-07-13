@@ -194,7 +194,7 @@ class pdfConstructor:
         self.pdf.ln(0.10)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Regular', '', 12)
+        self.pdf.set_font('Roobert Regular', '', 13)
         self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, align=alignment, markdown=True)
         self.pdf.set_x(1)
         return
@@ -206,7 +206,7 @@ class pdfConstructor:
         self.pdf.ln(0.1)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Light Italic', '', 9)
+        self.pdf.set_font('Roobert Light Italic', '', 10)
         self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, 'C')
 
 
@@ -241,7 +241,7 @@ class pdfConstructor:
         # Header Row
         self.pdf.set_fill_color(0, 72, 61)
         self.pdf.set_text_color(250, 249, 246)
-        self.pdf.set_font('Roobert Regular', '', 14)
+        self.pdf.set_font('Roobert Regular', 'B', 14)
         for element in list(df_copy.columns):
             self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
         self.pdf.ln(self.pdf.font_size + 0.2)
@@ -249,7 +249,7 @@ class pdfConstructor:
 
         # Datum Rows
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Regular', '', 11)
+        self.pdf.set_font('Roobert Regular', '', 12)
         for row in list_of_lists:
             for datum in row:
                 self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', link=pagelink)
@@ -278,7 +278,7 @@ class pdfConstructor:
         self.pdf.set_x(1)
         self.pdf.set_fill_color(0, 72, 61)
         self.pdf.set_text_color(250, 249, 246)
-        self.pdf.set_font('Roobert Medium', '', 14)
+        self.pdf.set_font('Roobert Regular', 'B', 14)
         if len(header_row) == 1:
             self.pdf.multi_cell(PAGE_WIDTH-2, self.pdf.font_size + 0.2, header_row[0], align='C', fill=True, link=pagelink)
         else:
