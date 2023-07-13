@@ -115,7 +115,7 @@
         "ylabel": "Total Hours",
         "current month filename": "",
         "next month filename": "",
-        "paragraph": "The charts below show the total hours open for all locations in {} and {}. See an anomaly in the data? To review all location hours in detail, click the graph below."
+        "paragraph": "The charts below show the total hours open for all locations in **{} and {}**. See an anomaly in the data? To review all location hours in detail, click the graph below."
     },
 
     "PROGRAM HOURS PREVIEW": {

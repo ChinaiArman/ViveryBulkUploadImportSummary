@@ -441,6 +441,7 @@ if __name__ == "__main__":
     constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION HOURS PREVIEW"]["title"])
     constructor.add_horizontal_line()
+    TEXT = ae.calculate_least_used_programs(df, TEXT, "LOCATION HOURS PREVIEW", "paragraph")
     constructor.add_normal_text(TEXT["LOCATION HOURS PREVIEW"]["paragraph"])
     constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"])
     constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.75)
