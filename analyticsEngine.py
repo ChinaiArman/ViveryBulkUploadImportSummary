@@ -338,6 +338,9 @@ def plot_bar_graph(x_axis: list, y_axis: list, text_section: str, barcolor: str,
 
     # X-Ticks
     plt.xticks(font="Roobert Medium", fontsize=11, color=VIVERY_GREEN, rotation=rotation)
+    if len(x_axis) > 10:
+        x_axis = [int(x) for x in x_axis]
+        plt.xticks(np.arange(min(x_axis), max(x_axis), 2.0))
 
     # Y-Ticks
     if max(y_axis) <= 10:
@@ -2847,8 +2850,8 @@ if __name__ == "__main__":
     valid_dataframe_functions = [dataframe for dataframe in dataframe_functions if dataframe.__name__ not in silenced_functions]
 
     # Execute functions
-    # [graph(df, directory) for graph in valid_graphing_functions]
-    # [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
+    [graph(df, directory) for graph in valid_graphing_functions]
+    [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
     TEXT = calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
     TEXT = calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
     TEXT = calculate_food_distribution_program_percent(df, TEXT, "PROGRAM TYPES", "paragraph two")
