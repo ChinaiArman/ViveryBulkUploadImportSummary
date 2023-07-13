@@ -421,6 +421,13 @@ if __name__ == "__main__":
     constructor.add_vertical_space(0.1)
     constructor.add_table(ae.create_recommended_filters_slice)
 
+    # Network Hours Overview
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["NETWORK HOURS OVERVIEW"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["NETWORK HOURS OVERVIEW"]["paragraph"])
+    constructor.add_image(ae.graph_network_hours_overview(df, directory), 3.25)
+
     # Save PDF
     constructor.save_pdf()
 
