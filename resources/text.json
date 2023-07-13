@@ -89,8 +89,8 @@
 
     "RECOMMENDED FILTER OPTIONS": {
         "title": "Recommended Filter Options",
-        "paragraph": "",
-        "columns": ["#", "Program Audience", "Location Features", "Program Features", "Items Offered", "Dietary Options"]
+        "paragraph": "Below are some of the most common Program Filters across other Vivery networks. Consider adding these filters to your programs to help their distinguishability. To view the complete list of program filters, click the table below.",
+        "columns": ["Audience", "Loc. Features", "Prog. Features", "Items", "Dietary"]
     },
 
     "NETWORK HOURS OVERVIEW": {

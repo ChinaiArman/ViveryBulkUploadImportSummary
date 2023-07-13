@@ -196,6 +196,7 @@ class pdfConstructor:
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', 12)
         self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, align=alignment, markdown=True)
+        self.pdf.set_x(1)
         return
 
 
@@ -228,7 +229,7 @@ class pdfConstructor:
         list_of_lists = df_copy.values
 
         # Define number of columns
-        columns = len(list(df_copy.columns))
+        num_of_columns = len(list(df_copy.columns))
 
         # Define Page Linker
         if pagenumber > -2:
@@ -240,9 +241,9 @@ class pdfConstructor:
         # Header Row
         self.pdf.set_fill_color(0, 72, 61)
         self.pdf.set_text_color(250, 249, 246)
-        self.pdf.set_font('Roobert Medium', '', 14)
+        self.pdf.set_font('Roobert Regular', '', 14)
         for element in list(df_copy.columns):
-            self.pdf.cell((PAGE_WIDTH-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
+            self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
         self.pdf.ln(self.pdf.font_size + 0.2)
         self.pdf.set_x(1)
 
@@ -251,7 +252,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Regular', '', 11)
         for row in list_of_lists:
             for datum in row:
-                self.pdf.cell((PAGE_WIDTH-2)/columns, self.pdf.font_size + 0.2, str(datum), align='C', link=pagelink)
+                self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', link=pagelink)
             self.pdf.ln(self.pdf.font_size + 0.2)
             self.pdf.set_x(1)
         
@@ -412,6 +413,13 @@ if __name__ == "__main__":
     TEXT = ae.calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
     constructor.add_normal_text(TEXT["PROGRAM FILTER FIELDS"]["paragraph"])
     constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.25)
+
+    # Recommended Filter Options
+    constructor.add_h1_text(TEXT["RECOMMENDED FILTER OPTIONS"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["RECOMMENDED FILTER OPTIONS"]["paragraph"])
+    constructor.add_vertical_space(0.1)
+    constructor.add_table(ae.create_recommended_filters_slice)
 
     # Save PDF
     constructor.save_pdf()
