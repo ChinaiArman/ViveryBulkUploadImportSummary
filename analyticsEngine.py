@@ -2758,6 +2758,21 @@ def calculate_least_used_programs(df: pd.DataFrame, text: dict, section: str, fi
     return text
 
 
+def calculate_least_used_programs(_: any, text: dict, section: str, field: str) -> None:
+    """
+    """
+    current_month = {day: 0 for day in pd.date_range(start=datetime.date.today().replace(day=1),
+                                                     end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='D'
+                                                     ).to_pydatetime()}
+    current_month_name = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
+    next_month = {day: 0 for day in pd.date_range(start=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1),
+                                                  end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='D'
+                                                  ).to_pydatetime()}
+    next_month_name = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
+    text[section][field] = text[section][field].format(current_month_name, next_month_name)
+    return text
+
+
 
 
 # MAIN
