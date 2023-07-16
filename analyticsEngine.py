@@ -2758,7 +2758,7 @@ def calculate_least_used_programs(df: pd.DataFrame, text: dict, section: str, fi
     return text
 
 
-def calculate_least_used_programs(_: any, text: dict, section: str, field: str) -> None:
+def calculate_current_next_month(_: any, text: dict, section: str, field: str) -> None:
     """
     """
     current_month = {day: 0 for day in pd.date_range(start=datetime.date.today().replace(day=1),
