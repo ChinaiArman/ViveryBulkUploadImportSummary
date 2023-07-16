@@ -2871,6 +2871,7 @@ if __name__ == "__main__":
     TEXT = calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
     TEXT = calculate_food_distribution_program_percent(df, TEXT, "PROGRAM TYPES", "paragraph two")
     TEXT = calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
+    TEXT = calculate_current_next_month(df, TEXT, "LOCATION HOURS PREVIEW", "paragraph")
 
     # Save State
     save_state(TEXT, TEXT_SAVE_NAME.replace('resources/', ''), directory + "/resources")
