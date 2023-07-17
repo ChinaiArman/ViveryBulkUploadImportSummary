@@ -443,9 +443,18 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     TEXT = ae.calculate_current_next_month(df, TEXT, "LOCATION HOURS PREVIEW", "paragraph")
     constructor.add_normal_text(TEXT["LOCATION HOURS PREVIEW"]["paragraph"])
+    constructor.add_vertical_space(0.1)
     constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"])
     constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.75)
     constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.75)
+
+    # Program Hours Preview
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["PROGRAM HOURS PREVIEW"]["title"])
+    constructor.add_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"])
+    constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.75)
+    constructor.add_image(ae.graph_sample_program_hours_next_month(df, directory), 3.75)
+    #
 
     # Save PDF
     constructor.save_pdf()
