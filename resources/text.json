@@ -74,14 +74,14 @@
         "program types filename": "program_by_program_type.png",
         "food program types labels": ["Food Distribution", "Hot/Cold Meal Program", "Pop-Up/Mobile Resource", "Shelter", "Other"],
         "food program types filename": "program_by_food_program_type.png",
-        "paragraph one": "Below is **your network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some programs? To review all Programs and their Program Types, click the graph below.",
-        "paragraph two": "The Food Program slice can be broken down further into a few food program types. The graph below states that **{}% of your network's programs are in food distribution.** To review these Food Programs, click the chart below."
+        "paragraph one": "Below is **your Network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some programs? To review all Programs and their Program Types, click the graph below.",
+        "paragraph two": "The Food Program slice can be broken down further into a few food program types. The graph below states that **{}% of your Network's programs are in food distribution.** To review these Food Programs, click the chart below."
     },
 
     "PROGRAM FILTER FIELDS": {
         "title": "Filter Fields",
         "xaxis": ["Audience\nGroups", "Languages", "Program\nFeatures", "Items\nOffered", "Dietary\nOptions", "Location\nFeatures"],
-        "paragraph": "Many filters are available to help distinguish your network's wide variety of programs. The graph below shows the usage for each program filter. **Consider increasing the use of {} and {}** to help neighbors find programs that match their needs. Click the chart below to view all of the programs with filters.",
+        "paragraph": "Many filters are available to help distinguish your Network's wide variety of programs. The graph below shows the usage for each program filter. **Consider increasing the use of {} and {}** to help neighbors find programs that match their needs. Click the chart below to view all of the programs with filters.",
         "xlabel": "Supplementary Fields",
         "ylabel": "Field Usage",
         "filename": "program_filter_usage.png"
@@ -89,7 +89,7 @@
 
     "RECOMMENDED FILTER OPTIONS": {
         "title": "Recommended Filter Options",
-        "paragraph": "Below are some of the **most common Program Filters across the Vivery network.** Consider adding these filters to your programs to increase their distinguishability. Click the table below to view the full range of filters.",
+        "paragraph": "Below are some of the **most common Program Filters across the Vivery Network.** Consider adding these filters to your programs to increase their distinguishability. Click the table below to view the full range of filters.",
         "columns": ["Audience", "L. Features", "P. Features", "Items", "Dietary"]
     },
 
@@ -125,12 +125,12 @@
         "ylabel": "Total Hours",
         "current month filename": "",
         "next month filename": "",
-        "paragraph": ""
+        "paragraph": "Above are the **total hours for all programs in the Network.** Please ensure that these hours accurately reflect the program's operational hours by clicking the image above."
     },
 
     "MISSING PROGRAM QUALIFICATIONS": {
         "title": "Missing Program Qualifications",
-        "paragraph": "",
+        "paragraph": "The graph below shows the usage of Program Qualifications in this Network. Program Qualifications help neighbors determine if they qualify for this program's services. To review the programs without qualifications, click the graph above.",
         "xaxis": ["Qualifications Listed", "No Qualifications"],
         "xlabel": "",
         "ylabel": "Programs",
@@ -139,7 +139,7 @@
 
     "MISSING PROGRAM SERVICE AREA": {
         "title": "Missing Program Service Areas",
-        "paragraph": "",
+        "paragraph": "Neighbors use Program Service Areas to determine if they are within range to qualify for the program's service. To review all program service areas, click the above image.",
         "xaxis": ["Service Area Provided", "No Service Area"],
         "xlabel": "",
         "ylabel": "Programs",

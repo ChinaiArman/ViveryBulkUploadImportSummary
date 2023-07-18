@@ -445,16 +445,30 @@ if __name__ == "__main__":
     constructor.add_normal_text(TEXT["LOCATION HOURS PREVIEW"]["paragraph"])
     constructor.add_vertical_space(0.1)
     constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"])
-    constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.75)
-    constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.75)
+    constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.65)
+    constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.65)
 
     # Program Hours Preview
     constructor.add_page()
     constructor.add_h1_text(TEXT["PROGRAM HOURS PREVIEW"]["title"])
     constructor.add_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"])
-    constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.75)
-    constructor.add_image(ae.graph_sample_program_hours_next_month(df, directory), 3.75)
-    #
+    constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.65)
+    constructor.add_image(ae.graph_sample_program_hours_next_month(df, directory), 3.65)
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["PROGRAM HOURS PREVIEW"]["paragraph"])
+
+    # Missing Program Qualifications
+    constructor.add_page()
+    constructor.add_h1_text(TEXT["MISSING PROGRAM QUALIFICATIONS"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["MISSING PROGRAM QUALIFICATIONS"]["paragraph"])
+    constructor.add_image(ae.graph_program_qualifications(df, directory), 3.15)
+
+    # Missing Program Service Areas
+    constructor.add_h1_text(TEXT["MISSING PROGRAM SERVICE AREA"]["title"])
+    constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["MISSING PROGRAM SERVICE AREA"]["paragraph"])
+    constructor.add_image(ae.graph_program_service_areas(df, directory), 3.15)
 
     # Save PDF
     constructor.save_pdf()
