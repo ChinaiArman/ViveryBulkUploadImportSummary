@@ -12,6 +12,7 @@ from PIL import Image
 import calendar
 import glob
 import os
+import math
 
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
@@ -27,8 +28,10 @@ PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'   
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
-PAGE_WIDTH = 8.5                         #
-PAGE_HEIGHT = 11                         #
+PAGE_WIDTH = 8.5                                                            #
+PAGE_HEIGHT = 11                                                            #
+APPENDIX_LINES_PER_PAGE = 25                                                #
+TABLE_CHAR_PER_CELL = {1: 100, 2: 50, 3: 28, 4: 20, 5: 12, 6: 10}           #
 
 # COLOURS
 
@@ -230,6 +233,7 @@ class pdfConstructor:
 
         # Define number of columns
         num_of_columns = len(list(df_copy.columns))
+        char_limit = TABLE_CHAR_PER_CELL[num_of_columns]
 
         # Define Page Linker
         if pagenumber > -2:
@@ -249,12 +253,56 @@ class pdfConstructor:
 
         # Datum Rows
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Regular', '', 12)
+        self.pdf.set_font('Roobert Regular', '', 10)
         for row in list_of_lists:
             for datum in row:
-                self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', link=pagelink)
+                if len(str(datum)) > char_limit:
+                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C', link=pagelink)
+                else:
+                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', link=pagelink)
             self.pdf.ln(self.pdf.font_size + 0.2)
             self.pdf.set_x(1)
+        
+        # Save
+        df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
+        return
+
+
+    def add_appendix(self, function, title: str) -> None:
+        """
+        """
+        # Create iterable data
+        df_copy = self.df.copy()
+        df_copy = function(df_copy)
+        list_of_lists = df_copy.values
+
+        # Define number of columns
+        num_of_columns = len(list(df_copy.columns))
+        char_limit = TABLE_CHAR_PER_CELL[num_of_columns]
+        
+        # Header Row
+        for i in range(math.ceil(len(list_of_lists)/APPENDIX_LINES_PER_PAGE)):
+            self.add_h1_text(title)
+            self.pdf.set_fill_color(0, 72, 61)
+            self.pdf.set_text_color(250, 249, 246)
+            self.pdf.set_font('Roobert Regular', 'B', 14)
+            for element in list(df_copy.columns):
+                self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True)
+            self.pdf.ln(self.pdf.font_size + 0.2)
+            self.pdf.set_x(1)
+
+            # Datum Rows
+            self.pdf.set_text_color(0, 72, 61)
+            self.pdf.set_font('Roobert Regular', '', 10)
+            for row in list_of_lists[i*APPENDIX_LINES_PER_PAGE:(i+1)*APPENDIX_LINES_PER_PAGE]:
+                for datum in row:
+                    if len(str(datum)) > char_limit:
+                        self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C')
+                    else:
+                        self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C')
+                self.pdf.ln(self.pdf.font_size + 0.2)
+                self.pdf.set_x(1)
+            self.add_page()
         
         # Save
         df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
@@ -412,7 +460,7 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     TEXT = ae.calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
     constructor.add_normal_text(TEXT["PROGRAM FILTER FIELDS"]["paragraph"])
-    constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.25)
+    constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.65)
 
     # Recommended Filter Options
     constructor.add_h1_text(TEXT["RECOMMENDED FILTER OPTIONS"]["title"])
@@ -469,6 +517,16 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["MISSING PROGRAM SERVICE AREA"]["paragraph"])
     constructor.add_image(ae.graph_program_service_areas(df, directory), 3.15)
+
+    # APPENDIX ORGANIZATION LIST
+    constructor.add_page()
+    constructor.add_appendix(ae.create_organization_table, TEXT["APPENDIX ORGANIZATION LIST"]["title"])
+
+    # APPENDIX LOCATION LIST
+    constructor.add_appendix(ae.create_location_table, TEXT["APPENDIX LOCATION LIST"]["title"])
+
+    # APPENDIX PROGRAM LIST
+    constructor.add_appendix(ae.create_program_table, TEXT["APPENDIX PROGRAM LIST"]["title"])
 
     # Save PDF
     constructor.save_pdf()
