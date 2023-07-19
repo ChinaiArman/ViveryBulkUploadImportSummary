@@ -261,6 +261,8 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
         for row in list_of_lists:
             for datum in row:
+                if str(datum) == "nan":
+                    datum = "null"
                 if len(str(datum)) > char_limit:
                     self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C', link=pagelink)
                 else:
@@ -279,7 +281,20 @@ class pdfConstructor:
         # Create iterable data
         df_copy = self.df.copy()
         df_copy = function(df_copy)
+        if (len(list(df_copy.columns)) > 2):
+            df_copy = df_copy.dropna(thresh=len(list(df_copy.columns))-1)
+        else:
+            df_copy = df_copy.dropna()
         list_of_lists = df_copy.values
+
+        # Catch NaN Tables
+        if len(list_of_lists) == 0:
+            self.add_h1_text(title)
+            self.add_h2_text(df_copy.columns)
+            self.add_vertical_space(0.25)
+            self.add_normal_text("All values NaN", alignment='C')
+            self.add_page()
+            return
 
         # Define number of columns
         num_of_columns = len(list(df_copy.columns))
@@ -301,6 +316,8 @@ class pdfConstructor:
             self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
             for row in list_of_lists[i*APPENDIX_LINES_PER_PAGE:(i+1)*APPENDIX_LINES_PER_PAGE]:
                 for datum in row:
+                    if str(datum) == "nan":
+                        datum = "null"
                     if len(str(datum)) > char_limit:
                         self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C')
                     else:
@@ -544,6 +561,39 @@ if __name__ == "__main__":
     
     # APPENDIX PROGRAM CONTACT INFORMATION
     constructor.add_appendix(ae.create_program_contact_information_table, TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["title"])
+
+    # APPENDIX PROGRAM TYPE
+    constructor.add_appendix(ae.create_program_by_program_type_table, TEXT["APPENDIX PROGRAM TYPE"]["title"])
+
+    # APPENDIX PROGRAM AUDIENCE
+    constructor.add_appendix(ae.create_program_by_program_audience_table, TEXT["APPENDIX PROGRAM AUDIENCE"]["title"])
+
+    # APPENDIX PROGRAM LANGUAGES SPOKEN
+    constructor.add_appendix(ae.create_program_by_program_languages_spoken_table, TEXT["APPENDIX PROGRAM LANGUAGES SPOKEN"]["title"])
+
+    # APPENDIX PROGRAM FEATURES
+    constructor.add_appendix(ae.create_program_by_program_features_table, TEXT["APPENDIX PROGRAM FEATURES"]["title"])
+
+    # APPENDIX PROGRAM ITEMS OFFERED
+    constructor.add_appendix(ae.create_program_by_program_items_offered_table, TEXT["APPENDIX PROGRAM ITEMS OFFERED"]["title"])
+
+    # APPENDIX PROGRAM DIETARY OPTIONS
+    constructor.add_appendix(ae.create_program_by_program_dietary_options_table, TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["title"])
+
+    # APPENDIX PROGRAM FILTERS AVAILABLE
+    constructor.add_appendix(ae.create_recommended_program_filters_table, TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"])
+
+    # APPENDIX LOCATION HOURS INFORMATION
+    constructor.add_appendix(ae.create_location_hours_table, TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"])
+
+    # APPENDIX PROGRAM HOURS INFORMATION
+    constructor.add_appendix(ae.create_program_hours_table, TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"])
+
+    # APPENDIX PROGRAM QUALIFICATIONS
+    constructor.add_appendix(ae.create_program_by_program_qualifications_table, TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["title"])
+
+    # APPENDIX PROGRAM SERVICE AREAS
+    constructor.add_appendix(ae.create_program_by_program_service_area_table, TEXT["APPENDIX PROGRAM SERVICE AREAS"]["title"])
 
     # Save PDF
     constructor.save_pdf()
