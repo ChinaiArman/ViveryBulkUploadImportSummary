@@ -899,7 +899,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_location_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in current_month.items():
         current_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -907,7 +907,7 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
     every_other_week_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     every_other_week_hours = create_location_hours_table(df.loc[df["Frequency"] == "Every Other Week"])
     for _, rows in every_other_week_hours.iterrows():
-        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in current_month.items():
         if (day.toordinal() % 14 <= 6):
             current_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
@@ -1001,7 +1001,7 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_location_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in next_month.items():
         next_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -1009,7 +1009,7 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
     every_other_week_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     every_other_week_hours = create_location_hours_table(df.loc[df["Frequency"] == "Every Other Week"])
     for _, rows in every_other_week_hours.iterrows():
-        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in next_month.items():
         if (day.toordinal() % 14 <= 6):
             next_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
@@ -1101,7 +1101,7 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_program_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in current_month.items():
         current_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -1109,7 +1109,7 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
     every_other_week_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     every_other_week_hours = create_program_hours_table(df.loc[df["Frequency"] == "Every Other Week"])
     for _, rows in every_other_week_hours.iterrows():
-        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in current_month.items():
         if (day.toordinal() % 14 <= 6):
             current_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
@@ -1203,7 +1203,7 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> s
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_program_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in next_month.items():
         next_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -1211,7 +1211,7 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> s
     every_other_week_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     every_other_week_hours = create_program_hours_table(df.loc[df["Frequency"] == "Every Other Week"])
     for _, rows in every_other_week_hours.iterrows():
-        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows["Closing Hour"], '%H:%M').hour - datetime.datetime.strptime(rows["Opening Hour"], '%H:%M').hour)
+        every_other_week_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
     for day, _ in next_month.items():
         if (day.toordinal() % 14 <= 6):
             next_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
@@ -1332,7 +1332,7 @@ def graph_program_service_areas(df: pd.DataFrame, directory: str) -> str:
         - The graph is saved with the filename specified in `TEXT["MISSING PROGRAM SERVICE AREA"]["filename"]` in the specified directory.
     """
     x_axis = TEXT["MISSING PROGRAM SERVICE AREA"]["xaxis"]
-    y_axis = [len(create_program_by_program_services_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_services_table(df).dropna())] 
+    y_axis = [len(create_program_by_program_service_area_table(df).dropna()), len(create_program_table(df)) - len(create_program_by_program_service_area_table(df).dropna())] 
     plot_bar_graph(x_axis, y_axis, "MISSING PROGRAM SERVICE AREA", SAGE)
     return save_graph(TEXT["MISSING PROGRAM SERVICE AREA"]["filename"], directory, 300)
 
@@ -2482,7 +2482,7 @@ def create_program_by_program_qualifications_table(df: pd.DataFrame) -> pd.DataF
     return df.sort_values(by=TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
-def create_program_by_program_services_table(df: pd.DataFrame) -> pd.DataFrame:
+def create_program_by_program_service_area_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     Creates a table of programs categorized by service area based on the provided DataFrame.
 
@@ -2835,7 +2835,7 @@ if __name__ == "__main__":
         create_profile_completion_tiers_table,
         create_program_category_field_weights,
         create_program_by_program_qualifications_table,
-        create_program_by_program_services_table,
+        create_program_by_program_service_area_table,
         create_program_profile_completion_table
     ]
 
