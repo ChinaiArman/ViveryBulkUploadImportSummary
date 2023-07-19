@@ -233,12 +233,12 @@
 
     "APPENDIX LOCATION HOURS INFORMATION": {
         "title": "Appendix P - Location Hours Information",
-        "columns": ["Location ID", "Hour Type", "Opening Hour", "Closing Hour", "Day", "Frequency"]
+        "columns": ["Location ID", "Hour Type", "Opened", "Closed", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM HOURS INFORMATION": {
         "title": "Appendix Q - Program Hours Information",
-        "columns": ["Program ID", "Hour Type", "Opening Hour", "Closing Hour", "Day", "Frequency"]
+        "columns": ["Program ID", "Hour Type", "Opened", "Closed", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM QUALIFICATIONS": {
