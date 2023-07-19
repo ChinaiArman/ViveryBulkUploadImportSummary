@@ -30,6 +30,11 @@ PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)      
 # MISC CONSTANTS
 PAGE_WIDTH = 8.5                                                            #
 PAGE_HEIGHT = 11                                                            #
+H1_TEXT_SIZE = 20                                                           #
+H2_TEXT_SIZE = 14                                                           #
+NORMAL_TEXT_SIZE = 13                                                       #
+SUBTITLE_TEXT_SIZE = 10                                                     #
+TABLE_TEXT_SIZE = 10                                                        #
 APPENDIX_LINES_PER_PAGE = 25                                                #
 TABLE_CHAR_PER_CELL = {1: 100, 2: 50, 3: 28, 4: 20, 5: 12, 6: 10}           #
 
@@ -185,7 +190,7 @@ class pdfConstructor:
         if FPDF.get_y(self.pdf) > 1:
             self.pdf.ln(0.5)
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Medium', '', 20)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
         self.pdf.cell(0, 0, text, align='C')
         self.pdf.ln(0.3)
         return
@@ -197,7 +202,7 @@ class pdfConstructor:
         self.pdf.ln(0.10)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Regular', '', 13)
+        self.pdf.set_font('Roobert Regular', '', NORMAL_TEXT_SIZE)
         self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, align=alignment, markdown=True)
         self.pdf.set_x(1)
         return
@@ -209,7 +214,7 @@ class pdfConstructor:
         self.pdf.ln(0.1)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Light Italic', '', 10)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE)
         self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, 'C')
 
 
@@ -245,7 +250,7 @@ class pdfConstructor:
         # Header Row
         self.pdf.set_fill_color(0, 72, 61)
         self.pdf.set_text_color(250, 249, 246)
-        self.pdf.set_font('Roobert Regular', 'B', 14)
+        self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
         for element in list(df_copy.columns):
             self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
         self.pdf.ln(self.pdf.font_size + 0.2)
@@ -253,7 +258,7 @@ class pdfConstructor:
 
         # Datum Rows
         self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Regular', '', 10)
+        self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
         for row in list_of_lists:
             for datum in row:
                 if len(str(datum)) > char_limit:
@@ -285,7 +290,7 @@ class pdfConstructor:
             self.add_h1_text(title)
             self.pdf.set_fill_color(0, 72, 61)
             self.pdf.set_text_color(250, 249, 246)
-            self.pdf.set_font('Roobert Regular', 'B', 14)
+            self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
             for element in list(df_copy.columns):
                 self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True)
             self.pdf.ln(self.pdf.font_size + 0.2)
@@ -293,7 +298,7 @@ class pdfConstructor:
 
             # Datum Rows
             self.pdf.set_text_color(0, 72, 61)
-            self.pdf.set_font('Roobert Regular', '', 10)
+            self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
             for row in list_of_lists[i*APPENDIX_LINES_PER_PAGE:(i+1)*APPENDIX_LINES_PER_PAGE]:
                 for datum in row:
                     if len(str(datum)) > char_limit:
@@ -326,7 +331,7 @@ class pdfConstructor:
         self.pdf.set_x(1)
         self.pdf.set_fill_color(0, 72, 61)
         self.pdf.set_text_color(250, 249, 246)
-        self.pdf.set_font('Roobert Regular', 'B', 14)
+        self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
         if len(header_row) == 1:
             self.pdf.multi_cell(PAGE_WIDTH-2, self.pdf.font_size + 0.2, header_row[0], align='C', fill=True, link=pagelink)
         else:
