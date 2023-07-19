@@ -163,7 +163,7 @@
 
     "APPENDIX PROGRAM LIST": {
         "title": "Appendix C - Program List",
-        "columns": ["Program ID", "Program Name"]
+        "columns": ["Program ID", "Program Name", "Location ID"]
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {

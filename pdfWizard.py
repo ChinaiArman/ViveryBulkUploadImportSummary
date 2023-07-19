@@ -465,7 +465,7 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     TEXT = ae.calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
     constructor.add_normal_text(TEXT["PROGRAM FILTER FIELDS"]["paragraph"])
-    constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.65)
+    constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.75)
 
     # Recommended Filter Options
     constructor.add_h1_text(TEXT["RECOMMENDED FILTER OPTIONS"]["title"])

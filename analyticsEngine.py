@@ -1761,31 +1761,32 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         `pd.DataFrame`: A DataFrame containing the program information.
 
     Preconditions:
-        - The Pandas DataFrame must contain the columns `Program External ID` and `Program Name`.
+        - The Pandas DataFrame must contain the columns `Program External ID`, `Location External ID`, and `Program Name`.
 
     Raises:
         None.
 
     Example:
         >>> data = pd.DataFrame({'Program External ID': ['P1', 'P2', 'P3'],
-        ...                     'Program Name': ['Program 1', 'Program 2', 'Program 3']})
+        ...                     'Program Name': ['Program 1', 'Program 2', 'Program 3'],
+        ...                     'Location External ID': ['L1', 'L2', 'L3']})
         >>> create_program_table(data)
-            Program ID      Program Name
+            Program ID      Program Name        Location ID
         0           P1          Program 1
         1           P2          Program 2
         2           P3          Program 3
 
     Additional Information:
-        - The function extracts the specified columns (`Program External ID` and `Program Name`) from the provided DataFrame to create a program table.
+        - The function extracts the specified columns (`Program External ID`, `Location External ID`, and `Program Name`) from the provided DataFrame to create a program table.
         - The columns `Program External ID` and `Program Name` are required to be present in the DataFrame.
         - The resulting table displays the `Program External ID` and name for each program.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
         - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM LIST` section.
-        - The values in the table are sorted by `Program External ID` in ascending order.
+        - The values in the table are sorted by `Location External ID` in ascending order.
     """
-    df = df[['Program External ID', 'Program Name']]
+    df = df[['Program External ID', 'Program Name', 'Location External ID']]
     df.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
-    return df.sort_values(by=TEXT["APPENDIX PROGRAM LIST"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
+    return df.sort_values(by=TEXT["APPENDIX PROGRAM LIST"]["columns"][2], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
