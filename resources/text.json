@@ -32,7 +32,7 @@
         "xlabel": "Profile Grade",
         "ylabel": "Locations",
         "xaxis": ["Basic", "Quality", "Exceptional"],
-        "paragraph": "Vivery uses an internal scoring algorithm to evaluate the completeness of location profiles. This scoring system is divided into three tiers, basic, quality, and exceptional. Increasing profile completeness **allows locations to access the full range of Vivery features** and assists neighbors in finding the resources they need.",
+        "paragraph": "Vivery uses an internal scoring algorithm to grade a locations completeness, separating locations into three tiers (basic, quality, and exceptional). Increasing profile completeness **allows locations to access the full range of Vivery features** and assists neighbors in finding the resources they need.",
         "subtitle": "Click the graph above to view the complete list of profile grades."
     },
 
@@ -64,7 +64,7 @@
         "program filename": "missing_program_contact_information_graph.png",
         "program xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
         "subtitle": ["Missing Location and Program Contact Information"],
-        "paragraph": "You have **{} locations and {} programs without public contact information.** Clients won't be able to ask for more information or volunteer. Public contact information includes a name, phone number, email, and website."
+        "paragraph": "You have **{} locations and {} programs without public contact information, which could create challenges for new clients.** Public contact information includes a name, phone number, email, and website."
     },
 
     "PROGRAM TYPES": {
