@@ -167,87 +167,87 @@
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {
-        "title": "Appendix D - Program Profile Completion Tiers",
+        "title": "Appendix X - Program Profile Completion Tiers",
         "columns": ["Tier Level", "Minimum", "Maximum"],
         "tier levels": ["Basic", "Quality", "Exceptional"]
     },
 
     "APPENDIX PROGRAM CATEGORY FIELD WEIGHTS": {
-        "title": "Appendix E - Program Category Field Weights",
+        "title": "Appendix X - Program Category Field Weights",
         "columns": ["Field", "Weight"]
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION LIST": {
-        "title": "Appendix F - Program Profile Completion List",
+        "title": "Appendix D - Program Profile Completion List",
         "columns": ["Location", "Points", "Tier"]
     },
 
     "APPENDIX ORGANIZATION CONTACT INFORMATION": {
-        "title": "Appendix G - Organization Contact Information",
+        "title": "Appendix E - Organization Contact Information",
         "columns": ["Organization ID", "Name", "Email", "Phone"]
     },
 
     "APPENDIX LOCATION CONTACT INFORMATION": {
-        "title": "Appendix H - Location Contact Information",
+        "title": "Appendix F - Location Contact Information",
         "columns": ["Location ID", "Name", "Email", "Phone", "Website"]
     },
 
     "APPENDIX PROGRAM CONTACT INFORMATION": {
-        "title": "Appendix I - Program Contact Information",
+        "title": "Appendix G - Program Contact Information",
         "columns": ["Program ID", "Name", "Email", "Phone"]
     },
 
     "APPENDIX PROGRAM TYPE": {
-        "title": "Appendix J - Program Type",
+        "title": "Appendix H - Program Type",
         "columns": ["Program ID", "Program Type", "Type Specification"]
     },
 
     "APPENDIX PROGRAM AUDIENCE": {
-        "title": "Appendix K - Program Audience",
+        "title": "Appendix I - Program Audience",
         "columns": ["Program ID", "Program Audience"]
     },
 
     "APPENDIX PROGRAM LANGUAGES SPOKEN": {
-        "title": "Appendix L - Program Languages Spoken",
+        "title": "Appendix K - Program Languages Spoken",
         "columns": ["Program ID", "Program Languages"]
     },
 
     "APPENDIX PROGRAM FEATURES": {
-        "title": "Appendix M - Program Features",
+        "title": "Appendix L - Program Features",
         "columns": ["Program ID", "Program Features"]
     },
 
     "APPENDIX PROGRAM ITEMS OFFERED": {
-        "title": "Appendix N - Program Items Offered",
+        "title": "Appendix M - Program Items Offered",
         "columns": ["Program ID", "Items Offered"]
     },
 
     "APPENDIX PROGRAM DIETARY OPTIONS": {
-        "title": "Appendix O - Program Dietary Options",
+        "title": "Appendix N - Program Dietary Options",
         "columns": ["Program ID", "Program Dietary Options"]
     },
 
     "APPENDIX PROGRAM FILTERS AVAILABLE": {
-        "title": "Appendix P - Program Filters Available"
+        "title": "Appendix O - Program Filters Available"
     },
 
     "APPENDIX LOCATION HOURS INFORMATION": {
-        "title": "Appendix Q - Location Hours Information",
+        "title": "Appendix P - Location Hours Information",
         "columns": ["Location ID", "Hour Type", "Opening Hour", "Closing Hour", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM HOURS INFORMATION": {
-        "title": "Appendix R - Program Hours Information",
+        "title": "Appendix Q - Program Hours Information",
         "columns": ["Program ID", "Hour Type", "Opening Hour", "Closing Hour", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM QUALIFICATIONS": {
-        "title": "Appendix S - Program Qualifications",
+        "title": "Appendix R - Program Qualifications",
         "columns": ["Program ID", "Program Qualifications"]
     },
 
     "APPENDIX PROGRAM SERVICE AREAS": {
-        "title": "Appendix T - Program Service Areas",
+        "title": "Appendix S - Program Service Areas",
         "columns": ["Program ID", "Program Service Area"]
     }
 }

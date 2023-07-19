@@ -533,6 +533,18 @@ if __name__ == "__main__":
     # APPENDIX PROGRAM LIST
     constructor.add_appendix(ae.create_program_table, TEXT["APPENDIX PROGRAM LIST"]["title"])
 
+    # APPENDIX PROGRAM PROFILE COMPLETION LIST
+    constructor.add_appendix(ae.create_program_profile_completion_table, TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["title"])
+
+    # APPENDIX ORGANIZATION CONTACT INFORMATION
+    constructor.add_appendix(ae.create_organization_contact_information_table, TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["title"])
+
+    # APPENDIX LOCATION CONTACT INFORMATION
+    constructor.add_appendix(ae.create_location_contact_information_table, TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["title"])
+    
+    # APPENDIX PROGRAM CONTACT INFORMATION
+    constructor.add_appendix(ae.create_program_contact_information_table, TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["title"])
+
     # Save PDF
     constructor.save_pdf()
 
