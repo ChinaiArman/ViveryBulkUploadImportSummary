@@ -105,7 +105,7 @@ PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'   
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
-MAP_SCOPE_KEY = {0: 12, 0.1: 10, 0.2: 9, 0.4: 8, 0.9: 7, 1.5: 6, 3.5: 5, 7: 4, 25: 3, 32: 2, 70: 1}             # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
+MAP_SCOPE_KEY = {0: 12, 0.1: 10, 0.2: 9, 0.4: 8, 0.9: 7, 4.5: 6, 6: 5, 7: 4, 25: 3, 32: 2, 70: 1}               # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
 
 # COLOURS
 VIVERY_GREEN = '#00483D'                                                                                        # A colour in the Vivery colour scheme.
@@ -899,7 +899,10 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_location_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        try:
+            weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        except KeyError:
+            pass
     for day, _ in current_month.items():
         current_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -931,12 +934,15 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
     # Day of month
     day_of_month_hours = df.loc[(df["Frequency"] == "Day of Month") & (df['Hours Entity Type'] == 'Location')]
     for _, rows in day_of_month_hours.iterrows():
-        current_month_indexer = pd.date_range(datetime.date.today().replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
-        for i in range(1, 4):
-            try:
-                current_month[current_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
-            except TypeError:
-                pass
+        try:
+            current_month_indexer = pd.date_range(datetime.date.today().replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
+            for i in range(1, 4):
+                try:
+                    current_month[current_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        except:
+            pass
     
     # Specific date
     specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == "Location")]
@@ -1001,7 +1007,10 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_location_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        try:
+            weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        except KeyError:
+            pass
     for day, _ in next_month.items():
         next_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -1033,12 +1042,15 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
     # DAY OF MONTH
     day_of_month_hours = df.loc[(df["Frequency"] == "Day of Month") & (df['Hours Entity Type'] == 'Location')]
     for _, rows in day_of_month_hours.iterrows():
-        next_month_indexer = pd.date_range((datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
-        for i in range(1, 4):
-            try:
-                next_month[next_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
-            except TypeError:
-                pass
+        try:
+            next_month_indexer = pd.date_range((datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
+            for i in range(1, 4):
+                try:
+                    next_month[next_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        except:
+            pass
     
     specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == "Location")]
     for _, rows in specific_date_hours.iterrows():
@@ -1101,7 +1113,10 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_program_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        try:
+            weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        except KeyError:
+            pass
     for day, _ in current_month.items():
         current_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -1133,12 +1148,15 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
     # Day of month
     day_of_month_hours = df.loc[(df["Frequency"] == "Day of Month") & (df['Hours Entity Type'] == 'Program')]
     for _, rows in day_of_month_hours.iterrows():
-        current_month_indexer = pd.date_range(datetime.date.today().replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
-        for i in range(1, 4):
-            try:
-                current_month[current_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
-            except TypeError:
-                pass
+        try:
+            current_month_indexer = pd.date_range(datetime.date.today().replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
+            for i in range(1, 4):
+                try:
+                    current_month[current_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        except:
+            pass
     
     # Specific date
     specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == 'Program')]
@@ -1203,7 +1221,10 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> s
     weekly_weekdays = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}
     weekly_hours = create_program_hours_table(df.loc[df["Frequency"] == "Weekly"])
     for _, rows in weekly_hours.iterrows():
-        weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        try:
+            weekly_weekdays[rows["Day"]] += int(datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][3]], '%H:%M').hour - datetime.datetime.strptime(rows[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["columns"][2]], '%H:%M').hour)
+        except KeyError:
+            pass
     for day, _ in next_month.items():
         next_month[day] += weekly_weekdays[calendar.day_name[day.weekday()]]
 
@@ -1235,12 +1256,15 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> s
     # DAY OF MONTH
     day_of_month_hours = df.loc[(df["Frequency"] == "Day of Month") & (df['Hours Entity Type'] == 'Program')]
     for _, rows in day_of_month_hours.iterrows():
-        next_month_indexer = pd.date_range((datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
-        for i in range(1, 4):
-            try:
-                next_month[next_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
-            except TypeError:
-                pass
+        try:
+            next_month_indexer = pd.date_range((datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), (datetime.date.today().replace(day=1) + datetime.timedelta(days=63)).replace(day=1), freq='WOM-'+ str(int(rows['Day of Month'])) + rows['Day of Week'][0:3].upper())[0]
+            for i in range(1, 4):
+                try:
+                    next_month[next_month_indexer] += int(datetime.datetime.strptime(rows["Hours Closed " + str(i)], '%H:%M').hour - datetime.datetime.strptime(rows["Hours Open " + str(i)], '%H:%M').hour)
+                except TypeError:
+                    pass
+        except:
+            pass
     
     specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == 'Program')]
     for _, rows in specific_date_hours.iterrows():
