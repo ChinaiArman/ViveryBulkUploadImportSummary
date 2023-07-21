@@ -206,26 +206,37 @@ class pdfConstructor:
         return
     
 
-    def add_normal_text(self, text: str, alignment: str='L') -> None:
+    def add_normal_text(self, text: str, alignment: str='L', pagenumber: int=-2) -> None:
         """
         """
+        # Define Page Linker
+        if pagenumber > -2:
+            pagelink = self.pdf.add_link()
+            self.pdf.set_link(pagelink, page=pagenumber)
+        else:
+            pagelink = None
         self.pdf.ln(0.10)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', NORMAL_TEXT_SIZE)
-        self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, align=alignment, markdown=True)
+        self.pdf.multi_cell(6.3, self.pdf.font_size + 0.05, text, align=alignment, markdown=True, link=pagelink)
         self.pdf.set_x(1)
         return
 
 
-    def add_subtitle_text(self, text: str) -> None:
+    def add_subtitle_text(self, text: str, pagenumber: int=-2) -> None:
         """
         """
+        if pagenumber > -2:
+            pagelink = self.pdf.add_link()
+            self.pdf.set_link(pagelink, page=pagenumber)
+        else:
+            pagelink = None
         self.pdf.ln(0.1)
         self.pdf.set_y(FPDF.get_y(self.pdf))
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE)
-        self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, 'C')
+        self.pdf.multi_cell(6.3, self.pdf.font_size, text, 0, 'C', link=pagelink)
 
 
     def add_horizontal_line(self) -> None:
@@ -238,7 +249,7 @@ class pdfConstructor:
         return
 
 
-    def add_table(self, function, pagenumber: int=-2) -> None:
+    def add_table(self, function) -> None:
         """
         """
         # Create iterable data
@@ -249,20 +260,13 @@ class pdfConstructor:
         # Define number of columns
         num_of_columns = len(list(df_copy.columns))
         char_limit = TABLE_CHAR_PER_CELL[num_of_columns]
-
-        # Define Page Linker
-        if pagenumber > -2:
-            pagelink = self.pdf.add_link()
-            self.pdf.set_link(pagelink, page=pagenumber)
-        else:
-            pagelink = None
         
         # Header Row
         self.pdf.set_fill_color(0, 72, 61)
         self.pdf.set_text_color(250, 249, 246)
         self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
         for element in list(df_copy.columns):
-            self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
+            self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True)
         self.pdf.ln(self.pdf.font_size + 0.2)
         self.pdf.set_x(1)
 
@@ -274,9 +278,9 @@ class pdfConstructor:
                 if str(datum) == "nan":
                     datum = "null"
                 if len(str(datum)) > char_limit:
-                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C', link=pagelink)
+                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C')
                 else:
-                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', link=pagelink)
+                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C')
             self.pdf.ln(self.pdf.font_size + 0.2)
             self.pdf.set_x(1)
         
@@ -437,7 +441,7 @@ if __name__ == "__main__":
     constructor.add_table(ae.create_network_overview_table)
     constructor.add_horizontal_line()
     TEXT = ae.calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
-    constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"])
+    constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"], pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]])
 
     # Profile Completeness
     constructor.add_page()
