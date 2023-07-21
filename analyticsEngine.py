@@ -1707,12 +1707,14 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
     Example:
         >>> data = pd.DataFrame({'Organization External ID': ['O1', 'O2', 'O3'],
                                 'Organization Name': ['Org1', 'Org2', 'Org3'],
-                                'Organization Address 1': ['Address1', 'Address2', 'Address3']})
+                                'Organization Address 1': ['Address1', 'Address2', 'Address3'],
+                                'Organization Approval Status': [True, True, False],
+                                'Organization Active Status': [True, True, False]})
         >>> create_organization_table(data)
-           Organization ID      Organization Name   Organization Address
-        0               O1                  Org1            Address1
-        1               O2                  Org2            Address2
-        2               O3                  Org3            Address3
+           Organization ID      Organization Name   Organization Address        Status
+        0               O1                  Org1            Address1            Active     
+        1               O2                  Org2            Address2            Active
+        2               O3                  Org3            Address3            Inactive
 
     Additional Information:
         - The function extracts specific columns related to organizations from the input DataFrame.
@@ -1720,15 +1722,19 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
             - `Organization External ID`: Represents the unique ID of the organization.
             - `Organization Name`: Represents the name of the organization.
             - `Organization Address 1`: Represents the first line of the organization's address.
+            - Both active flags for Organizations
         - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the input DataFrame `df` represents the relevant data and contains the necessary columns.
         - The resulting DataFrame uses the column headers defined in `text.json` under the `APPENDIX ORGANIZATION LIST` section.
         - The resulting DataFrame is sorted by `Organization External ID` in ascending order.
         - Duplicate values are dropped to ensure unique organizations.
     """
-    df = df[['Organization External ID', 'Organization Name', 'Organization Address 1']]
-    df.columns = TEXT["APPENDIX ORGANIZATION LIST"]["columns"]
-    return df.sort_values(by=TEXT["APPENDIX ORGANIZATION LIST"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
+    df_copy = df.copy()
+    df_copy = df_copy[['Organization External ID', 'Organization Name', 'Organization Address 1', 'Organization Approval Status', 'Organization Active Status']]
+    df_copy['Organization Active'] = np.where((df_copy['Organization Approval Status'] == True) & (df_copy['Organization Active Status'] == True), "Active", "Inactive")
+    df_copy = df_copy[['Organization External ID', 'Organization Name', 'Organization Address 1', 'Organization Active']]
+    df_copy.columns = TEXT["APPENDIX ORGANIZATION LIST"]["columns"]
+    return df_copy.sort_values(by=TEXT["APPENDIX ORGANIZATION LIST"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -1750,12 +1756,16 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
     Example:
         >>> data = pd.DataFrame({'Location External ID': ['L1', 'L2', 'L3'],
         ...                     'Location Name': ['Location 1', 'Location 2', 'Location 3'],
-        ...                     'Location Address 1': ['Address 1', 'Address 2', 'Address 3']})
+        ...                     'Location Address 1': ['Address 1', 'Address 2', 'Address 3']
+        ...                     'Organization Approval Status': [True, True, False],
+        ...                     'Organization Active Status': [True, True, False],
+        ...                     'Location Approval Status': [True, True, False],
+        ...                     'Location Active Status': [True, True, False]})
         >>> create_location_table(data)
-            Location ID     Location Name       Location Address
-        0           L1          Location 1              Address 1
-        1           L2          Location 2              Address 2
-        2           L3          Location 3              Address 3
+            Location ID     Location Name       Location Address        Status
+        0           L1          Location 1              Address 1       Active
+        1           L2          Location 2              Address 2       Active
+        2           L3          Location 3              Address 3       Inactive
 
     Additional Information:
         - The function extracts the specified columns from the provided DataFrame to create a location table.
@@ -1763,15 +1773,19 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
             - `Location External ID`: Represents the unique ID of the location.
             - `Location Name`: Represents the name of the location.
             - `Location Address 1`: Represents the first line of the location's address.
+            - All active flags for Locations and Organizations
         - The function creates a new DataFrame containing only the selected columns.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant location data.
         - The resulting DataFrame uses the column headers defined in `text.json` under the `APPENDIX LOCATION LIST` section.
         - The resulting DataFrame is sorted by `Location External ID` in ascending order.
         - Duplicate values are dropped to ensure unique locations.
     """
-    df = df[['Location External ID', 'Location Name', 'Location Address 1']]
-    df.columns = TEXT["APPENDIX LOCATION LIST"]["columns"]
-    return df.sort_values(by=TEXT["APPENDIX LOCATION LIST"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
+    df_copy = df.copy()
+    df_copy = df_copy[['Location External ID', 'Location Name', 'Location Address 1', 'Organization Approval Status', 'Organization Active Status', 'Location Approval Status', 'Location Active Status']]
+    df_copy['Location Active'] = np.where((df_copy['Organization Approval Status'] == True) & (df_copy['Organization Active Status'] == True) & (df_copy['Location Active Status'] == True) & (df_copy['Location Approval Status'] == True), "Active", "Inactive")
+    df_copy = df_copy[['Location External ID', 'Location Name', 'Location Address 1', 'Location Active']]
+    df_copy.columns = TEXT["APPENDIX LOCATION LIST"]["columns"]
+    return df_copy.sort_values(by=TEXT["APPENDIX LOCATION LIST"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -1793,24 +1807,33 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
     Example:
         >>> data = pd.DataFrame({'Program External ID': ['P1', 'P2', 'P3'],
         ...                     'Program Name': ['Program 1', 'Program 2', 'Program 3'],
-        ...                     'Location External ID': ['L1', 'L2', 'L3']})
+        ...                     'Location External ID': ['L1', 'L2', 'L3']
+        ...                     'Organization Approval Status': [True, True, False],
+        ...                     'Organization Active Status': [True, True, False],
+        ...                     'Location Approval Status': [True, True, False],
+        ...                     'Location Active Status': [True, True, False],
+        ...                     'Program Approval Status': [True, True, False],
+        ...                     'Program Active Status': [True, True, False]})
         >>> create_program_table(data)
-            Program ID      Program Name        Location ID
-        0           P1          Program 1
-        1           P2          Program 2
-        2           P3          Program 3
+            Program ID      Program Name        Location ID     Status
+        0           P1          Program 1           L1          Active
+        1           P2          Program 2           L2          Active
+        2           P3          Program 3           L3          Inactive
 
     Additional Information:
-        - The function extracts the specified columns (`Program External ID`, `Location External ID`, and `Program Name`) from the provided DataFrame to create a program table.
+        - The function extracts the specified columns (including `Program External ID`, `Location External ID`, and `Program Name`, and all active flags for organizations, locations, and programs) from the provided DataFrame to create a program table.
         - The columns `Program External ID` and `Program Name` are required to be present in the DataFrame.
         - The resulting table displays the `Program External ID` and name for each program.
         - Ensure that the provided DataFrame contains the necessary columns and represents the relevant program data.
         - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM LIST` section.
         - The values in the table are sorted by `Location External ID` in ascending order.
     """
-    df = df[['Program External ID', 'Program Name', 'Location External ID']]
-    df.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
-    return df.sort_values(by=TEXT["APPENDIX PROGRAM LIST"]["columns"][2], ascending=True).drop_duplicates().reset_index(drop=True)
+    df_copy = df.copy()
+    df_copy = df_copy[['Program External ID', 'Program Name', 'Location External ID', 'Organization Approval Status', 'Organization Active Status', 'Location Approval Status', 'Location Active Status', 'Program Approval Status', 'Program Active Status']]
+    df_copy['Program Active'] = np.where((df_copy['Organization Approval Status'] == True) & (df_copy['Organization Active Status'] == True) & (df_copy['Location Active Status'] == True) & (df_copy['Location Approval Status'] == True) & (df_copy['Program Active Status'] == True) & (df_copy['Program Approval Status'] == True), "Active", "Inactive")
+    df_copy = df_copy[['Program External ID', 'Program Name', 'Location External ID', 'Program Active']]
+    df_copy.columns = TEXT["APPENDIX PROGRAM LIST"]["columns"]
+    return df_copy.sort_values(by=TEXT["APPENDIX PROGRAM LIST"]["columns"][2], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
 def create_profile_completion_tiers_table(_: any) -> pd.DataFrame:
