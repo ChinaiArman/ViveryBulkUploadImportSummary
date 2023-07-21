@@ -36,6 +36,7 @@ NORMAL_TEXT_SIZE = 13                                                       #
 SUBTITLE_TEXT_SIZE = 10                                                     #
 TABLE_TEXT_SIZE = 10                                                        #
 APPENDIX_LINES_PER_PAGE = 25                                                #
+FIRST_APPENDIX_PAGE = 13                                                    #
 TABLE_CHAR_PER_CELL = {1: 100, 2: 50, 3: 28, 4: 20, 5: 12, 6: 10}           #
 
 # COLOURS
@@ -62,13 +63,43 @@ class pdfConstructor:
         self.appendix_page_numbers = {}
 
         # Appendix Page Numbers
-        current_page = 12
+        current_page = FIRST_APPENDIX_PAGE
         self.appendix_page_numbers[TEXT["APPENDIX ORGANIZATION LIST"]["title"]] = current_page
         current_page += math.ceil(len(ae.create_organization_table(df))/APPENDIX_LINES_PER_PAGE)
         self.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]] = current_page
         current_page += math.ceil(len(ae.create_location_table(df))/APPENDIX_LINES_PER_PAGE)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM LIST"]["title"]] = current_page
         current_page += math.ceil(len(ae.create_program_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_profile_completion_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_organization_contact_information_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_location_contact_information_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_contact_information_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM TYPE"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_type_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM AUDIENCE"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_audience_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM LANGUAGES SPOKEN"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_languages_spoken_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM FEATURES"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_features_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM ITEMS OFFERED"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_items_offered_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_dietary_options_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_recommended_program_filters_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_location_hours_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_hours_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_qualifications_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM SERVICE AREAS"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_by_program_service_area_table(df))/APPENDIX_LINES_PER_PAGE)
 
         # Add network name to TEXT
         TEXT["FILE"]["network name"] = new_network_name
@@ -553,6 +584,11 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["MISSING PROGRAM SERVICE AREA"]["paragraph"])
     constructor.add_image(ae.graph_program_service_areas(df, directory), 3.15)
+
+    # Page Break
+    constructor.add_page()
+    constructor.add_vertical_space(4)
+    constructor.add_normal_text("Page Intentionally Left Blank", alignment='C')
 
     # APPENDIX ORGANIZATION LIST
     constructor.add_page()
