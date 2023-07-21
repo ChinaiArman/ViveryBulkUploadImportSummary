@@ -59,6 +59,16 @@ class pdfConstructor:
         self.directory = new_directory
         self.filename = new_filename
         self.network_name = new_network_name
+        self.appendix_page_numbers = {}
+
+        # Appendix Page Numbers
+        current_page = 12
+        self.appendix_page_numbers[TEXT["APPENDIX ORGANIZATION LIST"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_organization_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_location_table(df))/APPENDIX_LINES_PER_PAGE)
+        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM LIST"]["title"]] = current_page
+        current_page += math.ceil(len(ae.create_program_table(df))/APPENDIX_LINES_PER_PAGE)
 
         # Add network name to TEXT
         TEXT["FILE"]["network name"] = new_network_name
@@ -418,7 +428,7 @@ if __name__ == "__main__":
     # Location Map
     constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
-    constructor.add_image(ae.create_map(df, directory), 4.2)
+    constructor.add_image(ae.create_map(df, directory), 4.2, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]])
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
     constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
 

@@ -153,17 +153,17 @@
 
     "APPENDIX ORGANIZATION LIST": {
         "title": "Appendix A - Organization List",
-        "columns": ["Organization ID", "Organization Name", "Organization Address", "Status"]
+        "columns": ["Organization ID", "Name", "Address", "Status"]
     },
 
     "APPENDIX LOCATION LIST": {
         "title": "Appendix B - Location List",
-        "columns": ["Location ID", "Location Name", "Location Address", "Status"]
+        "columns": ["Location ID", "Name", "Address", "Status"]
     },
 
     "APPENDIX PROGRAM LIST": {
         "title": "Appendix C - Program List",
-        "columns": ["Program ID", "Program Name", "Location ID", "Status"]
+        "columns": ["Program ID", "Name", "Location ID", "Status"]
     },
 
     "APPENDIX PROGRAM PROFILE COMPLETION TIERS": {
