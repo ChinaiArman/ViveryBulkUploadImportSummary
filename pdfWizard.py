@@ -65,41 +65,41 @@ class pdfConstructor:
         # Appendix Page Numbers
         current_page = FIRST_APPENDIX_PAGE
         self.appendix_page_numbers[TEXT["APPENDIX ORGANIZATION LIST"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_organization_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_organization_table(df).dropna(thresh=len(ae.create_organization_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_location_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_location_table(df).dropna(thresh=len(ae.create_location_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM LIST"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_table(df).dropna(thresh=len(ae.create_program_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_profile_completion_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_profile_completion_table(df).dropna(thresh=len(ae.create_program_profile_completion_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_organization_contact_information_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_organization_contact_information_table(df).dropna(thresh=len(ae.create_organization_contact_information_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_location_contact_information_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_location_contact_information_table(df).dropna(thresh=len(ae.create_location_contact_information_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_contact_information_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_contact_information_table(df).dropna(thresh=len(ae.create_program_contact_information_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM TYPE"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_type_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_type_table(df).dropna(thresh=len(ae.create_program_by_program_type_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM AUDIENCE"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_audience_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_audience_table(df).dropna())/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM LANGUAGES SPOKEN"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_languages_spoken_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_languages_spoken_table(df).dropna())/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM FEATURES"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_features_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_features_table(df).dropna())/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM ITEMS OFFERED"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_items_offered_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_items_offered_table(df).dropna())/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_dietary_options_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_dietary_options_table(df).dropna())/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_recommended_program_filters_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_recommended_program_filters_table(df).dropna(thresh=len(ae.create_recommended_program_filters_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_location_hours_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_location_hours_table(df).dropna(thresh=len(ae.create_location_hours_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_hours_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_hours_table(df).dropna(thresh=len(ae.create_program_hours_table(df).columns)-1))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_qualifications_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_qualifications_table(df).dropna())/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM SERVICE AREAS"]["title"]] = current_page
-        current_page += math.ceil(len(ae.create_program_by_program_service_area_table(df))/APPENDIX_LINES_PER_PAGE)
+        current_page += max(math.ceil(len(ae.create_program_by_program_service_area_table(df).dropna())/APPENDIX_LINES_PER_PAGE), 1)
 
         # Add network name to TEXT
         TEXT["FILE"]["network name"] = new_network_name
@@ -219,7 +219,7 @@ class pdfConstructor:
             pagelink_two = None
         current_y = FPDF.get_y(self.pdf)
         self.pdf.image(filepath_one, (PAGE_WIDTH - width*2)/2, current_y, h=height, link=pagelink_one)
-        self.pdf.image(filepath_two, ((PAGE_WIDTH - width*2)/2) + width, current_y, h=height, link=pagelink_one)
+        self.pdf.image(filepath_two, ((PAGE_WIDTH - width*2)/2) + width, current_y, h=height, link=pagelink_two)
         self.pdf.ln(height)
         return
 
@@ -479,7 +479,7 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["PROFILE COMPLETENESS"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["PROFILE COMPLETENESS"]["paragraph"])
-    constructor.add_image(ae.graph_profile_grade(df, directory), 3.75)
+    constructor.add_image(ae.graph_profile_grade(df, directory), 3.75, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["title"]])
     constructor.add_subtitle_text(TEXT["PROFILE COMPLETENESS"]["subtitle"])
 
     # Highest Lowest Profile Grades
@@ -494,7 +494,7 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["VIVERY CONTACT INFORMATION"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["VIVERY CONTACT INFORMATION"]["paragraph"])
-    constructor.add_image(ae.graph_missing_organization_contact_info(df, directory), 3.75)
+    constructor.add_image(ae.graph_missing_organization_contact_info(df, directory), 3.75, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX ORGANIZATION CONTACT INFORMATION"]["title"]])
 
     # Public Contact Information
     constructor.add_h1_text(TEXT["PUBLIC CONTACT INFORMATION"]["title"])
@@ -504,7 +504,7 @@ if __name__ == "__main__":
     constructor.add_vertical_space(0.075)
     constructor.add_h2_text(TEXT["PUBLIC CONTACT INFORMATION"]["subtitle"], padding=False)
     constructor.add_vertical_space(0.01)
-    constructor.add_two_images(ae.graph_missing_location_contact_info(df, directory), ae.graph_missing_program_contact_info(df, directory), 2.25)
+    constructor.add_two_images(ae.graph_missing_location_contact_info(df, directory), ae.graph_missing_program_contact_info(df, directory), 2.25, pagenumber_one=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["title"]], pagenumber_two=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["title"]])
 
     # Program Types
     constructor.add_page()
