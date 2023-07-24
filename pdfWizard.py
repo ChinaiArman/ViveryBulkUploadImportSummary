@@ -364,6 +364,46 @@ class pdfConstructor:
 
     def add_two_images(self, filepath_one: str, filepath_two: str, height: int, pagenumber_one: int=-2, pagenumber_two: int=-2) -> None:
         """
+        Adds two images side by side to the PDF document.
+
+        This method adds two images to the PDF document side by side using the provided file paths and height. It automatically
+        calculates the appropriate width to maintain the images' aspect ratios.
+
+        Args:
+            filepath_one (str): The file path to the first image that needs to be added to the PDF.
+            filepath_two (str): The file path to the second image that needs to be added to the PDF.
+            height (int): The desired height of the images in points (1/72 inch).
+            pagenumber_one (int, optional): The page number to link the first image to. Defaults to -2.
+            pagenumber_two (int, optional): The page number to link the second image to. Defaults to -2.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `PAGE_WIDTH` attribute represents the width of the PDF page.
+            - The `FPDF.get_y()` method returns the current Y position in the PDF document.
+            - The `height` argument must be a positive integer representing the desired image height in points.
+            - The `filepath_one` and `filepath_two` must be valid paths to existing image files.
+
+        Raises:
+            None
+
+        Returns:
+            None. The two images are added side by side to the PDF document with the specified height.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_two_images("resources/images/image1.png", "resources/images/image2.png", 200)
+            # Adds the images located at "resources/images/image1.png" and "resources/images/image2.png"
+            # side by side to the PDF document with a height of 200 points.
+
+        Additional Information:
+            - The method uses the Python Imaging Library (PIL) to get the real width and height of the images.
+            - It calculates the appropriate width to maintain the images' aspect ratios based on the provided height.
+            - If the `pagenumber_one` and/or `pagenumber_two` arguments are given, the method creates links for the images to the specified pages.
+            - The `add_link()` method of the `pdf` attribute is used to create the links.
+            - The images are then added to the PDF using the `image` method of the `pdf` attribute, and the links are attached.
+            - Finally, the `ln()` method of the `pdf` attribute is used to move the cursor to the next line after the images.
         """
         real_width, real_height = Image.open(filepath_one).size
         width = (real_width * height)/real_height
