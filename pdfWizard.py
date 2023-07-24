@@ -474,6 +474,44 @@ class pdfConstructor:
 
     def add_normal_text(self, text: str, alignment: str='L', pagenumber: int=-2) -> None:
         """
+        Adds normal text to the PDF document.
+
+        This method adds normal text to the PDF document using the provided text content and optional alignment.
+        The text is set in a specific font and size, and can be aligned to the left (default), right, center, or justified.
+
+        Args:
+            text (str): The text content to be added to the PDF.
+            alignment (str, optional): The alignment of the text. Possible values are 'L' for left (default),
+                                       'R' for right, 'C' for center, and 'J' for justified.
+            pagenumber (int, optional): The page number to link the text to (default is -2, no link).
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `FPDF.get_y()` method returns the current Y position in the PDF document.
+            - The `NORMAL_TEXT_SIZE` constant represents the font size for normal text.
+            - The `text` argument must be a non-empty string containing the content to be added.
+            - The `alignment` argument, if provided, must be one of the valid alignment values.
+
+        Raises:
+            None
+
+        Returns:
+            None. The normal text with the specified content and alignment is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_normal_text("This is a sample paragraph.")
+            # Adds normal text with the content "This is a sample paragraph." aligned to the left.
+
+        Additional Information:
+            - The method uses the `FPDF.get_y()` method to get the current Y position in the PDF document and adjust the positioning accordingly.
+            - The method sets the text color, font family, and size for the normal text using the `set_text_color()` and `set_font()` methods of the `pdf` attribute.
+            - The `multi_cell()` method of the `pdf` attribute is used to add the normal text with the provided content, size, and alignment.
+            - If the `pagenumber` argument is provided and greater than -2, a link is added to the text that jumps to the specified page number when clicked.
+            - The `markdown` parameter of the `multi_cell()` method is set to True to enable text formatting using Markdown syntax.
+            - After adding the text, the X position is reset to 1 to maintain the left margin for subsequent content.
         """
         # Define Page Linker
         if pagenumber > -2:
