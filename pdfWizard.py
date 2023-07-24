@@ -117,7 +117,6 @@ class pdfConstructor:
         self.pdf.add_font('Roobert Light', '', fname='resources\Roobert Font Suite\TTF\Roobert-Light.ttf')
         self.pdf.add_font('Roobert Regular', '', fname='resources\Roobert Font Suite\TTF\Roobert-Regular.ttf')
         self.pdf.add_font('Roobert Regular', 'B', fname='resources\Roobert Font Suite\TTF\Roobert-SemiBold.ttf')
-        self.pdf.add_font('Roobert Regular', 'I', fname='resources\Roobert Font Suite\TTF\Roobert-RegularItalic.ttf')
         self.pdf.add_font('Roobert Bold', '', fname='resources\Roobert Font Suite\TTF\Roobert-Bold.ttf')
         return
     
@@ -511,7 +510,7 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["PROGRAM TYPES"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["PROGRAM TYPES"]["paragraph one"])
-    constructor.add_image(ae.graph_program_type(df, directory), 3.25)
+    constructor.add_image(ae.graph_program_type(df, directory), 3.25, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM TYPE"]["title"]])
     constructor.add_horizontal_line()
     constructor.add_vertical_space(0.1)
     TEXT = ae.calculate_food_distribution_program_percent(df, TEXT, "PROGRAM TYPES", "paragraph two")
@@ -519,7 +518,7 @@ if __name__ == "__main__":
     constructor.add_vertical_space(0.075)
     constructor.add_h2_text(TEXT["PROGRAM TYPES"]["subtitle"], padding=False)
     constructor.add_vertical_space(0.01)
-    constructor.add_image(ae.graph_food_program_breakdown(df, directory), 3.25)
+    constructor.add_image(ae.graph_food_program_breakdown(df, directory), 3.25, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM TYPE"]["title"]])
 
     # Filter Fields
     constructor.add_page()
@@ -527,12 +526,12 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     TEXT = ae.calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
     constructor.add_normal_text(TEXT["PROGRAM FILTER FIELDS"]["paragraph"])
-    constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.75)
+    constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.75, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM AUDIENCE"]["title"]])
 
     # Recommended Filter Options
     constructor.add_h1_text(TEXT["RECOMMENDED FILTER OPTIONS"]["title"])
     constructor.add_horizontal_line()
-    constructor.add_normal_text(TEXT["RECOMMENDED FILTER OPTIONS"]["paragraph"])
+    constructor.add_normal_text(TEXT["RECOMMENDED FILTER OPTIONS"]["paragraph"], pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"]])
     constructor.add_vertical_space(0.1)
     constructor.add_table(ae.create_recommended_filters_slice)
 
@@ -541,12 +540,12 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["NETWORK HOURS OVERVIEW"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["NETWORK HOURS OVERVIEW"]["paragraph"])
-    constructor.add_image(ae.graph_network_hours_overview(df, directory), 3.25)
+    constructor.add_image(ae.graph_network_hours_overview(df, directory), 3.25, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
 
     # Network Hour Type Usage
     constructor.add_h1_text(TEXT["NETWORK HOUR TYPE USAGE"]["title"])
     constructor.add_horizontal_line()
-    constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["paragraph"])
+    constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["paragraph"], pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
     constructor.add_vertical_space(0.1)
     constructor.add_table(ae.create_hour_type_usage_table)
     constructor.add_horizontal_line()
@@ -560,15 +559,15 @@ if __name__ == "__main__":
     constructor.add_normal_text(TEXT["LOCATION HOURS PREVIEW"]["paragraph"])
     constructor.add_vertical_space(0.1)
     constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"])
-    constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.65)
-    constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.65)
+    constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
+    constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
 
     # Program Hours Preview
     constructor.add_page()
     constructor.add_h1_text(TEXT["PROGRAM HOURS PREVIEW"]["title"])
     constructor.add_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"])
-    constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.65)
-    constructor.add_image(ae.graph_sample_program_hours_next_month(df, directory), 3.65)
+    constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]])
+    constructor.add_image(ae.graph_sample_program_hours_next_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["PROGRAM HOURS PREVIEW"]["paragraph"])
 
@@ -577,18 +576,18 @@ if __name__ == "__main__":
     constructor.add_h1_text(TEXT["MISSING PROGRAM QUALIFICATIONS"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["MISSING PROGRAM QUALIFICATIONS"]["paragraph"])
-    constructor.add_image(ae.graph_program_qualifications(df, directory), 3.15)
+    constructor.add_image(ae.graph_program_qualifications(df, directory), 3.15, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM QUALIFICATIONS"]["title"]])
 
     # Missing Program Service Areas
     constructor.add_h1_text(TEXT["MISSING PROGRAM SERVICE AREA"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["MISSING PROGRAM SERVICE AREA"]["paragraph"])
-    constructor.add_image(ae.graph_program_service_areas(df, directory), 3.15)
+    constructor.add_image(ae.graph_program_service_areas(df, directory), 3.15, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM SERVICE AREAS"]["title"]])
 
     # Page Break
     constructor.add_page()
     constructor.add_vertical_space(4)
-    constructor.add_normal_text("Page Intentionally Left Blank", alignment='C')
+    constructor.add_normal_text("THIS PAGE INTENTIONALLY LEFT BLANK", alignment='C')
 
     # APPENDIX ORGANIZATION LIST
     constructor.add_page()
