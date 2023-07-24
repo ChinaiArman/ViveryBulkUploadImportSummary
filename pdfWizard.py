@@ -25,16 +25,16 @@ PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'   
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
-PAGE_WIDTH = 8.5                                                            #
-PAGE_HEIGHT = 11                                                            #
-H1_TEXT_SIZE = 20                                                           #
-H2_TEXT_SIZE = 14                                                           #
-NORMAL_TEXT_SIZE = 13                                                       #
-SUBTITLE_TEXT_SIZE = 10                                                     #
-TABLE_TEXT_SIZE = 10                                                        #
-APPENDIX_LINES_PER_PAGE = 25                                                #
-FIRST_APPENDIX_PAGE = 13                                                    #
-TABLE_CHAR_PER_CELL = {1: 100, 2: 50, 3: 28, 4: 20, 5: 12, 6: 10}           #
+PAGE_WIDTH = 8.5                                                            # The width of the page in inches.
+PAGE_HEIGHT = 11                                                            # The height of the page in inches.
+H1_TEXT_SIZE = 20                                                           # The header 1 font size.
+H2_TEXT_SIZE = 14                                                           # The header 2 font size.
+NORMAL_TEXT_SIZE = 13                                                       # The normal text font size.
+SUBTITLE_TEXT_SIZE = 10                                                     # The subtitle text font size.
+TABLE_TEXT_SIZE = 10                                                        # The table text font size.
+APPENDIX_LINES_PER_PAGE = 25                                                # The number of rows per page for appendix pages.
+FIRST_APPENDIX_PAGE = 13                                                    # The first page of the appendix
+TABLE_CHAR_PER_CELL = {1: 100, 2: 50, 3: 28, 4: 20, 5: 12, 6: 10}           # A dictionary used to map the number of characters per cell.
 
 # COLOURS
 
