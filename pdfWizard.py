@@ -852,6 +852,35 @@ class pdfConstructor:
 
     def add_vertical_space(self, height: int) -> None:
         """
+        Adds vertical space to the PDF document.
+
+        This method adds vertical space of the specified height to the PDF document. It can be used to create
+        gaps between elements in the PDF.
+
+        Args:
+            height (int): The height of the vertical space to add, measured in units (typically points).
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `height` argument must be a positive integer value representing the height of the vertical space.
+
+        Raises:
+            None
+
+        Returns:
+            None. Vertical space is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_vertical_space(10)
+            # Adds vertical space of 10 units to the PDF.
+
+        Additional Information:
+            - The method uses the `ln` function from the FPDF library to add vertical space.
+            - The `height` argument specifies the amount of vertical space to add.
+            - The height is typically measured in points, where 1 point is equal to 1/72 inch.
         """
         self.pdf.ln(height)
         return
