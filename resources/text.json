@@ -21,7 +21,7 @@
 
     "NETWORK OVERVIEW": {
         "title": "Network Overview",
-        "paragraph": "Setting the inactive or unapproved statuses means some locations or programs won't show up on the map, which means clients won't see them. **{}% of your Locations won't be visible** to neighbors searching for food. Click here to review these!",
+        "paragraph": "Setting the inactive or unapproved statuses means some locations or programs won't show up on the map, which means clients won't see them. {}. Click here to review these!",
         "columns": ["Level", "Active", "Inactive", "Total"],
         "rows": ["Organization", "Location", "Program"]
     },
@@ -64,7 +64,7 @@
         "program filename": "missing_program_contact_information_graph.png",
         "program xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
         "subtitle": ["Missing Location and Program Contact Information"],
-        "paragraph": "You have **{} locations and {} programs without public contact information, which could create challenges for new clients.** Public contact information includes a name, phone number, email, and website."
+        "paragraph": "{}. Public contact information includes a name, phone number, email, and website."
     },
 
     "PROGRAM TYPES": {
@@ -89,7 +89,7 @@
 
     "RECOMMENDED FILTER OPTIONS": {
         "title": "Recommended Filter Options",
-        "paragraph": "Below are some of the **most common Program Filters across the Vivery Network.** Consider adding these filters to your programs to increase their distinguishability. Click the table below to view the full range of filters.",
+        "paragraph": "Below are some of the **most common Program Filters across the Vivery Network.** Consider adding these filters to your programs to increase their distinguishability. Click here to view the full range of filters.",
         "columns": ["Audience", "L. Features", "P. Features", "Items", "Dietary"]
     },
 
@@ -130,7 +130,7 @@
 
     "MISSING PROGRAM QUALIFICATIONS": {
         "title": "Missing Program Qualifications",
-        "paragraph": "The graph below shows the usage of Program Qualifications in this Network. Program Qualifications help neighbors determine if they qualify for this program's services. To review the programs without qualifications, click the graph above.",
+        "paragraph": "The graph below shows the usage of Program Qualifications in this Network. Program Qualifications help neighbors determine if they qualify for this program's services. To review the programs without qualifications, click the graph below.",
         "xaxis": ["Qualifications Listed", "No Qualifications"],
         "xlabel": "",
         "ylabel": "Programs",

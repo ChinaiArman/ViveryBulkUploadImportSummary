@@ -2619,7 +2619,11 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: 
     """
     df = create_network_overview_table(df)
     percent_locations_inactive = round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 1)
-    text[section][field] = text[section][field].format(percent_locations_inactive)
+    if percent_locations_inactive == 0:
+        string = "Currently, all locations in this Network will be visible** to neighbors searching for food"
+    else:
+        string = "**" + str(percent_locations_inactive) + "% of your Locations will not be visible** to neighbors searching for food"
+    text[section][field] = text[section][field].format(string)
     return text
 
 
@@ -2678,7 +2682,15 @@ def calculate_locations_programs_without_contact(df: pd.DataFrame, text: dict, s
     program_df = create_program_contact_information_table(df)
     locations_without_contact = len(location_df.loc[(location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][4]].isna())])
     programs_without_contact = len(program_df.loc[(program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][2]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][3]].isna())])
-    text[section][field] = text[section][field].format(locations_without_contact, programs_without_contact)
+    if locations_without_contact == 0 and programs_without_contact == 0:
+        string = "**All locations and programs contain at least one piece of public contact information"
+    elif locations_without_contact == 0:
+        string = "**" + str(programs_without_contact) + " programs are without public contact information, which could create challenges for new clients**"
+    elif programs_without_contact == 0:
+        string = "**" + str(locations_without_contact) + " locations are without public contact information, which could create challenges for new clients**"
+    else:
+        string = "**" + str(locations_without_contact) + " locations and " + str(programs_without_contact) + " programs are without public contact information, which could create challenges for new clients**"
+    text[section][field] = text[section][field].format(string)
     return text
 
 
