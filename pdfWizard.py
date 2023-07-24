@@ -120,6 +120,35 @@ class pdfConstructor:
 
     def add_cover_page(self) -> None:
         """
+        Adds a cover page to the PDF document.
+
+        This method adds a background image, sets the date and title on the cover page of the PDF.
+
+        Args:
+            None
+
+        Preconditions:
+            - The method should be called after initializing the PDF document using the `pdfConstructor` class.
+            - The resources folder should contain the necessary `cover.png` image.
+
+        Raises:
+            None
+
+        Returns:
+            None. The cover page is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # The cover page is added to the PDF document.
+
+        Additional Information:
+            - The method sets the top, left, and right margins of the PDF to zero to position the background image.
+            - The method sets the date font and calculates the current date in the format `MM DD, YYYY`.
+            - The method sets the title font and retrieves the `network name` from the TEXT dictionary.
+            - The title and date are added using `multi_cell` method for multiline display.
+            - The top, left, and right margins are reset to their default values after adding the cover page.
+            - No value is returned.
         """
         # Add Background Image
         self.pdf.set_top_margin(0)
