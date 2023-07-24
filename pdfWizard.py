@@ -12,7 +12,7 @@ import datetime, calendar               # Datetime and Calendar, used to handle 
 from PIL import Image                   # Image, used to handle varius tasks with Image files like PNGs.
 
 # LOCAL FILE IMPORTS
-import analyticsEngine as ae            # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
+import analyticsEngine as ae            # AnalyticsEngine, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
 
 # IMPORT CONSTANTS
 TEXT_SAVE_NAME = "resources/text.json"                                                                          # Path to TEXT save file (JSON).
