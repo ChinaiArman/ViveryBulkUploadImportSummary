@@ -237,6 +237,37 @@ class pdfConstructor:
 
     def save_pdf(self) -> None:
         """
+        Saves the PDF document to the specified directory.
+
+        This method saves the PDF document to the directory specified during object initialization.
+        If the file already exists in the directory, it will be replaced.
+
+        Args:
+            None
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with all the content to be included in the PDF.
+            - The `filename` attribute must be set to a valid name for the PDF file.
+            - The `directory` attribute must be set to a valid path to an existing directory.
+
+        Raises:
+            None
+
+        Returns:
+            None. The PDF document is saved to the specified directory.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.save_pdf()
+            # The PDF document is saved to the specified directory.
+
+        Additional Information:
+            - The method uses the `output` method of the `pdf` attribute to save the PDF.
+            - It then attempts to move the saved PDF to the specified directory using `shutil.move`.
+            - If an `OSError` occurs during the move (e.g., the file already exists in the directory), it deletes the existing file and moves the new PDF again.
+            - No value is returned.
         """
         self.pdf.output(self.filename)
         try:
