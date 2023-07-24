@@ -358,7 +358,7 @@ class pdfConstructor:
             for row in list_of_lists[i*APPENDIX_LINES_PER_PAGE:(i+1)*APPENDIX_LINES_PER_PAGE]:
                 for datum in row:
                     if str(datum) == "nan":
-                        datum = "null"
+                        datum = ""
                     if len(str(datum)) > char_limit:
                         self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C')
                     else:
