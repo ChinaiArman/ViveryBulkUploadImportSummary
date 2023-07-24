@@ -1,7 +1,14 @@
 Program Audience,Location Features,Program Features,Items Offered,Dietary Options
-Seniors,Safe Space,Reservations,Dairy,Gluten Free
-Immigrants,Wi-Fi Available,Indoor Service,Eggs,Vegan
-Youth,Air Conditioning,Prepared Food,Meat,Vegetarian
-Veterans,Parking Available,Online Ordering,Diapers,Kosher
-LGBTQ+,Restrooms,Indoor Service,Sit Down Meals,Halal
-
+Older Adults / Seniors,Seating in Waiting Area,Grocery/Client Choice,Dairy,Gluten Free
+Teenagers / Young Adults,Wheelchair Accessible,Home Delivery Service,Eggs,Vegan
+Children / Youth,Restrooms Available,Pre-Packed Boxes/Bags,Meat,Vegetarian
+Veterans,Parking Available,Prepared Food,Fruits & Vegetables,Other
+LGBTQ+,Air Conditioning,Other,Shelf-Stable/Non-Perishable Goods,Halal
+Immigrants,Near Public Transportation,Curbside Pickup / Drive Through,Other,Kosher
+Unhoused,Wi-Fi Available,Pet Food/Supplies,Prepared Food / Grab and Go,Ground or Pureed
+Homebound,Safe Space,Online Ordering,Toiletries / Hygiene Products,
+Persons with Disabilities,,Lifting / Carrying Assistance,Pet Food / Supplies,
+People Managing Chronic Health Conditions,,Reservations,Diapers,
+Adults,,Transportation Assistance,Household Products,
+,,Indoor Service,Sit Down Meals,
+,,Outdoor Service,,

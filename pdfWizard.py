@@ -325,10 +325,7 @@ class pdfConstructor:
         # Create iterable data
         df_copy = self.df.copy()
         df_copy = function(df_copy)
-        if (len(list(df_copy.columns)) > 2):
-            df_copy = df_copy.dropna(thresh=len(list(df_copy.columns))-1)
-        else:
-            df_copy = df_copy.dropna()
+        df_copy = df_copy.dropna(thresh=2)
         list_of_lists = df_copy.values
 
         # Catch NaN Tables
