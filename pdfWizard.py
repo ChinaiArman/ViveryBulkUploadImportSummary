@@ -222,6 +222,37 @@ class pdfConstructor:
 
     def add_page(self) -> None:
         """
+        Adds a new page to the PDF document.
+
+        This method adds a new page to the PDF document. If there are already existing pages,
+        it also adds a footer to display the current page number.
+
+        Args:
+            None
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `page_no` attribute keeps track of the current page number.
+
+        Raises:
+            None
+
+        Returns:
+            None. A new page is added to the PDF document, and the footer with the current page number is displayed.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_page()
+            # A new page is added to the PDF document, and the footer with the current page number is displayed.
+
+        Additional Information:
+            - The method uses the `add_page` method of the `pdf` attribute to add a new page.
+            - It then checks if the current page number (`page_no`) is greater than 1 (indicating there are already existing pages).
+            - If there are existing pages, it sets the right margin to add a footer displaying the current page number.
+            - The method uses the `cell` method of the `pdf` attribute to create the footer and display the page number.
+            - Finally, the method resets the right margin and returns.
         """
         self.pdf.add_page()
         if self.pdf.page_no() > 1:
