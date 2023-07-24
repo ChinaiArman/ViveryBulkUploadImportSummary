@@ -694,6 +694,45 @@ class pdfConstructor:
 
     def add_appendix(self, function, title: str) -> None:
         """
+        Adds an appendix table to the PDF document.
+
+        This method generates an appendix table in the PDF document using the provided function.
+        The function is expected to return a Pandas DataFrame, and the table is created based on the data in this DataFrame.
+        The table includes a header row and data rows, and the cells are aligned, formatted, and colored accordingly.
+
+        Args:
+            function (function): The function that returns the Pandas DataFrame for creating the appendix table.
+            title (str): The title to be displayed above the appendix table.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `df` attribute must be a valid Pandas DataFrame containing data to display in the appendix table.
+            - The `APPENDIX_LINES_PER_PAGE` constant should be properly set to determine the number of rows per page.
+
+        Raises:
+            None
+
+        Returns:
+            None. The appendix table is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> def create_example_appendix(dataframe):
+            ...     return dataframe  # Some function to create a Pandas DataFrame for the appendix
+            >>> pdf.add_appendix(create_example_appendix, "Appendix Title")
+            # Generates an appendix table in the PDF based on the provided DataFrame returned by the function.
+
+        Additional Information:
+            - The method first creates an iterable data structure from the provided DataFrame returned by the function.
+            - If the DataFrame contains NaN values only, the method will display a message indicating "All values NaN" on a separate page.
+            - The number of columns in the DataFrame is calculated.
+            - For each group of rows based on `APPENDIX_LINES_PER_PAGE`, a new page is added to the PDF.
+            - The header row is added to each page with bold text and custom colors using the column names from the DataFrame.
+            - The data rows are added to each page with regular text and appropriate formatting based on the cell contents.
+            - If a cell value is too long, it will be truncated with an ellipsis (...) to fit within the specified character limit.
+            - The resulting appendix table is saved as a CSV file in the specified directory with a filename derived from the function name.
         """
         # Create iterable data
         df_copy = self.df.copy()
