@@ -3,19 +3,16 @@
 
 
 # PACKAGE IMPORTS
-from fpdf import FPDF               #
-import pandas as pd                 # Pandas, used to represent CSVs and large data sets as a DataFrame.
-import argparse, os, shutil         # Argparse, OS, and Shutil, used for File Manipulation and the Command Line Interface
-import json                         # JSON, used to parse JSON files and convert to Dictionary data types.
-from datetime import date           #
-from PIL import Image
-import calendar
-import glob
-import os
-import math
+from fpdf import FPDF                   # FPDF, a class containing methods used to create PDFs.
+import pandas as pd                     # Pandas, used to represent CSVs and large data sets as a DataFrame.
+import argparse, os, glob, shutil       # Argparse, OS, Glob, and Shutil, used for File Manipulation and the Command Line Interface
+import json                             # JSON, used to parse JSON files and convert to Dictionary data types.
+import math                             # Math, used for basic mathematical operations.
+import datetime, calendar               # Datetime and Calendar, used to handle date related tasks and allows python to have access to real world calendar data.
+from PIL import Image                   # Image, used to handle varius tasks with Image files like PNGs.
 
 # LOCAL FILE IMPORTS
-import analyticsEngine as ae        # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
+import analyticsEngine as ae            # AnalyticsWizard, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
 
 # IMPORT CONSTANTS
 TEXT_SAVE_NAME = "resources/text.json"                                                                          # Path to TEXT save file (JSON).
@@ -137,7 +134,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Light', '', 16)
 
         # Calculate Date
-        current_date = date.today().strftime("%m/%d/%Y")
+        current_date = datetime.date.today().strftime("%m/%d/%Y")
         month = calendar.month_name[int(current_date[0:2])] + " "
         current_date = current_date[3:].replace('/', ', ')
         current_date = month + current_date
