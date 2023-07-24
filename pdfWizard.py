@@ -786,6 +786,43 @@ class pdfConstructor:
 
     def add_h2_text(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
         """
+        Adds an H2 level header to the PDF document.
+
+        This method adds an H2 level header row to the PDF document. The header row is displayed with bold text
+        and custom colors using the provided list of header elements. The header row can be linked to a specific
+        page in the document if a valid page number is provided.
+
+        Args:
+            header_row (list): A list of strings representing the elements of the header row.
+            pagenumber (int, optional): The page number to link the header row to. Defaults to -2, indicating no link.
+            padding (bool, optional): If True, adds vertical padding after the header row. Defaults to True.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `df` attribute must be a valid Pandas DataFrame containing data to display in the header row.
+            - The `H2_TEXT_SIZE` constant should be properly set to define the font size for the H2 headers.
+
+        Raises:
+            None
+
+        Returns:
+            None. The H2 level header row is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> header_row = ["Column 1", "Column 2", "Column 3"]
+            >>> pdf.add_h2_text(header_row)
+            # Generates an H2 level header row in the PDF using the provided header_row list.
+
+        Additional Information:
+            - The method first defines the number of columns based on the length of the provided header_row list.
+            - If a valid page number is provided, the header row is linked to the specified page.
+            - The method sets the font, colors, and alignment for the header row.
+            - If the header_row list contains only one element, the method uses the `multi_cell` function to display the header centered.
+            - Otherwise, the method uses the "cell" function to display each element of the header row in separate cells.
+            - If `padding` is True, vertical padding is added after the header row.
         """
         # Define number of columns
         columns = len(header_row)
@@ -810,6 +847,7 @@ class pdfConstructor:
         if padding:
             self.pdf.ln(self.pdf.font_size + 0.2)
         self.pdf.set_x(1)
+        return
 
 
     def add_vertical_space(self, height: int) -> None:
