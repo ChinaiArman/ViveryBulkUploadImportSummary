@@ -619,6 +619,41 @@ class pdfConstructor:
 
     def add_table(self, function) -> None:
         """
+        Adds a table to the PDF document.
+
+        This method generates a table in the PDF document using the provided function.
+        The function is expected to return a Pandas DataFrame, and the table is created based on the data in this DataFrame.
+        The table includes a header row and data rows, and the cells are aligned, formatted, and colored accordingly.
+
+        Args:
+            function (function): The function that returns the Pandas DataFrame for creating the table.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `df` attribute must be a valid Pandas DataFrame containing data to display in the table.
+
+        Raises:
+            None
+
+        Returns:
+            None. The table is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> def create_example_table(dataframe):
+            ...     return dataframe  # Some function to create a Pandas DataFrame
+            >>> pdf.add_table(create_example_table)
+            # Generates a table in the PDF based on the provided DataFrame returned by the function.
+
+        Additional Information:
+            - The method first creates an iterable data structure from the provided DataFrame returned by the function.
+            - The number of columns in the DataFrame is calculated.
+            - The header row is added to the table with bold text and custom colors using the column names from the DataFrame.
+            - The data rows are added to the table with regular text and appropriate formatting based on the cell contents.
+            - If a cell value is too long, it will be truncated with an ellipsis (...) to fit within the specified character limit.
+            - The resulting table is saved as a CSV file in the specified directory with a filename derived from the function name.
         """
         # Create iterable data
         df_copy = self.df.copy()
