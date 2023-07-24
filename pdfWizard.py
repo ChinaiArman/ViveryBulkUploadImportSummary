@@ -581,6 +581,34 @@ class pdfConstructor:
 
     def add_horizontal_line(self) -> None:
         """
+        Adds a horizontal line to the PDF document.
+
+        This method adds a horizontal line to the PDF document, extending across the full width of the page.
+        The line is drawn with a specific color and width.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `FPDF.get_y()` method returns the current Y position in the PDF document.
+
+        Raises:
+            None
+
+        Returns:
+            None. The horizontal line is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_horizontal_line()
+            # Adds a horizontal line to the PDF, extending across the full width of the page.
+
+        Additional Information:
+            - The method uses the `FPDF.get_y()` method to get the current Y position in the PDF document.
+            - The `set_draw_color()` method of the `pdf` attribute is used to set the color of the line.
+            - The `set_line_width()` method of the `pdf` attribute is used to set the width of the line.
+            - The `line()` method of the `pdf` attribute is used to draw the horizontal line across the page.
+            - After adding the horizontal line, the current Y position is adjusted to create spacing for subsequent content.
         """
         self.pdf.ln(0.05)
         self.pdf.set_draw_color(0, 72, 61)
