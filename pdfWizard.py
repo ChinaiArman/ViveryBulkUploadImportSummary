@@ -311,6 +311,43 @@ class pdfConstructor:
 
     def add_image(self, filepath: str, height: int, pagenumber: int=-2) -> None:
         """
+        Adds an image to the PDF document.
+
+        This method adds an image to the PDF document using the provided file path and height. It automatically calculates
+        the appropriate width to maintain the image's aspect ratio.
+
+        Args:
+            filepath (str): The file path to the image that needs to be added to the PDF.
+            height (int): The desired height of the image in points (1/72 inch).
+            pagenumber (int, optional): The page number to link the image to. Defaults to -2.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `PAGE_WIDTH` attribute represents the width of the PDF page.
+            - The `FPDF.get_y()` method returns the current Y position in the PDF document.
+            - The `height` argument must be a positive integer representing the desired image height in points.
+            - The `filepath` must be a valid path to an existing image file.
+
+        Raises:
+            None
+
+        Returns:
+            None. The image is added to the PDF document with the specified height.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_image("resources/images/image.png", 200)
+            # Adds the image located at "resources/images/image.png" to the PDF document with a height of 200 points.
+
+        Additional Information:
+            - The method uses the Python Imaging Library (PIL) to get the real width and height of the image.
+            - It calculates the appropriate width to maintain the image's aspect ratio based on the provided height.
+            - If the `pagenumber` argument is given, the method creates a link for the image to the specified page.
+            - The `add_link()` method of the `pdf` attribute is used to create the link.
+            - The image is then added to the PDF using the `image` method of the `pdf` attribute, and the link is attached.
+            - Finally, the `ln()` method of the `pdf` attribute is used to move the cursor to the next line after the image.
         """
         real_width, real_height = Image.open(filepath).size
         width = (real_width * height)/real_height
