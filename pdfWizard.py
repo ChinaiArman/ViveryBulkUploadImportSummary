@@ -48,9 +48,125 @@ TABLE_CHAR_PER_CELL = {1: 100, 2: 50, 3: 28, 4: 20, 5: 12, 6: 10}           # A 
 # PDFCONSTRUCTOR CLASS
 class pdfConstructor:
     """
+    Class for constructing a PDF document.
+
+    This class is responsible for creating a PDF document using provided data and formatting rules.
+    It uses various functions and styles to generate the content and structure of the PDF document.
+
+    Attributes:
+        df (pd.DataFrame): The Pandas DataFrame containing the data to be used in the PDF.
+        directory (str): The directory where the PDF will be saved.
+        filename (str): The filename for the PDF.
+        network_name (str): The name of the network associated with the PDF.
+        appendix_page_numbers (dict): A dictionary to store page numbers for appendix sections.
+
+    Methods:
+        __init__(self, new_df: pd.DataFrame, new_directory: str, new_filename: str, new_network_name: str) -> None:
+            Initializes the pdfConstructor class.
+
+        add_cover_page(self) -> None:
+            Adds the cover page to the PDF document.
+
+        add_back_cover(self) -> None:
+            Adds the back cover page to the PDF document.
+
+        save_pdf(self) -> None:
+            Saves the generated PDF document to the specified directory.
+
+        add_page(self) -> None:
+            Adds a new page to the PDF document.
+
+        add_image(self, filepath: str, height: int, pagenumber: int=-2) -> None:
+            Adds an image to the PDF document.
+
+        add_two_images(self, filepath_one: str, filepath_two: str, height: int, pagenumber_one: int=-2, pagenumber_two: int=-2) -> None:
+            Adds two images side by side to the PDF document.
+
+        add_h1_text(self, text: str) -> None:
+            Adds heading level 1 (H1) text to the PDF document.
+
+        add_normal_text(self, text: str, alignment: str='L', pagenumber: int=-2) -> None:
+            Adds normal text to the PDF document.
+
+        add_subtitle_text(self, text: str, pagenumber: int=-2) -> None:
+            Adds subtitle text to the PDF document.
+
+        add_horizontal_line(self) -> None:
+            Adds a horizontal line to the PDF document.
+
+        add_table(self, function) -> None:
+            Adds a table to the PDF document using the specified function to process the DataFrame.
+
+        add_appendix(self, function, title: str) -> None:
+            Adds an appendix section to the PDF document using the specified function to process the DataFrame.
+
+        add_h2_text(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
+            Adds heading level 2 (H2) text to the PDF document.
+
+        add_vertical_space(self, height: int) -> None:
+            Adds vertical space to the PDF document.
+
+    Preconditions:
+        - The `new_df` must be a valid Pandas DataFrame containing the data to be used in the PDF.
+        - The `new_directory` must be a valid path to an existing directory where the PDF will be saved.
+        - The `new_filename` must be a non-empty string representing the filename for the PDF.
+        - The `new_network_name` must be a non-empty string representing the name of the network associated with the PDF.
+
+    Raises:
+        None
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     'Organization': ['OrgA', 'OrgB', 'OrgC'],
+        ...     'Location': ['LocA', 'LocB', 'LocC'],
+        ...     'Program': ['Program1', 'Program2', 'Program3'],
+        ...     # Other columns...
+        ... })
+        >>> pdf = pdfConstructor(data, "pdf_output", "example_report.pdf", "Sample Network")
+        # Initializes the pdfConstructor object with the provided DataFrame and filenames.
+
+    Additional Information:
+        - The `appendix_page_numbers` attribute is used to store the page numbers for different appendix sections.
+        - The class uses various functions to create different sections and elements in the PDF document.
+        - It also defines font families and styles for text used in the PDF.
+        - The class is designed to facilitate the creation of a structured and organized PDF report based on the provided data.
     """
     def __init__(self, new_df: pd.DataFrame(), new_directory: str,new_filename: str,new_network_name: str) -> None:
         """
+        Initializes the pdfConstructor class.
+
+        Args:
+            new_df (pd.DataFrame): The Pandas DataFrame containing the data to be used in the PDF.
+            new_directory (str): The directory where the PDF will be saved.
+            new_filename (str): The filename for the PDF.
+            new_network_name (str): The name of the network associated with the PDF.
+
+        Preconditions:
+            - The `new_df` must be a valid Pandas DataFrame containing the data to be used in the PDF.
+            - The `new_directory` must be a valid path to an existing directory where the PDF will be saved.
+            - The `new_filename` must be a non-empty string representing the filename for the PDF.
+            - The `new_network_name` must be a non-empty string representing the name of the network associated with the PDF.
+
+        Raises:
+            None
+
+        Returns:
+            None. Initializes the pdfConstructor class with the provided data and settings.
+
+        Example:
+            >>> data = pd.DataFrame({
+            ...     'Organization': ['OrgA', 'OrgB', 'OrgC'],
+            ...     'Location': ['LocA', 'LocB', 'LocC'],
+            ...     'Program': ['Program1', 'Program2', 'Program3'],
+            ...     # Other columns...
+            ... })
+            >>> pdf = pdfConstructor(data, "pdf_output", "example_report.pdf", "Sample Network")
+            # Initializes the pdfConstructor object with the provided DataFrame and filenames.
+
+        Additional Information:
+            - The method initializes various attributes of the pdfConstructor class, such as `df`, `directory`, `filename`, `network_name`.
+            - It calculates the page numbers for appendix sections based on the provided DataFrame and predefined values.
+            - The method also sets up the PDF object and adds font families to be used in the PDF.
         """
         # Initialize class variables
         self.df = new_df
