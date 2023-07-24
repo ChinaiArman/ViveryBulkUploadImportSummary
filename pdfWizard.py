@@ -185,9 +185,37 @@ class pdfConstructor:
 
     def add_back_cover(self) -> None:
         """
+        Adds a back cover page to the PDF document.
+
+        This method adds a vertical space and a back cover image to the PDF document.
+
+        Args:
+            None
+
+        Preconditions:
+            - The method should be called after adding all the content to the PDF.
+            - The resources folder should contain the necessary `back_cover.png` image.
+
+        Raises:
+            None
+
+        Returns:
+            None. The back cover page is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_back_cover()
+            # The back cover page is added to the PDF document.
+
+        Additional Information:
+            - The method calls the `add_vertical_space` method to create vertical spacing on the page.
+            - The method adds the back cover image using the `add_image` method.
+            - No value is returned.
         """
         # Set Vertical Height
         self.add_vertical_space(3.5)
+
+        # Add back cover image
         self.add_image("resources\images\\back_cover.png", 2)
         return
 
