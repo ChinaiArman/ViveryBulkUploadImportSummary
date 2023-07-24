@@ -427,6 +427,40 @@ class pdfConstructor:
 
     def add_h1_text(self, text: str) -> None:
         """
+        Adds an H1 heading to the PDF document.
+
+        This method adds an H1 heading to the PDF document using the provided text. The H1 heading is centered,
+        colored with custom color (0, 72, 61), and set in a specific font and size.
+
+        Args:
+            text (str): The text content of the H1 heading to be added.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `FPDF.get_y()` method returns the current Y position in the PDF document.
+            - The `H1_TEXT_SIZE` constant represents the font size for the H1 heading.
+            - The `text` argument must be a non-empty string containing the content of the H1 heading.
+
+        Raises:
+            None
+
+        Returns:
+            None. The H1 heading with the specified text is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_h1_text("Introduction")
+            # Adds an H1 heading with the text "Introduction" to the PDF document.
+
+        Additional Information:
+            - The method uses the `FPDF.get_y()` method to get the current Y position in the PDF document and adjust the positioning accordingly.
+            - If the current Y position is greater than 1, a line break of 0.5 is added before the H1 heading to create space.
+            - The `set_text_color()` method of the `pdf` attribute is used to set the color of the H1 heading.
+            - The `set_font()` method of the `pdf` attribute is used to set the font family and size for the H1 heading.
+            - The `cell()` method of the `pdf` attribute is used to add the H1 heading with the provided text, centered horizontally.
+            - After adding the H1 heading, a line break of 0.3 is added to create space between the heading and subsequent content.
         """
         self.pdf.set_y(FPDF.get_y(self.pdf))
         if FPDF.get_y(self.pdf) > 1:
