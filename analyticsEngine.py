@@ -12,7 +12,7 @@ The output is stored in a dedicated folder created by the scripts.
 ---> OPERATIONAL INSTRUCTIONS <---
 
 Package Imports:
-    * Pandas                            * Graph Objects (Plotly)                * ArgParse                          * PIL (Image)
+    * Pandas                            * Graph Objects (Plotly)                * ArgParse                          * PIL (Image)                      * Glob
     * NumPy                             * JSON                                  * OS                                * DateTime
     * PyPlot (MatPlotLib)               * Math                                  * Shutil                            * Calendar
 
