@@ -1,4 +1,82 @@
 """
+pdfWizard.
+
+@author Arman Chinai
+@version 1.1.0
+
+The file contains the pdfConstructor class.
+The pdfConstructor class contains a set of methods used to create PDFs from scratch. These methods make use of the Analytics Engine API functions.
+The file outputs an Analytical PDF Report (PDF), including all of the assets used (PNGs, CSVs).
+The output is stored in a dedicated folder created by the scripts.
+
+---> OPERATIONAL INSTRUCTIONS <---
+
+Package Imports:
+    * Pandas                            * ArgParse                              * Shutil                            * Calendar
+    * fpdf (FPDF)                       * JSON                                  * OS                                * DateTime
+    * Math                              * PIL (Image)                           * Glob
+
+API Keys: (stored in keys.py)
+    * MapBoxAPI Secret Key: https://docs.mapbox.com/help/getting-started/access-tokens/
+    * MapBoxAPI Public Key: https://docs.mapbox.com/help/getting-started/access-tokens/
+
+Fonts:
+    * Roobert Font Suite (found in Resources)
+
+Instructions:
+    1) Package Imports:
+        a) Create a new terminal
+        b) Run `pip install -r requirements.txt`
+        c) Run `pip install git+https://github.com/PyFPDF/fpdf2.git@master`
+    2) API Keys:
+        a) Visit `https://docs.mapbox.com/help/getting-started/access-tokens/`
+        b) Complete steps to acquire API Keys
+        c) Create a file `keys.py`
+        d) Define two variables (SK, PK) and assign the appropriate key values
+    3) Fonts (Windows OS):
+        a) From root directory: `'resources' > 'Roobert Font Suite' > 'TTF'`
+        b) Open all TTF files and click `Install`
+        c) From the Windows folder: `Fonts`
+        d) Clear MatPlotLib font cache by deleting the cache file (fontlist.json, likely stored in `Users/{user}/.matplotlib`)
+    4) Add a bulk upload file to the working directory
+    5) Run the following command: `python pdfWizard.py "{path to file from root directory}", "{name of network}"`
+    -----
+    6) POTENTIAL FONT ERROR: `findfont: Font family `Roobert Medium` not found`.
+        a) Navigate to the MatPlotLib font cache file (fontlist.json, likely stored in `Users/{user}/.matplotlib`)
+        b) Open the file in an IDE (VSCode)
+        c) Use `ctrl + F` and search `Roobert`
+        d) For each value of `Roobert` under the `name` key, change the name to match the specific font (found at the end of the string under the `fname` key)
+            - Example:
+                BEFORE:
+                    {
+                    "fname": "C:\\Users\\arman\\AppData\\Local\\Microsoft\\Windows\\Fonts\\Roobert-Medium.ttf",
+                    "name": "Roobert",
+                    "style": "normal",
+                    "variant": "normal",
+                    "weight": 500,
+                    "stretch": "normal",
+                    "size": "scalable",
+                    "__class__": "FontEntry"
+                    },
+                AFTER:
+                    {
+                    "fname": "C:\\Users\\arman\\AppData\\Local\\Microsoft\\Windows\\Fonts\\Roobert-Medium.ttf",
+                    "name": "Roobert Medium",
+                    "style": "normal",
+                    "variant": "normal",
+                    "weight": 500,
+                    "stretch": "normal",
+                    "size": "scalable",
+                    "__class__": "FontEntry"
+                    },
+
+Desired Output:
+    * A folder will be created with the name `data_{bulk upload file name}`, containing the directories `csvs`, `images`, and `resources`, as well as the bulk upload file and the generated report.
+    * Within `csvs`, a copy of all dataframes generated will be stored in CSV format.
+    * Within `images`, a copy of all graphs generated will be stored in PNG format.
+    * Within `resources`, a copy of all generation data will be stored in CSV/JSON format.
+
+Still have questions? Send an email to `arman@vivery.org` with the subject line `pdfWizard - {question}`. 
 """
 
 
