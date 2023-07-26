@@ -49,7 +49,7 @@
         "xlabel": "Missing Organization Contact Fields",
         "ylabel": "Organizations",
         "filename": "missing_organization_contact_information_graph.png",
-        "xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
+        "xaxis": ["Not Contactable", "Name", "Email", "Phone", "Fully Engaged"],
         "paragraph": "Vivery needs organization contact information to allow Organizations to claim their profiles. This isn't public information, but **pantry administrators won't be able to control their online presence** without it."
     },
 
@@ -58,11 +58,11 @@
         "location xlabel": "Missing Locations Contact Fields",
         "location ylabel": "Locations",
         "location filename": "missing_location_contact_information_graph.png",
-        "location xaxis": ["Not Contactable", "Name", "Phone", "Email", "Website", "Fully Engaged"],
+        "location xaxis": ["Not Contactable", "Name", "Email", "Phone", "Website", "Fully Engaged"],
         "program xlabel": "Missing Program Contact Fields",
         "program ylabel": "Programs",
         "program filename": "missing_program_contact_information_graph.png",
-        "program xaxis": ["Not Contactable", "Name", "Phone", "Email", "Fully Engaged"],
+        "program xaxis": ["Not Contactable", "Name", "Email", "Phone", "Fully Engaged"],
         "subtitle": ["Missing Location and Program Contact Information"],
         "paragraph": "{}. Public contact information includes a name, phone number, email, and website."
     },
