@@ -245,7 +245,6 @@ def map_scope(value: int) -> None:
     for range_end, scope in MAP_SCOPE_KEY.items():
         if range_end >= value:
             return scope
-    print('one')
     return 0
 
 
