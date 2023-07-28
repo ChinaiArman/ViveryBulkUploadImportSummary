@@ -377,6 +377,113 @@ class pdfConstructor:
         return
 
 
+    def add_table_of_contents(self) -> None:
+        """
+        Adds the table of contents to the PDF document. The table of contents provides links to different sections and pages of the generated PDF for easy navigation.
+
+        Args:
+            None
+
+        Precondition:
+            - The PDF document must have already been initialized using the pdfConstructor class.
+
+        Raises:
+            None
+
+        Returns:
+            None
+
+        Example:
+            >>> pdf = pdfConstructor(data, "pdf_output", "example_report.pdf", "Sample Network")
+            >>> pdf.add_table_of_contents()
+            # Adds the table of contents page to the PDF document.
+
+        Additional Information:
+            - The method sets up the appropriate font styles and formats for the table of contents page.
+            - It also adds page links using the `pdf.add_link()` method for quick navigation to specific pages.
+            - The table of contents includes section numbers, section titles, and page numbers with links.
+        """
+        # Add Background Image
+        self.pdf.set_top_margin(0)
+        self.pdf.set_auto_page_break(0)
+        self.pdf.set_left_margin(0)
+        self.pdf.set_right_margin(0)
+        self.pdf.image("resources\images\\table_of_contents.png", 0, 0, PAGE_WIDTH, PAGE_HEIGHT)
+
+        # Add Header
+        self.pdf.set_xy(0.3, 1)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Bold', '', H1_TEXT_SIZE)
+        self.pdf.cell(0, 0, "Table of Contents", align='L')
+
+        # Reset Font
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Pagelinks
+        page_two = self.pdf.add_link()
+        self.pdf.set_link(page_two, page=3)
+        page_three = self.pdf.add_link()
+        self.pdf.set_link(page_three, page=3)
+        page_four = self.pdf.add_link()
+        self.pdf.set_link(page_four, page=4)
+        page_five = self.pdf.add_link()
+        self.pdf.set_link(page_five, page=5)
+        page_six = self.pdf.add_link()
+        self.pdf.set_link(page_six, page=6)
+        page_eight = self.pdf.add_link()
+        self.pdf.set_link(page_eight, page=8)
+        page_eleven = self.pdf.add_link()
+        self.pdf.set_link(page_eleven, page=11)
+        page_thirteen = self.pdf.add_link()
+        self.pdf.set_link(page_thirteen, page=13)
+
+        # Add Sections
+        self.pdf.set_xy(2.25, 2)
+        self.pdf.cell(0, 0, "2", align='L', link=page_two)
+        self.pdf.cell(0, 0, "Table of Contents          ", align='R', link=page_two)
+        self.pdf.set_xy(2.25, 2.75)
+        self.pdf.cell(0, 0, "3", align='L', link=page_three)
+        self.pdf.cell(0, 0, "Location Map          ", align='R', link=page_three)
+        self.pdf.set_xy(2.25, 3.5)
+        self.pdf.cell(0, 0, "3", align='L', link=page_three)
+        self.pdf.cell(0, 0, "Network Overview          ", align='R', link=page_three)
+        self.pdf.set_xy(2.25, 4.25)
+        self.pdf.cell(0, 0, "4", align='L', link=page_four)
+        self.pdf.cell(0, 0, "Profile Completeness          ", align='R', link=page_four)
+        self.pdf.set_xy(2.25, 5)
+        self.pdf.cell(0, 0, "5", align='L', link=page_five)
+        self.pdf.cell(0, 0, "Contact Information          ", align='R', link=page_five)
+        self.pdf.set_xy(2.25, 5.75)
+        self.pdf.cell(0, 0, "6", align='L', link=page_six)
+        self.pdf.cell(0, 0, "Program Types and Filters          ", align='R', link=page_six)
+        self.pdf.set_xy(2.25, 6.5)
+        self.pdf.cell(0, 0, "8", align='L', link=page_eight)
+        self.pdf.cell(0, 0, "Network Hours Overview          ", align='R', link=page_eight)
+        self.pdf.set_xy(2.25, 7.25)
+        self.pdf.cell(0, 0, "11", align='L', link=page_eleven)
+        self.pdf.cell(0, 0, "Qualifications and Service Area          ", align='R', link=page_eleven)
+        self.pdf.set_xy(2.25, 8)
+        self.pdf.cell(0, 0, "13", align='L', link=page_thirteen)
+        self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_thirteen)
+
+        # Add Page Number
+        self.pdf.set_right_margin(0.5)
+        self.pdf.set_y(PAGE_HEIGHT - 0.5)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light', '', 10)
+        self.pdf.cell(0, 0, '%s' % self.pdf.page_no(), align='R')
+        self.pdf.set_y(1)
+        self.pdf.set_right_margin(1)
+
+        # Reset Margins
+        self.pdf.set_top_margin(1)
+        self.pdf.set_auto_page_break(1)
+        self.pdf.set_left_margin(1)
+        self.pdf.set_right_margin(1)
+        return
+
+
     def add_back_cover(self) -> None:
         """
         Adds a back cover page to the PDF document.
@@ -1127,7 +1234,7 @@ if __name__ == "__main__":
 
     # Table of Contents
     constructor.add_page()
-    constructor.add_h1_text(TEXT["TABLE OF CONTENTS"]["title"])
+    constructor.add_table_of_contents()
 
     # Location Map
     constructor.add_page()
