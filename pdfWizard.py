@@ -422,7 +422,7 @@ class pdfConstructor:
 
         # Pagelinks
         page_two = self.pdf.add_link()
-        self.pdf.set_link(page_two, page=3)
+        self.pdf.set_link(page_two, page=2)
         page_three = self.pdf.add_link()
         self.pdf.set_link(page_three, page=3)
         page_four = self.pdf.add_link()
