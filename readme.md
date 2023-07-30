@@ -1,23 +1,8 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<!-- LINK TO TOP -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
 
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -40,10 +25,12 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#usage">Usage</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#usage">Update History</a></li>
+    <li><a href="#update-procedure">Update Procedure</a></li>
+    <li><a href="#update-history">Update History</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -70,25 +57,60 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci
 
 ### Installation
 
-1. Clone the repo
+1. Clone this repository
    ```sh
    git clone https://github.com/ChinaiArman/ViveryDataAnalysis.git
    ```
-2. Install NPM packages
+2. Install packages
    ```sh
-   npm install
+   pip install -r requirements.txt
+   pip install git+https://github.com/PyFPDF/fpdf2.git@master
    ```
-3. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+3. Obtain API Keys
+    1. Visit [MapBoxAPI](https://docs.mapbox.com/help/getting-started/access-tokens/) and follow the instructions to claim both a **Public** and **Secret** API Key.
+    2. Create a file within the repository called `keys.py`.
+    3. Define two variables, `SK` (for the Secret Key), and `PK` (for the Public Key), and assign their appropriate values.
+        ```python
+        PK = {public key}
+        SK = {secret key}
+        ```
+4. Install Font Family (Windows OS Instructions)
+    1. From root directory: `'resources' > 'Roobert Font Suite' > 'TTF'`
+    2. Open all TTF files and click **Install**
+    3. Navigate from the Windows Operating System folder: `Fonts`
+    4. Clear MatPlotLib font cache by deleting the cache file (`fontlist.json`, likely stored in `Users/{user}/.matplotlib`)
+
+### Usage
+5. Add a bulk upload file to the working directory
+6. To run the Analytics Engine API File:
+    ```sh
+    python analyticsEngine.py "{path to file from root directory}"
+    ```
+    - Desired Output:
+      * A folder will be created with the name `data_{bulk upload file name}`, containing the directories `csvs`, `images`, and `resources`, as well as the bulk upload file.
+      * Within `csvs`, a copy of all dataframes generated will be stored in CSV format.
+      * Within `images`, a copy of all graphs generated will be stored in PNG format.
+      * Within `resources`, a copy of all generation data will be stored in CSV/JSON format.
+7. To run the pdfWizard File:
+    ```sh
+    python pdfWizard.py "{path to file from root directory}", "{name of network}"
+    ```
+    - Desired Output:
+      * A folder will be created with the name `data_{bulk upload file name}`, containing the directories `csvs`, `images`, and `resources`, as well as the bulk upload file and the **generated report.**
+      * Within `csvs`, a copy of all dataframes generated will be stored in CSV format.
+      * Within `images`, a copy of all graphs generated will be stored in PNG format.
+      * Within `resources`, a copy of all generation data will be stored in CSV/JSON format.
+
+### Common Bug Fixes
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Update Procedure
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci, dignissim sit amet vestibulum a, congue sit amet metus. Sed rhoncus a ante in rutrum. Nam sollicitudin bibendum quam. Cras luctus libero quis aliquet suscipit. Sed in ligula tincidunt, tincidunt tortor ac, placerat ligula. Mauris lacinia consectetur ipsum, non interdum ex bibendum in. Curabitur viverra, dolor eget rutrum consequat, dui metus tincidunt massa, sit amet interdum lacus eros sed lectus.
 
