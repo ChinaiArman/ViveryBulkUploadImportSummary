@@ -53,7 +53,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci, dignissim sit amet vestibulum a, congue sit amet metus. Sed rhoncus a ante in rutrum. Nam sollicitudin bibendum quam. Cras luctus libero quis aliquet suscipit. Sed in ligula tincidunt, tincidunt tortor ac, placerat ligula. Mauris lacinia consectetur ipsum, non interdum ex bibendum in. Curabitur viverra, dolor eget rutrum consequat, dui metus tincidunt massa, sit amet interdum lacus eros sed lectus.
+Below are a set of instructions that will walk you through setting up this repository. The instructions are written for the **Windows Operating system**, but should be near identical for the Mac OS. The only prerequisites are to **have Python installed on your machine and a bulk upload file to analyze.** 
 
 ### Installation
 
@@ -114,7 +114,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci
           ```json
           {
             "fname": "C:\\Users\\arman\\AppData\\Local\\Microsoft\\Windows\\Fonts\\Roobert-Medium.ttf",
-            "name": "Roobert Medium",
+            "name": "Roobert",
             "style": "normal",
             "variant": "normal",
             "weight": 500,
