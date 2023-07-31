@@ -29,7 +29,6 @@
         <li><a href="#usage">Usage</a></li>
       </ul>
     </li>
-    <li><a href="#update-procedure">Update Procedure</a></li>
     <li><a href="#update-history">Update History</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -142,20 +141,12 @@ Below are a set of instructions that will walk you through setting up this repos
 
 
 
-<!-- USAGE EXAMPLES -->
-## Update Procedure
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci, dignissim sit amet vestibulum a, congue sit amet metus. Sed rhoncus a ante in rutrum. Nam sollicitudin bibendum quam. Cras luctus libero quis aliquet suscipit. Sed in ligula tincidunt, tincidunt tortor ac, placerat ligula. Mauris lacinia consectetur ipsum, non interdum ex bibendum in. Curabitur viverra, dolor eget rutrum consequat, dui metus tincidunt massa, sit amet interdum lacus eros sed lectus.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- UPDATE HISTORY -->
 ## Update History
 
 - ``July 1, 2023 --> Begin initial development``
 - ``July 27, 2023 --> Release version 1.1.0``
+- ``August 1, 2023 --> First report published (Baton Rouge)``
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -164,7 +155,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci
 <!-- CONTACT -->
 ## Contact
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci, dignissim sit amet vestibulum a, congue sit amet metus. Sed rhoncus a ante in rutrum. Nam sollicitudin bibendum quam. Cras luctus libero quis aliquet suscipit. Sed in ligula tincidunt, tincidunt tortor ac, placerat ligula. Mauris lacinia consectetur ipsum, non interdum ex bibendum in. Curabitur viverra, dolor eget rutrum consequat, dui metus tincidunt massa, sit amet interdum lacus eros sed lectus.
+For questions about this repository and the files inside, please direct emails to arman@vivery.org, with `Vivery Data Analysis` contained within the subject line.
+
+[![Linkedin](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/armanchinai/)
+&nbsp;
+[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ChinaiArman)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
