@@ -1,0 +1,18 @@
+,Program ID,Program Type,Type Specification
+0,PANTRY03,Food Program,Food Distribution
+1,PANTRY04,Case Management Services,Hot/Cold Meal Program
+2,PANTRY05,Child Care Assistance,Pop-Up/Mobile Resource
+3,PANTRY06,Domestic Violence Assistance,Other
+4,PANTRY07,Drug & Alcohol Assistance,Shelter
+5,PANTRY08,Educational Courses/Classes,Food Distribution
+6,PANTRY09,Employment Services/Workforce Development,Food Distribution
+7,PANTRY10,Healthcare Screenings/Referrals,Food Distribution
+8,PANTRY11,Housing Assistance,Food Distribution
+9,PANTRY12,Legal Assistance,Food Distribution
+10,PANTRY13,Mental Health Services,Food Distribution
+11,PANTRY14,Nutrition Education/Services,Food Distribution
+12,PANTRY15,Tax/Financial Support,Food Distribution
+13,PANTRY16,Transportation Assistance,Food Distribution
+14,PANTRY17,Public Benefits Assistance,Food Distribution
+15,PANTRY18,Other,Food Distribution
+16,PANTRY19,Distribution of Non-Food Items,Food Distribution

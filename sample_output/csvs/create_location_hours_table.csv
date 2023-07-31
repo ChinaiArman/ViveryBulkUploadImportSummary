@@ -1,0 +1,5 @@
+,Location ID,Hour Type,Opened,Closed,Day,Frequency
+0,1992,Location,9:30,11:30,Sunday,Weekly
+1,1992,Location,13:00,15:00,Sunday,Weekly
+2,1992,Location,17:00,19:00,Sunday,Weekly
+3,1993,Location,11:00,13:00,2023-05-13,Date Specific

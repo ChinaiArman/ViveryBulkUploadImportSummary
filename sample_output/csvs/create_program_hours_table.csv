@@ -1,0 +1,9 @@
+,Program ID,Hour Type,Opened,Closed,Day,Frequency
+0,PANTRY04,Program,10:00,11:00,Monday,Day of Month
+1,PANTRY04,Program,14:00,15:00,Monday,Day of Month
+2,PANTRY06,Program,10:00,11:00,Monday,Week of Month
+3,PANTRY06,Program,14:00,15:00,Monday,Week of Month
+4,PANTRY07,Program,10:00,11:00,Monday,Every Other Week
+5,PANTRY07,Program,14:00,15:00,Monday,Every Other Week
+6,PANTRY08,Program,10:00,11:00,Monday,Call for Hours
+7,PANTRY08,Program,14:00,15:00,Monday,Call for Hours
