@@ -102,7 +102,40 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci
       * Within `resources`, a copy of all generation data will be stored in CSV/JSON format.
 
 ### Common Bug Fixes
-
+- Font Family Error
+  ```sh
+  findfont: Font family `Roobert Medium` not found
+  ```
+    1. Navigate to the MatPlotLib font cache file (`fontlist.json`, likely stored in `Users/{user}/.matplotlib`)
+    2. Open the file in an IDE (VSCode)
+    3. Use `ctrl + F` and search `Roobert`
+    4. For each value of `Roobert` under the `name` key, change the name to match the specific font (found at the end of the string under the `fname` key)
+        - Before:
+          ```json 
+              {
+              "fname": "C:\\Users\\arman\\AppData\\Local\\Microsoft\\Windows\\Fonts\\Roobert-Medium.ttf",
+              "name": "Roobert",
+              "style": "normal",
+              "variant": "normal",
+              "weight": 500,
+              "stretch": "normal",
+              "size": "scalable",
+              "__class__": "FontEntry"
+              },
+          ```
+        - After:
+          ```json
+            {
+            "fname": "C:\\Users\\arman\\AppData\\Local\\Microsoft\\Windows\\Fonts\\Roobert-Medium.ttf",
+            "name": "Roobert Medium",
+            "style": "normal",
+            "variant": "normal",
+            "weight": 500,
+            "stretch": "normal",
+            "size": "scalable",
+            "__class__": "FontEntry"
+            },
+          ```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
