@@ -105,7 +105,7 @@ PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'   
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
-MAP_SCOPE_KEY = {0: 12, 0.1: 10, 0.2: 9, 0.4: 8, 0.9: 7, 4.5: 6, 6: 5, 7: 4, 25: 3, 32: 2, 70: 1}               # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
+MAP_SCOPE_KEY = {0: 12, 0.1: 10, 0.2: 9, 0.4: 8, 1.5: 7, 4.5: 6, 6: 5, 7: 4, 25: 3, 32: 2, 70: 1}               # A dictionary, used to map the difference between the max/min lon/lat values to map scopes.
 
 # COLOURS
 VIVERY_GREEN = '#00483D'                                                                                        # A colour in the Vivery colour scheme.
@@ -1740,7 +1740,7 @@ def create_organization_table(df: pd.DataFrame) -> pd.DataFrame:
         - The resulting DataFrame is sorted by `Organization External ID` in ascending order.
         - Duplicate values are dropped to ensure unique organizations.
     """
-    df_copy = df.copy()
+    df_copy = df.drop_duplicates(subset=['Organization External ID']).copy()
     df_copy = df_copy[['Organization External ID', 'Organization Name', 'Organization Address 1', 'Organization Approval Status', 'Organization Active Status']]
     df_copy['Organization Active'] = np.where((df_copy['Organization Approval Status'] == True) & (df_copy['Organization Active Status'] == True), "Active", "Inactive")
     df_copy = df_copy[['Organization External ID', 'Organization Name', 'Organization Address 1', 'Organization Active']]
@@ -1791,7 +1791,7 @@ def create_location_table(df: pd.DataFrame) -> pd.DataFrame:
         - The resulting DataFrame is sorted by `Location External ID` in ascending order.
         - Duplicate values are dropped to ensure unique locations.
     """
-    df_copy = df.copy()
+    df_copy = df.drop_duplicates(subset=['Location External ID']).copy()
     df_copy = df_copy[['Location External ID', 'Location Name', 'Location Address 1', 'Organization Approval Status', 'Organization Active Status', 'Location Approval Status', 'Location Active Status']]
     df_copy['Location Active'] = np.where((df_copy['Organization Approval Status'] == True) & (df_copy['Organization Active Status'] == True) & (df_copy['Location Active Status'] == True) & (df_copy['Location Approval Status'] == True), "Active", "Inactive")
     df_copy = df_copy[['Location External ID', 'Location Name', 'Location Address 1', 'Location Active']]
@@ -1839,7 +1839,7 @@ def create_program_table(df: pd.DataFrame) -> pd.DataFrame:
         - The column headers for the table are sourced from `text.json` using the `APPENDIX PROGRAM LIST` section.
         - The values in the table are sorted by `Location External ID` in ascending order.
     """
-    df_copy = df.copy()
+    df_copy = df.drop_duplicates(subset=['Program External ID']).copy()
     df_copy = df_copy[['Program External ID', 'Program Name', 'Location External ID', 'Organization Approval Status', 'Organization Active Status', 'Location Approval Status', 'Location Active Status', 'Program Approval Status', 'Program Active Status']]
     df_copy['Program Active'] = np.where((df_copy['Organization Approval Status'] == True) & (df_copy['Organization Active Status'] == True) & (df_copy['Location Active Status'] == True) & (df_copy['Location Approval Status'] == True) & (df_copy['Program Active Status'] == True) & (df_copy['Program Approval Status'] == True), "Active", "Inactive")
     df_copy = df_copy[['Program External ID', 'Program Name', 'Location External ID', 'Program Active']]
