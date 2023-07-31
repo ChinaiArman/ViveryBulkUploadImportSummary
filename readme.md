@@ -71,8 +71,8 @@ Below are a set of instructions that will walk you through setting up this repos
     2. Create a file within the repository called `keys.py`.
     3. Define two variables, `SK` (for the Secret Key), and `PK` (for the Public Key), and assign their appropriate values.
         ```python
-        PK = {public key}
-        SK = {secret key}
+        PK = "{public key}"
+        SK = "{secret key}"
         ```
 4. Install Font Family (Windows OS Instructions)
     1. From root directory: `'resources' > 'Roobert Font Suite' > 'TTF'`
