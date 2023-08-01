@@ -15,14 +15,14 @@
 
     "LOCATION MAP": {
         "title": "Location Map",
-        "subtitle": "Location Map | Green = Active | Red = Inactive",
-        "paragraph": "Are any locations missing? Click the map above to review location addresses and ensure everything is where it should be."
+        "subtitle": "Location Map | Green = Visible | Red = Not Visible",
+        "paragraph": "Are any Locations missing? Click the map above to review Location addresses and ensure everything is where it should be."
     },
 
     "NETWORK OVERVIEW": {
         "title": "Network Overview",
-        "paragraph": "Setting the inactive or unapproved statuses means some locations or programs won't show up on the map, which means clients won't see them. {}. Click here to review these!",
-        "columns": ["Level", "Active", "Inactive", "Total"],
+        "paragraph": "Setting the inactive or unapproved statuses means some Locations or Programs won't show up on the map, which means neighbors won't see them. {}. Click here to review these!",
+        "columns": ["Level", "Visible", "Not Visible", "Total"],
         "rows": ["Organization", "Location", "Program"]
     },
 
@@ -32,7 +32,7 @@
         "xlabel": "Profile Grade",
         "ylabel": "Locations",
         "xaxis": ["Basic", "Quality", "Exceptional"],
-        "paragraph": "Vivery uses an internal scoring algorithm to grade a locations completeness, separating locations into three tiers (basic, quality, and exceptional). Increasing profile completeness **allows locations to access the full range of Vivery features** and assists neighbors in finding the resources they need.",
+        "paragraph": "Vivery uses an internal scoring algorithm to grade a Locations completeness, separating Locations into three tiers (basic, quality, and exceptional). Increasing profile completeness **allows Locations to access the full range of Vivery features** and assists neighbors in finding the resources they need.",
         "subtitle": "Click the graph above to view the complete list of profile grades."
     },
 
@@ -41,7 +41,7 @@
         "header row": ["Highest Graded", "Lowest Graded"],
         "subtitle 1": "Highest Graded",
         "subtitle 2": "Lowest Graded",
-        "paragraph": "On the right are the **location profiles with the lowest completion grades**. Consider adding more information to these locations to increase their score."
+        "paragraph": "On the right are the **Location profiles with the lowest completion grades**. Consider adding more information to these Locations to increase their score."
     },
 
     "VIVERY CONTACT INFORMATION": {
@@ -50,7 +50,7 @@
         "ylabel": "Organizations",
         "filename": "missing_organization_contact_information_graph.png",
         "xaxis": ["Not Contactable", "Name", "Email", "Phone", "Fully Engaged"],
-        "paragraph": "Vivery needs organization contact information to allow Organizations to claim their profiles. This isn't public information, but **pantry administrators won't be able to control their online presence** without it."
+        "paragraph": "Vivery needs Organization contact information to allow Organizations to claim their profiles. This isn't public information, but **pantry administrators won't be able to control their online presence** without it."
     },
 
     "PUBLIC CONTACT INFORMATION": {
@@ -74,14 +74,14 @@
         "program types filename": "program_by_program_type.png",
         "food program types labels": ["Food Distribution", "Hot/Cold Meal Program", "Pop-Up/Mobile Resource", "Shelter", "Other"],
         "food program types filename": "program_by_food_program_type.png",
-        "paragraph one": "Below is **your Network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some programs? To review all Programs and their Program Types, click the graph below.",
-        "paragraph two": "The Food Program slice can be broken down further into a few food program types. The graph below states that **{}% of your Network's programs are in food distribution.** To review these Food Programs, click the chart below."
+        "paragraph one": "Below is **your Network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some Programs? To review all Programs and their Program Types, click the graph below.",
+        "paragraph two": "The Food Program slice can be broken down further into a few food Program types. The graph below states that **{}% of your Network's Programs are in food distribution.** To review these Food Programs, click the chart below."
     },
 
     "PROGRAM FILTER FIELDS": {
         "title": "Filter Fields",
         "xaxis": ["Audience\nGroups", "Languages", "Program\nFeatures", "Items\nOffered", "Dietary\nOptions", "Location\nFeatures"],
-        "paragraph": "Many filters are available to help distinguish your Network's wide variety of programs. The graph below shows the usage for each program filter. **Consider increasing the use of {} and {}** to help neighbors find programs that match their needs. Click the chart below to view all of the programs with filters.",
+        "paragraph": "Many filters are available to help distinguish your Network's wide variety of Programs. The graph below shows the usage for each Program filter. **Consider increasing the use of {} and {}** to help neighbors find Programs that match their needs. Click the chart below to view all of the Programs with filters.",
         "xlabel": "Supplementary Fields",
         "ylabel": "Field Usage",
         "filename": "program_filter_usage.png"
@@ -89,7 +89,7 @@
 
     "RECOMMENDED FILTER OPTIONS": {
         "title": "Recommended Filter Options",
-        "paragraph": "Below are some of the **most common Program Filters across the Vivery Network.** Consider adding these filters to your programs to increase their distinguishability. Click here to view the full range of filters.",
+        "paragraph": "Below are some of the **most common Program Filters across the Vivery Network.** Consider adding these filters to your Programs to increase their distinguishability. Click here to view the full range of filters.",
         "columns": ["Audience", "L. Features", "P. Features", "Items", "Dietary"]
     },
 
@@ -97,15 +97,15 @@
         "title": "Network Hours Overview",
         "labels": ["Program Hours", "Location Hours"],
         "filename": "hour_type_usage.png",
-        "paragraph": "The graph below shows the usage between location and program hours. Location hours describe the **hours open for the physical establishment,** while program hours represent the **hours the program is actively providing its service.**"
+        "paragraph": "The graph below shows the usage between Locations and Program hours. Locations hours describe the **hours open for the physical establishment,** while Program hours represent the **hours the Program is actively providing its service.**"
     },
 
     "NETWORK HOUR TYPE USAGE": {
         "title": "Network Hour Type Usage",
-        "paragraph": "The wide variety in frequencies between hours can be challenging to store in a database. **Vivery uses Hour Types to distinguish the different ways to represent hours to remedy this.** Below are the usages of these hour types at the location and program levels.",
+        "paragraph": "The wide variety in frequencies between hours can be challenging to store in a database. **Vivery uses Hour Types to distinguish the different ways to represent hours to remedy this.** Below are the usages of these hour types at the Locations and Program levels.",
         "columns": ["Hour Type", "Location Usage", "Program Usage"],
         "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month"],
-        "subtext": "The following pages will dive deeper into the Network's location and program hours for the upcoming months."
+        "subtext": "The following pages will dive deeper into the Network's Locations and Program hours for the upcoming months."
     },
 
     "LOCATION HOURS PREVIEW": {
@@ -115,7 +115,7 @@
         "ylabel": "Total Hours",
         "current month filename": "",
         "next month filename": "",
-        "paragraph": "The charts below show the total hours open for all locations in **{} and {}**. See an anomaly in the data? To review all location hours in detail, click the graph below."
+        "paragraph": "The charts below show the total hours open for all Locations in **{} and {}**. See an anomaly in the data? To review all Locations hours in detail, click the graph below."
     },
 
     "PROGRAM HOURS PREVIEW": {
@@ -125,12 +125,12 @@
         "ylabel": "Total Hours",
         "current month filename": "",
         "next month filename": "",
-        "paragraph": "Above are the **total hours for all programs in the Network.** Please ensure that these hours accurately reflect the program's operational hours by clicking the image above."
+        "paragraph": "Above are the **total hours for all Programs in the Network.** Please ensure that these hours accurately reflect the Program's operational hours by clicking the image above."
     },
 
     "MISSING PROGRAM QUALIFICATIONS": {
         "title": "Missing Program Qualifications",
-        "paragraph": "The graph below shows the usage of Program Qualifications in this Network. Program Qualifications help neighbors determine if they qualify for this program's services. To review the programs without qualifications, click the graph below.",
+        "paragraph": "The graph below shows the usage of Program Qualifications in this Network. Program Qualifications help neighbors determine if they qualify for this Program's services. To review the Programs without qualifications, click the graph below.",
         "xaxis": ["Qualifications Listed", "No Qualifications"],
         "xlabel": "",
         "ylabel": "Programs",
@@ -139,7 +139,7 @@
 
     "MISSING PROGRAM SERVICE AREA": {
         "title": "Missing Program Service Areas",
-        "paragraph": "Neighbors use Program Service Areas to determine if they are within range to qualify for the program's service. To review all program service areas, click the above image.",
+        "paragraph": "Neighbors use Program Service Areas to determine if they are within range to qualify for the Program's service. To review all Program service areas, click the above image.",
         "xaxis": ["Service Area Provided", "No Service Area"],
         "xlabel": "",
         "ylabel": "Programs",
