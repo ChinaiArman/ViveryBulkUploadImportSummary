@@ -21,9 +21,9 @@
 
     "NETWORK OVERVIEW": {
         "title": "Network Overview",
-        "paragraph": "Setting the inactive or unapproved statuses means some Locations or Programs won't show up on the map, which means neighbors won't see them. {}. Click here to review these!",
+        "paragraph": "Locations and Programs can have their visibility on the map disabled using various flags, preventing neighbors from seeing them. {}. Click here to review these!",
         "columns": ["Level", "Visible", "Not Visible", "Total"],
-        "rows": ["Organization", "Location", "Program"]
+        "rows": ["Organizations", "Locations", "Programs"]
     },
 
     "PROFILE COMPLETENESS": {
@@ -32,7 +32,7 @@
         "xlabel": "Profile Grade",
         "ylabel": "Locations",
         "xaxis": ["Basic", "Quality", "Exceptional"],
-        "paragraph": "Vivery uses an internal scoring algorithm to grade a Locations completeness, separating Locations into three tiers (basic, quality, and exceptional). Increasing profile completeness **allows Locations to access the full range of Vivery features** and assists neighbors in finding the resources they need.",
+        "paragraph": "Vivery uses an internal scoring algorithm to grade a Location's completeness, separating Locations into three tiers (basic, quality, and exceptional). Increasing profile completeness **allows neighbors to access the full range of Vivery features** and can assist in finding the resources they need.",
         "subtitle": "Click the graph above to view the complete list of profile grades."
     },
 
@@ -97,15 +97,14 @@
         "title": "Network Hours Overview",
         "labels": ["Program Hours", "Location Hours"],
         "filename": "hour_type_usage.png",
-        "paragraph": "The graph below shows the usage between Locations and Program hours. Locations hours describe the **hours open for the physical establishment,** while Program hours represent the **hours the Program is actively providing its service.**"
+        "paragraph": "The graph below shows the usage between Locations and Program hours. Locations hours describe the **hours open for the physical establishment,** while Program hours represent the **hours the Program is actively serving neighbors.**"
     },
 
     "NETWORK HOUR TYPE USAGE": {
-        "title": "Network Hour Type Usage",
-        "paragraph": "The wide variety in frequencies between hours can be challenging to store in a database. **Vivery uses Hour Types to distinguish the different ways to represent hours to remedy this.** Below are the usages of these hour types at the Locations and Program levels.",
+        "title": "Network Scheduling",
+        "paragraph": "**Vivery uses different scheduling formats to distinguish the different ways to represent hours to remedy this.** Below are the usages of these hour types at the Locations and Program levels.",
         "columns": ["Hour Type", "Location Usage", "Program Usage"],
-        "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month"],
-        "subtext": "The following pages will dive deeper into the Network's Locations and Program hours for the upcoming months."
+        "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month", "Call for Information"]
     },
 
     "LOCATION HOURS PREVIEW": {

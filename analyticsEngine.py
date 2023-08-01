@@ -1680,13 +1680,15 @@ def create_hour_type_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         len(df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Weekly')]['Location External ID']),
         len(df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Every Other Week')]['Location External ID']),
         len(df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Week of Month')]['Location External ID']),
-        len(df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Day of Month')]['Location External ID'])
+        len(df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Day of Month')]['Location External ID']),
+        len(df[['Location External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Location') & (df['Frequency'] == 'Call for Information')]['Location External ID'])
     ]
     programs = [
         len(df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Weekly')]['Program External ID']),
         len(df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Every Other Week')]['Program External ID']),
         len(df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Week of Month')]['Program External ID']),
-        len(df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Day of Month')]['Program External ID'])
+        len(df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Day of Month')]['Program External ID']),
+        len(df[['Program External ID', 'Hours Entity Type', 'Frequency']].loc[(df['Hours Entity Type'] == 'Program') & (df['Frequency'] == 'Call for Information')]['Program External ID'])
     ]
     data = {
         'Hour Type': TEXT["NETWORK HOUR TYPE USAGE"]["rows"],
@@ -1972,7 +1974,7 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     df2 = df.copy()
     df2["Profile Score"] = df2.notnull().astype('int').mul(WEIGHTS).sum(axis=1)
-    df2 = df2[["Location External ID", "Profile Score"]].groupby(['Location External ID']).max().reset_index()
+    df2 = df2[["Location Name", "Profile Score"]].groupby(['Location Name']).max().reset_index()
     df2["Tier Level"] = df2["Profile Score"].apply(lambda score: PROFILE_COMPLETION_TIERS["Tier"][2] if score >= 36 else PROFILE_COMPLETION_TIERS["Tier"][1] if score >= 21 else PROFILE_COMPLETION_TIERS["Tier"][0])
     df2.columns = TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"]
     return df2.sort_values(by=TEXT["APPENDIX PROGRAM PROFILE COMPLETION LIST"]["columns"][1], ascending=False).drop_duplicates().reset_index(drop=True)
@@ -2632,7 +2634,7 @@ def calculate_percent_locations_inactive(df: pd.DataFrame, text: dict, section: 
     df = create_network_overview_table(df)
     percent_locations_inactive = round((list(df[TEXT["NETWORK OVERVIEW"]["columns"][2]])[1] / list(df[TEXT["NETWORK OVERVIEW"]["columns"][3]])[1]) * 100, 1)
     if percent_locations_inactive == 0:
-        string = "Currently, all locations in this Network will be visible** to neighbors searching for food"
+        string = "Currently, all Locations in this Network will be visible** to neighbors searching for food"
     else:
         string = "**" + str(percent_locations_inactive) + "% of your Locations will not be visible** to neighbors searching for food"
     text[section][field] = text[section][field].format(string)
@@ -2695,13 +2697,13 @@ def calculate_locations_programs_without_contact(df: pd.DataFrame, text: dict, s
     locations_without_contact = len(location_df.loc[(location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][4]].isna())])
     programs_without_contact = len(program_df.loc[(program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][2]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][3]].isna())])
     if locations_without_contact == 0 and programs_without_contact == 0:
-        string = "**All locations and programs contain at least one piece of public contact information"
+        string = "**All Locations and Programs contain at least one piece of public contact information"
     elif locations_without_contact == 0:
-        string = "**" + str(programs_without_contact) + " programs are without public contact information, which could create challenges for new clients**"
+        string = "**" + str(programs_without_contact) + " Programs don't have public contact information, which could create challenges for new clients**"
     elif programs_without_contact == 0:
-        string = "**" + str(locations_without_contact) + " locations are without public contact information, which could create challenges for new clients**"
+        string = "**" + str(locations_without_contact) + " Locations don't have public contact information, which could create challenges for new clients**"
     else:
-        string = "**" + str(locations_without_contact) + " locations and " + str(programs_without_contact) + " programs are without public contact information, which could create challenges for new clients**"
+        string = "**" + str(locations_without_contact) + " Locations and " + str(programs_without_contact) + " Programs don't have public contact information, which could create challenges for new clients**"
     text[section][field] = text[section][field].format(string)
     return text
 
