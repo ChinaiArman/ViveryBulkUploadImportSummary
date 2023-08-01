@@ -1321,6 +1321,7 @@ if __name__ == "__main__":
     constructor.add_vertical_space(0.1)
     constructor.add_table(ae.create_hour_type_usage_table)
     constructor.add_horizontal_line()
+    constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["subtext"])
 
     # Location Hours Preview
     constructor.add_page()
