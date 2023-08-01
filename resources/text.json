@@ -14,8 +14,8 @@
     },
 
     "LOCATION MAP": {
-        "title": "Location Map",
-        "subtitle": "Location Map | Green = Visible | Red = Not Visible",
+        "title": "Map of Locations",
+        "subtitle": "Map of Locations | Green = Visible | Red = Not Visible",
         "paragraph": "Are any Locations missing? Click the map above to review Location addresses and ensure everything is where it should be."
     },
 
@@ -41,7 +41,7 @@
         "header row": ["Highest Graded", "Lowest Graded"],
         "subtitle 1": "Highest Graded",
         "subtitle 2": "Lowest Graded",
-        "paragraph": "On the right are the **Location profiles with the lowest completion grades**. Consider adding more information to these Locations to increase their score."
+        "paragraph": "On the right are some of the **Location profiles with the lowest completion grades**. Consider adding more information to increase their score."
     },
 
     "VIVERY CONTACT INFORMATION": {
