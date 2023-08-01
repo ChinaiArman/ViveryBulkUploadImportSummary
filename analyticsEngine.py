@@ -638,7 +638,6 @@ def graph_missing_location_contact_info(df: pd.DataFrame, directory: str) -> str
         len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
         len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
         len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
-        len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][4]].isna()]) - len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].isna().all(axis=1)]),
         len(df[df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1:]].notna().all(axis=1)])
         ]
     plot_bar_graph(x_axis, y_axis, "PUBLIC CONTACT INFORMATION", VIRIDIAN, xlabel="location xlabel", ylabel="location ylabel")
@@ -2063,7 +2062,7 @@ def create_location_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
         - Ensure that the provided DataFrame contains all the necessary columns and represents the relevant data.
         - The column headers for the table are sourced from `text.json` using the `APPENDIX LOCATION CONTACT INFORMATION` section.
     """
-    df = df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone', 'Location Website']]
+    df = df[['Location External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone']]
     df.columns = TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"]
     return df.sort_values(by=TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
     
@@ -2694,7 +2693,7 @@ def calculate_locations_programs_without_contact(df: pd.DataFrame, text: dict, s
     """
     location_df = create_location_contact_information_table(df)
     program_df = create_program_contact_information_table(df)
-    locations_without_contact = len(location_df.loc[(location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][4]].isna())])
+    locations_without_contact = len(location_df.loc[(location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][1]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][2]].isna()) & (location_df[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["columns"][3]].isna())])
     programs_without_contact = len(program_df.loc[(program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][1]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][2]].isna()) & (program_df[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"][3]].isna())])
     if locations_without_contact == 0 and programs_without_contact == 0:
         string = "**All Locations and Programs contain at least one piece of public contact information"

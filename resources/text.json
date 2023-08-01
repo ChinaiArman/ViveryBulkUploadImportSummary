@@ -58,7 +58,7 @@
         "location xlabel": "Missing Locations Contact Fields",
         "location ylabel": "Locations",
         "location filename": "missing_location_contact_information_graph.png",
-        "location xaxis": ["Not Contactable", "Name", "Email", "Phone", "Website", "Fully Engaged"],
+        "location xaxis": ["Not Contactable", "Name", "Email", "Phone", "Fully Engaged"],
         "program xlabel": "Missing Program Contact Fields",
         "program ylabel": "Programs",
         "program filename": "missing_program_contact_information_graph.png",
@@ -189,7 +189,7 @@
 
     "APPENDIX LOCATION CONTACT INFORMATION": {
         "title": "Appendix F - Location Contact Information",
-        "columns": ["Location ID", "Name", "Email", "Phone", "Website"]
+        "columns": ["Location ID", "Name", "Email", "Phone"]
     },
 
     "APPENDIX PROGRAM CONTACT INFORMATION": {
