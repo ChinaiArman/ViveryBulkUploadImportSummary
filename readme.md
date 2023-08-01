@@ -29,7 +29,7 @@
       <ul>
         <li><a href="#installation">Installation</a></li>
         <li><a href="#usage">Usage</a></li>
-        <li><a href="#usage">Usage</a></li>
+        <li><a href="#common-bug-fixes">Common Bug Fixes</a></li>
       </ul>
     </li>
     <li><a href="#update-history">Update History</a></li>
