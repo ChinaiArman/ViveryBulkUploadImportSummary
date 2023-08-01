@@ -479,6 +479,31 @@ class pdfConstructor:
         return
 
 
+    def add_appendix_cover(self) -> None:
+        """
+        """
+        # Add Background Image
+        self.pdf.add_page()
+        self.pdf.set_top_margin(0)
+        self.pdf.set_auto_page_break(0)
+        self.pdf.set_left_margin(0)
+        self.pdf.set_right_margin(0)
+        self.pdf.image("resources\images\\appendix_cover.png", 0, 0, PAGE_WIDTH, PAGE_HEIGHT)
+
+        # Add Title
+        self.pdf.set_xy(0.5, 8.75)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Bold', '', 40)
+        self.pdf.multi_cell(0, self.pdf.font_size + 0.05, "Appendices", 0, 'L')
+
+        # Reset Margins
+        self.pdf.set_top_margin(1)
+        self.pdf.set_auto_page_break(1)
+        self.pdf.set_left_margin(1)
+        self.pdf.set_right_margin(1)
+        return
+
+
     def add_back_cover(self) -> None:
         """
         Adds a back cover page to the PDF document.
@@ -1321,7 +1346,7 @@ if __name__ == "__main__":
     constructor.add_vertical_space(0.1)
     constructor.add_table(ae.create_hour_type_usage_table)
     constructor.add_horizontal_line()
-    constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["subtext"])
+    constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["subtitle"])
 
     # Location Hours Preview
     constructor.add_page()
@@ -1357,9 +1382,7 @@ if __name__ == "__main__":
     constructor.add_image(ae.graph_program_service_areas(df, directory), 3.15, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM SERVICE AREAS"]["title"]])
 
     # Page Break
-    constructor.add_page()
-    constructor.add_vertical_space(4)
-    constructor.add_normal_text("THIS PAGE INTENTIONALLY LEFT BLANK", alignment='C')
+    constructor.add_appendix_cover()
 
     # APPENDIX ORGANIZATION LIST
     constructor.add_page()

@@ -32,7 +32,7 @@
         "xlabel": "Profile Grade",
         "ylabel": "Locations",
         "xaxis": ["Basic", "Quality", "Exceptional"],
-        "paragraph": "Vivery uses an internal scoring algorithm to grade a Location's completeness, separating Locations into three tiers (basic, quality, and exceptional). Increasing profile completeness **allows neighbors to access the full range of Vivery features** and can assist in finding the resources they need.",
+        "paragraph": "Vivery uses an internal scoring algorithm to grade a Location's completeness, separating Locations into three tiers (basic, quality, and exceptional). Increasing profile completeness **allows neighbors to access the full range of Vivery features** and find the resources they need.",
         "subtitle": "Click the graph above to view the complete list of profile grades."
     },
 
