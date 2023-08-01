@@ -22,6 +22,9 @@
       <a href="#about-the-project">About The Project</a>
     </li>
     <li>
+      <a href="#about-vivery">About Vivery</a>
+    </li>
+    <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#installation">Installation</a></li>
@@ -39,11 +42,19 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci, dignissim sit amet vestibulum a, congue sit amet metus. Sed rhoncus a ante in rutrum. Nam sollicitudin bibendum quam. Cras luctus libero quis aliquet suscipit. Sed in ligula tincidunt, tincidunt tortor ac, placerat ligula. Mauris lacinia consectetur ipsum, non interdum ex bibendum in. Curabitur viverra, dolor eget rutrum consequat, dui metus tincidunt massa, sit amet interdum lacus eros sed lectus.
+Vivery Data Analysis is a Python project that offers comprehensive data analysis and reporting capabilities for Vivery Bulk Upload files. The project includes an ``Analytics Engine API`` that processes data from the bulk upload files and **generates various analytical insights, graphs, and data summaries.** Additionally, it provides a PDF report generation feature called ``pdfWizard``, which uses the output from the Analytics Engine to **create detailed and visually appealing reports.**
 
 ![Product Name Screen Shot][sample-cover]
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lacus orci, dignissim sit amet vestibulum a, congue sit amet metus. Sed rhoncus a ante in rutrum. Nam sollicitudin bibendum quam. Cras luctus libero quis aliquet suscipit. Sed in ligula tincidunt, tincidunt tortor ac, placerat ligula. Mauris lacinia consectetur ipsum, non interdum ex bibendum in. Curabitur viverra, dolor eget rutrum consequat, dui metus tincidunt massa, sit amet interdum lacus eros sed lectus.
+The project aims to **simplify the process of reviewing the Bulk Upload File** by automating data processing, visualization, and reporting. It leverages Python's data manipulation and visualization libraries such as ``Pandas`` and ``NumPy``, along with the ``FPDF`` library for PDF report generation. The generated report targets the non-technical user, allowing them to visualize and understand large data sets. This visualization facilitates business and data related discussions between food bank networks and Vivery.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- ABOUT VIVERY -->
+## About Vivery
+Vivery is a digital **network of food banks and pantries across America**, enabling the people they serve to connect together on one centralized platform. The Vivery network equalizes access so neighbors (people struggling with hunger or homelessness) can easily **find the right food, programs and services nearby.** As an American non-profit, Vivery simultaneously provides a tech boost to these food banks at no cost, allowing them to **focus on serving their communities.** For more information, visit https://www.vivery.org/. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
