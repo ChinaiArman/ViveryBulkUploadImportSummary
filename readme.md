@@ -46,7 +46,7 @@ Vivery Data Analysis is a Python project that offers comprehensive data analysis
 
 ![Product Name Screen Shot][sample-cover]
 
-The project aims to **simplify the process of reviewing the Bulk Upload File** by automating data processing, visualization, and reporting. It leverages Python's data manipulation and visualization libraries such as ``Pandas`` and ``NumPy``, along with the ``FPDF`` library for PDF report generation. The generated report targets the non-technical user, allowing them to visualize and understand large data sets. This visualization facilitates business and data related discussions between food bank networks and Vivery.
+The project aims to **simplify the process of reviewing the Bulk Upload File** by automating data processing, visualization, and reporting. It leverages Python's data manipulation and visualization libraries such as ``Pandas`` and ``NumPy``, along with the ``FPDF`` library for PDF report generation. The generated report targets the non-technical user, allowing them to visualize and understand large data sets. This visualization facilitates business and data related discussions between food bank networks and Vivery. To view a sample output, click [here](https://github.com/ChinaiArman/ViveryDataAnalysis/blob/main/sample_output/sample_data_analytical_report.pdf).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
