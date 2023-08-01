@@ -1057,6 +1057,7 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
         except:
             pass
     
+    # SPECIFIC DATE
     specific_date_hours = df.loc[(df["Specific Date Reason"].notna()) & (df["Hours Entity Type"] == "Location")]
     for _, rows in specific_date_hours.iterrows():
         if pd.date_range(start=datetime.datetime.strptime(str(rows["Specific Date"]), '%Y-%m-%d'), periods=1).to_pydatetime()[0] in next_month.keys():
@@ -1444,10 +1445,10 @@ def create_network_overview_table(df: pd.DataFrame) -> pd.DataFrame:
         df[['Program External ID', 'Program Approval Status', 'Program Active Status']]['Program External ID'].nunique()
         ]
     data = {
-        'Level': TEXT["NETWORK OVERVIEW"]["rows"],
-        'Active': active,
-        'Inactive': inactive,
-        'Total': total
+        TEXT["NETWORK OVERVIEW"]["columns"][0]: TEXT["NETWORK OVERVIEW"]["rows"],
+        TEXT["NETWORK OVERVIEW"]["columns"][1]: active,
+        TEXT["NETWORK OVERVIEW"]["columns"][2]: inactive,
+        TEXT["NETWORK OVERVIEW"]["columns"][3]: total
         }
     return pd.DataFrame(data, columns=TEXT["NETWORK OVERVIEW"]["columns"])
 
