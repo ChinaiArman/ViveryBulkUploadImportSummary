@@ -1,4 +1,4 @@
-,Level,Active,Inactive,Total
-0,Organization,1,0,1
-1,Location,2,0,2
-2,Program,17,0,17
+,Level,Visible,Not Visible,Total
+0,Organizations,1,0,1
+1,Locations,2,0,2
+2,Programs,17,0,17
