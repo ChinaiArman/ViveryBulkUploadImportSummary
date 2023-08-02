@@ -481,6 +481,30 @@ class pdfConstructor:
 
     def add_appendix_cover(self) -> None:
         """
+        Add an appendix cover page to the PDF document.
+
+        This function adds a cover page to the PDF document with an image background and a title for the appendices.
+
+        Preconditions:
+            - The PDF document (self.pdf) must be initialized and contain content before calling this method.
+
+        Args:
+            None
+
+        Returns:
+            None: This function updates the PDF document in-place and does not return anything.
+
+        Raises:
+            N/A
+
+        Example:
+            >>> pdf = pdfConstructor(df, directory, filename, network_name)
+            # Creates an instance of the pdfConstructor class
+            >>> pdf.add_h1_text("Title")
+            >>> pdf.add_normal_text("Some content.")
+            # Adds content to the PDF document
+            >>> pdf.add_appendix_cover()
+            # Adds the appendix cover page to the PDF document
         """
         # Add Background Image
         self.pdf.add_page()
