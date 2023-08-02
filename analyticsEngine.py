@@ -2833,6 +2833,34 @@ def calculate_least_used_programs(df: pd.DataFrame, text: dict, section: str, fi
 
 def calculate_current_next_month(_: any, text: dict, section: str, field: str) -> None:
     """
+    Calculate the current month and the next month, and update the given 'text' dictionary with the formatted names of these months.
+
+    Args:
+        _: Any (unused argument): This function uses a single underscore as a convention to indicate that this argument is not used in the function.
+        `text` (dict): The dictionary containing the text data to be updated.
+        `section` (str): The section of the 'text' dictionary to update.
+        `field` (str): The field in the specified 'section' to update with the formatted month names.
+
+    Returns:
+        None: This function updates the 'text' dictionary in-place and does not return anything.
+
+    Precondition:
+        - The Pandas DataFrame `df` must contain the necessary columns and represent the program and location data.
+        - The `text` dictionary must contain the specified `section` and `field`.
+        - The `section` and `field` must be valid keys in the `text` dictionary.    
+
+    Raises:
+        None
+
+    Example:
+        >>> text = {
+        ...     "report_section": {
+        ...         "month_info": "Current month: {}, Next month: {}"
+        ...     }
+        ... }
+        >>> calculate_current_next_month(None, text, "report_section", "month_info")
+        >>> text["report_section"]["month_info"]
+        'Current month: September, Next month: October'
     """
     current_month = {day: 0 for day in pd.date_range(start=datetime.date.today().replace(day=1),
                                                      end=(datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1), freq='D'
