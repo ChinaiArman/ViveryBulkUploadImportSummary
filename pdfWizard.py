@@ -429,38 +429,132 @@ class pdfConstructor:
         self.pdf.set_link(page_five, page=5)
         page_six = self.pdf.add_link()
         self.pdf.set_link(page_six, page=6)
+        page_seven = self.pdf.add_link()
+        self.pdf.set_link(page_seven, page=7)
         page_eight = self.pdf.add_link()
         self.pdf.set_link(page_eight, page=8)
+        page_nine = self.pdf.add_link()
+        self.pdf.set_link(page_nine, page=9)
+        page_ten = self.pdf.add_link()
+        self.pdf.set_link(page_ten, page=10)
         page_eleven = self.pdf.add_link()
         self.pdf.set_link(page_eleven, page=11)
+        page_twelve = self.pdf.add_link()
+        self.pdf.set_link(page_twelve, page=12)
         page_thirteen = self.pdf.add_link()
         self.pdf.set_link(page_thirteen, page=13)
 
-        # Add Sections
+        # Location Map
         self.pdf.set_xy(2.25, 2)
         self.pdf.cell(0, 0, "3", align='L', link=page_three)
         self.pdf.cell(0, 0, "Location Map          ", align='R', link=page_three)
-        self.pdf.set_xy(2.25, 2.75)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "Where do we serve?                ", align='R', link=page_three)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Network Overview
+        self.pdf.set_xy(2.25, 2.85)
         self.pdf.cell(0, 0, "3", align='L', link=page_three)
         self.pdf.cell(0, 0, "Network Overview          ", align='R', link=page_three)
-        self.pdf.set_xy(2.25, 3.5)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "Who is in our network?                ", align='R', link=page_three)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Profile Completeness
+        self.pdf.set_xy(2.25, 3.7)
         self.pdf.cell(0, 0, "4", align='L', link=page_four)
         self.pdf.cell(0, 0, "Profile Completeness          ", align='R', link=page_four)
-        self.pdf.set_xy(2.25, 4.24)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "How will our online profiles look to the community?                ", align='R', link=page_four)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Contact Information
+        self.pdf.set_xy(2.25, 4.55)
         self.pdf.cell(0, 0, "5", align='L', link=page_five)
         self.pdf.cell(0, 0, "Contact Information          ", align='R', link=page_five)
-        self.pdf.set_xy(2.25, 5)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "Can neighbors contact our Network?                ", align='R', link=page_five)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Program Types and Filters
+        self.pdf.set_xy(2.25, 5.4)
         self.pdf.cell(0, 0, "6", align='L', link=page_six)
         self.pdf.cell(0, 0, "Program Types and Filters          ", align='R', link=page_six)
-        self.pdf.set_xy(2.25, 5.75)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "How can clients search on the map?                ", align='R', link=page_six)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Network Hours Overview
+        self.pdf.set_xy(2.25, 6.25)
         self.pdf.cell(0, 0, "8", align='L', link=page_eight)
         self.pdf.cell(0, 0, "Network Hours Overview          ", align='R', link=page_eight)
-        self.pdf.set_xy(2.25, 6.5)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "When can our communities find our assistance?                ", align='R', link=page_eight)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Qualifications and Service Area
+        self.pdf.set_xy(2.25, 7.1)
         self.pdf.cell(0, 0, "11", align='L', link=page_eleven)
         self.pdf.cell(0, 0, "Qualifications and Service Area          ", align='R', link=page_eleven)
-        self.pdf.set_xy(2.25, 7.25)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "How do clients know if they are eligible?                ", align='R', link=page_eleven)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
+
+        # Appendices
+        self.pdf.set_xy(2.25, 7.95)
         self.pdf.cell(0, 0, "13", align='L', link=page_thirteen)
         self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_thirteen)
+
+        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
+        
+        self.pdf.cell(0, 0, "A deeper look at the data...                ", align='R', link=page_thirteen)
+
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Add Page Number
         self.pdf.set_right_margin(0.5)
