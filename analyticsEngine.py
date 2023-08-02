@@ -813,6 +813,8 @@ def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> str:
     locations = df[["Location External ID", "Location Features"]].drop_duplicates().notna().sum().to_list()[1:]
     x_axis = TEXT["PROGRAM FILTER FIELDS"]["xaxis"]
     y_axis = programs + locations
+    if sum(y_axis) == 0:
+        return "resources\images\\null_graph.png"
     plot_bar_graph(x_axis, y_axis, "PROGRAM FILTER FIELDS", SAGE)
     return save_graph(TEXT["PROGRAM FILTER FIELDS"]["filename"], directory, 300)
 
@@ -962,6 +964,8 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
     y_axis = list(current_month.values())[:-1]
     TEXT["LOCATION HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
     TEXT["LOCATION HOURS PREVIEW"]["current month filename"] = "location_hours_" + calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))].lower() + ".png"
+    if sum(y_axis) == 0:
+        return "resources\images\\null_graph.png"
     plot_bar_graph(x_axis, y_axis, "LOCATION HOURS PREVIEW", VIRIDIAN, rotation=45)
     return save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
 
@@ -1072,6 +1076,8 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
     y_axis = list(next_month.values())[:-1]
     TEXT["LOCATION HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
     TEXT["LOCATION HOURS PREVIEW"]["current month filename"] = "location_hours_" + calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))].lower() + ".png"
+    if sum(y_axis) == 0:
+        return "resources\images\\null_graph.png"
     plot_bar_graph(x_axis, y_axis, "LOCATION HOURS PREVIEW", VIRIDIAN, rotation=45)
     return save_graph(TEXT["LOCATION HOURS PREVIEW"]["current month filename"], directory, 300)
 
@@ -1183,6 +1189,8 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
     y_axis = list(current_month.values())[:-1]
     TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))]
     TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(current_month.keys())[0].strftime("%m"))].lower() + ".png"
+    if sum(y_axis) == 0:
+        return "resources\images\\null_graph.png"
     plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", SAGE, rotation=45)
     return save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
 
@@ -1292,6 +1300,8 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> s
     y_axis = list(next_month.values())[:-1]
     TEXT["PROGRAM HOURS PREVIEW"]["xlabel"] = calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))]
     TEXT["PROGRAM HOURS PREVIEW"]["current month filename"] = "program_hours_" + calendar.month_name[int(list(next_month.keys())[0].strftime("%m"))].lower() + ".png"
+    if sum(y_axis) == 0:
+        return "resources\images\\null_graph.png"
     plot_bar_graph(x_axis, y_axis, "PROGRAM HOURS PREVIEW", SAGE, rotation=45)
     return save_graph(TEXT["PROGRAM HOURS PREVIEW"]["current month filename"], directory, 300)
 
