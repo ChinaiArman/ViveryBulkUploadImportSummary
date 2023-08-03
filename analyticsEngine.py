@@ -489,6 +489,75 @@ def create_map(df: pd.DataFrame, directory: str) -> str:
     return crop_image(624, 403, "map.png", directory)
 
 
+def create_zoomed_map(df: pd.DataFrame, directory: str, lat_epicenter:float=0, lon_epicenter:float=0) -> str:
+    """
+    Creates a zoomed in map visualization based on the provided DataFrame and specified latitude and longitude coordinates.
+
+    Args:
+        `df` (pd.DataFrame): The Pandas DataFrame containing the map data.
+        `directory` (str): The directory where the map image will be saved.
+        `lat_epicenter` (float) [kwargg]: The center point for the latitude coordinate, defaulted to 0.
+        `lon_epicenter` (float) [kwargg]: The center point for the longitude coordinate, defaulted to 0.
+
+    Returns:
+        `str`: A string containing the path to the graph, saved as a png, from the root directory. 
+
+    Preconditions:
+        - The Pandas DataFrame must contain the required columns: `Location Latitude`, `Location Longitude`, `Organization Approval Status`,
+          `Organization Active Status`, `Location Active Status`, and `Location Approval Status`.
+        - The `Location Latitude` and `Location Longitude` columns must contain valid latitude and longitude values.
+        - The `Organization Approval Status`, `Organization Active Status`, `Location Approval Status`, and `Location Active Status` columns
+          must contain boolean values.
+
+    Raises:
+        None
+
+    Example:
+        >>> create_map(data, "/path/to/maps")
+        # Creates a map visualization based on the provided DataFrame and saves the map image in the /path/to/maps directory.
+
+    Additional Information:
+        - The function creates a scattermapbox plot using the latitude and longitude coordinates from the DataFrame.
+        - The marker color is determined based on the conditions specified using the Organization and Location statuses.
+        - The resulting map is centered based on the passed in latitude and longitude coordinates from the key-word arguments.
+        - The zoom level is fixed to show the epicenter of the locations. 
+        - The generated map image is saved as a PNG file in the specified directory.
+        - The function uses the `crop_image` function to crop the map image to a specific width and height (624x403).
+        - Ensure that the DataFrame contains the required columns and represents the relevant map data, and the directory is valid.
+    """
+    df2 = df.copy()
+    df2 = df2[['Location Latitude', 'Location Longitude', 'Organization Approval Status', 'Organization Active Status', 'Location Active Status', 'Location Approval Status']]
+    df2['Color'] = np.where((df['Organization Approval Status'] == True) & (df['Organization Active Status'] == True) & (df['Location Approval Status'] == True) & (df['Location Active Status'] == True), VIRIDIAN, SALMON)
+
+    if lat_epicenter == 0 or lon_epicenter == 0:
+        lat_epicenter = df2['Location Latitude'].mean()
+        lon_epicenter = df2['Location Longitude'].mean()
+
+    fig = go.Figure(go.Scattermapbox(
+            lat=df2['Location Latitude'],
+            lon=df2['Location Longitude'],
+            mode='markers',
+            marker={'color': df2['Color'],
+                    'size': 8}
+        ))
+    fig.update_layout(
+        autosize=True,
+        hovermode='closest',
+        mapbox=dict(
+            accesstoken=PK,
+            bearing=0,
+            center=dict(
+                lat=lat_epicenter,
+                lon=lon_epicenter,
+            ),
+            pitch=0,
+            zoom=11
+        ),
+    )
+    fig.write_image(directory + "/images" + '/zoomed_map.png', width=1000, height=1000)
+    return crop_image(624, 403, "zoomed_map.png", directory)
+
+
 def graph_profile_grade(df: pd.DataFrame, directory: str) -> str:
     """
     Generates a bar graph to visualize the profile completion grade based on the provided DataFrame.
@@ -2977,6 +3046,7 @@ if __name__ == "__main__":
 
     # Execute functions
     [graph(df, directory) for graph in valid_graphing_functions]
+    create_zoomed_map(df, directory, lat_epicenter=42.355455, lon_epicenter=-71.063868)
     [dataframe(df).to_csv(directory + "/csvs/" + dataframe.__name__ + ".csv") for dataframe in valid_dataframe_functions]
     TEXT = calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
     TEXT = calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
