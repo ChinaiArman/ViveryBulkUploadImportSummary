@@ -102,7 +102,7 @@
 
     "NETWORK HOUR TYPE USAGE": {
         "title": "Network Scheduling",
-        "paragraph": "**Vivery uses different scheduling formats to distinguish the different ways to represent hours to remedy this.** Below are the usages of these hour types at the Locations and Program levels.",
+        "paragraph": "Vivery uses a variety of **different scheduling formats** to the represent **hours locations and pantries are open.** Below are the usages of these scheduling formats at the Locations and Program levels.",
         "columns": ["Hour Type", "Location Usage", "Program Usage"],
         "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month", "Call for Information"],
         "subtitle": "Scroll down below to see the month to month view of the Network hours at the Location and Program level."
