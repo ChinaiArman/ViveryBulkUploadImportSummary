@@ -544,14 +544,14 @@ class pdfConstructor:
 
         # Appendices
         self.pdf.set_xy(2.25, 7.95)
-        self.pdf.cell(0, 0, "13", align='L', link=page_thirteen)
-        self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_thirteen)
+        self.pdf.cell(0, 0, "12", align='L', link=page_twelve)
+        self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_twelve)
 
         self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
         
-        self.pdf.cell(0, 0, "A deeper look at the data...                ", align='R', link=page_thirteen)
+        self.pdf.cell(0, 0, "A deeper look at the data...                ", align='R', link=page_twelve)
 
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
