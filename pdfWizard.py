@@ -1284,7 +1284,7 @@ class pdfConstructor:
             for element in header_row:
                 self.pdf.cell((PAGE_WIDTH-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
         if padding:
-            self.pdf.ln(self.pdf.font_size + 0.2)
+            self.pdf.ln(self.pdf.font_size + 0.1)
         self.pdf.set_x(1)
         return
 
@@ -1473,14 +1473,14 @@ if __name__ == "__main__":
     TEXT = ae.calculate_current_next_month(df, TEXT, "LOCATION HOURS PREVIEW", "paragraph")
     constructor.add_normal_text(TEXT["LOCATION HOURS PREVIEW"]["paragraph"])
     constructor.add_vertical_space(0.1)
-    constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"])
+    constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"], padding=ae.graph_sample_location_hours_current_month(df, directory) != "resources\images\\null_graph.png")
     constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
     constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
 
     # Program Hours Preview
     constructor.add_page()
     constructor.add_h1_text(TEXT["PROGRAM HOURS PREVIEW"]["title"])
-    constructor.add_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"])
+    constructor.add_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"], padding=ae.graph_sample_program_hours_current_month(df, directory) != "resources\images\\null_graph.png")
     constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]])
     constructor.add_image(ae.graph_sample_program_hours_next_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]])
     constructor.add_horizontal_line()
