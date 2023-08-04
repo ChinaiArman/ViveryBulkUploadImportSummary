@@ -15,13 +15,13 @@
 
     "LOCATION MAP": {
         "title": "Map of Locations",
-        "subtitle": "Map of Locations | Green = Visible | Red = Not Visible",
+        "subtitle": "Top = Map of Network | Bottom = Map of {} | Green = Visible | Red = Not Visible",
         "paragraph": "Are any Locations missing? Click the map above to review Location addresses and ensure everything is where it should be."
     },
 
     "NETWORK OVERVIEW": {
-        "title": "Network Overview",
-        "paragraph": "Locations and Programs can have their visibility on the map disabled using various flags, preventing neighbors from seeing them. {}. Click here to review these!",
+        "title": ["Network Overview"],
+        "paragraph": "Locations can disable their visibility on the map, **preventing neighbors from viewing their services.** {}. Click here to review these!",
         "columns": ["Level", "Visible", "Not Visible", "Total"],
         "rows": ["Organizations", "Locations", "Programs"]
     },

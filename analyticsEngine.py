@@ -520,7 +520,7 @@ def create_zoomed_map(df: pd.DataFrame, directory: str, lat_epicenter:float=0, l
         - The function creates a scattermapbox plot using the latitude and longitude coordinates from the DataFrame.
         - The marker color is determined based on the conditions specified using the Organization and Location statuses.
         - The resulting map is centered based on the passed in latitude and longitude coordinates from the key-word arguments.
-        - The zoom level is fixed to show the epicenter of the locations. 
+        - The zoom level is fixed at 11.
         - The generated map image is saved as a PNG file in the specified directory.
         - The function uses the `crop_image` function to crop the map image to a specific width and height (624x403).
         - Ensure that the DataFrame contains the required columns and represents the relevant map data, and the directory is valid.

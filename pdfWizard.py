@@ -458,22 +458,8 @@ class pdfConstructor:
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
-        # Network Overview
-        self.pdf.set_xy(2.25, 2.85)
-        self.pdf.cell(0, 0, "3", align='L', link=page_three)
-        self.pdf.cell(0, 0, "Network Overview          ", align='R', link=page_three)
-
-        self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
-        self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
-        
-        self.pdf.cell(0, 0, "Who is in our network?                ", align='R', link=page_three)
-
-        self.pdf.set_text_color(0, 72, 61)
-        self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
-
         # Profile Completeness
-        self.pdf.set_xy(2.25, 3.7)
+        self.pdf.set_xy(2.25, 2.85)
         self.pdf.cell(0, 0, "4", align='L', link=page_four)
         self.pdf.cell(0, 0, "Profile Completeness          ", align='R', link=page_four)
 
@@ -487,7 +473,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Contact Information
-        self.pdf.set_xy(2.25, 4.55)
+        self.pdf.set_xy(2.25, 3.7)
         self.pdf.cell(0, 0, "5", align='L', link=page_five)
         self.pdf.cell(0, 0, "Contact Information          ", align='R', link=page_five)
 
@@ -501,7 +487,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Program Types and Filters
-        self.pdf.set_xy(2.25, 5.4)
+        self.pdf.set_xy(2.25, 4.55)
         self.pdf.cell(0, 0, "6", align='L', link=page_six)
         self.pdf.cell(0, 0, "Program Types and Filters          ", align='R', link=page_six)
 
@@ -515,7 +501,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Network Hours Overview
-        self.pdf.set_xy(2.25, 6.25)
+        self.pdf.set_xy(2.25, 5.4)
         self.pdf.cell(0, 0, "8", align='L', link=page_eight)
         self.pdf.cell(0, 0, "Network Hours Overview          ", align='R', link=page_eight)
 
@@ -529,7 +515,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Qualifications and Service Area
-        self.pdf.set_xy(2.25, 7.1)
+        self.pdf.set_xy(2.25, 6.25)
         self.pdf.cell(0, 0, "11", align='L', link=page_eleven)
         self.pdf.cell(0, 0, "Qualifications and Service Area          ", align='R', link=page_eleven)
 
@@ -543,7 +529,7 @@ class pdfConstructor:
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Appendices
-        self.pdf.set_xy(2.25, 7.95)
+        self.pdf.set_xy(2.25, 7.1)
         self.pdf.cell(0, 0, "12", align='L', link=page_twelve)
         self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_twelve)
 
@@ -1335,6 +1321,12 @@ if __name__ == "__main__":
     parser.add_argument("file", action="store", help="The file to validate.")
     # Add network name argument
     parser.add_argument("network_name", action="store", help="To name the PDF and customize to the specific Network")
+    # Add latitude argument
+    parser.add_argument("latitude", action="store", help="The latitude of the center of the Network")
+    # Add longitude argument
+    parser.add_argument("longitude", action="store", help="The longitude of the center of the Network")
+    # Add longitude argument
+    parser.add_argument("city", action="store", help="The central city of the Network")
     # Console arguments
     args = parser.parse_args()
     
@@ -1342,6 +1334,12 @@ if __name__ == "__main__":
     directory = "data_" + args.file.split("\\")[-1].replace(".csv", "")
     # Create network name
     network_name = args.network_name
+    # Create latitude
+    latitude = float(args.latitude)
+    # Create longitude
+    longitude = float(args.longitude)
+    # Create city
+    city = args.city
     # Create DataFrame
     df = pd.read_csv(args.file)
 
@@ -1377,16 +1375,19 @@ if __name__ == "__main__":
     # Location Map
     constructor.add_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
-    constructor.add_image(ae.create_map(df, directory), 4.2, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]])
+    constructor.add_image(ae.create_map(df, directory), 3.05, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]])
+    constructor.add_vertical_space(0.1)
+    constructor.add_image(ae.create_zoomed_map(df, directory, latitude, longitude), 3.05, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]])
+    TEXT["LOCATION MAP"]["subtitle"] = TEXT["LOCATION MAP"]["subtitle"].format(city)
     constructor.add_subtitle_text(TEXT["LOCATION MAP"]["subtitle"])
-    constructor.add_normal_text(TEXT["LOCATION MAP"]["paragraph"], alignment='C')
-
-    # Network Overview
-    constructor.add_h1_text(TEXT["NETWORK OVERVIEW"]["title"])
-    constructor.add_table(ae.create_network_overview_table)
-    constructor.add_horizontal_line()
+    constructor.add_vertical_space(0.05)
     TEXT = ae.calculate_percent_locations_inactive(df, TEXT, "NETWORK OVERVIEW", "paragraph")
     constructor.add_normal_text(TEXT["NETWORK OVERVIEW"]["paragraph"], pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]])
+
+    # Network Overview
+    constructor.add_vertical_space(0.1)
+    constructor.add_table(ae.create_network_overview_table)
+    constructor.add_horizontal_line()
 
     # Profile Completeness
     constructor.add_page()
