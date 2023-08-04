@@ -64,7 +64,7 @@
         "program filename": "missing_program_contact_information_graph.png",
         "program xaxis": ["Not Contactable", "Name", "Email", "Phone", "Fully Engaged"],
         "subtitle": ["Missing Location and Program Contact Information"],
-        "paragraph": "{}. Public contact information includes a name, phone number, email, and website."
+        "paragraph": "{}. Public contact information includes a name, phone number, and email."
     },
 
     "PROGRAM TYPES": {
@@ -75,7 +75,7 @@
         "food program types labels": ["Food Distribution", "Hot/Cold Meal Program", "Pop-Up/Mobile Resource", "Shelter", "Other"],
         "food program types filename": "program_by_food_program_type.png",
         "paragraph one": "Below is **your Network's split between Food Programs and Non-Food Programs.** Does this graph appear to be missing some Programs? To review all Programs and their Program Types, click the graph below.",
-        "paragraph two": "The Food Program slice can be broken down further into a few food Program types. The graph below states that **{}% of your Network's Programs are in food distribution.** To review these Food Programs, click the chart below."
+        "paragraph two": "The Food Program slice can be broken down further into the Food Program Types. The graph below states that **{}% of your Network's Programs are in Food Distribution.** To review these Food Programs, click the chart below."
     },
 
     "PROGRAM FILTER FIELDS": {
@@ -102,7 +102,7 @@
 
     "NETWORK HOUR TYPE USAGE": {
         "title": "Network Scheduling",
-        "paragraph": "Vivery uses a variety of **different scheduling formats** to the represent **hours locations and pantries are open.** Below are the usages of these scheduling formats at the Locations and Program levels.",
+        "paragraph": "Vivery uses a variety of **scheduling formats** to the represent **the hours opened and closed in the Network.** Below are the usages of these scheduling formats at the Locations and Program levels.",
         "columns": ["Hour Type", "Location Usage", "Program Usage"],
         "rows": ["Weekly", "Every Other Week", "Week of Month", "Day of Month", "Call for Information"],
         "subtitle": "Scroll down below to see the month to month view of the Network hours at the Location and Program level."
@@ -130,7 +130,7 @@
 
     "MISSING PROGRAM QUALIFICATIONS": {
         "title": "Missing Program Qualifications",
-        "paragraph": "The graph below shows the usage of Program Qualifications in this Network. Program Qualifications help neighbors determine if they qualify for this Program's services. To review the Programs without qualifications, click the graph below.",
+        "paragraph": "The graph below shows the usage of Program Qualifications in this Network. Program Qualifications help neighbors determine if they qualify for a Program's services. To review the Programs without qualifications, click the graph below.",
         "xaxis": ["Qualifications Listed", "No Qualifications"],
         "xlabel": "",
         "ylabel": "Programs",
@@ -139,7 +139,7 @@
 
     "MISSING PROGRAM SERVICE AREA": {
         "title": "Missing Program Service Areas",
-        "paragraph": "Neighbors use Program Service Areas to determine if they are within range to qualify for the Program's service. To review all Program service areas, click the above image.",
+        "paragraph": "Neighbors use Program Service Areas to determine if they are within range to qualify for a Program's service. To review all Program service areas, click the above image.",
         "xaxis": ["Service Area Provided", "No Service Area"],
         "xlabel": "",
         "ylabel": "Programs",
