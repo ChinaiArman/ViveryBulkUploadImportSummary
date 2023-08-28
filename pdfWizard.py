@@ -112,7 +112,7 @@ SUBTITLE_TEXT_SIZE = 10                                                     # Th
 TABLE_TEXT_SIZE = 10                                                        # The table text font size.
 APPENDIX_LINES_PER_PAGE = 25                                                # The number of rows per page for appendix pages.
 FIRST_APPENDIX_PAGE = 13                                                    # The first page of the appendix
-TABLE_CHAR_PER_CELL = {1: 100, 2: 50, 3: 28, 4: 20, 5: 12, 6: 10}           # A dictionary used to map the number of characters per cell.
+TABLE_CHAR_PER_CELL = {1: 100, 2: 45, 3: 28, 4: 20, 5: 12, 6: 10}           # A dictionary used to map the number of characters per cell.
 
 # COLOURS
 
