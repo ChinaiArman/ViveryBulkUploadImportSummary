@@ -988,13 +988,17 @@ def graph_sample_location_hours_current_month(df: pd.DataFrame, directory: str) 
             current_month[day] += every_other_week_weekdays[calendar.day_name[day.weekday()]]
     
     # Week of month
-    week_of_month_hours = df.loc[(df["Frequency"] == "Week of Month") & (df['Hours Entity Type'] == 'Program')]
+    week_of_month_hours = df.loc[(df["Frequency"] == "Week of Month") & (df['Hours Entity Type'] == 'Location')]
     for _, rows in week_of_month_hours.iterrows():
         current_month_day_indexer = datetime.date.today().replace(day=1)
         current_month_week_counter = 1
         current_month_day_counter = 1
-        while calendar.day_name[current_month_day_indexer.weekday()] != rows['Day of Week'] or current_month_week_counter != rows['Week of Month']:
-            current_month_day_indexer = datetime.date.today().replace(day=current_month_day_counter)
+        flag = True
+        while (calendar.day_name[current_month_day_indexer.weekday()] != rows['Day of Week'] or current_month_week_counter != rows['Week of Month']) and flag:
+            try:
+                current_month_day_indexer = datetime.date.today().replace(day=current_month_day_counter)
+            except:
+                flag = False
             current_month_day_counter += 1
             current_month_week_counter += calendar.day_name[current_month_day_indexer.weekday()] == "Saturday"
         for i in range(1, 4):
@@ -1106,8 +1110,12 @@ def graph_sample_location_hours_next_month(df: pd.DataFrame, directory: str) -> 
         next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
         next_month_week_counter = 1
         next_month_day_counter = 1
-        while calendar.day_name[next_month_day_indexer.weekday()] != rows['Day of Week'] or next_month_week_counter != rows['Week of Month']:
-            next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=next_month_day_counter)
+        flag = True
+        while (calendar.day_name[next_month_day_indexer.weekday()] != rows['Day of Week'] or next_month_week_counter != rows['Week of Month']) and flag:
+            try:
+                next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=next_month_day_counter)
+            except:
+                flag = False
             next_month_day_counter += 1
             next_month_week_counter += calendar.day_name[next_month_day_indexer.weekday()] == "Saturday"
         for i in range(1, 4):
@@ -1218,8 +1226,12 @@ def graph_sample_program_hours_current_month(df: pd.DataFrame, directory: str) -
         current_month_day_indexer = datetime.date.today().replace(day=1)
         current_month_week_counter = 1
         current_month_day_counter = 1
-        while calendar.day_name[current_month_day_indexer.weekday()] != rows['Day of Week'] or current_month_week_counter != rows['Week of Month']:
-            current_month_day_indexer = datetime.date.today().replace(day=current_month_day_counter)
+        flag = True
+        while (calendar.day_name[current_month_day_indexer.weekday()] != rows['Day of Week'] or current_month_week_counter != rows['Week of Month']) and flag:
+            try:
+                current_month_day_indexer = datetime.date.today().replace(day=current_month_day_counter)
+            except:
+                flag = False
             current_month_day_counter += 1
             current_month_week_counter += calendar.day_name[current_month_day_indexer.weekday()] == "Saturday"
         for i in range(1, 4):
@@ -1331,8 +1343,12 @@ def graph_sample_program_hours_next_month(df: pd.DataFrame, directory: str) -> s
         next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
         next_month_week_counter = 1
         next_month_day_counter = 1
-        while calendar.day_name[next_month_day_indexer.weekday()] != rows['Day of Week'] or next_month_week_counter != rows['Week of Month']:
-            next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=next_month_day_counter)
+        flag = True
+        while (calendar.day_name[next_month_day_indexer.weekday()] != rows['Day of Week'] or next_month_week_counter != rows['Week of Month']) and flag:
+            try:
+                next_month_day_indexer = (datetime.date.today().replace(day=1) + datetime.timedelta(days=32)).replace(day=next_month_day_counter)
+            except:
+                flag = False
             next_month_day_counter += 1
             next_month_week_counter += calendar.day_name[next_month_day_indexer.weekday()] == "Saturday"
         for i in range(1, 4):
@@ -2051,6 +2067,7 @@ def create_program_profile_completion_table(df: pd.DataFrame) -> pd.DataFrame:
         - To ensure an accurate calculation, make sure all required columns are present in the DataFrame.
     """
     df2 = df.copy()
+    df2 = df2[list(WEIGHTS.keys())]
     df2["Profile Score"] = df2.notnull().astype('int').mul(WEIGHTS).sum(axis=1)
     df2 = df2[["Location Name", "Profile Score"]].groupby(['Location Name']).max().reset_index()
     df2["Tier Level"] = df2["Profile Score"].apply(lambda score: PROFILE_COMPLETION_TIERS["Tier"][2] if score >= 36 else PROFILE_COMPLETION_TIERS["Tier"][1] if score >= 21 else PROFILE_COMPLETION_TIERS["Tier"][0])
