@@ -1,14 +1,34 @@
-Program Audience,Location Features,Program Features,Items Offered,Dietary Options
-Older Adults / Seniors,Seating in Waiting Area,Grocery/Client Choice,Dairy,Gluten Free
-Teenagers / Young Adults,Wheelchair Accessible,Home Delivery Service,Eggs,Vegan
-Children / Youth,Restrooms Available,Pre-Packed Boxes/Bags,Meat,Vegetarian
-Veterans,Parking Available,Prepared Food,Fruits & Vegetables,Other
-LGBTQ+,Air Conditioning,Other,Shelf-Stable/Non-Perishable Goods,Halal
-Immigrants,Near Public Transportation,Curbside Pickup / Drive Through,Other,Kosher
-Unhoused,Wi-Fi Available,Pet Food/Supplies,Prepared Food / Grab and Go,Ground or Pureed
-Homebound,Safe Space,Online Ordering,Toiletries / Hygiene Products,
-Persons with Disabilities,,Lifting / Carrying Assistance,Pet Food / Supplies,
-People Managing Chronic Health Conditions,,Reservations,Diapers,
-Adults,,Transportation Assistance,Household Products,
-,,Indoor Service,Sit Down Meals,
-,,Outdoor Service,,
+﻿Program Service Category,Program Audience,Program Audience Groups,Location Features,Languages Spoken,Food Program Features,Food Program Category,Items Offered,Dietary Options Available
+Food Program,Everyone,Older Adults / Seniors,Seating in Waiting Area,Arabic,Grocery/Client Choice,Food Distribution,Dairy,Gluten Free
+Case Management Services,"Everyone, with a focus on these groups",Teenagers / Young Adults,Wheelchair Accessible,Braille,Home Delivery Service,Hot/Cold Meal Program,Eggs,Vegan
+Child Care Assistance,Only these groups,Children / Youth,Restrooms Available,"Chinese (Mandarin, Cantonese)",Pre-Packed Boxes/Bags,Pop-Up/Mobile Resource,Meat,Vegetarian
+Domestic Violence Assistance,,Veterans,Parking Available,English,Prepared Food,Other,Fruits & Vegetables,Other
+Drug & Alcohol Assistance,,LGBTQ+,Air Conditioning,French,Other,Shelter,Shelf Stable/Non-Perishable Goods,Halal
+Educational Courses/Classes,,Immigrants,Near Public Transit,German,Curbside Pickup / Drive Through,,Other,Kosher
+Employment Services/Workforce Development,,Unhoused,Wi-Fi Available,Hindi,Pet Food/Supplies,,Prepared Food / Grab and Go,Ground or Pureed
+Healthcare Screenings/Referrals,,Homebound,Safe Space,Polish,Online Ordering,,Toiletries / Hygiene Products,
+Housing Assistance,,Persons with Disabilities,,Sign Language (ASL),Lifting / Carrying Assistance,,Pet Food / Supplies,
+Legal Assistance,,People Managing Chronic Health Conditions,,Spanish,Reservations,,Diapers,
+Mental Health Services,,Adults,,Other,Transportation Assistance,,Household Products,
+Nutrition Education/Services,,People Affiliated With School ,,Russian,Indoor Service,,Sit Down Meals,
+Tax/Financial Support,,,,Vietnamese,Outdoor Service,,,
+Transportation Assistance,,,,Lithuanian,Dietary Menu Options ,,,
+Public Benefits Assistance,,,,Italian,,,,
+Other,,,,Korean,,,,
+Distribution of Non-Food Items,,,,Tagalog,,,,
+Health and Wellness Services ,,,,Urdu,,,,
+,,,,Gujarati,,,,
+,,,,Greek,,,,
+,,,,Ukranian,,,,
+,,,,Serbo-Croatian,,,,
+,,,,Hebrew / Yiddish,,,,
+,,,,Romanian,,,,
+,,,,Mongolian,,,,
+,,,,Yoruba,,,,
+,,,,Annang,,,,
+,,,,Bosnian,,,,
+,,,,"Portuguese (Portugal, Brazil)",,,,
+,,,,Haitian Creole,,,,
+,,,,Akan,,,,
+,,,,Amharic,,,,
+,,,,Cape Verdean Creole,,,,
