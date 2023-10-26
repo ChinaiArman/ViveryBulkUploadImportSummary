@@ -2681,6 +2681,12 @@ def create_program_by_program_service_area_table(df: pd.DataFrame) -> pd.DataFra
     return df.sort_values(by=TEXT["APPENDIX PROGRAM SERVICE AREAS"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
 
 
+def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    """
+    return
+
+
 
 
 # NUMBERS
