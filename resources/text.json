@@ -93,6 +93,12 @@
         "columns": ["Audience", "L. Features", "P. Features", "Items", "Dietary"]
     },
 
+    "PROGRAM SUB FILTERS": {
+        "title": "Program Sub Filters",
+        "paragraph": "",
+        "columns": ["Program Service Category", "Program Audience", "Program Audience Groups", "Location Features", "Languages Spoken", "Food Program Features", "Food Program Category", "Items Offered", "Dietary Options Available"]
+    },
+
     "NETWORK HOURS OVERVIEW": {
         "title": "Network Hours Overview",
         "labels": ["Program Hours", "Location Hours"],
