@@ -2784,7 +2784,7 @@ def create_most_used_sub_filter_table(df: pd.DataFrame) -> pd.DataFrame:
         
         # Merge DataFrames
         new_df = pd.concat([new_df, temp_df])
-        
+
     new_df = new_df.sort_values(by="Usage", ascending=False)
     new_df["Usage"] = (round(new_df["Usage"].astype(float) / location_count * 100), 2)[0].astype(str) + "%"
     return new_df.head(5).reset_index(drop=True)
@@ -3098,50 +3098,50 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of graphing functions
     graphing_functions = [
-        # create_map,
-        # graph_profile_grade,
-        # graph_missing_organization_contact_info,
-        # graph_missing_location_contact_info,
-        # graph_missing_program_contact_info,
-        # graph_program_type,
-        # graph_food_program_breakdown,
-        # graph_program_filter_usage,
-        # graph_network_hours_overview,
-        # graph_sample_location_hours_current_month,
-        # graph_sample_location_hours_next_month,
-        # graph_sample_program_hours_current_month,
-        # graph_sample_program_hours_next_month,
-        # graph_program_qualifications,
-        # graph_program_service_areas
+        create_map,
+        graph_profile_grade,
+        graph_missing_organization_contact_info,
+        graph_missing_location_contact_info,
+        graph_missing_program_contact_info,
+        graph_program_type,
+        graph_food_program_breakdown,
+        graph_program_filter_usage,
+        graph_network_hours_overview,
+        graph_sample_location_hours_current_month,
+        graph_sample_location_hours_next_month,
+        graph_sample_program_hours_current_month,
+        graph_sample_program_hours_next_month,
+        graph_program_qualifications,
+        graph_program_service_areas
     ]
     # Create a list of DataFrame functions
     dataframe_functions = [
-        # create_network_overview_table,
-        # create_highest_graded_profiles_table,
-        # create_lowest_graded_profiles_table,
-        # create_high_low_graded_profiles_table,
-        # create_recommended_program_filters_table,
-        # create_recommended_filters_slice,
-        # create_hour_type_usage_table,
-        # create_organization_table,
-        # create_location_table,
-        # create_program_table,
-        # create_organization_contact_information_table,
-        # create_location_contact_information_table,
-        # create_program_contact_information_table,
-        # create_program_by_program_type_table,
-        # create_program_by_program_audience_table,
-        # create_program_by_program_languages_spoken_table,
-        # create_program_by_program_features_table,
-        # create_program_by_program_items_offered_table,
-        # create_program_by_program_dietary_options_table,
-        # create_location_hours_table,
-        # create_program_hours_table,
-        # create_profile_completion_tiers_table,
-        # create_program_category_field_weights,
-        # create_program_by_program_qualifications_table,
-        # create_program_by_program_service_area_table,
-        # create_program_profile_completion_table,
+        create_network_overview_table,
+        create_highest_graded_profiles_table,
+        create_lowest_graded_profiles_table,
+        create_high_low_graded_profiles_table,
+        create_recommended_program_filters_table,
+        create_recommended_filters_slice,
+        create_hour_type_usage_table,
+        create_organization_table,
+        create_location_table,
+        create_program_table,
+        create_organization_contact_information_table,
+        create_location_contact_information_table,
+        create_program_contact_information_table,
+        create_program_by_program_type_table,
+        create_program_by_program_audience_table,
+        create_program_by_program_languages_spoken_table,
+        create_program_by_program_features_table,
+        create_program_by_program_items_offered_table,
+        create_program_by_program_dietary_options_table,
+        create_location_hours_table,
+        create_program_hours_table,
+        create_profile_completion_tiers_table,
+        create_program_category_field_weights,
+        create_program_by_program_qualifications_table,
+        create_program_by_program_service_area_table,
+        create_program_profile_completion_table,
         create_program_sub_filter_usage_table,
         create_most_used_sub_filter_table
     ]
