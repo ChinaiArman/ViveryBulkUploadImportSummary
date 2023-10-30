@@ -2685,28 +2685,29 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
     location_count = df["Location External ID"].drop_duplicates().shape[0]
-    new_df = pd.DataFrame()
+    data_dict = {}
     for column in RECOMMENDED_FILTERS.columns.values.tolist():
+
         # Assemble Values
         temp_df = df[["Location External ID", column]].set_index(['Location External ID']).apply(lambda x: x.astype(str).str.split(';').explode()).reset_index()
         temp_df[column] = temp_df[column].str.strip()
-        temp_df = temp_df.groupby(column)['Location External ID'].nunique().to_frame().reset_index().rename(columns={'Location External ID':'Count'}).sort_values(by="Count", ascending=False)
+        temp_df = temp_df.groupby(column)['Location External ID'].nunique().to_frame().reset_index().rename(columns={'Location External ID':'Count'})
         temp_df[column] = temp_df[column].replace({'nan':'No Filters Used', "": "delete"})
         temp_df = temp_df.drop(temp_df[temp_df[column] == 'delete'].index)
-        for value in RECOMMENDED_FILTERS[column].to_list():
+        for value in RECOMMENDED_FILTERS[column].to_list() + ["No Filters Used"]:
             if value not in temp_df[column].values and not pd.isnull(value):
                 temp_df = temp_df.append({column: value, "Count": 0}, ignore_index=True)
-
-        # Format Columns
+        temp_df = temp_df.sort_values(by="Count", ascending=False)
+        
+        # Format Data
         temp_df[column] = temp_df[column].astype(str) + " - " + (round((temp_df["Count"] / location_count) * 100), 2)[0].astype(str) + "%"
         temp_df.drop(columns=["Count"], inplace=True)
+        data_dict[column] = ([value[0] for value in temp_df.values.tolist()])
 
-        # Merge DataFrames
-        new_df = pd.concat([temp_df, new_df], axis=1)
-
-        # Print
-        print(temp_df)
-    return new_df
+    # Merge DataFrames
+    new_df = pd.DataFrame.from_dict(data_dict, orient='index')
+    new_df = new_df.transpose().replace({None:np.nan})
+    return new_df.reset_index(drop=True)
         
 
 
