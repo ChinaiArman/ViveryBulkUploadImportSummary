@@ -2714,7 +2714,23 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
 def create_most_used_sub_filter_table(df: pd.DataFrame) -> pd.DataFrame:
     """
     """
-    return
+    location_count = df["Location External ID"].drop_duplicates().shape[0]
+    new_df = pd.DataFrame(columns=["Sub Filter", "Count"])
+    for column in RECOMMENDED_FILTERS.columns.values.tolist():
+
+        # Assemble Values
+        temp_df = df[["Location External ID", column]].set_index(['Location External ID']).apply(lambda x: x.astype(str).str.split(';').explode()).reset_index()
+        temp_df[column] = temp_df[column].str.strip()
+        temp_df = temp_df.groupby(column)['Location External ID'].nunique().to_frame().reset_index().rename(columns={column: 'Sub Filter', 'Location External ID':'Count'})
+        temp_df['Sub Filter'] = temp_df['Sub Filter'].replace({'nan':'delete', "": "delete"})
+        temp_df = temp_df.drop(temp_df[temp_df['Sub Filter'] == 'delete'].index)
+        temp_df = temp_df.sort_values(by="Count", ascending=False)
+        
+        # Merge DataFrames
+        new_df = pd.concat([new_df, temp_df])
+    new_df = new_df.sort_values(by="Count", ascending=False)
+    new_df["Count"] = (round(new_df["Count"].astype(float) / location_count * 100), 2)[0].astype(str) + "%"
+    return new_df.head(5).reset_index(drop=True)
 
 
 
@@ -3069,7 +3085,8 @@ if __name__ == "__main__":
         # create_program_by_program_qualifications_table,
         # create_program_by_program_service_area_table,
         # create_program_profile_completion_table,
-        create_program_sub_filter_usage_table
+        create_program_sub_filter_usage_table,
+        create_most_used_sub_filter_table
     ]
 
     # Create directory within project folder
