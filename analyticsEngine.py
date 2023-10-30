@@ -2,7 +2,7 @@
 Analytics Engine API.
 
 @author Arman Chinai
-@version 1.2.2
+@version 1.3.0
 
 The primary purpose of this file is to serve as an API for the pdfWizard, assisting in creating the analytical report (PDF).
 This file provides a full range of functions used to perform data analytics on a network bulk upload file.
