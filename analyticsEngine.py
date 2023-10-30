@@ -2741,23 +2741,52 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_most_used_sub_filter_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Create a table that summarizes the most used `sub-filters` for locations and programs.
+
+    Args:
+        `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
+
+    Returns:
+        pd.DataFrame: A new DataFrame summarizing the most used `sub-filters` for locations and programs, showing the top 5 `sub-filters`.      
+
+    Preconditions:
+        - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     "Location External ID": [101, 101, 102, 102, 103, 101, 104],
+        ...     "Filter A": ["Option 1; Option 2", "Option 2", "Option 1; Option 3", "Option 2", ""],
+        ...     "Filter B": ["Option X", "Option Y", "Option X", "Option Y", "Option X", "Option Z", "Option Z"]
+        ... })
+        >>> result = create_most_used_sub_filter_table(data)
+        >>> print(result)
+                Sub-Filter          Usage
+        0       Option 2            42.9%
+        1       Option X            42.9%
+        2       Option Y            28.6%
+        3       Option Z            28.6%
+        4       Option 1            28.6%
     """
     location_count = df["Location External ID"].drop_duplicates().shape[0]
-    new_df = pd.DataFrame(columns=["Sub Filter", "Count"])
+    new_df = pd.DataFrame(columns=["Sub Filter", "Usage"])
     for column in RECOMMENDED_FILTERS.columns.values.tolist():
 
         # Assemble Values
         temp_df = df[["Location External ID", column]].set_index(['Location External ID']).apply(lambda x: x.astype(str).str.split(';').explode()).reset_index()
         temp_df[column] = temp_df[column].str.strip()
-        temp_df = temp_df.groupby(column)['Location External ID'].nunique().to_frame().reset_index().rename(columns={column: 'Sub Filter', 'Location External ID':'Count'})
+        temp_df = temp_df.groupby(column)['Location External ID'].nunique().to_frame().reset_index().rename(columns={column: 'Sub Filter', 'Location External ID':'Usage'})
         temp_df['Sub Filter'] = temp_df['Sub Filter'].replace({'nan':'delete', "": "delete"})
         temp_df = temp_df.drop(temp_df[temp_df['Sub Filter'] == 'delete'].index)
-        temp_df = temp_df.sort_values(by="Count", ascending=False)
+        temp_df = temp_df.sort_values(by="Usage", ascending=False)
         
         # Merge DataFrames
         new_df = pd.concat([new_df, temp_df])
-    new_df = new_df.sort_values(by="Count", ascending=False)
-    new_df["Count"] = (round(new_df["Count"].astype(float) / location_count * 100), 2)[0].astype(str) + "%"
+        
+    new_df = new_df.sort_values(by="Usage", ascending=False)
+    new_df["Usage"] = (round(new_df["Usage"].astype(float) / location_count * 100), 2)[0].astype(str) + "%"
     return new_df.head(5).reset_index(drop=True)
 
 
