@@ -2730,7 +2730,11 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         # Format Data
         temp_df[column] = temp_df[column].astype(str) + " - " + (round((temp_df["Count"] / location_count) * 100), 2)[0].astype(str) + "%"
         temp_df.drop(columns=["Count"], inplace=True)
-        data_dict[column] = ([value[0] for value in temp_df.values.tolist()])
+        if column == "Languages Spoken":
+            data_dict["Languages Spoken Group 1"] = ([value[0] for value in temp_df.values.tolist()[0:17]])
+            data_dict["Languages Spoken Group 2"] = ([value[0] for value in temp_df.values.tolist()[17:]])
+        else:
+            data_dict[column] = ([value[0] for value in temp_df.values.tolist()])
 
     # Merge DataFrames
     new_df = pd.DataFrame.from_dict(data_dict, orient='index')
@@ -3120,8 +3124,8 @@ if __name__ == "__main__":
         create_highest_graded_profiles_table,
         create_lowest_graded_profiles_table,
         create_high_low_graded_profiles_table,
-        create_recommended_program_filters_table,
-        create_recommended_filters_slice,
+        # create_recommended_program_filters_table,
+        # create_recommended_filters_slice,
         create_hour_type_usage_table,
         create_organization_table,
         create_location_table,
