@@ -2683,6 +2683,34 @@ def create_program_by_program_service_area_table(df: pd.DataFrame) -> pd.DataFra
 
 def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
     """
+    Create a table that summarizes the usage of recommended `sub-filters` for locations and programs.
+
+    Args:
+        `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
+
+    Returns:
+        `pd.DataFrame`: A new DataFrame summarizing the usage of recommended `sub-filters` for locations and programs.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     "Location External ID": [101, 101, 102, 102, 103, 101, 104],
+        ...     "Filter A": ["Option 1; Option 2", "Option 2", "Option 1; Option 3", "Option 2", ""],
+        ...     "Filter B": ["Option X", "Option Y", "Option X", "Option Y", "Option X", "Option Z", "Option Z"]
+        ... })
+        >>> result = create_program_sub_filter_usage_table(data)
+        >>> print(result)
+            Filter A                            Filter B
+        0       Option 2 - 42.9%                    Option X - 42.9%
+        1       Option 1 - 28.6%                    Option Y - 28.6%
+        2       Option 3 - 14.3%                    Option Z - 28.6%
+        3       No Filters Used - 14.3%             No Filters Used - 0%
+        4       Option 4 - 0%          
     """
     location_count = df["Location External ID"].drop_duplicates().shape[0]
     data_dict = {}
