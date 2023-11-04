@@ -87,14 +87,13 @@
         "filename": "program_filter_usage.png"
     },
 
-    "RECOMMENDED FILTER OPTIONS": {
-        "title": "Recommended Filter Options",
-        "paragraph": "Below are some of the **most common Program Filters across the Vivery Network.** Consider adding these filters to your Programs to increase their distinguishability. Click here to view the full range of filters.",
-        "columns": ["Audience", "L. Features", "P. Features", "Items", "Dietary"]
+    "MOST USED SUB FILTERS": {
+        "title": "Most Used Sub-Filters",
+        "paragraph": "Vivery Sub-Filters **help Locations distinguish themselves**, allowing neighbors to get access to the resources they need. Below are the Sub-Filters **most used by your Network**, as well as the usages for all Vivery Sub-Filters."
     },
 
     "PROGRAM SUB FILTERS": {
-        "title": "Program Sub Filters",
+        "title": "Program Sub-Filter Usage",
         "paragraph": "",
         "columns": ["Program Service Category", "Program Audience", "Program Audience Groups", "Location Features", "Languages Spoken", "Food Program Features", "Food Program Category", "Items Offered", "Dietary Options Available"]
     },
@@ -233,27 +232,23 @@
         "columns": ["Program ID", "Program Dietary Options"]
     },
 
-    "APPENDIX PROGRAM FILTERS AVAILABLE": {
-        "title": "Appendix O - Program Filters Available"
-    },
-
     "APPENDIX LOCATION HOURS INFORMATION": {
-        "title": "Appendix P - Location Hours Information",
+        "title": "Appendix O - Location Hours Information",
         "columns": ["Location ID", "Hour Type", "Opened", "Closed", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM HOURS INFORMATION": {
-        "title": "Appendix Q - Program Hours Information",
+        "title": "Appendix P - Program Hours Information",
         "columns": ["Program ID", "Hour Type", "Opened", "Closed", "Day", "Frequency"]
     },
 
     "APPENDIX PROGRAM QUALIFICATIONS": {
-        "title": "Appendix R - Program Qualifications",
+        "title": "Appendix Q - Program Qualifications",
         "columns": ["Program ID", "Program Qualifications"]
     },
 
     "APPENDIX PROGRAM SERVICE AREAS": {
-        "title": "Appendix S - Program Service Areas",
+        "title": "Appendix R - Program Service Areas",
         "columns": ["Program ID", "Program Service Area"]
     }
 }
