@@ -2,7 +2,7 @@
 pdfWizard.
 
 @author Arman Chinai
-@version 1.2.0
+@version 1.2.1
 
 The file contains the pdfConstructor class.
 The pdfConstructor class contains a set of methods used to create PDFs from scratch. These methods make use of the Analytics Engine API functions.
@@ -88,7 +88,7 @@ import json                             # JSON, used to parse JSON files and con
 import math                             # Math, used for basic mathematical operations.
 import datetime, calendar               # Datetime and Calendar, used to handle date related tasks and allows python to have access to real world calendar data.
 from PIL import Image                   # Image, used to handle varius tasks with Image files like PNGs.
-import re
+import re                               # Regex, used to parse, format, and select text from strings.
 
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae            # AnalyticsEngine, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
@@ -154,7 +154,10 @@ class pdfConstructor:
             Saves the generated PDF document to the specified directory.
 
         add_portrait_page(self) -> None:
-            Adds a new page to the PDF document.
+            Adds a new portrait page to the PDF document.
+
+        add_landscape_page(self) -> None:
+            Adds a new landscape page to the PDF document.
 
         add_image(self, filepath: str, height: int, pagenumber: int=-2) -> None:
             Adds an image to the PDF document.
@@ -175,7 +178,10 @@ class pdfConstructor:
             Adds a horizontal line to the PDF document.
 
         add_portrait_table(self, function) -> None:
-            Adds a table to the PDF document using the specified function to process the DataFrame.
+            Adds a portrait table to the PDF document using the specified function to process the DataFrame.
+
+        add_landscape_table(self, function) -> None:
+            Adds a landscape table to the PDF document using the specified function to process the DataFrame.
 
         add_appendix(self, function, title: str) -> None:
             Adds an appendix section to the PDF document using the specified function to process the DataFrame.
