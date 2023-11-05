@@ -2683,13 +2683,13 @@ def create_program_by_program_service_area_table(df: pd.DataFrame) -> pd.DataFra
 
 def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Create a table that summarizes the usage of recommended `sub-filters` for locations and programs.
+    Create a table that summarizes the usage of `sub-filters` for locations and programs.
 
     Args:
         `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
 
     Returns:
-        `pd.DataFrame`: A new DataFrame summarizing the usage of recommended `sub-filters` for locations and programs.
+        `pd.DataFrame`: A new DataFrame summarizing the usage of `sub-filters` for locations and programs.
 
     Preconditions:
         - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
@@ -2741,6 +2741,185 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
     new_df = new_df.transpose().replace({None:np.nan})
     return new_df.reset_index(drop=True)
         
+
+def create_program_sub_filter_usage_table_group_a(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create a table that summarizes the usage of `Program Service Category` and `Food Program Category` for locations and programs.
+
+    Args:
+        `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
+
+    Returns:
+        `pd.DataFrame`: A new DataFrame summarizing the usage of `Program Service Category` and `Food Program Category` for locations and programs.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     "Location External ID": [101, 101, 102, 102, 103, 101, 104],
+        ...     "Program Service Category": ["Option 1; Option 2", "Option 2", "Option 1; Option 3", "Option 2", ""],
+        ...     "Food Program Category": ["Option X", "Option Y", "Option X", "Option Y", "Option X", "Option Z", "Option Z"]
+        ... })
+        >>> result = create_program_sub_filter_usage_table(data)
+        >>> print(result)
+            Program Service Category            Food Program Category
+        0       Option 2 - 42.9%                    Option X - 42.9%
+        1       Option 1 - 28.6%                    Option Y - 28.6%
+        2       Option 3 - 14.3%                    Option Z - 28.6%
+        3       No Filters Used - 14.3%             No Filters Used - 0%
+        4       Option 4 - 0%          
+    """
+    new_df = create_program_sub_filter_usage_table(df)
+    select_columns = ["Program Service Category", "Food Program Category"]
+    return new_df[select_columns]
+
+
+def create_program_sub_filter_usage_table_group_b(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create a table that summarizes the usage of `Location Features` and `Food Program Features` for locations and programs.
+
+    Args:
+        `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
+
+    Returns:
+        `pd.DataFrame`: A new DataFrame summarizing the usage of `Location Features` and `Food Program Features` for locations and programs.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     "Location External ID": [101, 101, 102, 102, 103, 101, 104],
+        ...     "Location Features": ["Option 1; Option 2", "Option 2", "Option 1; Option 3", "Option 2", ""],
+        ...     "Food Program Features": ["Option X", "Option Y", "Option X", "Option Y", "Option X", "Option Z", "Option Z"]
+        ... })
+        >>> result = create_program_sub_filter_usage_table(data)
+        >>> print(result)
+            Location Features                   Food Program Features
+        0       Option 2 - 42.9%                    Option X - 42.9%
+        1       Option 1 - 28.6%                    Option Y - 28.6%
+        2       Option 3 - 14.3%                    Option Z - 28.6%
+        3       No Filters Used - 14.3%             No Filters Used - 0%
+        4       Option 4 - 0%          
+    """
+    new_df = create_program_sub_filter_usage_table(df)
+    select_columns = ["Location Features", "Food Program Features"]
+    return new_df[select_columns]
+
+
+def create_program_sub_filter_usage_table_group_c(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create a table that summarizes the usage of `Items Offered` and `Dietary Options Available` for locations and programs.
+
+    Args:
+        `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
+
+    Returns:
+        `pd.DataFrame`: A new DataFrame summarizing the usage of `Items Offered` and `Dietary Options Available` for locations and programs.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     "Location External ID": [101, 101, 102, 102, 103, 101, 104],
+        ...     "Items Offered": ["Option 1; Option 2", "Option 2", "Option 1; Option 3", "Option 2", ""],
+        ...     "Dietary Options Available": ["Option X", "Option Y", "Option X", "Option Y", "Option X", "Option Z", "Option Z"]
+        ... })
+        >>> result = create_program_sub_filter_usage_table(data)
+        >>> print(result)
+            Items Offered                       Dietary Options Available
+        0       Option 2 - 42.9%                    Option X - 42.9%
+        1       Option 1 - 28.6%                    Option Y - 28.6%
+        2       Option 3 - 14.3%                    Option Z - 28.6%
+        3       No Filters Used - 14.3%             No Filters Used - 0%
+        4       Option 4 - 0%          
+    """
+    new_df = create_program_sub_filter_usage_table(df)
+    select_columns = ["Items Offered", "Dietary Options Available"]
+    return new_df[select_columns]
+
+
+def create_program_sub_filter_usage_table_group_d(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create a table that summarizes the usage of `Program Audience` and `Program Audience Groups` for locations and programs.
+
+    Args:
+        `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
+
+    Returns:
+        `pd.DataFrame`: A new DataFrame summarizing the usage of `Program Audience` and `Program Audience Groups` for locations and programs.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     "Location External ID": [101, 101, 102, 102, 103, 101, 104],
+        ...     "Program Audience": ["Option 1; Option 2", "Option 2", "Option 1; Option 3", "Option 2", ""],
+        ...     "Program Audience Groups": ["Option X", "Option Y", "Option X", "Option Y", "Option X", "Option Z", "Option Z"]
+        ... })
+        >>> result = create_program_sub_filter_usage_table(data)
+        >>> print(result)
+            Program Audience                    Program Audience Groups
+        0       Option 2 - 42.9%                    Option X - 42.9%
+        1       Option 1 - 28.6%                    Option Y - 28.6%
+        2       Option 3 - 14.3%                    Option Z - 28.6%
+        3       No Filters Used - 14.3%             No Filters Used - 0%
+        4       Option 4 - 0%          
+    """
+    new_df = create_program_sub_filter_usage_table(df)
+    select_columns = ["Program Audience", "Program Audience Groups"]
+    return new_df[select_columns]
+
+
+def create_program_sub_filter_usage_table_group_e(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create a table that summarizes the usage of `Languages Spoken Group 1` and `Languages Spoken Group 2` for locations and programs.
+
+    Args:
+        `df` (pd.DataFrame): A DataFrame containing location and program `sub-filter` data.
+
+    Returns:
+        `pd.DataFrame`: A new DataFrame summarizing the usage of `Languages Spoken Group 1` and `Languages Spoken Group 2` for locations and programs.
+
+    Preconditions:
+        - The Pandas DataFrame must contain the location and program `sub-filter` columns, as well as a unique `Location External ID`.
+
+    Raises:
+        None.
+
+    Example:
+        >>> data = pd.DataFrame({
+        ...     "Location External ID": [101, 101, 102, 102, 103, 101, 104],
+        ...     "Languages Spoken Group 1": ["Option 1; Option 2", "Option 2", "Option 1; Option 3", "Option 2", ""],
+        ...     "Languages Spoken Group 2": ["Option X", "Option Y", "Option X", "Option Y", "Option X", "Option Z", "Option Z"]
+        ... })
+        >>> result = create_program_sub_filter_usage_table(data)
+        >>> print(result)
+            Languages Spoken Group 1            Languages Spoken Group 2
+        0       Option 2 - 42.9%                    Option X - 42.9%
+        1       Option 1 - 28.6%                    Option Y - 28.6%
+        2       Option 3 - 14.3%                    Option Z - 28.6%
+        3       No Filters Used - 14.3%             No Filters Used - 0%
+        4       Option 4 - 0%          
+    """
+    new_df = create_program_sub_filter_usage_table(df)
+    select_columns = ["Languages Spoken Group 1", "Languages Spoken Group 2"]
+    return new_df[select_columns]
 
 
 def create_most_used_sub_filter_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -3124,8 +3303,6 @@ if __name__ == "__main__":
         create_highest_graded_profiles_table,
         create_lowest_graded_profiles_table,
         create_high_low_graded_profiles_table,
-        # create_recommended_program_filters_table,
-        # create_recommended_filters_slice,
         create_hour_type_usage_table,
         create_organization_table,
         create_location_table,
@@ -3147,6 +3324,9 @@ if __name__ == "__main__":
         create_program_by_program_service_area_table,
         create_program_profile_completion_table,
         create_program_sub_filter_usage_table,
+        create_program_sub_filter_usage_table_group_a,
+        create_program_sub_filter_usage_table_group_b,
+        create_program_sub_filter_usage_table_group_c,
         create_most_used_sub_filter_table
     ]
 
