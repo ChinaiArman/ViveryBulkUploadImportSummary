@@ -2,7 +2,7 @@
 pdfWizard.
 
 @author Arman Chinai
-@version 1.1.0
+@version 1.2.0
 
 The file contains the pdfConstructor class.
 The pdfConstructor class contains a set of methods used to create PDFs from scratch. These methods make use of the Analytics Engine API functions.
@@ -88,6 +88,7 @@ import json                             # JSON, used to parse JSON files and con
 import math                             # Math, used for basic mathematical operations.
 import datetime, calendar               # Datetime and Calendar, used to handle date related tasks and allows python to have access to real world calendar data.
 from PIL import Image                   # Image, used to handle varius tasks with Image files like PNGs.
+import re
 
 # LOCAL FILE IMPORTS
 import analyticsEngine as ae            # AnalyticsEngine, used as an API to parse and process the Bulk Upload Data File into small chunks of information.
@@ -103,16 +104,17 @@ PROFILE_COMPLETION_TIERS_SAVE_NAME = 'resources/profile_completion_tiers.csv'   
 PROFILE_COMPLETION_TIERS = pd.read_csv(PROFILE_COMPLETION_TIERS_SAVE_NAME)                                      # PROFILE_COMPLETION_TIERS, used to store the profile completion tiers for locations, stored in the file, 'resources/profile_completion_tiers.csv'
 
 # MISC CONSTANTS
-PAGE_WIDTH = 8.5                                                            # The width of the page in inches.
-PAGE_HEIGHT = 11                                                            # The height of the page in inches.
-H1_TEXT_SIZE = 20                                                           # The header 1 font size.
-H2_TEXT_SIZE = 14                                                           # The header 2 font size.
-NORMAL_TEXT_SIZE = 13                                                       # The normal text font size.
-SUBTITLE_TEXT_SIZE = 10                                                     # The subtitle text font size.
-TABLE_TEXT_SIZE = 10                                                        # The table text font size.
-APPENDIX_LINES_PER_PAGE = 25                                                # The number of rows per page for appendix pages.
-FIRST_APPENDIX_PAGE = 13                                                    # The first page of the appendix
-TABLE_CHAR_PER_CELL = {1: 100, 2: 45, 3: 28, 4: 20, 5: 12, 6: 10}           # A dictionary used to map the number of characters per cell.
+PAGE_WIDTH = 8.5                                                                # The width of the page in inches.
+PAGE_HEIGHT = 11                                                                # The height of the page in inches.
+H1_TEXT_SIZE = 20                                                               # The header 1 font size.
+H2_TEXT_SIZE = 14                                                               # The header 2 font size.
+NORMAL_TEXT_SIZE = 13                                                           # The normal text font size.
+SUBTITLE_TEXT_SIZE = 10                                                         # The subtitle text font size.
+TABLE_TEXT_SIZE = 10                                                            # The table text font size.
+APPENDIX_LINES_PER_PAGE = 25                                                    # The number of rows per page for appendix pages.
+FIRST_APPENDIX_PAGE = 16                                                        # The first page of the appendix
+PORTRAIT_TABLE_CHAR_PER_CELL = {1: 100, 2: 45, 3: 28, 4: 20, 5: 12, 6: 10}      # A dictionary used to map the number of characters per cell in a portrait table.
+LANDSCAPE_TABLE_CHAR_PER_CELL = {2: 60, 3: 40, 4: 30}                           # A dictionary used the number of characters per cell in a landscape table.
 
 # COLOURS
 
@@ -151,7 +153,7 @@ class pdfConstructor:
         save_pdf(self) -> None:
             Saves the generated PDF document to the specified directory.
 
-        add_page(self) -> None:
+        add_portrait_page(self) -> None:
             Adds a new page to the PDF document.
 
         add_image(self, filepath: str, height: int, pagenumber: int=-2) -> None:
@@ -172,7 +174,7 @@ class pdfConstructor:
         add_horizontal_line(self) -> None:
             Adds a horizontal line to the PDF document.
 
-        add_table(self, function) -> None:
+        add_portrait_table(self, function) -> None:
             Adds a table to the PDF document using the specified function to process the DataFrame.
 
         add_appendix(self, function, title: str) -> None:
@@ -281,8 +283,6 @@ class pdfConstructor:
         current_page += max(math.ceil(len(ae.create_program_by_program_items_offered_table(df).dropna(thresh=2))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["title"]] = current_page
         current_page += max(math.ceil(len(ae.create_program_by_program_dietary_options_table(df).dropna(thresh=2))/APPENDIX_LINES_PER_PAGE), 1)
-        self.appendix_page_numbers[TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"]] = current_page
-        current_page += max(math.ceil(len(ae.create_recommended_program_filters_table(df).dropna(thresh=2))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]] = current_page
         current_page += max(math.ceil(len(ae.create_location_hours_table(df).dropna(thresh=2))/APPENDIX_LINES_PER_PAGE), 1)
         self.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]] = current_page
@@ -367,7 +367,10 @@ class pdfConstructor:
         self.pdf.set_xy(0.5, 8.75)
         self.pdf.set_text_color(216, 255, 170)
         self.pdf.set_font('Roobert Bold', '', 40)
-        self.pdf.multi_cell(0, self.pdf.font_size + 0.05, TEXT["FILE"]["network name"] + "\nImport Summary", 0, 'L')
+        if len(TEXT["FILE"]["network name"]) >= 26:
+            self.pdf.multi_cell(0, self.pdf.font_size + 0.05, TEXT["FILE"]["network name"] + " Import Summary", 0, 'L')
+        else:
+            self.pdf.multi_cell(0, self.pdf.font_size + 0.05, TEXT["FILE"]["network name"] + "\nImport Summary", 0, 'L')
 
         # Reset Margins
         self.pdf.set_top_margin(1)
@@ -443,6 +446,10 @@ class pdfConstructor:
         self.pdf.set_link(page_twelve, page=12)
         page_thirteen = self.pdf.add_link()
         self.pdf.set_link(page_thirteen, page=13)
+        page_fourteen = self.pdf.add_link()
+        self.pdf.set_link(page_fourteen, page=14)
+        page_fifteen = self.pdf.add_link()
+        self.pdf.set_link(page_fifteen, page=15)
 
         # Location Map
         self.pdf.set_xy(2.25, 2)
@@ -502,42 +509,42 @@ class pdfConstructor:
 
         # Network Hours Overview
         self.pdf.set_xy(2.25, 5.4)
-        self.pdf.cell(0, 0, "8", align='L', link=page_eight)
-        self.pdf.cell(0, 0, "Network Hours Overview          ", align='R', link=page_eight)
+        self.pdf.cell(0, 0, "11", align='L', link=page_eleven)
+        self.pdf.cell(0, 0, "Network Hours Overview          ", align='R', link=page_eleven)
 
         self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
         
-        self.pdf.cell(0, 0, "When can our communities find our assistance?                ", align='R', link=page_eight)
+        self.pdf.cell(0, 0, "When can our communities find our assistance?                ", align='R', link=page_eleven)
 
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Qualifications and Service Area
         self.pdf.set_xy(2.25, 6.25)
-        self.pdf.cell(0, 0, "11", align='L', link=page_eleven)
-        self.pdf.cell(0, 0, "Qualifications and Service Area          ", align='R', link=page_eleven)
+        self.pdf.cell(0, 0, "14", align='L', link=page_fourteen)
+        self.pdf.cell(0, 0, "Qualifications and Service Area          ", align='R', link=page_fourteen)
 
         self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
         
-        self.pdf.cell(0, 0, "How do clients know if they are eligible?                ", align='R', link=page_eleven)
+        self.pdf.cell(0, 0, "How do clients know if they are eligible?                ", align='R', link=page_fourteen)
 
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Appendices
         self.pdf.set_xy(2.25, 7.1)
-        self.pdf.cell(0, 0, "12", align='L', link=page_twelve)
-        self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_twelve)
+        self.pdf.cell(0, 0, "15", align='L', link=page_fifteen)
+        self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_fifteen)
 
         self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
         
-        self.pdf.cell(0, 0, "A deeper look at the data...                ", align='R', link=page_twelve)
+        self.pdf.cell(0, 0, "A deeper look at the data...                ", align='R', link=page_fifteen)
 
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
@@ -645,9 +652,55 @@ class pdfConstructor:
         return
 
 
-    def add_page(self) -> None:
+    def add_portrait_page(self) -> None:
         """
-        Adds a new page to the PDF document.
+        Adds a new portrait page to the PDF document.
+
+        This method adds a new portrait page to the PDF document. If there are already existing pages,
+        it also adds a footer to display the current page number.
+
+        Args:
+            None
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `page_no` attribute keeps track of the current page number.
+
+        Raises:
+            None
+
+        Returns:
+            None. A new page is added to the PDF document, and the footer with the current page number is displayed.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> pdf.add_portrait_page()
+            # A new page is added to the PDF document, and the footer with the current page number is displayed.
+
+        Additional Information:
+            - The method uses the `add_page` method of the `pdf` attribute to add a new portrait page.
+            - It then checks if the current page number (`page_no`) is greater than 1 (indicating there are already existing pages).
+            - If there are existing pages, it sets the right margin to add a footer displaying the current page number.
+            - The method uses the `cell` method of the `pdf` attribute to create the footer and display the page number.
+            - Finally, the method resets the right margin and returns.
+        """
+        self.pdf.add_page()
+        if self.pdf.page_no() > 1:
+            self.pdf.set_right_margin(0.5)
+            self.pdf.set_y(PAGE_HEIGHT - 0.5)
+            self.pdf.set_text_color(0, 72, 61)
+            self.pdf.set_font('Roobert Light', '', 10)
+            self.pdf.cell(0, 0, '%s' % self.pdf.page_no(), align='R')
+            self.pdf.set_y(1)
+            self.pdf.set_right_margin(1)
+        return
+    
+
+    def add_landscape_page(self) -> None:
+        """
+        Adds a new landscape page to the PDF document.
 
         This method adds a new page to the PDF document. If there are already existing pages,
         it also adds a footer to display the current page number.
@@ -669,20 +722,20 @@ class pdfConstructor:
             >>> pdf = pdfConstructor()
             >>> pdf.add_cover_page()
             # Add content to the PDF using other methods...
-            >>> pdf.add_page()
-            # A new page is added to the PDF document, and the footer with the current page number is displayed.
+            >>> pdf.add_landscape_page()
+            # A new landscape page is added to the PDF document, and the footer with the current page number is displayed.
 
         Additional Information:
-            - The method uses the `add_page` method of the `pdf` attribute to add a new page.
+            - The method uses the `add_page` method of the `pdf` attribute to add a new landscape page.
             - It then checks if the current page number (`page_no`) is greater than 1 (indicating there are already existing pages).
             - If there are existing pages, it sets the right margin to add a footer displaying the current page number.
             - The method uses the `cell` method of the `pdf` attribute to create the footer and display the page number.
             - Finally, the method resets the right margin and returns.
         """
-        self.pdf.add_page()
+        self.pdf.add_page(orientation="L")
         if self.pdf.page_no() > 1:
             self.pdf.set_right_margin(0.5)
-            self.pdf.set_y(PAGE_HEIGHT - 0.5)
+            self.pdf.set_y(PAGE_WIDTH - 0.5)
             self.pdf.set_text_color(0, 72, 61)
             self.pdf.set_font('Roobert Light', '', 10)
             self.pdf.cell(0, 0, '%s' % self.pdf.page_no(), align='R')
@@ -1042,11 +1095,11 @@ class pdfConstructor:
         return
 
 
-    def add_table(self, function) -> None:
+    def add_portrait_table(self, function) -> None:
         """
-        Adds a table to the PDF document.
+        Adds a portrait table to the PDF document.
 
-        This method generates a table in the PDF document using the provided function.
+        This method generates a portrait table in the PDF document using the provided function.
         The function is expected to return a Pandas DataFrame, and the table is created based on the data in this DataFrame.
         The table includes a header row and data rows, and the cells are aligned, formatted, and colored accordingly.
 
@@ -1069,8 +1122,8 @@ class pdfConstructor:
             # Add content to the PDF using other methods...
             >>> def create_example_table(dataframe):
             ...     return dataframe  # Some function to create a Pandas DataFrame
-            >>> pdf.add_table(create_example_table)
-            # Generates a table in the PDF based on the provided DataFrame returned by the function.
+            >>> pdf.add_portrait_table(create_example_table)
+            # Generates a portrait table in the PDF based on the provided DataFrame returned by the function.
 
         Additional Information:
             - The method first creates an iterable data structure from the provided DataFrame returned by the function.
@@ -1087,7 +1140,7 @@ class pdfConstructor:
 
         # Define number of columns
         num_of_columns = len(list(df_copy.columns))
-        char_limit = TABLE_CHAR_PER_CELL[num_of_columns]
+        char_limit = PORTRAIT_TABLE_CHAR_PER_CELL[num_of_columns]
         
         # Header Row
         self.pdf.set_fill_color(0, 72, 61)
@@ -1116,6 +1169,81 @@ class pdfConstructor:
         df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
         return
 
+
+    def add_landscape_table(self, function) -> None:
+        """
+        Adds a landscaep table to the PDF document.
+
+        This method generates a landscape table in the PDF document using the provided function.
+        The function is expected to return a Pandas DataFrame, and the table is created based on the data in this DataFrame.
+        The table includes a header row and data rows, and the cells are aligned, formatted, and colored accordingly.
+
+        Args:
+            function (function): The function that returns the Pandas DataFrame for creating the table.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `df` attribute must be a valid Pandas DataFrame containing data to display in the table.
+
+        Raises:
+            None
+
+        Returns:
+            None. The table is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> def create_example_table(dataframe):
+            ...     return dataframe  # Some function to create a Pandas DataFrame
+            >>> pdf.add_landscape_table(create_example_table)
+            # Generates a landscape table in the PDF based on the provided DataFrame returned by the function.
+
+        Additional Information:
+            - The method first creates an iterable data structure from the provided DataFrame returned by the function.
+            - The number of columns in the DataFrame is calculated.
+            - The header row is added to the table with bold text and custom colors using the column names from the DataFrame.
+            - The data rows are added to the table with regular text and appropriate formatting based on the cell contents.
+            - If a cell value is too long, it will be truncated with an ellipsis (...) to fit within the specified character limit.
+            - The resulting table is saved as a CSV file in the specified directory with a filename derived from the function name.
+        """
+        df_copy = self.df.copy()
+        df_copy = function(df_copy)
+        list_of_lists = df_copy.values
+
+        # Define number of columns
+        num_of_columns = len(list(df_copy.columns))
+        char_limit = LANDSCAPE_TABLE_CHAR_PER_CELL[num_of_columns]
+        
+        # Header Row
+        self.pdf.set_fill_color(0, 72, 61)
+        self.pdf.set_text_color(250, 249, 246)
+        self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
+        for element in list(df_copy.columns):
+            self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True)
+        self.pdf.ln(self.pdf.font_size + 0.2)
+        self.pdf.set_x(1)
+
+        # Datum Rows
+        self.pdf.set_text_color(0, 72, 61)
+        self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
+        for row in list_of_lists:
+            for datum in row:
+                if str(datum) == "nan":
+                    datum = ""
+                if len(str(datum)) > char_limit:
+                    percent = re.findall(r'\d+(?:\.\d+)?%?(?!\S)', str(datum))
+                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit - 7] + "... - " + percent[0], align='C')
+                else:
+                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C')
+            self.pdf.ln(self.pdf.font_size + 0.2)
+            self.pdf.set_x(1)
+        
+        # Save
+        df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
+        return
+    
 
     def add_appendix(self, function, title: str) -> None:
         """
@@ -1171,12 +1299,12 @@ class pdfConstructor:
             self.add_h2_text(df_copy.columns)
             self.add_vertical_space(0.25)
             self.add_normal_text("All values NaN", alignment='C')
-            self.add_page()
+            self.add_portrait_page()
             return
 
         # Define number of columns
         num_of_columns = len(list(df_copy.columns))
-        char_limit = TABLE_CHAR_PER_CELL[num_of_columns]
+        char_limit = PORTRAIT_TABLE_CHAR_PER_CELL[num_of_columns]
         
         # Header Row
         for i in range(math.ceil(len(list_of_lists)/APPENDIX_LINES_PER_PAGE)):
@@ -1202,7 +1330,7 @@ class pdfConstructor:
                         self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C')
                 self.pdf.ln(self.pdf.font_size + 0.2)
                 self.pdf.set_x(1)
-            self.add_page()
+            self.add_portrait_page()
         
         # Save
         df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
@@ -1365,15 +1493,15 @@ if __name__ == "__main__":
     constructor = pdfConstructor(df, directory, network_name.replace(" ", "_").lower() + TEXT["FILE"]["filename"], network_name)
 
     # Cover Page
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_cover_page()
 
     # Table of Contents
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_table_of_contents()
 
     # Location Map
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["LOCATION MAP"]["title"])
     constructor.add_image(ae.create_map(df, directory), 3.05, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION LIST"]["title"]])
     constructor.add_vertical_space(0.1)
@@ -1386,11 +1514,11 @@ if __name__ == "__main__":
 
     # Network Overview
     constructor.add_vertical_space(0.1)
-    constructor.add_table(ae.create_network_overview_table)
+    constructor.add_portrait_table(ae.create_network_overview_table)
     constructor.add_horizontal_line()
 
     # Profile Completeness
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["PROFILE COMPLETENESS"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["PROFILE COMPLETENESS"]["paragraph"])
@@ -1400,12 +1528,12 @@ if __name__ == "__main__":
     # Highest Lowest Profile Grades
     constructor.add_h1_text(TEXT["HIGH LOW PROFILE GRADES"]["title"])
     constructor.add_h2_text(TEXT["HIGH LOW PROFILE GRADES"]["header row"])
-    constructor.add_table(ae.create_high_low_graded_profiles_table)
+    constructor.add_portrait_table(ae.create_high_low_graded_profiles_table)
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["HIGH LOW PROFILE GRADES"]["paragraph"])
 
     # Vivery Contact Information
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["VIVERY CONTACT INFORMATION"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["VIVERY CONTACT INFORMATION"]["paragraph"])
@@ -1422,7 +1550,7 @@ if __name__ == "__main__":
     constructor.add_two_images(ae.graph_missing_location_contact_info(df, directory), ae.graph_missing_program_contact_info(df, directory), 2.25, pagenumber_one=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["title"]], pagenumber_two=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["title"]])
 
     # Program Types
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["PROGRAM TYPES"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["PROGRAM TYPES"]["paragraph one"])
@@ -1437,22 +1565,35 @@ if __name__ == "__main__":
     constructor.add_image(ae.graph_food_program_breakdown(df, directory), 3.25, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM TYPE"]["title"]])
 
     # Filter Fields
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["PROGRAM FILTER FIELDS"]["title"])
     constructor.add_horizontal_line()
     TEXT = ae.calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
     constructor.add_normal_text(TEXT["PROGRAM FILTER FIELDS"]["paragraph"])
     constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.75, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM AUDIENCE"]["title"]])
 
-    # Recommended Filter Options
-    constructor.add_h1_text(TEXT["RECOMMENDED FILTER OPTIONS"]["title"])
+    # # Recommended Filter Options
+    constructor.add_h1_text(TEXT["MOST USED SUB FILTERS"]["title"])
     constructor.add_horizontal_line()
-    constructor.add_normal_text(TEXT["RECOMMENDED FILTER OPTIONS"]["paragraph"], pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"]])
+    constructor.add_normal_text(TEXT["MOST USED SUB FILTERS"]["paragraph"])
     constructor.add_vertical_space(0.1)
-    constructor.add_table(ae.create_recommended_filters_slice)
+    constructor.add_portrait_table(ae.create_most_used_sub_filter_table)
+
+    # Sub-Filter Usage
+    constructor.add_landscape_page()
+    constructor.add_h1_text(TEXT["PROGRAM SUB FILTERS"]["title"])
+    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_a)
+
+    constructor.add_landscape_page()
+    constructor.add_h1_text(TEXT["PROGRAM SUB FILTERS"]["title"])
+    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_b)
+
+    constructor.add_landscape_page()
+    constructor.add_h1_text(TEXT["PROGRAM SUB FILTERS"]["title"])
+    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_c)
 
     # Network Hours Overview
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["NETWORK HOURS OVERVIEW"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["NETWORK HOURS OVERVIEW"]["paragraph"])
@@ -1463,12 +1604,12 @@ if __name__ == "__main__":
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["paragraph"], pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
     constructor.add_vertical_space(0.1)
-    constructor.add_table(ae.create_hour_type_usage_table)
+    constructor.add_portrait_table(ae.create_hour_type_usage_table)
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["NETWORK HOUR TYPE USAGE"]["subtitle"])
 
     # Location Hours Preview
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["LOCATION HOURS PREVIEW"]["title"])
     constructor.add_horizontal_line()
     TEXT = ae.calculate_current_next_month(df, TEXT, "LOCATION HOURS PREVIEW", "paragraph")
@@ -1479,7 +1620,7 @@ if __name__ == "__main__":
     constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
 
     # Program Hours Preview
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["PROGRAM HOURS PREVIEW"]["title"])
     constructor.add_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"], padding=ae.graph_sample_program_hours_current_month(df, directory) != "resources\images\\null_graph.png")
     constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]])
@@ -1488,7 +1629,7 @@ if __name__ == "__main__":
     constructor.add_normal_text(TEXT["PROGRAM HOURS PREVIEW"]["paragraph"])
 
     # Missing Program Qualifications
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["MISSING PROGRAM QUALIFICATIONS"]["title"])
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["MISSING PROGRAM QUALIFICATIONS"]["paragraph"])
@@ -1504,7 +1645,7 @@ if __name__ == "__main__":
     constructor.add_appendix_cover()
 
     # APPENDIX ORGANIZATION LIST
-    constructor.add_page()
+    constructor.add_portrait_page()
     constructor.add_appendix(ae.create_organization_table, TEXT["APPENDIX ORGANIZATION LIST"]["title"])
 
     # APPENDIX LOCATION LIST
@@ -1544,7 +1685,7 @@ if __name__ == "__main__":
     constructor.add_appendix(ae.create_program_by_program_dietary_options_table, TEXT["APPENDIX PROGRAM DIETARY OPTIONS"]["title"])
 
     # APPENDIX PROGRAM FILTERS AVAILABLE
-    constructor.add_appendix(ae.create_recommended_program_filters_table, TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"])
+    # constructor.add_appendix(ae.create_recommended_program_filters_table, TEXT["APPENDIX PROGRAM FILTERS AVAILABLE"]["title"])
 
     # APPENDIX LOCATION HOURS INFORMATION
     constructor.add_appendix(ae.create_location_hours_table, TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"])
