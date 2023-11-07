@@ -2,7 +2,7 @@
 Analytics Engine API.
 
 @author Arman Chinai
-@version 1.3.2
+@version 1.3.3
 
 The primary purpose of this file is to serve as an API for the pdfWizard, assisting in creating the analytical report (PDF).
 This file provides a full range of functions used to perform data analytics on a network bulk upload file.
@@ -878,7 +878,7 @@ def graph_program_filter_usage(df: pd.DataFrame, directory: str) -> str:
         - The `plot_bar_graph` function is called to generate the bar graph using the `x-axis` and `y-axis` values.
         - The graph is saved with the filename specified in `TEXT["PROGRAM FILTER FIELDS"]["filename"]` in the specified directory.
     """
-    programs = df[["Program External ID", "Program Audience Groups", "Languages Spoken", "Food Program Features", "Items Offered", "Dietary Options Available"]].drop_duplicates().notna().sum().to_list()[1:]
+    programs = df[["Program External ID", "Languages Spoken", "Food Program Features", "Items Offered", "Dietary Options Available"]].drop_duplicates().notna().sum().to_list()[1:]
     locations = df[["Location External ID", "Location Features"]].drop_duplicates().notna().sum().to_list()[1:]
     x_axis = TEXT["PROGRAM FILTER FIELDS"]["xaxis"]
     y_axis = programs + locations
@@ -2725,14 +2725,19 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         for value in RECOMMENDED_FILTERS[column].to_list() + ["No Filters Used"]:
             if value not in temp_df[column].values and not pd.isnull(value):
                 temp_df = temp_df.append({column: value, "Count": 0}, ignore_index=True)
-        temp_df = temp_df.sort_values(by="Count", ascending=False)
+        temp_df = temp_df.sort_values(by=["Count", column], ascending=[False, True]).reset_index(drop=True)
         
         # Format Data
-        # temp_df[column] = (round((temp_df["Count"] / location_count) * 100), 2)[0].astype(str) + "% - " + temp_df[column].astype(str) 
-        # temp_df.drop(columns=["Count"], inplace=True)
-
         temp_df["Count"] = round((temp_df["Count"] / location_count) * 100).astype(int).astype(str) + "%"
-        # print(temp_df)
+        no_filters_used = temp_df[temp_df[column] == "No Filters Used"].values.tolist()[0]
+        temp_df = temp_df.drop(temp_df[temp_df[column] == 'No Filters Used'].index)
+        temp_df.loc[-1] = no_filters_used
+        temp_df.index = temp_df.index + 1
+        temp_df.sort_index(inplace=True) 
+
+        if column == "Program Service Category" or column == "Food Program Category":
+            temp_df = temp_df.drop(temp_df[temp_df[column] == 'No Filters Used'].index)
+
         if column == "Languages Spoken":
             data_dict["Languages Spoken"] = ([value[0] for value in temp_df.values.tolist()[0:17]])
             data_dict["Languages Spoken %"] = ([value[1] for value in temp_df.values.tolist()[0:17]])
