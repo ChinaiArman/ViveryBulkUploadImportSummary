@@ -79,7 +79,7 @@
     },
 
     "PROGRAM FILTER FIELDS": {
-        "title": "Filter Fields",
+        "title": "Location & Program Attributes",
         "xaxis": ["Audience\nGroups", "Languages", "Program\nFeatures", "Items\nOffered", "Dietary\nOptions", "Location\nFeatures"],
         "paragraph": "Many filters are available to help distinguish your Network's wide variety of Programs. The graph below shows the usage for each Program filter. **Consider increasing the use of {} and {}** to help neighbors find Programs that match their needs. Click the chart below to view all of the Programs with filters.",
         "xlabel": "Supplementary Fields",
@@ -95,7 +95,12 @@
     "PROGRAM SUB FILTERS": {
         "title": "Program Sub-Filter Usage",
         "paragraph": "",
-        "columns": ["Program Service Category", "Program Audience", "Program Audience Groups", "Location Features", "Languages Spoken", "Food Program Features", "Food Program Category", "Items Offered", "Dietary Options Available"]
+        "columns": ["Program Service Category", "Program Audience", "Program Audience Groups", "Location Features", "Languages Spoken", "Food Program Features", "Food Program Category", "Items Offered", "Dietary Options Available"],
+        "header_group_a": ["Program Service Category", "Food Program Category"],
+        "header_group_b": ["Location Features", "Food Program Features"],
+        "header_group_c": ["Items Offered", "Dietary Options Available"],
+        "header_group_d": ["Program Audience", "Program Audience Groups"],
+        "header_group_e": ["Languages Spoken", "Languages Spoken (cont.)"]
     },
 
     "NETWORK HOURS OVERVIEW": {
