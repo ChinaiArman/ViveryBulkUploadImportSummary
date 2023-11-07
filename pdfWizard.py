@@ -2,7 +2,7 @@
 pdfWizard.
 
 @author Arman Chinai
-@version 1.2.2
+@version 1.2.3
 
 The file contains the pdfConstructor class.
 The pdfConstructor class contains a set of methods used to create PDFs from scratch. These methods make use of the Analytics Engine API functions.
@@ -114,7 +114,7 @@ TABLE_TEXT_SIZE = 10                                                            
 APPENDIX_LINES_PER_PAGE = 25                                                    # The number of rows per page for appendix pages.
 FIRST_APPENDIX_PAGE = 16                                                        # The first page of the appendix
 PORTRAIT_TABLE_CHAR_PER_CELL = {1: 100, 2: 45, 3: 28, 4: 20, 5: 12, 6: 10}      # A dictionary used to map the number of characters per cell in a portrait table.
-LANDSCAPE_TABLE_CHAR_PER_CELL = {2: 60, 4: 25}                                  # A dictionary used the number of characters per cell in a landscape table.
+LANDSCAPE_TABLE_CHAR_PER_CELL = {2: 60, 4: 35}                                  # A dictionary used the number of characters per cell in a landscape table.
 
 # COLOURS
 
@@ -1241,10 +1241,12 @@ class pdfConstructor:
             for datum in row:
                 if str(datum) == "nan":
                     datum = ""
-                if len(str(datum)) > char_limit:
-                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C', fill=fill_flag)
-                else:
+                if "%" in str(datum):
                     self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', fill=fill_flag)
+                elif len(str(datum)) > char_limit:
+                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, "        " + str(datum)[:char_limit] + "...", align='L', fill=fill_flag)
+                else:
+                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, "        " + str(datum), align='L', fill=fill_flag)
             self.pdf.ln(self.pdf.font_size + 0.2)
             self.pdf.set_x(1)
             fill_flag = not fill_flag
