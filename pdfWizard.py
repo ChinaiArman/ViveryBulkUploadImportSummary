@@ -2,7 +2,7 @@
 pdfWizard.
 
 @author Arman Chinai
-@version 1.2.1
+@version 1.2.2
 
 The file contains the pdfConstructor class.
 The pdfConstructor class contains a set of methods used to create PDFs from scratch. These methods make use of the Analytics Engine API functions.
@@ -114,7 +114,7 @@ TABLE_TEXT_SIZE = 10                                                            
 APPENDIX_LINES_PER_PAGE = 25                                                    # The number of rows per page for appendix pages.
 FIRST_APPENDIX_PAGE = 16                                                        # The first page of the appendix
 PORTRAIT_TABLE_CHAR_PER_CELL = {1: 100, 2: 45, 3: 28, 4: 20, 5: 12, 6: 10}      # A dictionary used to map the number of characters per cell in a portrait table.
-LANDSCAPE_TABLE_CHAR_PER_CELL = {2: 60, 3: 40, 4: 30}                           # A dictionary used the number of characters per cell in a landscape table.
+LANDSCAPE_TABLE_CHAR_PER_CELL = {2: 60, 4: 25}                                  # A dictionary used the number of characters per cell in a landscape table.
 
 # COLOURS
 
@@ -186,7 +186,7 @@ class pdfConstructor:
         add_appendix(self, function, title: str) -> None:
             Adds an appendix section to the PDF document using the specified function to process the DataFrame.
 
-        add_h2_text(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
+        add_portrait_h2_text(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
             Adds heading level 2 (H2) text to the PDF document.
 
         add_vertical_space(self, height: int) -> None:
@@ -1176,7 +1176,7 @@ class pdfConstructor:
         return
 
 
-    def add_landscape_table(self, function) -> None:
+    def add_landscape_table(self, function, header:bool=True) -> None:
         """
         Adds a landscaep table to the PDF document.
 
@@ -1223,28 +1223,31 @@ class pdfConstructor:
         char_limit = LANDSCAPE_TABLE_CHAR_PER_CELL[num_of_columns]
         
         # Header Row
-        self.pdf.set_fill_color(0, 72, 61)
-        self.pdf.set_text_color(250, 249, 246)
-        self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
-        for element in list(df_copy.columns):
-            self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True)
-        self.pdf.ln(self.pdf.font_size + 0.2)
-        self.pdf.set_x(1)
+        if header:
+            self.pdf.set_fill_color(0, 72, 61)
+            self.pdf.set_text_color(250, 249, 246)
+            self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
+            for element in list(df_copy.columns):
+                self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, element, align='C', fill=True)
+            self.pdf.ln(self.pdf.font_size + 0.2)
+            self.pdf.set_x(1)
 
         # Datum Rows
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
+        self.pdf.set_fill_color(162, 195, 168)
+        fill_flag = False
         for row in list_of_lists:
             for datum in row:
                 if str(datum) == "nan":
                     datum = ""
                 if len(str(datum)) > char_limit:
-                    percent = re.findall(r'\d+(?:\.\d+)?%?(?!\S)', str(datum))
-                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit - 7] + "... - " + percent[0], align='C')
+                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C', fill=fill_flag)
                 else:
-                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C')
+                    self.pdf.cell((PAGE_HEIGHT-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', fill=fill_flag)
             self.pdf.ln(self.pdf.font_size + 0.2)
             self.pdf.set_x(1)
+            fill_flag = not fill_flag
         
         # Save
         df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
@@ -1302,7 +1305,7 @@ class pdfConstructor:
         # Catch NaN Tables
         if len(list_of_lists) == 0:
             self.add_h1_text(title)
-            self.add_h2_text(df_copy.columns)
+            self.add_portrait_h2_text(df_copy.columns)
             self.add_vertical_space(0.25)
             self.add_normal_text("All values NaN", alignment='C')
             self.add_portrait_page()
@@ -1343,11 +1346,11 @@ class pdfConstructor:
         return
 
 
-    def add_h2_text(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
+    def add_portrait_h2_text(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
         """
-        Adds an H2 level header to the PDF document.
+        Adds an H2 level header to a portrait page in the PDF document.
 
-        This method adds an H2 level header row to the PDF document. The header row is displayed with bold text
+        This method adds an H2 level header row to a portrait page in the PDF document. The header row is displayed with bold text
         and custom colors using the provided list of header elements. The header row can be linked to a specific
         page in the document if a valid page number is provided.
 
@@ -1372,7 +1375,7 @@ class pdfConstructor:
             >>> pdf.add_cover_page()
             # Add content to the PDF using other methods...
             >>> header_row = ["Column 1", "Column 2", "Column 3"]
-            >>> pdf.add_h2_text(header_row)
+            >>> pdf.add_portrait_h2_text(header_row)
             # Generates an H2 level header row in the PDF using the provided header_row list.
 
         Additional Information:
@@ -1405,6 +1408,72 @@ class pdfConstructor:
                 self.pdf.cell((PAGE_WIDTH-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
         if padding:
             self.pdf.ln(self.pdf.font_size + 0.1)
+        self.pdf.set_x(1)
+        return
+
+
+    def add_landscape_h2_text(self, header_row: list, pagenumber: int=-2, padding=True) -> None:
+        """
+        Adds an H2 level header to a landscape page in the PDF document.
+
+        This method adds an H2 level header row to a landscape page in the PDF document. The header row is displayed with bold text
+        and custom colors using the provided list of header elements. The header row can be linked to a specific
+        page in the document if a valid page number is provided.
+
+        Args:
+            header_row (list): A list of strings representing the elements of the header row.
+            pagenumber (int, optional): The page number to link the header row to. Defaults to -2, indicating no link.
+            padding (bool, optional): If True, adds vertical padding after the header row. Defaults to True.
+
+        Preconditions:
+            - The `pdf` attribute must be properly configured with content for the PDF.
+            - The `df` attribute must be a valid Pandas DataFrame containing data to display in the header row.
+            - The `H2_TEXT_SIZE` constant should be properly set to define the font size for the H2 headers.
+
+        Raises:
+            None
+
+        Returns:
+            None. The H2 level header row is added to the PDF document.
+
+        Example:
+            >>> pdf = pdfConstructor()
+            >>> pdf.add_cover_page()
+            # Add content to the PDF using other methods...
+            >>> header_row = ["Column 1", "Column 2", "Column 3"]
+            >>> pdf.add_portrait_h2_text(header_row)
+            # Generates an H2 level header row in the PDF using the provided header_row list.
+
+        Additional Information:
+            - The method first defines the number of columns based on the length of the provided header_row list.
+            - If a valid page number is provided, the header row is linked to the specified page.
+            - The method sets the font, colors, and alignment for the header row.
+            - If the header_row list contains only one element, the method uses the `multi_cell` function to display the header centered.
+            - Otherwise, the method uses the "cell" function to display each element of the header row in separate cells.
+            - If `padding` is True, vertical padding is added after the header row.
+        """
+        # Define number of columns
+        columns = len(header_row)
+
+        # Define Page Linker
+        if pagenumber > -2:
+            pagelink = self.pdf.add_link()
+            self.pdf.set_link(pagelink, page=pagenumber)
+        else:
+            pagelink = None
+        
+        # Header Row
+        self.pdf.set_x(1)
+        self.pdf.set_fill_color(0, 72, 61)
+        self.pdf.set_text_color(250, 249, 246)
+        self.pdf.set_font('Roobert Regular', 'B', H2_TEXT_SIZE)
+        if len(header_row) == 1:
+            self.pdf.multi_cell(PAGE_HEIGHT-2, self.pdf.font_size + 0.2, header_row[0], align='C', fill=True, link=pagelink)
+        else:
+            for element in header_row:
+                self.pdf.cell((PAGE_HEIGHT-2)/columns, self.pdf.font_size + 0.2, element, align='C', fill=True, link=pagelink)
+        if padding:
+            self.pdf.ln(self.pdf.font_size + 0.2)
         self.pdf.set_x(1)
         return
 
@@ -1533,7 +1602,7 @@ if __name__ == "__main__":
 
     # Highest Lowest Profile Grades
     constructor.add_h1_text(TEXT["HIGH LOW PROFILE GRADES"]["title"])
-    constructor.add_h2_text(TEXT["HIGH LOW PROFILE GRADES"]["header row"])
+    constructor.add_portrait_h2_text(TEXT["HIGH LOW PROFILE GRADES"]["header row"])
     constructor.add_portrait_table(ae.create_high_low_graded_profiles_table)
     constructor.add_horizontal_line()
     constructor.add_normal_text(TEXT["HIGH LOW PROFILE GRADES"]["paragraph"])
@@ -1551,7 +1620,7 @@ if __name__ == "__main__":
     TEXT = ae.calculate_locations_programs_without_contact(df, TEXT, "PUBLIC CONTACT INFORMATION", "paragraph")
     constructor.add_normal_text(TEXT["PUBLIC CONTACT INFORMATION"]["paragraph"])
     constructor.add_vertical_space(0.075)
-    constructor.add_h2_text(TEXT["PUBLIC CONTACT INFORMATION"]["subtitle"], padding=False)
+    constructor.add_portrait_h2_text(TEXT["PUBLIC CONTACT INFORMATION"]["subtitle"], padding=False)
     constructor.add_vertical_space(0.01)
     constructor.add_two_images(ae.graph_missing_location_contact_info(df, directory), ae.graph_missing_program_contact_info(df, directory), 2.25, pagenumber_one=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION CONTACT INFORMATION"]["title"]], pagenumber_two=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["title"]])
 
@@ -1566,7 +1635,7 @@ if __name__ == "__main__":
     TEXT = ae.calculate_food_distribution_program_percent(df, TEXT, "PROGRAM TYPES", "paragraph two")
     constructor.add_normal_text(TEXT["PROGRAM TYPES"]["paragraph two"])
     constructor.add_vertical_space(0.075)
-    constructor.add_h2_text(TEXT["PROGRAM TYPES"]["subtitle"], padding=False)
+    constructor.add_portrait_h2_text(TEXT["PROGRAM TYPES"]["subtitle"], padding=False)
     constructor.add_vertical_space(0.01)
     constructor.add_image(ae.graph_food_program_breakdown(df, directory), 3.25, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM TYPE"]["title"]])
 
@@ -1588,15 +1657,23 @@ if __name__ == "__main__":
     # Sub-Filter Usage
     constructor.add_landscape_page()
     constructor.add_h1_text(TEXT["PROGRAM SUB FILTERS"]["title"])
-    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_a)
+    constructor.add_landscape_h2_text(TEXT["PROGRAM SUB FILTERS"]["header_group_a"])
+    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_a, header=False)
 
     constructor.add_landscape_page()
     constructor.add_h1_text(TEXT["PROGRAM SUB FILTERS"]["title"])
-    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_b)
+    constructor.add_landscape_h2_text(TEXT["PROGRAM SUB FILTERS"]["header_group_b"])
+    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_b, header=False)
 
     constructor.add_landscape_page()
     constructor.add_h1_text(TEXT["PROGRAM SUB FILTERS"]["title"])
-    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_c)
+    constructor.add_landscape_h2_text(TEXT["PROGRAM SUB FILTERS"]["header_group_c"])
+    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_c, header=False)
+
+    constructor.add_landscape_page()
+    constructor.add_h1_text(TEXT["PROGRAM SUB FILTERS"]["title"])
+    constructor.add_landscape_h2_text(TEXT["PROGRAM SUB FILTERS"]["header_group_e"])
+    constructor.add_landscape_table(ae.create_program_sub_filter_usage_table_group_e, header=False)
 
     # Network Hours Overview
     constructor.add_portrait_page()
@@ -1621,14 +1698,14 @@ if __name__ == "__main__":
     TEXT = ae.calculate_current_next_month(df, TEXT, "LOCATION HOURS PREVIEW", "paragraph")
     constructor.add_normal_text(TEXT["LOCATION HOURS PREVIEW"]["paragraph"])
     constructor.add_vertical_space(0.1)
-    constructor.add_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"], padding=ae.graph_sample_location_hours_current_month(df, directory) != "resources\images\\null_graph.png")
+    constructor.add_portrait_h2_text(TEXT["LOCATION HOURS PREVIEW"]["subtitle"], padding=ae.graph_sample_location_hours_current_month(df, directory) != "resources\images\\null_graph.png")
     constructor.add_image(ae.graph_sample_location_hours_current_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
     constructor.add_image(ae.graph_sample_location_hours_next_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX LOCATION HOURS INFORMATION"]["title"]])
 
     # Program Hours Preview
     constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["PROGRAM HOURS PREVIEW"]["title"])
-    constructor.add_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"], padding=ae.graph_sample_program_hours_current_month(df, directory) != "resources\images\\null_graph.png")
+    constructor.add_portrait_h2_text(TEXT["PROGRAM HOURS PREVIEW"]["subtitle"], padding=ae.graph_sample_program_hours_current_month(df, directory) != "resources\images\\null_graph.png")
     constructor.add_image(ae.graph_sample_program_hours_current_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]])
     constructor.add_image(ae.graph_sample_program_hours_next_month(df, directory), 3.65, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM HOURS INFORMATION"]["title"]])
     constructor.add_horizontal_line()
