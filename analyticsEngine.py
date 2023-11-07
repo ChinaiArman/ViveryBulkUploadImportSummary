@@ -2,7 +2,7 @@
 Analytics Engine API.
 
 @author Arman Chinai
-@version 1.3.1
+@version 1.3.2
 
 The primary purpose of this file is to serve as an API for the pdfWizard, assisting in creating the analytical report (PDF).
 This file provides a full range of functions used to perform data analytics on a network bulk upload file.
@@ -2728,13 +2728,20 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         temp_df = temp_df.sort_values(by="Count", ascending=False)
         
         # Format Data
-        temp_df[column] = temp_df[column].astype(str) + " - " + (round((temp_df["Count"] / location_count) * 100), 2)[0].astype(str) + "%"
-        temp_df.drop(columns=["Count"], inplace=True)
+        # temp_df[column] = (round((temp_df["Count"] / location_count) * 100), 2)[0].astype(str) + "% - " + temp_df[column].astype(str) 
+        # temp_df.drop(columns=["Count"], inplace=True)
+
+        temp_df["Count"] = round((temp_df["Count"] / location_count) * 100).astype(int).astype(str) + "%"
+        # print(temp_df)
         if column == "Languages Spoken":
-            data_dict["Languages Spoken Group 1"] = ([value[0] for value in temp_df.values.tolist()[0:17]])
-            data_dict["Languages Spoken Group 2"] = ([value[0] for value in temp_df.values.tolist()[17:]])
+            data_dict["Languages Spoken"] = ([value[0] for value in temp_df.values.tolist()[0:17]])
+            data_dict["Languages Spoken %"] = ([value[1] for value in temp_df.values.tolist()[0:17]])
+
+            data_dict["Languages Spoken (cont.)"] = ([value[0] for value in temp_df.values.tolist()[17:]])
+            data_dict["Languages Spoken (cont.) %"] = ([value[1] for value in temp_df.values.tolist()[17:]])
         else:
             data_dict[column] = ([value[0] for value in temp_df.values.tolist()])
+            data_dict[column + " %"] = ([value[1] for value in temp_df.values.tolist()])
 
     # Merge DataFrames
     new_df = pd.DataFrame.from_dict(data_dict, orient='index')
@@ -2774,8 +2781,8 @@ def create_program_sub_filter_usage_table_group_a(df: pd.DataFrame) -> pd.DataFr
         4       Option 4 - 0%          
     """
     new_df = create_program_sub_filter_usage_table(df)
-    select_columns = ["Program Service Category", "Food Program Category"]
-    return new_df[select_columns]
+    select_columns = ["Program Service Category", "Program Service Category %", "Food Program Category", "Food Program Category %"]
+    return new_df[select_columns].dropna(how='all')
 
 
 def create_program_sub_filter_usage_table_group_b(df: pd.DataFrame) -> pd.DataFrame:
@@ -2810,8 +2817,8 @@ def create_program_sub_filter_usage_table_group_b(df: pd.DataFrame) -> pd.DataFr
         4       Option 4 - 0%          
     """
     new_df = create_program_sub_filter_usage_table(df)
-    select_columns = ["Location Features", "Food Program Features"]
-    return new_df[select_columns]
+    select_columns = ["Location Features", "Location Features %", "Food Program Features", "Food Program Features %"]
+    return new_df[select_columns].dropna(how='all')
 
 
 def create_program_sub_filter_usage_table_group_c(df: pd.DataFrame) -> pd.DataFrame:
@@ -2846,8 +2853,8 @@ def create_program_sub_filter_usage_table_group_c(df: pd.DataFrame) -> pd.DataFr
         4       Option 4 - 0%          
     """
     new_df = create_program_sub_filter_usage_table(df)
-    select_columns = ["Items Offered", "Dietary Options Available"]
-    return new_df[select_columns]
+    select_columns = ["Items Offered", "Items Offered %", "Dietary Options Available", "Dietary Options Available %"]
+    return new_df[select_columns].dropna(how='all')
 
 
 def create_program_sub_filter_usage_table_group_d(df: pd.DataFrame) -> pd.DataFrame:
@@ -2882,8 +2889,8 @@ def create_program_sub_filter_usage_table_group_d(df: pd.DataFrame) -> pd.DataFr
         4       Option 4 - 0%          
     """
     new_df = create_program_sub_filter_usage_table(df)
-    select_columns = ["Program Audience", "Program Audience Groups"]
-    return new_df[select_columns]
+    select_columns = ["Program Audience", "Program Audience %", "Program Audience Groups", "Program Audience Groups %"]
+    return new_df[select_columns].dropna(how='all')
 
 
 def create_program_sub_filter_usage_table_group_e(df: pd.DataFrame) -> pd.DataFrame:
@@ -2918,8 +2925,8 @@ def create_program_sub_filter_usage_table_group_e(df: pd.DataFrame) -> pd.DataFr
         4       Option 4 - 0%          
     """
     new_df = create_program_sub_filter_usage_table(df)
-    select_columns = ["Languages Spoken Group 1", "Languages Spoken Group 2"]
-    return new_df[select_columns]
+    select_columns = ["Languages Spoken", "Languages Spoken %", "Languages Spoken (cont.)", "Languages Spoken (cont.) %"]
+    return new_df[select_columns].dropna(how='all')
 
 
 def create_most_used_sub_filter_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -3281,53 +3288,55 @@ if __name__ == "__main__":
     df = pd.read_csv(args.file)
     # Create a list of graphing functions
     graphing_functions = [
-        create_map,
-        graph_profile_grade,
-        graph_missing_organization_contact_info,
-        graph_missing_location_contact_info,
-        graph_missing_program_contact_info,
-        graph_program_type,
-        graph_food_program_breakdown,
-        graph_program_filter_usage,
-        graph_network_hours_overview,
-        graph_sample_location_hours_current_month,
-        graph_sample_location_hours_next_month,
-        graph_sample_program_hours_current_month,
-        graph_sample_program_hours_next_month,
-        graph_program_qualifications,
-        graph_program_service_areas
+        # create_map,
+        # graph_profile_grade,
+        # graph_missing_organization_contact_info,
+        # graph_missing_location_contact_info,
+        # graph_missing_program_contact_info,
+        # graph_program_type,
+        # graph_food_program_breakdown,
+        # graph_program_filter_usage,
+        # graph_network_hours_overview,
+        # graph_sample_location_hours_current_month,
+        # graph_sample_location_hours_next_month,
+        # graph_sample_program_hours_current_month,
+        # graph_sample_program_hours_next_month,
+        # graph_program_qualifications,
+        # graph_program_service_areas
     ]
     # Create a list of DataFrame functions
     dataframe_functions = [
-        create_network_overview_table,
-        create_highest_graded_profiles_table,
-        create_lowest_graded_profiles_table,
-        create_high_low_graded_profiles_table,
-        create_hour_type_usage_table,
-        create_organization_table,
-        create_location_table,
-        create_program_table,
-        create_organization_contact_information_table,
-        create_location_contact_information_table,
-        create_program_contact_information_table,
-        create_program_by_program_type_table,
-        create_program_by_program_audience_table,
-        create_program_by_program_languages_spoken_table,
-        create_program_by_program_features_table,
-        create_program_by_program_items_offered_table,
-        create_program_by_program_dietary_options_table,
-        create_location_hours_table,
-        create_program_hours_table,
-        create_profile_completion_tiers_table,
-        create_program_category_field_weights,
-        create_program_by_program_qualifications_table,
-        create_program_by_program_service_area_table,
-        create_program_profile_completion_table,
+        # create_network_overview_table,
+        # create_highest_graded_profiles_table,
+        # create_lowest_graded_profiles_table,
+        # create_high_low_graded_profiles_table,
+        # create_hour_type_usage_table,
+        # create_organization_table,
+        # create_location_table,
+        # create_program_table,
+        # create_organization_contact_information_table,
+        # create_location_contact_information_table,
+        # create_program_contact_information_table,
+        # create_program_by_program_type_table,
+        # create_program_by_program_audience_table,
+        # create_program_by_program_languages_spoken_table,
+        # create_program_by_program_features_table,
+        # create_program_by_program_items_offered_table,
+        # create_program_by_program_dietary_options_table,
+        # create_location_hours_table,
+        # create_program_hours_table,
+        # create_profile_completion_tiers_table,
+        # create_program_category_field_weights,
+        # create_program_by_program_qualifications_table,
+        # create_program_by_program_service_area_table,
+        # create_program_profile_completion_table,
         create_program_sub_filter_usage_table,
         create_program_sub_filter_usage_table_group_a,
         create_program_sub_filter_usage_table_group_b,
         create_program_sub_filter_usage_table_group_c,
-        create_most_used_sub_filter_table
+        create_program_sub_filter_usage_table_group_d,
+        create_program_sub_filter_usage_table_group_e,
+        # create_most_used_sub_filter_table
     ]
 
     # Create directory within project folder
