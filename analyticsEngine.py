@@ -3219,7 +3219,7 @@ def calculate_least_used_programs(df: pd.DataFrame, text: dict, section: str, fi
         - The results are formatted using the specified `section` and `field` in the `text` dictionary.
         - The updated `text` dictionary is returned, with the provided `section` and `field` updated with the calculated results.
     """
-    programs = df[["Program External ID", "Program Audience Groups", "Languages Spoken", "Food Program Features", "Items Offered", "Dietary Options Available"]].drop_duplicates().notna().sum().to_list()[1:]
+    programs = df[["Program External ID", "Languages Spoken", "Food Program Features", "Items Offered", "Dietary Options Available"]].drop_duplicates().notna().sum().to_list()[1:]
     locations = df[["Location External ID", "Location Features"]].drop_duplicates().notna().sum().to_list()[1:]
     filter_usage = programs + locations
     filter_groups = TEXT["PROGRAM FILTER FIELDS"]["xaxis"]
