@@ -2217,9 +2217,18 @@ def create_program_contact_information_table(df: pd.DataFrame) -> pd.DataFrame:
           the `APPENDIX PROGRAM LIST` section.
         - Table column headers are pulled from `text.json`.
     """
-    program_contact_info = df[['Program External ID', 'Program Contact Name', 'Program Contact Email', 'Program Contact Phone']]
-    location_contact_info = df[['Program External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone']]
-    program_contact_info.loc[df['Program Use Same Contact As Location'] == True] = location_contact_info.loc[df['Program Use Same Contact As Location'] == True]
+    program_contact_info = pd.DataFrame(columns=['Program External ID', 'Program Contact Name', 'Program Contact Email', 'Program Contact Phone'])
+
+    unique_program_contact_info = df.loc[df['Program Use Same Contact As Location'] == False]
+    unique_program_contact_info = unique_program_contact_info[['Program External ID', 'Program Contact Name', 'Program Contact Email', 'Program Contact Phone']]
+
+    program_contact_info_same_location = df.loc[df['Program Use Same Contact As Location'] == True]
+    program_contact_info_same_location = program_contact_info_same_location[['Program External ID', 'Location Contact Name', 'Location Contact Email', 'Location Contact Phone']]
+    program_contact_info_same_location.rename(columns={'Location Contact Name':'Program Contact Name', 'Location Contact Email':'Program Contact Email', 'Location Contact Phone':'Program Contact Phone'}, inplace=True)
+
+    frames = [unique_program_contact_info, program_contact_info_same_location]
+    program_contact_info = pd.concat(frames)
+
     program_contact_info.columns = TEXT["APPENDIX PROGRAM CONTACT INFORMATION"]["columns"]
     return program_contact_info.sort_values(by=TEXT["APPENDIX PROGRAM LIST"]["columns"][0], ascending=True).drop_duplicates().reset_index(drop=True)
     
