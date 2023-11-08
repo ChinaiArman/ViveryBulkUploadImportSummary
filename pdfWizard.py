@@ -112,7 +112,7 @@ NORMAL_TEXT_SIZE = 13                                                           
 SUBTITLE_TEXT_SIZE = 10                                                         # The subtitle text font size.
 TABLE_TEXT_SIZE = 10                                                            # The table text font size.
 APPENDIX_LINES_PER_PAGE = 25                                                    # The number of rows per page for appendix pages.
-FIRST_APPENDIX_PAGE = 16                                                        # The first page of the appendix
+FIRST_APPENDIX_PAGE = 17                                                        # The first page of the appendix
 PORTRAIT_TABLE_CHAR_PER_CELL = {1: 100, 2: 45, 3: 28, 4: 20, 5: 12, 6: 10}      # A dictionary used to map the number of characters per cell in a portrait table.
 LANDSCAPE_TABLE_CHAR_PER_CELL = {2: 60, 4: 35}                                  # A dictionary used the number of characters per cell in a landscape table.
 
@@ -456,6 +456,8 @@ class pdfConstructor:
         self.pdf.set_link(page_fourteen, page=14)
         page_fifteen = self.pdf.add_link()
         self.pdf.set_link(page_fifteen, page=15)
+        page_sixteen = self.pdf.add_link()
+        self.pdf.set_link(page_sixteen, page=16)
 
         # Location Map
         self.pdf.set_xy(2.25, 2)
@@ -515,42 +517,42 @@ class pdfConstructor:
 
         # Network Hours Overview
         self.pdf.set_xy(2.25, 5.4)
-        self.pdf.cell(0, 0, "11", align='L', link=page_eleven)
-        self.pdf.cell(0, 0, "Network Hours Overview          ", align='R', link=page_eleven)
+        self.pdf.cell(0, 0, "12", align='L', link=page_twelve)
+        self.pdf.cell(0, 0, "Network Hours Overview          ", align='R', link=page_twelve)
 
         self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
         
-        self.pdf.cell(0, 0, "When can our communities find our assistance?                ", align='R', link=page_eleven)
+        self.pdf.cell(0, 0, "When can our communities find our assistance?                ", align='R', link=page_twelve)
 
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Qualifications and Service Area
         self.pdf.set_xy(2.25, 6.25)
-        self.pdf.cell(0, 0, "14", align='L', link=page_fourteen)
-        self.pdf.cell(0, 0, "Qualifications and Service Area          ", align='R', link=page_fourteen)
+        self.pdf.cell(0, 0, "15", align='L', link=page_fifteen)
+        self.pdf.cell(0, 0, "Qualifications and Service Area          ", align='R', link=page_fifteen)
 
         self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
         
-        self.pdf.cell(0, 0, "How do clients know if they are eligible?                ", align='R', link=page_fourteen)
+        self.pdf.cell(0, 0, "How do clients know if they are eligible?                ", align='R', link=page_fifteen)
 
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
 
         # Appendices
         self.pdf.set_xy(2.25, 7.1)
-        self.pdf.cell(0, 0, "15", align='L', link=page_fifteen)
-        self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_fifteen)
+        self.pdf.cell(0, 0, "16", align='L', link=page_sixteen)
+        self.pdf.cell(0, 0, "Appendices          ", align='R', link=page_sixteen)
 
         self.pdf.set_xy(2.25, self.pdf.get_y() + self.pdf.font_size)
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Light Italic', '', SUBTITLE_TEXT_SIZE + 2)
         
-        self.pdf.cell(0, 0, "A deeper look at the data...                ", align='R', link=page_fifteen)
+        self.pdf.cell(0, 0, "A deeper look at the data...                ", align='R', link=page_sixteen)
 
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Medium', '', H1_TEXT_SIZE)
