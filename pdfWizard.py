@@ -1162,16 +1162,19 @@ class pdfConstructor:
         # Datum Rows
         self.pdf.set_text_color(0, 72, 61)
         self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
+        self.pdf.set_fill_color(162, 195, 168)
+        fill_flag = False
         for row in list_of_lists:
             for datum in row:
                 if str(datum) == "nan":
                     datum = "null"
                 if len(str(datum)) > char_limit:
-                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C')
+                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C', fill=fill_flag)
                 else:
-                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C')
+                    self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', fill=fill_flag)
             self.pdf.ln(self.pdf.font_size + 0.2)
             self.pdf.set_x(1)
+            fill_flag = not fill_flag
         
         # Save
         df_copy.to_csv(self.directory + "/csvs/" + function.__name__ + ".csv")
@@ -1333,16 +1336,19 @@ class pdfConstructor:
             # Datum Rows
             self.pdf.set_text_color(0, 72, 61)
             self.pdf.set_font('Roobert Regular', '', TABLE_TEXT_SIZE)
+            self.pdf.set_fill_color(162, 195, 168)
+            fill_flag = False
             for row in list_of_lists[i*APPENDIX_LINES_PER_PAGE:(i+1)*APPENDIX_LINES_PER_PAGE]:
                 for datum in row:
                     if str(datum) == "nan":
                         datum = ""
                     if len(str(datum)) > char_limit:
-                        self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C')
+                        self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum)[:char_limit] + "...", align='C', fill=fill_flag)
                     else:
-                        self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C')
+                        self.pdf.cell((PAGE_WIDTH-2)/num_of_columns, self.pdf.font_size + 0.2, str(datum), align='C', fill=fill_flag)
                 self.pdf.ln(self.pdf.font_size + 0.2)
                 self.pdf.set_x(1)
+                fill_flag = not fill_flag
             self.add_portrait_page()
         
         # Save
@@ -1647,7 +1653,6 @@ if __name__ == "__main__":
     constructor.add_portrait_page()
     constructor.add_h1_text(TEXT["PROGRAM FILTER FIELDS"]["title"])
     constructor.add_horizontal_line()
-    TEXT = ae.calculate_least_used_programs(df, TEXT, "PROGRAM FILTER FIELDS", "paragraph")
     constructor.add_normal_text(TEXT["PROGRAM FILTER FIELDS"]["paragraph"])
     constructor.add_image(ae.graph_program_filter_usage(df, directory), 3.75, pagenumber=constructor.appendix_page_numbers[TEXT["APPENDIX PROGRAM AUDIENCE"]["title"]])
 
