@@ -36,7 +36,6 @@ Instructions:
     3) Fonts (Windows OS):
         a) From root directory: `'resources' > 'Roobert Font Suite' > 'TTF'`
         b) Open all TTF files and click `Install`
-        c) From the Windows folder: `Fonts`
         d) Clear MatPlotLib font cache by deleting the cache file (fontlist.json, likely stored in `Users/{user}/.matplotlib`)
     4) Add a bulk upload file to the working directory
     5) Run the following command: `python pdfWizard.py "{path to file from root directory}", "{name of network}", "{center point latitude}", "{center point longitude}", "{center point city name}"`

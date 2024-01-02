@@ -87,7 +87,6 @@ Below are a set of instructions that will walk you through setting up this repos
 4. Install Font Family (Windows OS Instructions)
     1. From root directory: `'resources' > 'Roobert Font Suite' > 'TTF'`
     2. Open all TTF files and click **Install**
-    3. Navigate from the Windows Operating System folder: `Fonts`
     4. Clear MatPlotLib font cache by deleting the cache file (`fontlist.json`, likely stored in `Users/{user}/.matplotlib`)
 
 ### Usage

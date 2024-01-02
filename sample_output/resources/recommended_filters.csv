@@ -1,14 +1,34 @@
-,Program Audience,Location Features,Program Features,Items Offered,Dietary Options
-0,Older Adults / Seniors,Seating in Waiting Area,Grocery/Client Choice,Dairy,Gluten Free
-1,Teenagers / Young Adults,Wheelchair Accessible,Home Delivery Service,Eggs,Vegan
-2,Children / Youth,Restrooms Available,Pre-Packed Boxes/Bags,Meat,Vegetarian
-3,Veterans,Parking Available,Prepared Food,Fruits & Vegetables,Other
-4,LGBTQ+,Air Conditioning,Other,Shelf-Stable/Non-Perishable Goods,Halal
-5,Immigrants,Near Public Transportation,Curbside Pickup / Drive Through,Other,Kosher
-6,Unhoused,Wi-Fi Available,Pet Food/Supplies,Prepared Food / Grab and Go,Ground or Pureed
-7,Homebound,Safe Space,Online Ordering,Toiletries / Hygiene Products,
-8,Persons with Disabilities,,Lifting / Carrying Assistance,Pet Food / Supplies,
-9,People Managing Chronic Health Conditions,,Reservations,Diapers,
-10,Adults,,Transportation Assistance,Household Products,
-11,,,Indoor Service,Sit Down Meals,
-12,,,Outdoor Service,,
+,Program Service Category,Program Audience,Program Audience Groups,Location Features,Languages Spoken,Food Program Features,Food Program Category,Items Offered,Dietary Options Available
+0,Food Program,Everyone,Older Adults / Seniors,Seating in Waiting Area,Arabic,Grocery/Client Choice,Food Distribution,Dairy,Gluten Free
+1,Case Management Services,"Everyone, with a focus on these groups",Teenagers / Young Adults,Wheelchair Accessible,Braille,Home Delivery Service,Hot/Cold Meal Program,Eggs,Vegan
+2,Child Care Assistance,Only these groups,Children / Youth,Restrooms Available,"Chinese (Mandarin, Cantonese)",Pre-Packed Boxes/Bags,Pop-Up/Mobile Resource,Meat,Vegetarian
+3,Domestic Violence Assistance,,Veterans,Parking Available,English,Prepared Food,Other,Fruits & Vegetables,Other
+4,Drug & Alcohol Assistance,,LGBTQ+,Air Conditioning,French,Other,Shelter,Shelf Stable/Non-Perishable Goods,Halal
+5,Educational Courses/Classes,,Immigrants,Near Public Transit,German,Curbside Pickup / Drive Through,,Other,Kosher
+6,Employment Services/Workforce Development,,Unhoused,Wi-Fi Available,Hindi,Pet Food/Supplies,,Prepared Food / Grab and Go,Ground or Pureed
+7,Healthcare Screenings/Referrals,,Homebound,Safe Space,Polish,Online Ordering,,Toiletries / Hygiene Products,
+8,Housing Assistance,,Persons with Disabilities,,Sign Language (ASL),Lifting / Carrying Assistance,,Pet Food / Supplies,
+9,Legal Assistance,,People Managing Chronic Health Conditions,,Spanish,Reservations,,Diapers,
+10,Mental Health Services,,Adults,,Other,Transportation Assistance,,Household Products,
+11,Nutrition Education/Services,,People Affiliated With School,,Russian,Indoor Service,,Sit Down Meals,
+12,Tax/Financial Support,,,,Vietnamese,Outdoor Service,,,
+13,Transportation Assistance,,,,Lithuanian,Dietary Menu Options,,,
+14,Public Benefits Assistance,,,,Italian,,,,
+15,Other,,,,Korean,,,,
+16,Distribution of Non-Food Items,,,,Tagalog,,,,
+17,Health and Wellness Services,,,,Urdu,,,,
+18,,,,,Gujarati,,,,
+19,,,,,Greek,,,,
+20,,,,,Ukranian,,,,
+21,,,,,Serbo-Croatian,,,,
+22,,,,,Hebrew / Yiddish,,,,
+23,,,,,Romanian,,,,
+24,,,,,Mongolian,,,,
+25,,,,,Yoruba,,,,
+26,,,,,Annang,,,,
+27,,,,,Bosnian,,,,
+28,,,,,"Portuguese (Portugal, Brazil)",,,,
+29,,,,,Haitian Creole,,,,
+30,,,,,Akan,,,,
+31,,,,,Amharic,,,,
+32,,,,,Cape Verdean Creole,,,,
