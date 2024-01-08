@@ -2728,7 +2728,8 @@ def create_program_sub_filter_usage_table(df: pd.DataFrame) -> pd.DataFrame:
         temp_df = temp_df.drop(temp_df[temp_df[column] == 'delete'].index)
         for value in RECOMMENDED_FILTERS[column].to_list() + ["No Filters Used"]:
             if value not in temp_df[column].values and not pd.isnull(value):
-                temp_df = temp_df.append({column: value, "Count": 0}, ignore_index=True)
+                temp_df.loc[len(temp_df)] = {column: value, 'Count': 0}
+                # temp_df = temp_df.append({column: value, "Count": 0}, ignore_index=True)          # Code supported in pandas-1.5.2
         temp_df = temp_df.sort_values(by=["Count", column], ascending=[False, True]).reset_index(drop=True)
         
         # Format Data
