@@ -6,10 +6,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/ChinaiArman/ViveryDataAnalysis">
+  <a href="https://github.com/ChinaiArman/ViveryBulkUploadImportSummary">
     <img src="resources\images\logo.png" alt="Logo" width="200">
   </a>
-  <h3 align="center">Vivery Data Analysis</h3>
+  <h3 align="center">Vivery Bulk Upload Import Summary</h3>
 </div>
 
 
@@ -42,11 +42,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Vivery Data Analysis is a Python project that offers comprehensive data analysis and reporting capabilities for Vivery Bulk Upload files. The project includes an ``Analytics Engine API`` that processes data from the bulk upload files and **generates various analytical insights, graphs, and data summaries.** Additionally, it provides a PDF report generation feature called ``pdfWizard``, which uses the output from the Analytics Engine to **create detailed and visually appealing reports.**
+Vivery Bulk Upload Import Summary is a Python project that offers comprehensive data analysis and reporting capabilities for Vivery Bulk Upload files. The project includes an ``Analytics Engine API`` that processes data from the bulk upload files and **generates various analytical insights, graphs, and data summaries.** Additionally, it provides a PDF report generation feature called ``pdfWizard``, which uses the output from the Analytics Engine to **create detailed and visually appealing reports.**
 
 ![Product Name Screen Shot][sample-cover]
 
-The project aims to **simplify the process of reviewing the Bulk Upload File** by automating data processing, visualization, and reporting. It leverages Python's data manipulation and visualization libraries such as ``Pandas`` and ``NumPy``, along with the ``FPDF`` library for PDF report generation. The generated report targets the non-technical user, allowing them to visualize and understand large data sets. This visualization facilitates business and data related discussions between food bank networks and Vivery. To view a sample output, click [here](https://github.com/ChinaiArman/ViveryDataAnalysis/blob/main/sample_output/sample_data_analytical_report.pdf).
+The project aims to **simplify the process of reviewing the Bulk Upload File** by automating data processing, visualization, and reporting. It leverages Python's data manipulation and visualization libraries such as ``Pandas`` and ``NumPy``, along with the ``FPDF`` library for PDF report generation. The generated report targets the non-technical user, allowing them to visualize and understand large data sets. This visualization facilitates business and data related discussions between food bank networks and Vivery. To view a sample output, click [here](https://github.com/ChinaiArman/ViveryBulkUploadImportSummary/blob/main/sample_output/sample_analytical_report.pdf).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
