@@ -216,7 +216,7 @@ class pdfConstructor:
         - It also defines font families and styles for text used in the PDF.
         - The class is designed to facilitate the creation of a structured and organized PDF report based on the provided data.
     """
-    def __init__(self, new_df: pd.DataFrame(), new_directory: str,new_filename: str,new_network_name: str) -> None:
+    def __init__(self, new_df: pd.DataFrame, new_directory: str,new_filename: str,new_network_name: str) -> None:
         """
         Initializes the pdfConstructor class.
 
