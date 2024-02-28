@@ -69,7 +69,7 @@ Below are a set of instructions that will walk you through setting up this repos
 
 1. Clone this repository
    ```sh
-   git clone https://github.com/ChinaiArman/ViveryDataAnalysis.git
+   git clone https://github.com/ChinaiArman/ViveryBulkUploadImportSummary.git
    ```
 2. Install packages
    ```sh
